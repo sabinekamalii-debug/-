@@ -1,0 +1,82 @@
+# === Unity / 团结引擎 工程 .gitignore ===
+# 生成的目录（不要纳入版本管理）
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+
+# Asset meta 数据：当对应资产/文件夹被忽略时
+!/[Aa]ssets/**/*.meta
+
+# 各 IDE / 编辑器
+.vs/
+.vscode/
+.idea/
+*.csproj
+*.unityproj
+*.sln
+*.slnx
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# OS 生成文件
+.DS_Store
+Thumbs.db
+
+# 构建产物
+*.apk
+*.aab
+*.unitypackage
+*.app
+
+# 工具和临时文件
+.codely-cli/
+*.exe
+screenshots/
+silicon_model_backups/
+ConsoleOutput.txt
+test_*.py
+ignore.conf
+*.stackdump
+
+# Crashlytics / Recorder 等输出（按需）
+[Rr]ecordings/
+crashlytics-build.properties
+
+# 大文件目录（二进制资源，不纳入 Git，减小仓库体积）
+Assets/Backgrounds/
+Assets/暂时用不到/
+Assets/杂和卡/
+Assets/Fonts/
+Assets/animation/
+Assets/Characters2/
+Assets/video/
+Assets/buything/
+Assets/视频/
+Assets/Screenshots/
+
+# 大文件类型（任何位置的超大二进制文件）
+*.ttf
+*.psb
+*.mp4
+*.mp3
+*.wav
+*.ogg
+
+# 备份
+sysinfo.txt
+
+# 自动推送脚本日志
+auto-git-push.log

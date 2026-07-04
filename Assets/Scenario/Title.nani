@@ -1,0 +1,3 @@
+; Title 脚本 — 返回主菜单时执行（同场景 UI 跳转，不切换场景）
+; 必须显式显示 TitleUI，否则 Reset 后主菜单不会出现（Reset 会先 Hide 所有 UI）
+@showUI TitleUI

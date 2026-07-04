@@ -1,0 +1,69 @@
+; Played when a new game starts.
+
+; Reveal a background over 1.5 seconds.
+@back Mist.CircleReveal time:1.5 wait!
+
+; Assign default main character name.
+@set name="Hero"
+; And allow player override it.
+@choice "My name is {name}!"
+@choice "I have a better idea..."
+    @input name summary:"Enter your name"
+
+; Greet the player with their name.
+Welcome, {name}![i] Your journey will now start.
+; Hide the dialogue box.
+@hidePrinter
+
+; Show the main character with 'Neutral' appearance looking left.
+@char MC.Neutral look:Left
+; Wait a second.
+@wait 1
+; Look right and move over two seconds.
+@char MC look:Right pos:75 time:2 wait!
+; Speak as the main character with 'Excited' appearance.
+MC.Excited: Aright, let's go!
+
+; Transition into the city scene over three seconds.
+@trans DropFade time:3
+    @hideChars
+    @back City
+    @sun power:0.1
+
+; A dialogue between two characters.
+@char X.Annoyed
+@char Y.Neutral
+X: Man, this place buzzes more than a coffee shop on double espresso.
+X.Neutral: By the way, did you spot our new friend? They’re wandering around like they own the place.
+Y.Laughing: Yeah, I saw them staring at a pigeon for like, five minutes.
+X.Smirk: Clearly a deep thinker.
+Y: Or just hungry.
+
+; Transition into the rainy night scene.
+@trans RotateCrumble time:4 easing:EaseOutCubic
+    @hideChars
+    @hidePrinter
+    @back Dark
+    ; Switch sun VFX with rain.
+    @sun power:0
+    @rain
+
+; Hero's internal monologue.
+@slide MC.Happy to:10 from:-10 easing:EaseOutBack time:3 wait!
+MC: Not a bad night for rain—perfect excuse to test my "waterproof" jacket.[i][char MC pos:45 time:1.5 easing:EaseInOutCubic] Usually I'd be curled up at home by now, but there's something about neon reflections dancing on puddles…
+@shake MC
+@wait 1
+MC.Neutral: I swear that street vendor's espresso could wake a hibernating bear.
+
+; Route selection event.
+@shake Dialogue
+@glitch time:3
+Suddenly, a low hum vibrates through the air, louder than the raindrops.
+MC.Agitated: Whoa—[shake MC]what's that?
+Two portals–red and blue–suddenly open, mesmerizing {name}.[>]
+@choice "The red one is the most appealing"
+    @goto RouteA/Day1
+@choice "...the blue has its own charm, though"
+    @goto RouteB/SceneX
+@choice "What am I even doing?..." if:"g_clearedA & g_clearedB"
+    @goto SecretRoute

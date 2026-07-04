@@ -1,0 +1,48 @@
+{
+	"mcpServers": {
+		"unityMCP": {
+			"type": "streamable-http",
+			"url": "http://127.0.0.1:8080/mcp",
+			"disabled": false,
+			"alwaysAllow": [
+				"manage_scene",
+				"get_scene_info",
+				"run_script",
+				"refresh_unity",
+				"debug_request_context",
+				"set_active_instance",
+				"batch_execute",
+				"execute_custom_tool",
+				"execute_menu_item",
+				"find_in_file",
+				"manage_asset",
+				"manage_camera",
+				"manage_components",
+				"manage_editor",
+				"manage_gameobject",
+				"manage_graphics",
+				"manage_material",
+				"manage_prefabs",
+				"create_script",
+				"delete_script",
+				"validate_script",
+				"manage_script",
+				"manage_script_capabilities",
+				"get_sha",
+				"manage_tools",
+				"read_console",
+				"script_apply_edits",
+				"find_gameobjects",
+				"apply_text_edits",
+				"manage_packages",
+				"access_mcp_resource",
+				"manage_scriptable_object"
+			],
+			"timeout": 30,
+			"security": {
+				"allowAllTools": true,
+				"skipApproval": true
+			}
+		}
+	}
+}

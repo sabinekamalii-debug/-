@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 0
+    path: Assets/Scenes/SampleScene.unity
+    guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/plot.unity
+    guid: 1cc302051a8a66544afcda5fd40e43e1
+  - enabled: 1
+    path: Assets/Scenes/level/level 1.unity
+    guid: 2d6755f12e9a0044c80bb047a506b06f
+  - enabled: 1
+    path: Assets/Scenes/level/level 2.unity
+    guid: db6cc6b225577ea42831e10cf1ad6567
+  - enabled: 1
+    path: Assets/Scenes/level/level 3.unity
+    guid: 9865fcbb998c07944bb1b7926fb73120
+  - enabled: 1
+    path: Assets/Scenes/level/level 4.unity
+    guid: b4e6efc812320284da2f13d1ab265cb3
+  - enabled: 1
+    path: Assets/Scenes/level/level 5.unity
+    guid: 8b86db099ac94f54b92790c629f7e837
+  - enabled: 1
+    path: Assets/Scenes/level/level 6.unity
+    guid: b5b01e3567a5106499f122b604a29dd8
+  - enabled: 1
+    path: Assets/Scenes/level/level 7.unity
+    guid: b32e4e0dd14af1340acee1f09bec46a9
+  - enabled: 1
+    path: Assets/Scenes/level/level 8.unity
+    guid: db7382854c60b0846b95cc88ed5c3b93
+  - enabled: 1
+    path: Assets/Scenes/level/level 9.unity
+    guid: 3742672589d8a4749abc75623d702bd4
+  - enabled: 1
+    path: Assets/Scenes/level/level 10.unity
+    guid: 59f97e54d909d214391c2d92666ceb52
+  - enabled: 1
+    path: Assets/Scenes/level/level 11.unity
+    guid: 8ded6436faf4f3440aa3155b362d986a
+  - enabled: 1
+    path: Assets/Scenes/level/level 17.unity
+    guid: 1044425976bb8ea4089d98a3f7f05afd
+  - enabled: 1
+    path: Assets/Scenes/Title.unity
+    guid: 9b8a8d7379689b643831e9a1c88fb29a
+  - enabled: 1
+    path: Assets/Scenes/RogueEntry.unity
+    guid: 17113bbd07c3b6346820389539ba3e15
+  - enabled: 1
+    path: Assets/Scenes/RogueResult.unity
+    guid: b6e544988ec849f42a35d2a9e0858138
+  - enabled: 1
+    path: Assets/Scenes/StoryCardCollection.unity
+    guid: 00a7dca792c2be44abcdab5b68bd4daf
+  - enabled: 1
+    path: Assets/Scenes/RogueBattle_Template.unity
+    guid: de47a88a67fefe8448a710b715713d87
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: d410108bca78e134a962c1c55334d7ad, type: 2}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  m_UseUCBPForAssetBundles: 0

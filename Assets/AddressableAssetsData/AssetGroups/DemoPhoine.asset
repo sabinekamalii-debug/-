@@ -1,0 +1,194 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: DemoPhoine
+  m_EditorClassIdentifier: 
+  m_GroupName: DemoPhoine
+  m_GUID: d615ce8e96f3b3b4d83b96823867f3b5
+  m_SerializeEntries:
+  - m_GUID: 06bed2e0bd3d75e4bb71782620306bce
+    m_Address: "Assets/buything/\u653B\u51FB\u7279\u6548/0021.png"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 09a37b5345ad6974085a90eba4cb353d
+    m_Address: "Assets/prefab/\u5E72\u5458/\u7267\u5E08.prefab"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0c87edf26b6f38e4b801673563a24f83
+    m_Address: "Assets/buything/\u653B\u51FB\u7279\u6548/0025.png"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 16d021a8e7d892f45bc3a18801f49f99
+    m_Address: Assets/prefab/prefab2/HealtherCanvas.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 315d05dfcc31a4747aa9bd1c9fca61fd
+    m_Address: Assets/prefab/prefab2/WayPoint.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 385f5c805ca4f964d8078a39705e8e50
+    m_Address: "Assets/prefab/prefab2/\u53EF\u653E\u7F6E\u533A\u57DF.prefab"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4c83857ff1827ce49b0f646f968c81ef
+    m_Address: "Assets/prefab/\u5E72\u5458/\u6B66\u58EB.prefab"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4d3d0bbcde3b2a6489d810b7295bdb69
+    m_Address: "Assets/Backgrounds/\u52C7\u80051.2/1(1).png"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5f3dd5c5644a6a547bd7279717fad945
+    m_Address: "Assets/prefab/\u5E72\u5458/\u5730\u9762\u5C04\u624B.prefab"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 679730845d58cd74c9c339b7db29e0b8
+    m_Address: "Assets/prefab/prefab2/\u5B50\u5F39.prefab"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6c50bc0d3826bbe4eb1317dc7cad29b0
+    m_Address: "Assets/prefab/\u5E72\u5458/\u4E07\u5F55\u6735.prefab"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 77f9c1079f5fe124ea7e3b119be6597f
+    m_Address: "Assets/prefab/prefab2/\u5237\u602A\u70B9\u5B50\u5F39.prefab"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7c75e99a98ea1384cab0f0ef1f367882
+    m_Address: "Assets/prefab/\u5E72\u5458/\u5149\u6CE2.prefab"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7eb7a2ae6d227d3409f7c5439a717f2d
+    m_Address: "Assets/prefab/\u654C\u4EBA"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8b42b92aac045bf4e93719f3a5c097cd
+    m_Address: "Assets/prefab/\u5E72\u5458"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8ceee16e61273d64796cd78316e89806
+    m_Address: "Assets/prefab/prefab2/\u6C34\u5F39.prefab"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 93b777c7bf4a36f489a62cfa9a5b382d
+    m_Address: "Assets/prefab/\u5E72\u5458/\u6CD5\u5E08.prefab"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 98357177d2f7d784ab00b05a7fd8779f
+    m_Address: "Assets/buything/\u653B\u51FB\u7279\u6548/circle5a.png"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a0085f8ecce98ea46b7460480bb51392
+    m_Address: "Assets/prefab/\u5E72\u5458/\u6676.prefab"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a7dd4f33a5f62ca469adc423e98abb9e
+    m_Address: Assets/buything/Dark fantasy - popular enemies- Free Sample
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aa7f54f5f84225f41b4c9458263e6ae2
+    m_Address: "Assets/prefab/\u5E72\u5458/\u9192.prefab"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b205e55936a157044bfb303feadada87
+    m_Address: "Assets/prefab/\u5E72\u5458/\u5973\u6218\u58EB.prefab"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b7b3e6d798fdc92429546370fa59f90a
+    m_Address: "Assets/buything/\u653B\u51FB\u7279\u6548/heart pixel art 254x254.png"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c50d623147654544e96b34f7e6816476
+    m_Address: "Assets/buything/\u653B\u51FB\u7279\u6548/\u4FEE\u6539\u56FE\u7247\u989C\u8272
+      (6).png"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c62b29abfa925894e80c7e553ebf623e
+    m_Address: "Assets/prefab/\u5E72\u5458/\u73D1.prefab"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: de8c11df64a7dcf4f9a0eb8a328e4f2e
+    m_Address: "Assets/buything/\u653B\u51FB\u7279\u6548/circle7a.png"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e00067650d1f7c947bf9025f09f4c845
+    m_Address: "Assets/buything/\u653B\u51FB\u7279\u6548/object_5014.png"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e076ef185d0ed854a9b391f4cb58b627
+    m_Address: "Assets/prefab/prefab2/\u6CD5\u7403.prefab"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e5b7c76b4b8869344aa33c359b0c46a5
+    m_Address: "Assets/prefab/prefab2/\u5B88\u62A4\u70B9\u5B50\u5F39.prefab"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e6bab5257e85c354482e0bd6c865ef1c
+    m_Address: "Assets/buything/\u653B\u51FB\u7279\u6548/circle4a.png"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e783beceb8760a34daaf44b6d8b47dc5
+    m_Address: "Assets/prefab/prefab2/\u9B54\u7403.prefab"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ee55787ce2dce4e4fb35af5cede1460a
+    m_Address: "Assets/buything/\u653B\u51FB\u7279\u6548/circle6a.png"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f0aeaf01255548c4fa3a2a1fe9df8e64
+    m_Address: "Assets/prefab/\u5E72\u5458/\u62F3\u5E08.prefab"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fe4945858a8b75f4eb01f8ca94896c16
+    m_Address: "Assets/buything/\u653B\u51FB\u7279\u6548/beijing01.png"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: aa7a663b38b1d1e449f7c0c0bae31a3b, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 17b51b60bff161c4da5ccf594f2b9cae, type: 2}
+    - {fileID: 11400000, guid: 4bcd7e889482d584abebada37c383f65, type: 2}

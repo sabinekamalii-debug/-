@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90254a1f11d277949976c63d44b0ee65, type: 3}
+  m_Name: "\u6B66\u58EB"
+  m_EditorClassIdentifier: 
+  operatorName: "\u6B66\u58EB"
+  cost: 16
+  maxHealth: 200
+  defense: 4000
+  attackDamage: 35
+  attackInterval: 1
+  attackRange: 3.5
+  opType: 0
+  deployRadius: 4
+  unitPrefab: {fileID: 300892180398978159, guid: ac9669809c1ddc241ad2b58793254211, type: 3}
+  icon: {fileID: 21300000, guid: 104b7c9a5c65c994a930917d9aaaba39, type: 3}
+  purchaseCooldown: 15
+  canStandOnGroundAndHighGround: 0
+  isAoEAttacker: 0
+  isHealer: 0

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f4c206c995cb24499f096ad3d2ae797, type: 3}
+  m_Name: "\u5173\u5361\u56FE\u7247"
+  m_EditorClassIdentifier: 
+  normalBattleIcon: {fileID: 21300000, guid: 3fa16fa7acbcbba4295bb6ed9c808024, type: 3}
+  shopIcon: {fileID: 6552260669552060255, guid: d216cbcbe7e57da4ca45892d0c46d269, type: 3}
+  eliteIcon: {fileID: 21300000, guid: 962781433bfd7964dae3893738275d36, type: 3}
+  bossIcon: {fileID: 6552260669552060255, guid: d216cbcbe7e57da4ca45892d0c46d269, type: 3}
+  randomEventIcon: {fileID: -8323735812799833458, guid: 749b8f0fea06af34e941b4674e03110c, type: 3}
+  restIcon: {fileID: 21300000, guid: 21f24e934640d1d4c820d132bd40b25b, type: 3}

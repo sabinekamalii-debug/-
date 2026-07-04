@@ -1,0 +1,199 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06386b10f29c770408fc88b031c4d7fd, type: 3}
+  m_Name: EditorResources
+  m_EditorClassIdentifier: 
+  resourceCategories:
+  - Id: TextPrinters/d73cb3f4-ce72-4e23-8414-bfb550a6245a
+    Resources:
+    - name: Dialogue
+      pathPrefix: TextPrinters
+      guid: 1bc08ccd31adff6439e97161aa6e1d8b
+  - Id: TextPrinters/21618d85-fef1-4c7e-ad2e-fbe15f481fd3
+    Resources:
+    - name: Fullscreen
+      pathPrefix: TextPrinters
+      guid: c87cebd3f0d4f174789cd351ce9591c4
+  - Id: TextPrinters/6e9e6a57-cd42-4ebe-a338-5e0fc8957dbe
+    Resources:
+    - name: Wide
+      pathPrefix: TextPrinters
+      guid: 781828b806deb1e4cbf50ef9de41da10
+  - Id: TextPrinters/bab980ce-7207-4e27-a911-8a1573114cf1
+    Resources:
+    - name: Chat
+      pathPrefix: TextPrinters
+      guid: 6f9836a3c4f777741b1962979d97e485
+  - Id: TextPrinters/11d9bb5e-22e7-41e6-bfc3-c1f5e800ec8f
+    Resources:
+    - name: Bubble
+      pathPrefix: TextPrinters
+      guid: b47d9659b2be5ee4e95a776f213c9d4b
+  - Id: ChoiceHandlers/bb04bd25-f8fc-4ea5-a73b-dd27a3d29a66
+    Resources:
+    - name: ButtonList
+      pathPrefix: ChoiceHandlers
+      guid: 1f6aa29000e839c409e6a9c0704adc96
+  - Id: ChoiceHandlers/8bac1fc8-d287-4a1e-b928-f9d979a02cfb
+    Resources:
+    - name: ButtonArea
+      pathPrefix: ChoiceHandlers
+      guid: 4fa6d62f894ae6e4698bfa8af59e7942
+  - Id: ChoiceHandlers/b629dde8-4a1b-4b03-b3c4-b59ea262741f
+    Resources:
+    - name: ChatReply
+      pathPrefix: ChoiceHandlers
+      guid: 0e61df696cabbea448510879ee732b00
+  - Id: Spawn
+    Resources:
+    - name: Animate
+      pathPrefix: Spawn
+      guid: 7bf06fa813bb9c34daf521998fa72ab1
+    - name: DepthOfField
+      pathPrefix: Spawn
+      guid: ea76638b26a915946b62907dd1e776fd
+    - name: DigitalGlitch
+      pathPrefix: Spawn
+      guid: be75a73ecccb90b4caa5c14edb9ac467
+    - name: Rain
+      pathPrefix: Spawn
+      guid: a9117e2fa90704d45b3e1461596c11ee
+    - name: ShakeBackground
+      pathPrefix: Spawn
+      guid: 9f56c556ba32fd54fae62347c25a8145
+    - name: ShakeCamera
+      pathPrefix: Spawn
+      guid: 1c5b86cf3cfbb1f44ae5641699077da4
+    - name: ShakeCharacter
+      pathPrefix: Spawn
+      guid: 1224d69e1592d624cbde93d0f7383d91
+    - name: ShakePrinter
+      pathPrefix: Spawn
+      guid: 2795040988e866646801c80024c50be1
+    - name: Snow
+      pathPrefix: Spawn
+      guid: 9f4e71cb27fffa04486737d2cf8d622d
+    - name: SunShafts
+      pathPrefix: Spawn
+      guid: c4bf810b9b6cc9f44a58fd670678ded4
+    - name: Blur
+      pathPrefix: Spawn
+      guid: e466d9326b30a4b49a3dad428b4d9968
+  - Id: UI
+    Resources:
+    - name: ClickThroughPanel
+      pathPrefix: UI
+      guid: 702c32b2de0c0784b9a66ec90601874f
+    - name: BacklogUI
+      pathPrefix: UI
+      guid: 7fba909c66b25324cb77db18679c2c96
+    - name: CGGalleryUI
+      pathPrefix: UI
+      guid: 71da50c8dae82bd42ba67528804e820c
+    - name: ConfirmationUI
+      pathPrefix: UI
+      guid: 88d03f19bcbff914ba33a7c9895e2d7c
+    - name: ContinueInputUI
+      pathPrefix: UI
+      guid: 1add671f8348e8443bcc56290e82fc5e
+    - name: ExternalScriptsUI
+      pathPrefix: UI
+      guid: 671ceb4f549ddf046913d7debf113469
+    - name: LoadingUI
+      pathPrefix: UI
+      guid: 53aad00e5cf184e458adb001c550518a
+    - name: MovieUI
+      pathPrefix: UI
+      guid: f9a211517d1cb1a44964dc2254463049
+    - name: RollbackUI
+      pathPrefix: UI
+      guid: a32c73a3aff4b274c85b3ff16c854b07
+    - name: SaveLoadUI
+      pathPrefix: UI
+      guid: 8d53726b3d08433479398f02b4780e7f
+    - name: SceneTransitionUI
+      pathPrefix: UI
+      guid: e3b234b4273b7f64ab3f1d9fe425ed23
+    - name: SettingsUI
+      pathPrefix: UI
+      guid: 65c37f59e9b266f468dd5381fdc03fc3
+    - name: TipsUI
+      pathPrefix: UI
+      guid: f5aae572225ee1b4c96d1a17fc5cb073
+    - name: TitleUI
+      pathPrefix: UI
+      guid: 4b121aa1be1b7e04480b452c595ff17a
+    - name: VariableInputUI
+      pathPrefix: UI
+      guid: bb95f484e341dcd4391a572f22b7d067
+    - name: PauseUI
+      pathPrefix: UI
+      guid: 480f5db62ea305c46b89a86496d2a0c9
+    - name: ToastUI
+      pathPrefix: UI
+      guid: dd85ce99288c2f8488447fa511b1c0d6
+    - name: ScriptNavigatorUI
+      pathPrefix: UI
+      guid: 735d6aa767879aa469134858c5b2f0a7
+  - Id: Scripts
+    Resources:
+    - name: "\u6B7B\u4EA1 1"
+      pathPrefix: Scripts
+      guid: d35c22696a1406a458461b66e397d9c9
+    - name: "\u9B54\u738B 1"
+      pathPrefix: Scripts
+      guid: c71ed60448cf3a04da135d64270bd794
+    - name: "\u9B54\u738B 4"
+      pathPrefix: Scripts
+      guid: 894d1a3458aaaaf43be8b825e8916063
+    - name: Entry
+      pathPrefix: Scripts
+      guid: 2a7a46a0bd7f430a95edd54be4381b51
+    - name: "\u9B54\u738B 3"
+      pathPrefix: Scripts
+      guid: 91044cb99451c7249a7583b215dd41e4
+    - name: "\u9B54\u738B 6"
+      pathPrefix: Scripts
+      guid: c058d0a6e071c194cba5290e6f372770
+    - name: plot3
+      pathPrefix: Scripts
+      guid: b884e01923869c74fa0d3413f654e45d
+    - name: plot4
+      pathPrefix: Scripts
+      guid: ef235ad824a02d6408cc3c74f113c25d
+    - name: "\u9B54\u738B 5"
+      pathPrefix: Scripts
+      guid: d309904ca957f234d913197115db1f98
+    - name: Title
+      pathPrefix: Scripts
+      guid: d04848c6a0e6caf41b144b9dd305936e
+    - name: plot1
+      pathPrefix: Scripts
+      guid: aee36a8b1df05bb45aa4a6d992adb2f4
+    - name: plot5
+      pathPrefix: Scripts
+      guid: 8def85b9d9ace33459cfaada650eb630
+    - name: "\u9B54\u738B 7"
+      pathPrefix: Scripts
+      guid: 4fc907a7755a2af46a74f0070a9aac1c
+    - name: MoWangXian
+      pathPrefix: Scripts
+      guid: 5fe77762f5991cf4f8fba85d064690b9
+    - name: "\u9B54\u738B 8"
+      pathPrefix: Scripts
+      guid: 7956f61edbfc8664ebbe7c93af014c5d
+    - name: "\u9B54\u738B 2"
+      pathPrefix: Scripts
+      guid: 89b0eff1d01f59e49ab00db72727c254
+    - name: plot2
+      pathPrefix: Scripts
+      guid: 38113a5e51ca7a3438abecace409bff5

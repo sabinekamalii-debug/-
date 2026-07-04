@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 916a78eca572dfe4e9346f51fd4dbd5f, type: 3}
+  m_Name: plot
+  m_EditorClassIdentifier: 
+  ranges:
+  - startLevel: 1
+    endLevel: 4
+    shopCount: 3
+    eliteCount: 0
+    bossCount: 0
+    randomEventCount: 0
+    restCount: 0
+  - startLevel: 5
+    endLevel: 8
+    shopCount: 0
+    eliteCount: 1
+    bossCount: 0
+    randomEventCount: 0
+    restCount: 0
+  - startLevel: 9
+    endLevel: 12
+    shopCount: 1
+    eliteCount: 1
+    bossCount: 0
+    randomEventCount: 0
+    restCount: 0
+  - startLevel: 13
+    endLevel: 16
+    shopCount: 1
+    eliteCount: 2
+    bossCount: 0
+    randomEventCount: 0
+    restCount: 0

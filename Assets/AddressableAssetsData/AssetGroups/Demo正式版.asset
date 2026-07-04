@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a189f5835953464d9ead4846e49c7c1, type: 3}
+  m_Name: Demo\u6B63\u5F0F\u7248
+  m_EditorClassIdentifier: 
+  m_Entries:
+  - m_GUID: 6e383f0d572e5214c89ea767d3d5fd60
+    m_Address: Naninovel/UI/TitleUI
+    m_ReadOnly: 0
+  m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 0}
+  m_Namespace: 
+  m_SchemaTemplates: []
+  m_Schemas: []
