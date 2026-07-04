@@ -14,7 +14,6 @@ function Write-Log {
     param([string]$msg)
     $time = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     $line = "[$time] $msg"
-    # Use try-catch to avoid locking issues
     try { Add-Content -Path $logFile -Value $line -Encoding UTF8 -ErrorAction SilentlyContinue } catch {}
 }
 
@@ -29,35 +28,20 @@ if (-not (Test-Path "$projectPath\.git")) {
 $status = git status --porcelain 2>&1
 $hasChanges = ($status -ne $null -and $status.ToString().Trim() -ne "")
 
-if (-not $hasChanges) {
-    Write-Log "No changes, skip"
-    # Even if no local changes, try to push if there are unpushed commits
-    $unpushed = git log origin/main..HEAD --oneline 2>&1
-    if ($LASTEXITCODE -ne 0 -or $unpushed.ToString().Trim() -eq "") {
-        Write-Log "No unpushed commits either, exiting"
-        exit 0
-    }
-    Write-Log "Found unpushed commits, will push"
-} else {
+if ($hasChanges) {
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     Write-Log "Changes detected, committing..."
 
-    # Add all except the log file
     git add -A 2>&1 | ForEach-Object { Write-Log $_ }
-
-    # Reset the log file from staging if it got added
-    git reset HEAD -- auto-git-push.log 2>&1 | ForEach-Object { Write-Log $_ }
+    git reset HEAD -- auto-git-push.log 2>&1 | Out-Null
 
     $commitMsg = "auto: $timestamp"
     git commit -m $commitMsg 2>&1 | ForEach-Object { Write-Log $_ }
-
-    if ($LASTEXITCODE -ne 0) {
-        Write-Log "Commit failed, checking if there are still unpushed commits..."
-    }
+} else {
+    Write-Log "No changes to commit"
 }
 
-# --- Determine push command ---
-# Check if upstream is set
+# --- Check if there are unpushed commits ---
 $hasUpstream = $false
 try {
     $upstreamResult = git rev-parse --abbrev-ref --symbolic-full-name main@{upstream} 2>&1
@@ -66,13 +50,23 @@ try {
     }
 } catch {}
 
-$pushCmd = if ($hasUpstream) { "git push" } else { "git push -u origin main" }
-Write-Log "Push command: $pushCmd (upstream=$hasUpstream)"
+if ($hasUpstream) {
+    $unpushed = git log origin/main..HEAD --oneline 2>&1
+    if ($LASTEXITCODE -ne 0 -or $unpushed.ToString().Trim() -eq "") {
+        Write-Log "No unpushed commits, exiting"
+        exit 0
+    }
+    Write-Log "Found unpushed commits"
+    $pushCmd = "git push"
+} else {
+    Write-Log "No upstream set, will push with -u"
+    $pushCmd = "git push -u origin main"
+}
 
-# --- Retry push: 12 attempts, 5 min apart = 60-min window for VPN recovery ---
+# --- Retry push: 12 attempts, 5 min apart = 60-min window ---
 $pushSuccess = $false
 $maxRetries = 12
-$retryInterval = 300  # 5 minutes
+$retryInterval = 300
 
 for ($i = 1; $i -le $maxRetries; $i++) {
     Write-Log "Push attempt $i/$maxRetries..."
@@ -86,13 +80,13 @@ for ($i = 1; $i -le $maxRetries; $i++) {
     }
 
     if ($i -lt $maxRetries) {
-        Write-Log "Push failed, will retry in $retryInterval seconds ($(($i * $retryInterval) / 60) min elapsed so far)..."
+        Write-Log "Will retry in $retryInterval seconds..."
         Start-Sleep -Seconds $retryInterval
     }
 }
 
 if (-not $pushSuccess) {
-    Write-Log "Push failed after $maxRetries retries (60 min total), will try again next scheduled run"
+    Write-Log "Push failed after $maxRetries retries, will try again next scheduled run"
 }
 
 Write-Log "===== Done ====="
