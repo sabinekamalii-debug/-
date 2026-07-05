@@ -140,7 +140,9 @@ public class HideNaninovelUIOnLevelLoad : MonoBehaviour
         if (!Engine.Initialized) return;
         var printerManager = Engine.GetService<ITextPrinterManager>();
         if (printerManager == null) return;
-        var dialogue = printerManager.GetActor("Dialogue");
+        ITextPrinterActor dialogue;
+        try { dialogue = printerManager.GetActor("Dialogue"); }
+        catch { return; } // Dialogue 演员尚未注册时不报错
         if (dialogue == null) return;
         dialogue.Visible = true;
         if (dialogue is UITextPrinter uiPrinter && uiPrinter.PrinterPanel != null)
@@ -302,6 +304,11 @@ public class HideNaninovelUIOnLevelLoad : MonoBehaviour
             var getDataMethod = extensionsType.GetMethod("GetUniversalAdditionalCameraData", BindingFlags.Public | BindingFlags.Static, null, new[] { typeof(Camera) }, null);
             if (getDataMethod == null) return;
 
+            // 先把 Naninovel 相机设为 Overlay（值 1），否则不能加入相机栈
+            SetCameraRenderTypeByReflection(mainCam, getDataMethod, 1);
+            if (uiCam != null)
+                SetCameraRenderTypeByReflection(uiCam, getDataMethod, 1);
+
             object baseData = null;
             var activeScene = SceneManager.GetActiveScene();
             Camera[] all = new Camera[Camera.allCamerasCount];
@@ -334,6 +341,17 @@ public class HideNaninovelUIOnLevelLoad : MonoBehaviour
             if (uiCam != null && !stack.Contains(uiCam)) stack.Add(uiCam);
         }
         catch (Exception) { }
+    }
+
+    /// <summary> 反射设置相机的 renderType，1 = Overlay。 </summary>
+    static void SetCameraRenderTypeByReflection(Camera camera, MethodInfo getDataMethod, int renderTypeValue)
+    {
+        if (camera == null || getDataMethod == null) return;
+        var data = getDataMethod.Invoke(null, new object[] { camera });
+        if (data == null) return;
+        var rtProp = data.GetType().GetProperty("renderType");
+        if (rtProp != null)
+            rtProp.SetValue(data, renderTypeValue);
     }
 
     static void EnsureNaninovelCanvasesVisibleInGameView()

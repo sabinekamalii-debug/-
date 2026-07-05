@@ -139,8 +139,8 @@ public class RogueCollectionController : MonoBehaviour
     {
         if (oneBasedIndex < 1) return;
         string script = "魔王 " + oneBasedIndex;
-        // NaninovelReturnRequest.Set(script, ""); // TODO: Naninovel包缺失
-        // NaninovelReturnAutoPlayer.Ensure();
+        NaninovelReturnRequest.Set(script, "");
+        NaninovelReturnAutoPlayer.Ensure();
         VideoSceneLoader.LoadScene("Title");
     }
 

@@ -65,6 +65,12 @@ public class RogueResultController : MonoBehaviour
     // 是否为局内掉落抽卡模式。如果是，加载场景后只保留抽卡界面，结束后自动卸载该场景并恢复时间。
     public static bool IsMidGameDrop = false;
 
+    /// <summary> 是否为第一关抽卡（与局内掉落区分） </summary>
+    public static bool IsFirstStageDrop = false;
+
+    /// <summary> 抽卡完成事件（第一关抽卡完成后触发，用于自动进入战斗） </summary>
+    public static event System.Action OnMidGameDropCompleted;
+
     private RogueFlowRouter _flow;
     private bool _settled;
     private bool _needCardPick;
@@ -386,7 +392,7 @@ public class RogueResultController : MonoBehaviour
     private void LoadDeathScene()
     {
         // 使用NaninovelReturnRequest加载死亡 1剧情
-        // NaninovelReturnRequest.Set("死亡 1", ""); // TODO: Naninovel包缺失
+        NaninovelReturnRequest.Set("死亡 1", "");
         VideoSceneLoader.LoadScene("Title");
     }
 
@@ -1047,6 +1053,13 @@ public class RogueResultController : MonoBehaviour
                 // 场景卸载完成后恢复游戏时间
                 Time.timeScale = 1f;
             }
+
+            // 如果是第一关抽卡，触发完成事件
+            if (IsFirstStageDrop)
+            {
+                IsFirstStageDrop = false;
+                OnMidGameDropCompleted?.Invoke();
+            }
             yield break;
         }
 
@@ -1351,6 +1364,13 @@ public class RogueResultController : MonoBehaviour
             if (unloadOperation != null)
             {
                 StartCoroutine(ResumeTimeAfterUnload(unloadOperation));
+            }
+
+            // 如果是第一关抽卡，触发完成事件
+            if (IsFirstStageDrop)
+            {
+                IsFirstStageDrop = false;
+                OnMidGameDropCompleted?.Invoke();
             }
             return;
         }

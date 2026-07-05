@@ -19,8 +19,8 @@ public class LevelDebugSkipToPlot : MonoBehaviour
         if (menu == null) return;
 
         Time.timeScale = 1f;
-        // HideNaninovelUIOnLevelLoad.ReactivateNaninovelUI();
-        // HideNaninovelUIOnLevelLoad.ReactivateNaninovelCamera();
+        HideNaninovelUIOnLevelLoad.ReactivateNaninovelUI();
+        HideNaninovelUIOnLevelLoad.ReactivateNaninovelCamera();
 
         string scriptName = menu.scriptName;
         string actualLabel;
@@ -32,7 +32,7 @@ public class LevelDebugSkipToPlot : MonoBehaviour
         else
             actualLabel = menu.labelName;
 
-        // NaninovelReturnRequest.Set(scriptName, actualLabel); // TODO: Naninovel包缺失
+        NaninovelReturnRequest.Set(scriptName, actualLabel);
         VideoSceneLoader.LoadScene(PlotSceneName);
 #endif
     }

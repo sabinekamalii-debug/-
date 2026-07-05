@@ -5,7 +5,7 @@ using System.Collections;
 using System;
 using System.Reflection;
 using TMPro;
-// using Naninovel; // TODO: Naninovel包缺失，临时禁用
+using Naninovel;
 
 /// <summary>
 /// 满足以下任一条件后 0.5 秒弹出结束菜单：
@@ -278,8 +278,8 @@ public class LevelEndMenu : MonoBehaviour
             VideoSceneLoader.LoadScene("RogueResult");
             return;
         }
-        // HideNaninovelUIOnLevelLoad.ReactivateNaninovelUI();
-        // HideNaninovelUIOnLevelLoad.ReactivateNaninovelCamera();
+        HideNaninovelUIOnLevelLoad.ReactivateNaninovelUI();
+        HideNaninovelUIOnLevelLoad.ReactivateNaninovelCamera();
         string actualLabel;
         if (string.IsNullOrEmpty(labelName))
         {
@@ -288,7 +288,7 @@ public class LevelEndMenu : MonoBehaviour
         }
         else
             actualLabel = labelName;
-        // NaninovelReturnRequest.Set(scriptName, actualLabel); // TODO: Naninovel包缺失
+        NaninovelReturnRequest.Set(scriptName, actualLabel);
         VideoSceneLoader.LoadScene(PlotSceneName);
     }
 

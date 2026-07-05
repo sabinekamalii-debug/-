@@ -70,7 +70,17 @@ public class RogueEntryController : MonoBehaviour
         RogueRuntimeState.StartRunIfNeeded();
         RefreshTexts();
 
-        if (_flow != null) _flow.EnterBattleFromEntry();
+        // 第一关开始时，先赠送一次抽卡
+        if (RogueRuntimeState.CurrentStage == 1)
+        {
+            RogueResultController.IsFirstStageDrop = true;
+            RogueResultController.IsMidGameDrop = true;
+            UnityEngine.SceneManagement.SceneManager.LoadScene("RogueResult", UnityEngine.SceneManagement.LoadSceneMode.Additive);
+        }
+        else
+        {
+            if (_flow != null) _flow.EnterBattleFromEntry();
+        }
     }
 
     public void ExchangePoint()

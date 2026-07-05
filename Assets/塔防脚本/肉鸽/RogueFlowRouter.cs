@@ -51,6 +51,20 @@ public class RogueFlowRouter : MonoBehaviour
         // 兼容旧场景：若曾保存为已删除的 RogueBattle_Template，强制改为 plot
         if (string.Equals(battleScene, "RogueBattle_Template", System.StringComparison.OrdinalIgnoreCase))
             battleScene = "plot";
+
+        // 监听第一关抽卡完成事件
+        RogueResultController.OnMidGameDropCompleted += OnFirstStagePickCompleted;
+    }
+
+    private void OnDestroy()
+    {
+        RogueResultController.OnMidGameDropCompleted -= OnFirstStagePickCompleted;
+    }
+
+    private void OnFirstStagePickCompleted()
+    {
+        // 第一关抽卡完成后，自动进入战斗
+        EnterBattleFromEntry();
     }
 
     public void EnterBattleFromEntry()

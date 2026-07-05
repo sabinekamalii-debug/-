@@ -48,13 +48,13 @@ public static class RogueRuntimeState
 
         if (PlayerPrefs.GetInt(KeyFirstInit, 0) == 0)
         {
-            PlayerPrefs.SetInt(KeyAvailable, 5);
+            PlayerPrefs.SetInt(KeyAvailable, 3);
             PlayerPrefs.SetInt(KeyPermanent, 0);
             PlayerPrefs.SetInt(KeyFirstInit, 1);
             PlayerPrefs.Save();
         }
 
-        AvailablePoint = Mathf.Max(0, PlayerPrefs.GetInt(KeyAvailable, 5));
+        AvailablePoint = Mathf.Max(0, PlayerPrefs.GetInt(KeyAvailable, 3));
         PermanentPoint = Mathf.Max(0, PlayerPrefs.GetInt(KeyPermanent, 0));
 
         // 恢复爬塔中途存档（杀塔式：中途退出后可继续）
