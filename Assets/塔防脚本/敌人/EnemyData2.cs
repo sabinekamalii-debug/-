@@ -21,4 +21,16 @@ public class EnemyData2 : ScriptableObject
     [Header("击杀奖励")]
     [Tooltip("该敌人被击杀时我方获得的部署费用，按敌人种类在对应敌人数据里填写")]
     public int dpOnKill = 0;
+
+    [Header("特殊行为（由数据驱动，Enemy2.Start 自动挂组件）")]
+    [Tooltip("攻击无视干员防御（术师怪）")]
+    public bool penetrateDefense = false;
+    [Tooltip("远程站桩攻击（远程怪）：被阻挡时不近战，由 EnemyRangedAttacker 输出")]
+    public bool rangedAttack = false;
+    [Tooltip("治疗半径（奶妈怪）：>0 时启用治疗行为")]
+    public float healRadius = 0f;
+    [Tooltip("治疗量占目标最大生命百分比（奶妈怪）")]
+    public float healPercentOfMax = 0f;
+    [Tooltip("治疗间隔秒数（奶妈怪）")]
+    public float healInterval = 0f;
 }

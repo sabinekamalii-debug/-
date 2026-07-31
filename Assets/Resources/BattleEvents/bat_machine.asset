@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1c2d3e4f5a60718293a4b5c6d7e8f01, type: 3}
+  m_Name: bat_machine
+  m_EditorClassIdentifier: 
+  eventId: bat_machine
+  eventType: 9
+  title: "古代机械"
+  description: "一台巨大的古代战争机器从地下升起。指示灯忽明忽暗，似乎还能运转……"
+  minStage: 5
+  triggerChance: 0.15
+  maxPerRun: 1
+  requireGuardianHpBelow: 0
+  options:
+  - buttonText: "启动机器(60金币)"
+    description: "消耗大量金币激活它"
+    effect:
+      dpGain: 0
+      dpCost: 0
+      goldCost: 60
+      guardianHeal: 0
+      guardianDamage: 0
+      allOperatorsHealPercent: 0
+      freezeAllEnemies: 2
+      damageAllEnemies: 1000
+      killRandomEnemies: 0
+      tempAttackPercent: 0
+      tempAttackSpeedPercent: 0
+      spawnAlly: 0
+      spawnExtraEnemies: 0
+      gainRandomCardRarity: ""
+      gainSpecificCardId: ""
+      applyRandomCurse: 0
+  - buttonText: "拆解零件"
+    description: "回收零件换钱"
+    effect:
+      dpGain: 45
+      dpCost: 0
+      goldCost: 0
+      guardianHeal: 0
+      guardianDamage: 0
+      allOperatorsHealPercent: 0
+      freezeAllEnemies: 0
+      damageAllEnemies: 0
+      killRandomEnemies: 0
+      tempAttackPercent: 0
+      tempAttackSpeedPercent: 0
+      spawnAlly: 0
+      spawnExtraEnemies: 0
+      gainRandomCardRarity: "Advanced"
+      gainSpecificCardId: ""
+      applyRandomCurse: 0
+  - buttonText: "绕过机器"
+    description: "不碰它，获得临时buff"
+    effect:
+      dpGain: 0
+      dpCost: 0
+      goldCost: 0
+      guardianHeal: 0
+      guardianDamage: 0
+      allOperatorsHealPercent: 0
+      freezeAllEnemies: 0
+      damageAllEnemies: 0
+      killRandomEnemies: 0
+      tempAttackPercent: 10
+      tempAttackSpeedPercent: 10
+      spawnAlly: 0
+      spawnExtraEnemies: 0
+      gainRandomCardRarity: ""
+      gainSpecificCardId: ""
+      applyRandomCurse: 0
+  backgroundImage: {fileID: 0}

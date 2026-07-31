@@ -19,16 +19,13 @@ public class VideoSceneLoader : MonoBehaviour
 {
     public static VideoSceneLoader Instance { get; private set; }
 
-    private const bool ForceDisableLogs = true;
-
     [Header("视频文件（StreamingAssets 相对路径）")]
     [SerializeField] private string startupVideoRelativePath = "视频/加载中.mp4";
     [SerializeField] private VideoClip startupVideoClip;
 
     [Header("最短显示时长（秒）")]
     [SerializeField] private float startupMinShowSeconds = 0.8f;
-    [SerializeField] private float transitionMinShowSeconds = 0.35f;
-    [SerializeField] private bool verboseLogs = false;
+    [SerializeField] private float transitionMinShowSeconds = 0.6f;
     [SerializeField] private float prepareTimeoutSeconds = 3f;
 
     [Header("可选：手动指定（不填则运行时自动创建）")]
@@ -84,9 +81,6 @@ public class VideoSceneLoader : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        if (ForceDisableLogs)
-            verboseLogs = false;
-
         try
         {
             EnsureRuntimeUI();
@@ -113,19 +107,22 @@ public class VideoSceneLoader : MonoBehaviour
             renderTexture.Release();
     }
 
-    public static void LoadScene(string sceneName)
+    public static void LoadScene(string sceneName, System.Action onComplete = null)
     {
-        EnsureInstance().StartCoroutine(EnsureInstance().LoadSceneRoutine(sceneName));
+        EnsureInstance().StartCoroutine(EnsureInstance().LoadSceneRoutine(sceneName, onComplete));
     }
 
-    private IEnumerator LoadSceneRoutine(string sceneName)
+    private IEnumerator LoadSceneRoutine(string sceneName, System.Action onComplete = null)
     {
         if (isLoading) yield break;
         isLoading = true;
-        RogueRuntimeState.SaveRunStateIfNeeded();
         Log($"开始切场景加载：{sceneName}");
 
+        // 先显示加载 UI，等待一帧让 Canvas 渲染到屏幕上，再做任何重操作
         SetLoadingVisible(true);
+        yield return null;
+
+        RogueRuntimeState.SaveRunStateIfNeeded();
         float startTime = Time.unscaledTime;
 
         AsyncOperation op = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
@@ -152,6 +149,8 @@ public class VideoSceneLoader : MonoBehaviour
             yield return new WaitForSecondsRealtime(0.05f);
             SetLoadingVisible(false);
         }
+
+        onComplete?.Invoke();
     }
 
     private void BeginStartupLoading()
@@ -366,8 +365,11 @@ public class VideoSceneLoader : MonoBehaviour
         }
         else
         {
-            LogStep("VideoPlayer.Stop()");
-            videoPlayer.Stop();
+            // 仅暂停而非 Stop：Stop 会清空解码状态（isPrepared=false），
+            // 导致下次显示又要重新 Prepare() 解码（0.5~2s）。暂停可保留已解码帧，
+            // 下次显示直接 Play() 复用，避免切场景重复解码。
+            LogStep("VideoPlayer.Pause()");
+            videoPlayer.Pause();
         }
     }
 

@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1c2d3e4f5a60718293a4b5c6d7e8f01, type: 3}
+  m_Name: bat_rockslide
+  m_EditorClassIdentifier: 
+  eventId: bat_rockslide
+  eventType: 2
+  title: "山体滑坡"
+  description: "轰隆隆——山体滑坡！巨石从山坡上滚落，直奔守护点而来！"
+  minStage: 2
+  triggerChance: 0.2
+  maxPerRun: 1
+  requireGuardianHpBelow: 7
+  options:
+  - buttonText: "全力拦截(DP=30)"
+    description: "消耗DP用屏障挡下"
+    effect:
+      dpGain: 0
+      dpCost: 30
+      goldCost: 0
+      guardianHeal: 1
+      guardianDamage: 0
+      allOperatorsHealPercent: 0
+      freezeAllEnemies: 0
+      damageAllEnemies: 0
+      killRandomEnemies: 0
+      tempAttackPercent: 5
+      tempAttackSpeedPercent: 0
+      spawnAlly: 0
+      spawnExtraEnemies: 0
+      gainRandomCardRarity: ""
+      gainSpecificCardId: ""
+      applyRandomCurse: 0
+  - buttonText: "引导落石砸敌人"
+    description: "巧用地形击杀敌人"
+    effect:
+      dpGain: 0
+      dpCost: 0
+      goldCost: 0
+      guardianHeal: 0
+      guardianDamage: 2
+      allOperatorsHealPercent: 0
+      freezeAllEnemies: 0
+      damageAllEnemies: 600
+      killRandomEnemies: 0
+      tempAttackPercent: 0
+      tempAttackSpeedPercent: 0
+      spawnAlly: 0
+      spawnExtraEnemies: 0
+      gainRandomCardRarity: ""
+      gainSpecificCardId: ""
+      applyRandomCurse: 0
+  - buttonText: "紧急撤离守护点"
+    description: "守护点吃伤害但获得大量DP"
+    effect:
+      dpGain: 80
+      dpCost: 0
+      goldCost: 0
+      guardianHeal: 0
+      guardianDamage: 4
+      allOperatorsHealPercent: 0
+      freezeAllEnemies: 0
+      damageAllEnemies: 0
+      killRandomEnemies: 0
+      tempAttackPercent: 0
+      tempAttackSpeedPercent: 0
+      spawnAlly: 0
+      spawnExtraEnemies: 0
+      gainRandomCardRarity: ""
+      gainSpecificCardId: ""
+      applyRandomCurse: 0
+  backgroundImage: {fileID: 0}

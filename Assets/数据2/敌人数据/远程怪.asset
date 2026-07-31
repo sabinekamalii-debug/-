@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5149e37f58f1f6c4a9a32cf4c0a0cf55, type: 3}
+  m_Name: "\u8FDC\u7A0B\u602A"
+  m_EditorClassIdentifier: 
+  lives: 80
+  defense: 0
+  damage: 22
+  damageforplayer: 1
+  speed: 3
+  attackInterval: 1.5
+  attackRange: 6
+  dpOnKill: 2
+  penetrateDefense: 0
+  rangedAttack: 1
+  healRadius: 0
+  healPercentOfMax: 0.04
+  healInterval: 1.5

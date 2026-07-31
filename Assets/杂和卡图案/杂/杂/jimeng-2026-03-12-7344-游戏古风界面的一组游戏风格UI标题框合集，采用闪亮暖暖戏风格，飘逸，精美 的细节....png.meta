@@ -1,0 +1,354 @@
+fileFormatVersion: 2
+guid: 3d94533212e44d24caef4ef81690a8e5
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8067334548360088785
+    second: "jimeng-2026-03-12-7344-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E
+      \u7684\u7EC6\u8282..._0"
+  - first:
+      213: -2729882631778856202
+    second: "jimeng-2026-03-12-7344-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E
+      \u7684\u7EC6\u8282..._1"
+  - first:
+      213: -6403823423088322228
+    second: "jimeng-2026-03-12-7344-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E
+      \u7684\u7EC6\u8282..._2"
+  - first:
+      213: 7967025854446634360
+    second: "jimeng-2026-03-12-7344-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E
+      \u7684\u7EC6\u8282..._3"
+  - first:
+      213: 3591825798495287382
+    second: "jimeng-2026-03-12-7344-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E
+      \u7684\u7EC6\u8282..._4"
+  - first:
+      213: 3014395190859410748
+    second: "jimeng-2026-03-12-7344-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E
+      \u7684\u7EC6\u8282..._5"
+  - first:
+      213: 1873789664733449016
+    second: "jimeng-2026-03-12-7344-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E
+      \u7684\u7EC6\u8282..._6"
+  - first:
+      213: 567786861978108843
+    second: "jimeng-2026-03-12-7344-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E
+      \u7684\u7EC6\u8282..._7"
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: "jimeng-2026-03-12-7344-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E
+        \u7684\u7EC6\u8282..._0"
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 859
+        width: 970
+        height: 307
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1dc4d37770ee4ff60800000000000000
+      internalID: 8067334548360088785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "jimeng-2026-03-12-7344-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E
+        \u7684\u7EC6\u8282..._1"
+      rect:
+        serializedVersion: 2
+        x: 1184
+        y: 847
+        width: 1701
+        height: 362
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f2105eb5328d1ad0800000000000000
+      internalID: -2729882631778856202
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "jimeng-2026-03-12-7344-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E
+        \u7684\u7EC6\u8282..._2"
+      rect:
+        serializedVersion: 2
+        x: 139
+        y: 466
+        width: 977
+        height: 325
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c499e7e868c0127a0800000000000000
+      internalID: -6403823423088322228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "jimeng-2026-03-12-7344-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E
+        \u7684\u7EC6\u8282..._3"
+      rect:
+        serializedVersion: 2
+        x: 1193
+        y: 440
+        width: 969
+        height: 375
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87505a2bdcf809e60800000000000000
+      internalID: 7967025854446634360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "jimeng-2026-03-12-7344-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E
+        \u7684\u7EC6\u8282..._4"
+      rect:
+        serializedVersion: 2
+        x: 2250
+        y: 461
+        width: 643
+        height: 346
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 658356e888ab8d130800000000000000
+      internalID: 3591825798495287382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "jimeng-2026-03-12-7344-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E
+        \u7684\u7EC6\u8282..._5"
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 127
+        width: 957
+        height: 277
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3d22d3847845d920800000000000000
+      internalID: 3014395190859410748
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "jimeng-2026-03-12-7344-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E
+        \u7684\u7EC6\u8282..._6"
+      rect:
+        serializedVersion: 2
+        x: 1228
+        y: 115
+        width: 891
+        height: 337
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83b4c36b5c9010a10800000000000000
+      internalID: 1873789664733449016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "jimeng-2026-03-12-7344-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E
+        \u7684\u7EC6\u8282..._7"
+      rect:
+        serializedVersion: 2
+        x: 2254
+        y: 103
+        width: 624
+        height: 322
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba3c658842f21e700800000000000000
+      internalID: 567786861978108843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      "jimeng-2026-03-12-7344-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E \u7684\u7EC6\u8282..._0": 8067334548360088785
+      "jimeng-2026-03-12-7344-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E \u7684\u7EC6\u8282..._1": -2729882631778856202
+      "jimeng-2026-03-12-7344-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E \u7684\u7EC6\u8282..._2": -6403823423088322228
+      "jimeng-2026-03-12-7344-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E \u7684\u7EC6\u8282..._3": 7967025854446634360
+      "jimeng-2026-03-12-7344-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E \u7684\u7EC6\u8282..._4": 3591825798495287382
+      "jimeng-2026-03-12-7344-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E \u7684\u7EC6\u8282..._5": 3014395190859410748
+      "jimeng-2026-03-12-7344-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E \u7684\u7EC6\u8282..._6": 1873789664733449016
+      "jimeng-2026-03-12-7344-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E \u7684\u7EC6\u8282..._7": 567786861978108843
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

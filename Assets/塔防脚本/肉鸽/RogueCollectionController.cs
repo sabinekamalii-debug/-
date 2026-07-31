@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
@@ -67,6 +68,7 @@ public class RogueCollectionController : MonoBehaviour
     public void Refresh()
     {
         if (cardGridRoot == null) return;
+        if (FindFirstObjectByType<HeldCardsFrame>() != null) return;
         if (FindFirstObjectByType<StoryCardPanel>() != null) return;
 
         var unlocked = StoryCardUnlockState.GetUnlockedCardIds();
@@ -84,7 +86,7 @@ public class RogueCollectionController : MonoBehaviour
         {
             _rows[i].text = $"#{i + 1}  剧情碎片{i + 1}  {unlocked[i]}";
             _rows[i].gameObject.SetActive(true);
-            var btn = _rows[i].GetComponent<Button>();
+            var btn = _rows[i].GetComponentInParent<Button>();
             if (btn != null)
             {
                 int index = i + 1;
@@ -96,7 +98,7 @@ public class RogueCollectionController : MonoBehaviour
         for (int i = unlocked.Count; i < _rows.Count; i++)
         {
             _rows[i].gameObject.SetActive(false);
-            var btn = _rows[i].GetComponent<Button>();
+            var btn = _rows[i].GetComponentInParent<Button>();
             if (btn != null) btn.onClick.RemoveAllListeners();
         }
     }
@@ -113,16 +115,26 @@ public class RogueCollectionController : MonoBehaviour
     {
         while (_rows.Count < count)
         {
-            var rowGo = new GameObject($"CardRow_{_rows.Count + 1}", typeof(RectTransform), typeof(Image), typeof(Button), typeof(TextMeshProUGUI));
+            // Image 和 TextMeshProUGUI 都继承 Graphic，不能放在同一个 GameObject 上
+            var rowGo = new GameObject($"CardRow_{_rows.Count + 1}", typeof(RectTransform), typeof(Image), typeof(Button));
             rowGo.transform.SetParent(cardGridRoot, false);
             var img = rowGo.GetComponent<Image>();
             img.color = new Color(0.15f, 0.15f, 0.2f, 0.85f);
             img.raycastTarget = true;
-            var text = rowGo.GetComponent<TextMeshProUGUI>();
+
+            var txtGo = new GameObject("Text", typeof(RectTransform), typeof(TextMeshProUGUI));
+            txtGo.transform.SetParent(rowGo.transform, false);
+            var text = txtGo.GetComponent<TextMeshProUGUI>();
             text.fontSize = 24;
             text.color = Color.white;
             text.alignment = TextAlignmentOptions.MidlineLeft;
             text.raycastTarget = false;
+
+            var txtRt = txtGo.GetComponent<RectTransform>();
+            txtRt.anchorMin = Vector2.zero;
+            txtRt.anchorMax = Vector2.one;
+            txtRt.offsetMin = new Vector2(12f, 0f);
+            txtRt.offsetMax = Vector2.zero;
 
             var rt = rowGo.GetComponent<RectTransform>();
             rt.anchorMin = new Vector2(0f, 1f);
@@ -141,12 +153,12 @@ public class RogueCollectionController : MonoBehaviour
         string script = "魔王 " + oneBasedIndex;
         NaninovelReturnRequest.Set(script, "");
         NaninovelReturnAutoPlayer.Ensure();
-        VideoSceneLoader.LoadScene("Title");
+        VideoSceneLoader.LoadScene(SceneNames.Title);
     }
 
     private void EnsureSimpleUiIfMissing()
     {
-        Canvas canvas = FindFirstObjectByType<Canvas>();
+        Canvas canvas = RogueUIUtil.FindSceneCanvas();
         if (canvas == null)
         {
             var c = new GameObject("AutoCanvas");

@@ -34,7 +34,7 @@ public class AoEAttacker : MonoBehaviour
         if (unit == null) return;
         if (unit.skillPreventAttack) return;
 
-        float interval = unit.runtimeAttackInterval;
+        float interval = unit.EffectiveAttackInterval;
         if (interval <= 0f) return;
 
         timer += Time.deltaTime;
@@ -52,12 +52,17 @@ public class AoEAttacker : MonoBehaviour
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, r, enemyLayer);
         if (hits == null || hits.Length == 0) return;
 
-        int damage = unit.runtimeAttackDamage;
-        bool ignoreDefense = unit.GetComponent<IgnoreDefenseAttacker>() != null;
+        int penetration = unit != null ? unit.GetPenetrationPercent() : 0;
+        bool ignoreDefense = false;
         for (int i = 0; i < hits.Length; i++)
         {
             Enemy2 enemy = hits[i].GetComponent<Enemy2>();
-            if (enemy != null) enemy.TakeDamage(damage, ignoreDefense);
+            if (enemy != null)
+            {
+                var (dmg, _) = unit.CalculateDamage(enemy);
+                enemy.TakeDamage(dmg, ignoreDefense, penetration);
+                unit.OnDamageDealt(dmg);
+            }
         }
     }
 

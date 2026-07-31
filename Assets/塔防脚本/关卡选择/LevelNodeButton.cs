@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -40,6 +42,26 @@ public class LevelNodeButton : MonoBehaviour
     [Header("关卡类型配置")]
     public LevelTypeConfig levelTypeConfig;
 
+    [Header("新架构")]
+    [Tooltip("勾选后优先尝试从 Resources/LevelConfigs/ 加载关卡配置，走新 BattleScene 流程。未找到时回退旧场景。")]
+    public bool useNewArchitecture = true;
+
+    /// <summary> 缓存的当前关卡配置（新架构） </summary>
+    private LevelConfig _cachedLevelConfig;
+    private bool _loadedInvalidConfig;
+
+    private static readonly string[] FallbackBattleSceneNames = new[]
+    {
+        "level 1","level 2","level 3","level 4","level 5","level 6","level 7","level 8",
+        "level 9","level 10","level 11",
+        "level elite","level boss"
+    };
+
+    private static readonly int[] FallbackBattleConfigIds = new[]
+    {
+        1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17
+    };
+
     Button _button;
 
     void Awake()
@@ -76,6 +98,149 @@ public class LevelNodeButton : MonoBehaviour
             _sceneName = "";
             _levelNumber = 0;
         }
+
+        // 尝试加载新架构的关卡配置
+        TryLoadLevelConfig();
+    }
+
+    /// <summary>
+    /// 尝试从 Resources/LevelConfigs/ 加载本关的 LevelConfig。
+    /// 命名规则：Level_{关卡号}_Battle 或 Level_{关卡号}。
+    /// </summary>
+    void TryLoadLevelConfig()
+    {
+        if (!useNewArchitecture || _levelNumber <= 0) return;
+
+        // 支持多种命名格式
+        string[] possibleNames = {
+            $"Level_{_levelNumber:D2}_Battle",  // Level_03_Battle
+            $"Level_{_levelNumber}_Battle",      // Level_3_Battle
+            $"LevelConfig_{_levelNumber}",
+        };
+
+        foreach (var name in possibleNames)
+        {
+            _cachedLevelConfig = Resources.Load<LevelConfig>($"LevelConfigs/{name}");
+            if (_cachedLevelConfig != null)
+                break;
+        }
+
+        if (_cachedLevelConfig != null && !IsPlayableLevelConfig(_cachedLevelConfig))
+        {
+            Debug.LogWarning($"[LevelNodeButton] 关卡 {_levelNumber} 的 LevelConfig 不完整或不可玩，回退至已有可用战斗关卡。" );
+            _cachedLevelConfig = GetPlayableFallbackLevelConfig();
+            _loadedInvalidConfig = true;
+            if (_cachedLevelConfig == null)
+            {
+                Debug.LogError("[LevelNodeButton] 未找到可回退的有效 LevelConfig，旧关卡场景将按原始场景加载。");
+            }
+        }
+    }
+
+    bool IsPlayableLevelConfig(LevelConfig config)
+    {
+        if (config == null) return false;
+        if (config.gridData == null || config.gridData.Length < config.gridWidth * config.gridHeight) return false;
+        if (config.waveGroups == null || config.waveGroups.Length == 0) return false;
+
+        bool hasWave = false;
+        foreach (var group in config.waveGroups)
+        {
+            if (group == null || group.entries == null) continue;
+            foreach (var entry in group.entries)
+            {
+                if (entry != null && entry.count > 0)
+                {
+                    hasWave = true;
+                    break;
+                }
+            }
+            if (hasWave) break;
+        }
+        if (!hasWave) return false;
+
+        var paths = config.GetAllPaths();
+        bool hasPath = false;
+        if (paths != null)
+        {
+            foreach (var path in paths)
+            {
+                if (path != null && path.Length > 0)
+                {
+                    hasPath = true;
+                    break;
+                }
+            }
+        }
+        return hasPath;
+    }
+
+    LevelConfig GetPlayableFallbackLevelConfig(LevelType desiredType = LevelType.NormalBattle)
+    {
+        var exactMatches = new List<LevelConfig>();
+        var fallbackMatches = new List<LevelConfig>();
+
+        foreach (var id in FallbackBattleConfigIds)
+        {
+            var config = LoadLevelConfigById(id);
+            if (config == null || !IsPlayableLevelConfig(config))
+                continue;
+
+            if (IsConfigAcceptableForLevelType(config, desiredType))
+                exactMatches.Add(config);
+            else
+                fallbackMatches.Add(config);
+        }
+
+        if (exactMatches.Count > 0)
+            return exactMatches[Random.Range(0, exactMatches.Count)];
+        if (fallbackMatches.Count > 0)
+            return fallbackMatches[Random.Range(0, fallbackMatches.Count)];
+        return null;
+    }
+
+    bool IsConfigAcceptableForLevelType(LevelConfig config, LevelType desiredType)
+    {
+        if (config == null) return false;
+        if (desiredType == LevelType.NormalBattle)
+            return config.levelType == LevelType.NormalBattle;
+        if (desiredType == LevelType.Elite)
+            return config.levelType == LevelType.Elite;
+        if (desiredType == LevelType.Boss)
+            return config.levelType == LevelType.Boss;
+        return config.levelType == LevelType.NormalBattle;
+    }
+
+    LevelConfig LoadLevelConfigById(int id)
+    {
+        string[] names = {
+            $"Level_{id:D2}_Battle",
+            $"Level_{id}_Battle",
+            $"LevelConfig_{id}",
+        };
+        foreach (var name in names)
+        {
+            var config = Resources.Load<LevelConfig>($"LevelConfigs/{name}");
+            if (config != null)
+                return config;
+        }
+        return null;
+    }
+
+    bool IsSceneLoadable(string sceneName)
+    {
+        if (string.IsNullOrEmpty(sceneName)) return false;
+        return Application.CanStreamedLevelBeLoaded(sceneName);
+    }
+
+    string GetFallbackOldSceneName()
+    {
+        foreach (var scene in FallbackBattleSceneNames)
+        {
+            if (IsSceneLoadable(scene))
+                return scene;
+        }
+        return null;
     }
 
     LevelType GetLevelType(int levelNum)
@@ -93,8 +258,8 @@ public class LevelNodeButton : MonoBehaviour
         bool unlocked = LevelProgress.IsUnlocked(_sceneName);
         bool completed = LevelProgress.IsCompleted(_sceneName);
 
-        // 已通关：不可再次挑战，仅变暗（不显示为封锁）
-        bool canEnter = unlocked && !completed;
+        // 测试阶段：已通关的关卡仍可重复进入（仅变暗标记）
+        bool canEnter = unlocked;
         if (_button != null)
             _button.interactable = canEnter;
 
@@ -203,14 +368,183 @@ public class LevelNodeButton : MonoBehaviour
     void OnClick()
     {
         if (!LevelProgress.IsUnlocked(_sceneName)) return;
-        if (LevelProgress.IsCompleted(_sceneName)) return; // 已通关不可重复挑战
+        // 测试阶段：已通关的关卡仍可重复进入
         if (string.IsNullOrEmpty(_sceneName)) return;
-        // 先应用「进入本关会封锁哪些关」的路线规则，再跳转
         LevelProgress.OnEnterLevel(_sceneName);
-        
-        // 标记为从选关界面进入（保留选关进度）
         LevelSceneLoadContext.SetFromSelection();
-        
-        VideoSceneLoader.LoadScene(_sceneName);
+
+        // 商店节点 → 加载 GoldShop 场景
+        LevelType levelType = GetLevelType(_levelNumber);
+
+        // spc_skip / 事件免费跳过：可跳过 1 场普通战斗
+        if (levelType == LevelType.NormalBattle)
+        {
+            if (RogueRuntimeState.HasFreeSkip)
+            {
+                RogueRuntimeState.TryConsumeFreeSkip();
+                string levelKey = _cachedLevelConfig != null
+                    ? $"level{_levelNumber}" : _sceneName;
+                LevelProgress.MarkCompleted(levelKey);
+                VideoSceneLoader.LoadScene(SceneNames.Plot);
+                return;
+            }
+            if (RogueRuntimeState.CanSkipBattle)
+            {
+                RogueRuntimeState.ConsumeSkipBattle();
+                string levelKey = _cachedLevelConfig != null
+                    ? $"level{_levelNumber}" : _sceneName;
+                LevelProgress.MarkCompleted(levelKey);
+                VideoSceneLoader.LoadScene(SceneNames.Plot);
+                return;
+            }
+        }
+
+        if (levelType == LevelType.Shop)
+        {
+            ShopReturnContext.SetShopLevel(_levelNumber);
+            VideoSceneLoader.LoadScene(SceneNames.GoldShop);
+            return;
+        }
+
+        // 随机事件节点 → 随机选择一个事件场景加载
+        if (levelType == LevelType.RandomEvent)
+        {
+            string[] eventScenes = {
+                "RandomEvent",
+                "RandomEvent_Forest",
+                "RandomEvent_Temple",
+                "RandomEvent_Grave",
+                "RandomEvent_Cave",
+                "RandomEvent_Street"
+            };
+            string picked = eventScenes[Random.Range(0, eventScenes.Length)];
+            VideoSceneLoader.LoadScene(picked);
+            return;
+        }
+
+        // 休息节点 → 加载 Rest 场景
+        if (levelType == LevelType.Rest)
+        {
+            RestReturnContext.SetRestLevel(_levelNumber);
+            VideoSceneLoader.LoadScene(SceneNames.Rest);
+            return;
+        }
+
+        // ===== 新架构：使用 LevelConfig 加载 BattleScene =====
+        if (_cachedLevelConfig == null && (levelType == LevelType.NormalBattle || levelType == LevelType.Elite || levelType == LevelType.Boss))
+        {
+            _cachedLevelConfig = GetPlayableFallbackLevelConfig(levelType);
+            _loadedInvalidConfig = true;
+            if (_cachedLevelConfig != null)
+            {
+                Debug.LogWarning($"[LevelNodeButton] 关卡 {_levelNumber} 无有效配置，回退至可用战斗关卡 {_cachedLevelConfig.levelId}。" );
+            }
+        }
+
+        if (_cachedLevelConfig != null)
+        {
+            LevelConfig configToUse = _cachedLevelConfig;
+
+            if (RogueRuntimeState.ShouldApplyModifiers(_levelNumber))
+            {
+                var modifierConfig = RogueRuntimeState.ModifierConfig;
+                if (modifierConfig != null)
+                {
+                    int subSeed = RunRng.DeriveLevelSeed(RogueRuntimeState.RunSeed, _levelNumber);
+                    var rng = new RunRng(subSeed);
+                    configToUse = _cachedLevelConfig.ApplyRunModifiers(rng, _levelNumber, modifierConfig);
+                    Debug.Log($"[LevelNodeButton] 关卡 {_levelNumber} 超过固定阈值 {RogueRuntimeState.GetFixedCutoff()}，叠加随机修饰 (subSeed={subSeed})");
+                }
+            }
+
+            LevelSceneLoadContext.SetLevelConfig(configToUse, _levelNumber, _sceneName);
+            VideoSceneLoader.LoadScene(SceneNames.BattleScene);
+            return;
+        }
+
+        // ===== 旧架构回退：直接加载 level N 场景 =====
+        if (_levelNumber == 1)
+        {
+            RogueResultController.IsFirstStageDrop = true;
+            RogueResultController.IsMidGameDrop = true;
+            VideoSceneLoader.LoadScene(_sceneName, () =>
+            {
+                VideoSceneLoader.Instance.StartCoroutine(WaitForDialogueThenShowDrop());
+            });
+            return;
+        }
+
+        if (IsSceneLoadable(_sceneName))
+        {
+            VideoSceneLoader.LoadScene(_sceneName);
+            return;
+        }
+
+        string fallbackScene = GetFallbackOldSceneName();
+        if (!string.IsNullOrEmpty(fallbackScene))
+        {
+            Debug.LogWarning($"[LevelNodeButton] 旧场景 {_sceneName} 不可加载，回退至可用旧战斗场景 {fallbackScene}。" );
+            VideoSceneLoader.LoadScene(fallbackScene);
+            return;
+        }
+
+        Debug.LogError($"[LevelNodeButton] 无法加载关卡 {_sceneName}，请检查关卡配置或场景是否存在。");
+    }
+
+    static IEnumerator WaitForDialogueThenShowDrop()
+    {
+        HideNaninovelUIAndCamera();
+
+        // 等待新手教程开始（NewbieTutorialController.IsTutorialActive 变为 true）
+        float waitStart = 0f;
+        while (!NewbieTutorialController.IsTutorialActive && waitStart < 10f)
+        {
+            waitStart += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        if (!NewbieTutorialController.IsTutorialActive)
+        {
+            Time.timeScale = 0f;
+            SceneManager.LoadScene(SceneNames.RogueResult, LoadSceneMode.Additive);
+            yield break;
+        }
+
+        // 等待新手教程结束（IsTutorialActive 变为 false）
+        while (NewbieTutorialController.IsTutorialActive)
+        {
+            yield return null;
+        }
+        Time.timeScale = 0f;
+        SceneManager.LoadScene(SceneNames.RogueResult, LoadSceneMode.Additive);
+    }
+
+    static void HideNaninovelUIAndCamera()
+    {
+        // 隐藏 Naninovel<Runtime>/UI 下的所有 Canvas（TitleUI 等）
+        var naninovel = GameObject.Find("Naninovel<Runtime>");
+        if (naninovel == null)
+        {
+            return;
+        }
+
+        var ui = naninovel.transform.Find("UI");
+        if (ui != null)
+        {
+            // 隐藏 UI 根物体
+            ui.gameObject.SetActive(false);
+        }
+
+        // 禁用 Naninovel 的相机
+        var cameras = UnityEngine.Object.FindObjectsByType<Camera>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        foreach (var cam in cameras)
+        {
+            if (cam == null) continue;
+            // Naninovel 相机通常不在当前场景中（在 DontDestroyOnLoad 中）
+            if (cam.gameObject.scene.name == "DontDestroyOnLoad")
+            {
+                cam.gameObject.SetActive(false);
+            }
+        }
     }
 }

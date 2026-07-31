@@ -1,0 +1,526 @@
+{
+    "Assets": [
+        {
+            "guid": "fd99335f33b2c604abe5bca8bef7debc",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "万录朵房间",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "5833a48fcdea24844884d01b2d88ce51",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "伯爵府",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "a4537a5e246a5a44191aadf4cbee4ae7",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "回忆伯爵府",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "e7ae086e7aa3e16428d1ae5b8385a29c",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "回忆晶家",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "54f15927c395b574aa677e2f6dca928d",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "回忆晶家室内",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "cf3b32e80b831e94fb8c097fe2ca56da",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "回忆森林",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "fbe6536d7ac35d54b980aad647c1dcb8",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "回忆河",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "18ad1b36c4a9862409625fbbc5d9f412",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "回忆王城",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "20fa3db7273340d4d88054b770fd9f22",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "回忆神父家",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "d4e5e02b91e60c14a8d06b370636b018",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "回忆街道",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "5cf870d355f86454b9f7c055c105d89c",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "城堡室内",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "4e0f40b529e2f254eabb0a380e33c523",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "夜森",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "2c506c9f5b520de4687ab08f508fa594",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "夜海",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "63c0f8154383aff4fba938bfe4453c8f",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "夜魔森",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "fb071623249fb1f42b62e6315ca88bb9",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "小巷",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "d75ec6344acbfb0459711b8c646105e5",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "小镇街道",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "a2cc2eec297d332428e3f1e9b00e06f5",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "少爷房间",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "8da9df1c940d4f540871a59d224f3af3",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "布诺家",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "b50791ac43169184a9653f16b48fb5be",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "异世界草坪",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "ce78e57464fe2c34280ba9120d90ba4f",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "战斗过的森林",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "55459f6f41db9dd4999e891a10d074ff",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "战斗过的森林2",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "96714945878df2343b4e3ff4836ad759",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "教堂",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "522afa79af8bf7b44b71f9042c96ad9f",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "晶家",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "6891e6957c089e743b1cd3dc4e9b92ae",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "晶家室内",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "3e527d9bf699a224a82411c52b27912f",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "毁灭后的森林",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "acbc21349846fd645854629a75cd4058",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "河边",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "0f5c970e84691c947babc94a6d404082",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "泡布家",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "79afb28edc78f994780451b20086a91d",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "洞穴",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "c8c819f580b059448bcdfc3bfc803155",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "浅金家",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "9ca37e3fc796a4a47a54c3b9e86a6524",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "混沌",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "c9881546ec97e5f428e8d2db0e016970",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "王城街道",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "4aed2ea33559663488b89c7e8ae3e527",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "珑家",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "075cc0fafa9f6ff4b94c6c23267667af",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "白",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "41ce5eb86ca697e45b68e2e9650c913f",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "脚",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "0141857ec907ffa428106c0396d6b192",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "远征后的森林",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "66421707ec6c78a489745e0948fbb232",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "醒",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "6d6cdd42498ec0041b420ff13ca57816",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "醒房间",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "ff29328484f06084083f3fcaa01fc15e",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "魔森",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "f1336bf90ee505948aa3a13237e07037",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "黄森",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "4f6de52b967559a4eae31f82a0daa7fc",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "黑",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "bb9b4ebb8de9b6848973654946b8204b",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "黑魔王城",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "aa54d1ede2de1b047abebc186198b5d3",
+            "prefix": "Backgrounds/MainBackground",
+            "path": "龙魔王城",
+            "group": "Backgrounds/2ff92c17-2e99-496f-99b1-23485185efb8"
+        },
+        {
+            "guid": "a51414b50a65da84fa0c1c1378d150aa",
+            "prefix": "Characters",
+            "path": "空之魔王",
+            "group": "Characters/9a37f05b-7bbc-413e-b67f-67319b80c792"
+        },
+        {
+            "guid": "4fa6d62f894ae6e4698bfa8af59e7942",
+            "prefix": "ChoiceHandlers",
+            "path": "ButtonArea",
+            "group": "ChoiceHandlers/4baa0995-f8ea-4032-aed3-64c1da9aad24"
+        },
+        {
+            "guid": "1f6aa29000e839c409e6a9c0704adc96",
+            "prefix": "ChoiceHandlers",
+            "path": "ButtonList",
+            "group": "ChoiceHandlers/df576326-7591-449f-b999-530d5d39564a"
+        },
+        {
+            "guid": "0e61df696cabbea448510879ee732b00",
+            "prefix": "ChoiceHandlers",
+            "path": "ChatReply",
+            "group": "ChoiceHandlers/6fcad5a9-5370-4581-9b6c-a233ae5a8fa1"
+        },
+        {
+            "guid": "2a7a46a0bd7f430a95edd54be4381b51",
+            "prefix": "Scripts",
+            "path": "Entry",
+            "group": ""
+        },
+        {
+            "guid": "5fe77762f5991cf4f8fba85d064690b9",
+            "prefix": "Scripts",
+            "path": "MoWangXian",
+            "group": ""
+        },
+        {
+            "guid": "aee36a8b1df05bb45aa4a6d992adb2f4",
+            "prefix": "Scripts",
+            "path": "plot1",
+            "group": ""
+        },
+        {
+            "guid": "38113a5e51ca7a3438abecace409bff5",
+            "prefix": "Scripts",
+            "path": "plot2",
+            "group": ""
+        },
+        {
+            "guid": "b884e01923869c74fa0d3413f654e45d",
+            "prefix": "Scripts",
+            "path": "plot3",
+            "group": ""
+        },
+        {
+            "guid": "ef235ad824a02d6408cc3c74f113c25d",
+            "prefix": "Scripts",
+            "path": "plot4",
+            "group": ""
+        },
+        {
+            "guid": "8def85b9d9ace33459cfaada650eb630",
+            "prefix": "Scripts",
+            "path": "plot5",
+            "group": ""
+        },
+        {
+            "guid": "d04848c6a0e6caf41b144b9dd305936e",
+            "prefix": "Scripts",
+            "path": "Title",
+            "group": ""
+        },
+        {
+            "guid": "d35c22696a1406a458461b66e397d9c9",
+            "prefix": "Scripts",
+            "path": "死亡 1",
+            "group": ""
+        },
+        {
+            "guid": "00705b87e0e54a1689d5b40fb21eccda",
+            "prefix": "Scripts",
+            "path": "奇遇测试 1",
+            "group": ""
+        },
+        {
+            "guid": "c71ed60448cf3a04da135d64270bd794",
+            "prefix": "Scripts",
+            "path": "魔王 1",
+            "group": ""
+        },
+        {
+            "guid": "89b0eff1d01f59e49ab00db72727c254",
+            "prefix": "Scripts",
+            "path": "魔王 2",
+            "group": ""
+        },
+        {
+            "guid": "91044cb99451c7249a7583b215dd41e4",
+            "prefix": "Scripts",
+            "path": "魔王 3",
+            "group": ""
+        },
+        {
+            "guid": "894d1a3458aaaaf43be8b825e8916063",
+            "prefix": "Scripts",
+            "path": "魔王 4",
+            "group": ""
+        },
+        {
+            "guid": "d309904ca957f234d913197115db1f98",
+            "prefix": "Scripts",
+            "path": "魔王 5",
+            "group": ""
+        },
+        {
+            "guid": "c058d0a6e071c194cba5290e6f372770",
+            "prefix": "Scripts",
+            "path": "魔王 6",
+            "group": ""
+        },
+        {
+            "guid": "4fc907a7755a2af46a74f0070a9aac1c",
+            "prefix": "Scripts",
+            "path": "魔王 7",
+            "group": ""
+        },
+        {
+            "guid": "7956f61edbfc8664ebbe7c93af014c5d",
+            "prefix": "Scripts",
+            "path": "魔王 8",
+            "group": ""
+        },
+        {
+            "guid": "c71ed60448cf3a04da135d64270bd794",
+            "prefix": "Scripts",
+            "path": "魔王1",
+            "group": ""
+        },
+        {
+            "guid": "89b0eff1d01f59e49ab00db72727c254",
+            "prefix": "Scripts",
+            "path": "魔王1 1",
+            "group": ""
+        },
+        {
+            "guid": "7bf06fa813bb9c34daf521998fa72ab1",
+            "prefix": "Spawn",
+            "path": "Animate",
+            "group": ""
+        },
+        {
+            "guid": "e466d9326b30a4b49a3dad428b4d9968",
+            "prefix": "Spawn",
+            "path": "Blur",
+            "group": ""
+        },
+        {
+            "guid": "ea76638b26a915946b62907dd1e776fd",
+            "prefix": "Spawn",
+            "path": "DepthOfField",
+            "group": ""
+        },
+        {
+            "guid": "be75a73ecccb90b4caa5c14edb9ac467",
+            "prefix": "Spawn",
+            "path": "DigitalGlitch",
+            "group": ""
+        },
+        {
+            "guid": "a9117e2fa90704d45b3e1461596c11ee",
+            "prefix": "Spawn",
+            "path": "Rain",
+            "group": ""
+        },
+        {
+            "guid": "9f56c556ba32fd54fae62347c25a8145",
+            "prefix": "Spawn",
+            "path": "ShakeBackground",
+            "group": ""
+        },
+        {
+            "guid": "1c5b86cf3cfbb1f44ae5641699077da4",
+            "prefix": "Spawn",
+            "path": "ShakeCamera",
+            "group": ""
+        },
+        {
+            "guid": "1224d69e1592d624cbde93d0f7383d91",
+            "prefix": "Spawn",
+            "path": "ShakeCharacter",
+            "group": ""
+        },
+        {
+            "guid": "2795040988e866646801c80024c50be1",
+            "prefix": "Spawn",
+            "path": "ShakePrinter",
+            "group": ""
+        },
+        {
+            "guid": "9f4e71cb27fffa04486737d2cf8d622d",
+            "prefix": "Spawn",
+            "path": "Snow",
+            "group": ""
+        },
+        {
+            "guid": "c4bf810b9b6cc9f44a58fd670678ded4",
+            "prefix": "Spawn",
+            "path": "SunShafts",
+            "group": ""
+        },
+        {
+            "guid": "b47d9659b2be5ee4e95a776f213c9d4b",
+            "prefix": "TextPrinters",
+            "path": "Bubble",
+            "group": "TextPrinters/57b17b04-8ed9-4daf-9cf7-a77dba0c8e59"
+        },
+        {
+            "guid": "6f9836a3c4f777741b1962979d97e485",
+            "prefix": "TextPrinters",
+            "path": "Chat",
+            "group": "TextPrinters/c47c17b6-0405-4a0c-80b9-fd5b4569b119"
+        },
+        {
+            "guid": "2a400f06f12c4d4419e96dabe8f20a67",
+            "prefix": "TextPrinters",
+            "path": "Dialogue",
+            "group": "TextPrinters/597a2822-9633-4fa0-afe2-cd60e040cdec"
+        },
+        {
+            "guid": "c87cebd3f0d4f174789cd351ce9591c4",
+            "prefix": "TextPrinters",
+            "path": "Fullscreen",
+            "group": "TextPrinters/932f1fd3-0107-4adf-8f03-6895b5bbc563"
+        },
+        {
+            "guid": "781828b806deb1e4cbf50ef9de41da10",
+            "prefix": "TextPrinters",
+            "path": "Wide",
+            "group": "TextPrinters/3f99dbbe-eb6f-4eaa-840c-a78b64587084"
+        },
+        {
+            "guid": "dd1ce4f2ca4745f49aeb65e5e87c5b9e",
+            "prefix": "UI",
+            "path": "CGGalleryUI",
+            "group": ""
+        },
+        {
+            "guid": "11ee410b304c9384a8946d45f7e9473d",
+            "prefix": "UI",
+            "path": "LoadingUI",
+            "group": ""
+        },
+        {
+            "guid": "b4223600af9945244b45ea5564a99ee8",
+            "prefix": "UI",
+            "path": "SaveLoadUI",
+            "group": ""
+        },
+        {
+            "guid": "11ee410b304c9384a8946d45f7e9473d",
+            "prefix": "UI",
+            "path": "SceneTransitionUI",
+            "group": ""
+        },
+        {
+            "guid": "6e383f0d572e5214c89ea767d3d5fd60",
+            "prefix": "UI",
+            "path": "TitleUI",
+            "group": ""
+        }
+    ]
+}

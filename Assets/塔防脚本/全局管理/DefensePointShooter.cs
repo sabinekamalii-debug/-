@@ -40,6 +40,50 @@ public class DefensePointShooter : MonoBehaviour
     public GameObject warningImage;
 
     private float _attackTimer;
+    private int _runtimeDamage;
+    private float _runtimeInterval;
+    private float _runtimeRange;
+
+    void Start()
+    {
+        ApplyTalentBonuses();
+    }
+
+    /// <summary> 应用天赋卡加成到守护点射击。 </summary>
+    private void ApplyTalentBonuses()
+    {
+        _runtimeDamage = attackDamage;
+        _runtimeInterval = attackInterval;
+        _runtimeRange = attackRange;
+
+        // 攻击百分比加成（全局攻击卡 + 守护卡中的攻击加成）
+        int atkPercent = TalentEffectApplier.GetAttackPercent(null);
+        if (atkPercent != 0)
+        {
+            _runtimeDamage = Mathf.RoundToInt(_runtimeDamage * (1f + atkPercent / 100f));
+        }
+
+        // 攻击固定加成
+        int atkBonus = TalentEffectApplier.GetAttackBonus(null);
+        if (atkBonus != 0)
+        {
+            _runtimeDamage += atkBonus;
+        }
+
+        // 攻速加成
+        int atkSpeedPercent = TalentEffectApplier.GetAttackSpeedPercent(null);
+        if (atkSpeedPercent != 0)
+        {
+            _runtimeInterval /= (1f + atkSpeedPercent / 100f);
+        }
+
+        // 攻击范围加成
+        float rangeBonus = TalentEffectApplier.GetAttackRangeBonus(null);
+        if (rangeBonus != 0)
+        {
+            _runtimeRange += rangeBonus;
+        }
+    }
 
     private void Update()
     {
@@ -56,7 +100,7 @@ public class DefensePointShooter : MonoBehaviour
         if (!hasTarget) return;
         if (_attackTimer > 0f) return;
 
-        _attackTimer = attackInterval > 0f ? attackInterval : 0.5f;
+        _attackTimer = _runtimeInterval > 0f ? _runtimeInterval : 0.5f;
         PerformAttack(target);
     }
 
@@ -68,9 +112,9 @@ public class DefensePointShooter : MonoBehaviour
     /// </summary>
     private Transform FindTarget()
     {
-        if (attackRange <= 0f) return null;
+        if (_runtimeRange <= 0f) return null;
 
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange, enemyLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _runtimeRange, enemyLayer);
         if (hits == null || hits.Length == 0) return null;
 
         Transform guardPoint = (GridSystem.Instance != null) ? GridSystem.Instance.defensePoint : null;
@@ -168,7 +212,7 @@ public class DefensePointShooter : MonoBehaviour
             Projectile proj = bulletGO.GetComponent<Projectile>();
             if (proj != null)
             {
-                proj.Seek(target, attackDamage, ignoreDefense);
+                proj.Seek(target, _runtimeDamage, ignoreDefense);
             }
             return;
         }
@@ -179,7 +223,7 @@ public class DefensePointShooter : MonoBehaviour
 
         if (enemy != null)
         {
-            enemy.TakeDamage(attackDamage, ignoreDefense);
+            enemy.TakeDamage(_runtimeDamage, ignoreDefense);
             return;
         }
 
@@ -187,7 +231,7 @@ public class DefensePointShooter : MonoBehaviour
         if (spawner == null) spawner = target.GetComponentInParent<SpawnerHealth>();
         if (spawner != null)
         {
-            spawner.TakeDamage(attackDamage);
+            spawner.TakeDamage(_runtimeDamage);
             return;
         }
 
@@ -195,7 +239,7 @@ public class DefensePointShooter : MonoBehaviour
         OperatorUnit op = target.GetComponent<OperatorUnit>();
         if (op == null) op = target.GetComponentInParent<OperatorUnit>();
         if (op != null)
-            op.TakeDamage(attackDamage, ignoreDefense);
+            op.TakeDamage(_runtimeDamage, ignoreDefense);
     }
 
     private void OnDrawGizmosSelected()

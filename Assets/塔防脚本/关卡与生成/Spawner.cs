@@ -1,8 +1,15 @@
 using UnityEngine;
-using UnityEngine.Serialization;
+using System.Collections.Generic;
 
 public class Spawner : MonoBehaviour
 {
+    [System.Serializable]
+    public class EnemyPoolEntry
+    {
+        public EnemyType enemyType;
+        public ObjectPooler pool;
+    }
+
     [Header("Global UI")]
     public UIController ui;
 
@@ -19,19 +26,8 @@ public class Spawner : MonoBehaviour
     [Tooltip("要染的颜色（默认为紫色）")]
     public Color specialEnemyColor = new Color(0.6f, 0f, 1f, 1f);
 
-    [Header("Pools")]
-    [FormerlySerializedAs("enemypool")] public ObjectPooler enemyPool;
-    [FormerlySerializedAs("smallbosspool")] public ObjectPooler smallBossPool;
-    [FormerlySerializedAs("bigbosspool")] public ObjectPooler bigBossPool;
-    [FormerlySerializedAs("gebulinpool")] public ObjectPooler goblinPool;
-    [FormerlySerializedAs("kuloupool")] public ObjectPooler skeletonPool;
-    [FormerlySerializedAs("smallkuloupool")] public ObjectPooler smallSkeletonPool;
-    [FormerlySerializedAs("????")] public ObjectPooler darkKingPool;
-    [FormerlySerializedAs("??????")] public ObjectPooler darkKingClonePool;
-    [FormerlySerializedAs("????")] public ObjectPooler fireKingPool;
-    [FormerlySerializedAs("???")] public ObjectPooler stoneMonsterPool;
-    [FormerlySerializedAs("??")] public ObjectPooler beePool;
-    [FormerlySerializedAs("???")] public ObjectPooler wanLuDuoPool;
+    [Header("敌人池（配 EnemyType 与 ObjectPooler 一一对应）")]
+    public List<EnemyPoolEntry> enemyPools = new List<EnemyPoolEntry>();
 
     private int currentWaveIndex = 0;
     private int enemiesSpawnedInWave = 0;
@@ -49,19 +45,6 @@ public class Spawner : MonoBehaviour
     [Header("Spawner Health")]
     private SpawnerHealth healthScript;
 
-    private const int TYPE_ENEMY = 0;
-    private const int TYPE_SMALL_BOSS = 1;
-    private const int TYPE_BIG_BOSS = 2;
-    private const int TYPE_GOBLIN = 3;
-    private const int TYPE_SKELETON = 4;
-    private const int TYPE_SMALL_SKELETON = 5;
-    private const int TYPE_DARK_KING = 6;
-    private const int TYPE_DARK_KING_CLONE = 7;
-    private const int TYPE_FIRE_KING = 8;
-    private const int TYPE_STONE_MONSTER = 9;
-    private const int TYPE_BEE = 10;
-    private const int TYPE_WANLUDUO = 11;
-
     void Start()
     {
         int enemyLayer = LayerMask.NameToLayer("Enemy");
@@ -72,6 +55,32 @@ public class Spawner : MonoBehaviour
         CalculateTotals();
         UpdateAllUI();
         healthScript = GetComponent<SpawnerHealth>();
+
+        if (waves != null && waves.Length > 0)
+            spawnTimer = waves[0].delayBeforeWave;
+    }
+
+    /// <summary>
+    /// 从 LevelConfig 动态注入波次和路线数据（替代 Inspector 拖拽）。
+    /// 由 BattleSceneBootstrap / MapBuilder 在运行时调用。
+    /// </summary>
+    public void InitializeFromConfig(WaveData[] waveArray, Path[] pathArray,
+        int specialWaveIdx = 0, Color? specialColor = null)
+    {
+        waves = waveArray;
+        paths = pathArray;
+        specialWaveIndex = specialWaveIdx;
+        if (specialColor.HasValue)
+            specialEnemyColor = specialColor.Value;
+
+        // 重置状态
+        currentWaveIndex = 0;
+        enemiesSpawnedInWave = 0;
+        hasSpecialWaveColored = false;
+        totalSpawnedSoFar = 0;
+
+        CalculateTotals();
+        UpdateAllUI();
 
         if (waves != null && waves.Length > 0)
             spawnTimer = waves[0].delayBeforeWave;
@@ -89,25 +98,10 @@ public class Spawner : MonoBehaviour
     {
         WaveData currentWave = waves[currentWaveIndex];
         GameObject spawnedObject = null;
-        int requestedType = (int)currentWave.enemyType;
 
-        switch (requestedType)
-        {
-            case TYPE_ENEMY: spawnedObject = enemyPool != null ? enemyPool.GetPooledObject() : null; break;
-            case TYPE_SMALL_BOSS: spawnedObject = smallBossPool != null ? smallBossPool.GetPooledObject() : null; break;
-            case TYPE_BIG_BOSS: spawnedObject = bigBossPool != null ? bigBossPool.GetPooledObject() : null; break;
-            case TYPE_GOBLIN: spawnedObject = goblinPool != null ? goblinPool.GetPooledObject() : null; break;
-            case TYPE_SKELETON: spawnedObject = skeletonPool != null ? skeletonPool.GetPooledObject() : null; break;
-            case TYPE_SMALL_SKELETON: spawnedObject = smallSkeletonPool != null ? smallSkeletonPool.GetPooledObject() : null; break;
-            case TYPE_DARK_KING: spawnedObject = darkKingPool != null ? darkKingPool.GetPooledObject() : null; break;
-            case TYPE_DARK_KING_CLONE: spawnedObject = darkKingClonePool != null ? darkKingClonePool.GetPooledObject() : null; break;
-            case TYPE_FIRE_KING: spawnedObject = fireKingPool != null ? fireKingPool.GetPooledObject() : null; break;
-            case TYPE_STONE_MONSTER: spawnedObject = stoneMonsterPool != null ? stoneMonsterPool.GetPooledObject() : null; break;
-            case TYPE_BEE: spawnedObject = beePool != null ? beePool.GetPooledObject() : null; break;
-            case TYPE_WANLUDUO: spawnedObject = wanLuDuoPool != null ? wanLuDuoPool.GetPooledObject() : null; break;
-            default:
-                break;
-        }
+        var entry = enemyPools.Find(e => e.enemyType == currentWave.enemyType);
+        if (entry != null)
+            spawnedObject = entry.pool != null ? entry.pool.GetPooledObject() : null;
 
         if (spawnedObject == null) return;
 

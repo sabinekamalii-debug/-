@@ -19,7 +19,7 @@ MonoBehaviour:
   attackDamage: 115
   attackInterval: 3
   attackRange: 4.5
-  opType: 1
+  opType: 4
   deployRadius: 8
   unitPrefab: {fileID: 300892180398978159, guid: ac9669809c1ddc241ad2b58793254211, type: 3}
   icon: {fileID: 21300000, guid: 104b7c9a5c65c994a930917d9aaaba39, type: 3}

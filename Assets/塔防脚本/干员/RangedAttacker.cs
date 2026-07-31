@@ -65,7 +65,7 @@ public class RangedAttacker : MonoBehaviour
         if (target != null && fireCountdown <= 0f)
         {
             Shoot();
-            float actualRate = unit != null ? (1f / unit.runtimeAttackInterval) : 1f;
+            float actualRate = unit != null ? (1f / unit.EffectiveAttackInterval) : 1f;
             fireCountdown = 1f / actualRate;
         }
     }
@@ -152,9 +152,17 @@ public class RangedAttacker : MonoBehaviour
         if (bulletPrefab == null || firePoint == null) return;
         GameObject bulletGO = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
         Projectile bullet = bulletGO.GetComponent<Projectile>();
-        int damage = unit != null ? unit.runtimeAttackDamage : 1;
-        bool ignoreDefense = unit != null && unit.GetComponent<IgnoreDefenseAttacker>() != null;
-        if (bullet != null) bullet.Seek(target, damage, ignoreDefense);
+        bool ignoreDefense = false;
+        Enemy2 enemy = target != null ? target.GetComponent<Enemy2>() : null;
+        int damage = 1;
+        int penetration = 0;
+        if (unit != null)
+        {
+            var (dmg, _) = unit.CalculateDamage(enemy);
+            damage = dmg;
+            penetration = unit.GetPenetrationPercent();
+        }
+        if (bullet != null) bullet.Seek(target, damage, ignoreDefense, penetration, unit);
     }
 
     public bool HasTarget()

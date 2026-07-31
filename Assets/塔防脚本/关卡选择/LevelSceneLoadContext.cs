@@ -13,6 +13,11 @@ using UnityEngine;
 /// 进入关卡时：LevelSceneLoadContext.SetFromRetry();  
 /// 返回选关：LevelSceneLoadContext.SetFromVictory();
 /// 在选关场景（plot）检查：var context = LevelSceneLoadContext.GetAndClear();
+/// 
+/// 【新增】新架构下，进入 BattleScene 时同时传递 LevelConfig：
+/// LevelSceneLoadContext.SetLevelConfig(config);
+/// VideoSceneLoader.LoadScene("BattleScene");
+/// BattleScene 加载后通过 GetCurrentLevelConfig() 获取配置。
 /// </summary>
 public enum LevelSceneLoadType
 {
@@ -28,6 +33,57 @@ public class LevelSceneLoadContext
     public string fromScene;  // 从哪个场景来的
     
     private static LevelSceneLoadContext _instance;
+
+    // ===== 新增：关卡配置传递（新架构） =====
+    
+    /// <summary> 当前要加载的关卡配置（ScriptableObject，跨场景保持）。 </summary>
+    private static LevelConfig _currentLevelConfig;
+
+    /// <summary> 当前关卡 ID（用于进度标记、重试等）。 </summary>
+    private static int _currentLevelId;
+
+    /// <summary> 当前关卡场景名（兼容旧模式）。 </summary>
+    private static string _currentLevelSceneName;
+
+    /// <summary>
+    /// 设置即将进入的关卡配置（新架构入口）。
+    /// 调用后 BattleScene 会读取此配置来构建地图和波次。
+    /// </summary>
+    public static void SetLevelConfig(LevelConfig config, int levelId, string sceneName = null)
+    {
+        _currentLevelConfig = config;
+        _currentLevelId = levelId;
+        _currentLevelSceneName = sceneName ?? $"level{levelId}";
+        SetFromSelection();
+    }
+
+    /// <summary> 获取当前关卡配置（不清空，由 BattleSceneBootstrap 消费后调用 ClearLevelConfig）。 </summary>
+    public static LevelConfig GetCurrentLevelConfig()
+    {
+        return _currentLevelConfig;
+    }
+
+    /// <summary> 获取当前关卡 ID。 </summary>
+    public static int GetCurrentLevelId()
+    {
+        return _currentLevelId > 0 ? _currentLevelId : 0;
+    }
+
+    /// <summary> 获取当前关卡场景名。 </summary>
+    public static string GetCurrentLevelSceneName()
+    {
+        return _currentLevelSceneName;
+    }
+
+    /// <summary> 清空关卡配置（BattleScene 初始化完成后调用）。 </summary>
+    public static void ClearLevelConfig()
+    {
+        _currentLevelConfig = null;
+        _currentLevelId = 0;
+        _currentLevelSceneName = null;
+    }
+
+    // ===== 原有方法（保持兼容） =====
 
     /// <summary> 设置为"从选关界面进入"的上下文。 </summary>
     public static void SetFromSelection()

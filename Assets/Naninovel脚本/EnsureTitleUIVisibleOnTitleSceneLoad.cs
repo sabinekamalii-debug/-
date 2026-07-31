@@ -11,6 +11,14 @@ public class EnsureTitleUIVisibleOnTitleSceneLoad : MonoBehaviour
 
     static EnsureTitleUIVisibleOnTitleSceneLoad _bootstrap;
 
+    // Domain Reload 禁用时，每次 Enter Play Mode 手动重置，
+    // 避免 _bootstrap 指向已销毁的 DontDestroyOnLoad 对象导致 Bootstrap() 直接 return。
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    static void ResetStaticStateOnPlaymodeEnter()
+    {
+        _bootstrap = null;
+    }
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     static void Bootstrap()
     {
@@ -40,8 +48,10 @@ public class EnsureTitleUIVisibleOnTitleSceneLoad : MonoBehaviour
     IEnumerator EnsureTitleUIVisibleRoutine()
     {
         if (NaninovelReturnRequest.HasRequest) yield break;
+        if (NaninovelReturnRequest.IsPlayingReturnScript) yield break;
         yield return new WaitForSecondsRealtime(firstTryDelay);
         if (NaninovelReturnRequest.HasRequest) yield break;
+        if (NaninovelReturnRequest.IsPlayingReturnScript) yield break;
 
         TryShowTitleUI();
         ForceShowTitleUIGameObject();

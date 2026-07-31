@@ -6,13 +6,17 @@ public class Projectile : MonoBehaviour
     public float speed = 20f;
     private int damage;
     private bool ignoreDefense;
+    private int penetrationPercent;
+    private OperatorUnit attacker;
     private bool hasHit = false;
 
-    public void Seek(Transform _target, int _damage, bool _ignoreDefense = false)
+    public void Seek(Transform _target, int _damage, bool _ignoreDefense = false, int _penetrationPercent = 0, OperatorUnit _attacker = null)
     {
         target = _target;
         damage = _damage;
         ignoreDefense = _ignoreDefense;
+        penetrationPercent = _penetrationPercent;
+        attacker = _attacker;
     }
 
     void Update()
@@ -73,14 +77,16 @@ public class Projectile : MonoBehaviour
         OperatorUnit op = target.GetComponent<OperatorUnit>();
         if (op == null) op = target.GetComponentInParent<OperatorUnit>();
 
-        // 4. ??????
+        // 4. 造成伤害
         if (enemy != null)
         {
-            enemy.TakeDamage(damage, ignoreDefense);
+            enemy.TakeDamage(damage, ignoreDefense, penetrationPercent);
+            if (attacker != null) attacker.OnDamageDealt(damage);
         }
         else if (spawner != null)
         {
             spawner.TakeDamage(damage);
+            if (attacker != null) attacker.OnDamageDealt(damage);
         }
         else if (op != null)
         {

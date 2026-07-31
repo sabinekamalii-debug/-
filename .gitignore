@@ -31,6 +31,10 @@
 *.opendb
 *.VC.db
 
+# 团结引擎自动生成的 .scene 副本（正式文件是 .unity）
+*.scene
+*.scene.meta
+
 # OS 生成文件
 .DS_Store
 Thumbs.db
@@ -55,17 +59,20 @@ ignore.conf
 [Rr]ecordings/
 crashlytics-build.properties
 
-# 大文件目录（二进制资源，不纳入 Git，减小仓库体积）
-Assets/Backgrounds/
+# 大文件目录（二进制资源）
+# 注意：以下目录原被整体忽略，导致图片 .meta 未入版本库，换机器/切分支引用会 Missing。
+# 2026-08-01 起取消忽略，统一纳入 Git（方案1：直接进 Git）。
+# 如改用 LFS，请在此处恢复忽略并改 .gitattributes 走 LFS。
 Assets/暂时用不到/
-Assets/杂和卡/
-Assets/Fonts/
-Assets/animation/
-Assets/Characters2/
 Assets/video/
-Assets/buything/
 Assets/视频/
 Assets/Screenshots/
+# Assets/Backgrounds/
+# Assets/杂和卡/
+# Assets/Fonts/
+# Assets/animation/
+# Assets/Characters2/
+# Assets/buything/
 
 # 大文件类型（任何位置的超大二进制文件）
 *.ttf
@@ -74,6 +81,10 @@ Assets/Screenshots/
 *.mp3
 *.wav
 *.ogg
+
+# TMP SDF 字体图集（可达100MB+，可从 .ttf 重新生成）
+Assets/Fonts/*SDF*.asset
+Assets/Fonts/*SDF*.asset.meta
 
 # 备份
 sysinfo.txt

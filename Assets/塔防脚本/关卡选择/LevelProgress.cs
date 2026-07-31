@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 /// <summary>
 /// 关卡进度：记录已通关关卡，用于地图上解锁下一关。
@@ -8,10 +11,23 @@ using UnityEngine;
 public static class LevelProgress
 {
     const string PrefsKey = "LevelSelect_Completed";
+    const string PrefsKeyLastEntered = "LevelSelect_LastEntered";
+#if UNITY_EDITOR
+    const string EditorPrefsKeyTestUnlock = "LevelProgress.TestUnlockAll";
+#endif
 
     static string[] _levelOrder;
     static HashSet<string> _completed;
     static LevelConnectionConfig _connectionConfig;
+
+    // Domain Reload 禁用时，每次 Enter Play Mode 清空缓存。
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    static void ResetStaticStateOnPlaymodeEnter()
+    {
+        _levelOrder = null;
+        _completed = null;
+        _connectionConfig = null;
+    }
 
     /// <summary> 由 LevelMapController 在 Awake 时设置连线配置。 </summary>
     public static void SetConnectionConfig(LevelConnectionConfig config)
@@ -35,10 +51,10 @@ public static class LevelProgress
     /// <summary> 由 LevelMapController 在 Awake 时设置关卡顺序。 </summary>
     public static void SetLevelOrder(string[] orderedSceneNames)
     {
-        if (orderedSceneNames == null || orderedSceneNames.Length == 0) 
-        { 
-            _levelOrder = null; 
-            return; 
+        if (orderedSceneNames == null || orderedSceneNames.Length == 0)
+        {
+            _levelOrder = null;
+            return;
         }
         _levelOrder = new string[orderedSceneNames.Length];
         for (int i = 0; i < orderedSceneNames.Length; i++)
@@ -64,56 +80,99 @@ public static class LevelProgress
 
     /// <summary>
     /// 该关卡是否已解锁（可点击进入）。
-    /// 规则：第一关始终解锁；有连线配置时按连线解锁，否则线性解锁。
+    /// 正式流程：按顺序解锁或按连线配置解锁；测试阶段可一键开放全部关卡。
     /// </summary>
     public static bool IsUnlocked(string sceneName)
     {
-        if (string.IsNullOrEmpty(sceneName)) return true;
+        if (string.IsNullOrEmpty(sceneName)) return false;
+
+        if (ShouldUnlockAllForTesting())
+            return true;
+
         string key = NormalizeSceneName(sceneName);
-        if (string.IsNullOrEmpty(key)) return true;
+        if (string.IsNullOrEmpty(key)) return false;
 
-        var completed = GetCompletedSet();
+        if (IsCompleted(key)) return true;
 
-        if (_levelOrder == null || _levelOrder.Length == 0) return false;
+        // 第一关默认开放。
+        if (IsFirstLevel(key)) return true;
 
-        int levelIndex = -1;
-        for (int i = 0; i < _levelOrder.Length; i++)
-        {
-            if (_levelOrder[i] == key) { levelIndex = i; break; }
-        }
-        if (levelIndex == -1) return false;
-
-        // 第一关始终解锁
-        if (levelIndex == 0) return true;
-
-        // 有连线配置：检查是否有任何已通关的来源关卡连接到本关
+        // 先看是否存在显式连线配置；有则按前置关卡完成解锁。
         if (_connectionConfig != null)
         {
-            int levelNum = levelIndex + 1;
-            if (!_connectionConfig.HasAnyConnectionTo(levelNum))
+            int levelNumber = ParseLevelNumber(key);
+            if (levelNumber > 0)
             {
-                return completed.Contains(_levelOrder[levelIndex - 1]);
-            }
-
-            var sources = _connectionConfig.GetConnectionsTo(levelNum);
-            foreach (var src in sources)
-            {
-                if (src >= 1 && src <= _levelOrder.Length)
+                foreach (var conn in _connectionConfig.connections)
                 {
-                    if (completed.Contains(_levelOrder[src - 1]))
-                        return true;
+                    if (conn.to != levelNumber) continue;
+                    string prerequisiteKey = NormalizeSceneName($"level {conn.from}");
+                    if (IsCompleted(prerequisiteKey)) return true;
                 }
             }
-            return false;
         }
 
-        // 无连线配置：线性解锁
-        return completed.Contains(_levelOrder[levelIndex - 1]);
+        // 没有连线配置时，按顺序解锁：前一关通关即可解锁当前关。
+        if (_levelOrder != null && _levelOrder.Length > 0)
+        {
+            int index = GetLevelIndex(key);
+            if (index > 0)
+                return IsCompleted(_levelOrder[index - 1]);
+        }
+
+        return false;
     }
 
     /// <summary> 玩家点击进入某关时调用。 </summary>
     public static void OnEnterLevel(string sceneName)
     {
+        if (string.IsNullOrEmpty(sceneName)) return;
+        string key = NormalizeSceneName(sceneName);
+        if (string.IsNullOrEmpty(key)) return;
+
+        PlayerPrefs.SetString(PrefsKeyLastEntered, key);
+        PrefsSaver.Save();
+    }
+
+#if UNITY_EDITOR
+    public static bool IsTestUnlockEnabled()
+    {
+        return EditorPrefs.GetBool(EditorPrefsKeyTestUnlock, true);
+    }
+
+    public static void SetTestUnlockEnabled(bool enabled)
+    {
+        EditorPrefs.SetBool(EditorPrefsKeyTestUnlock, enabled);
+    }
+#else
+    public static bool IsTestUnlockEnabled() => false;
+
+    public static void SetTestUnlockEnabled(bool enabled) { }
+#endif
+
+    public static void UnlockAllForTesting()
+    {
+        _completed = new HashSet<string>();
+        if (_levelOrder != null && _levelOrder.Length > 0)
+        {
+            foreach (var level in _levelOrder)
+                if (!string.IsNullOrEmpty(level)) _completed.Add(level);
+        }
+        else
+        {
+            for (int i = 1; i <= 16; i++)
+                _completed.Add(NormalizeSceneName($"level {i}"));
+        }
+        Save(_completed);
+    }
+
+    static bool ShouldUnlockAllForTesting()
+    {
+#if UNITY_EDITOR
+        return EditorPrefs.GetBool(EditorPrefsKeyTestUnlock, true);
+#else
+        return false;
+#endif
     }
 
     static HashSet<string> GetCompletedSet()
@@ -134,7 +193,7 @@ public static class LevelProgress
     {
         _completed = set;
         PlayerPrefs.SetString(PrefsKey, string.Join(",", set));
-        PlayerPrefs.Save();
+        PrefsSaver.Save();
     }
 
     /// <summary> 清空通关记录。 </summary>
@@ -142,7 +201,8 @@ public static class LevelProgress
     {
         _completed = new HashSet<string>();
         PlayerPrefs.DeleteKey(PrefsKey);
-        PlayerPrefs.Save();
+        PlayerPrefs.DeleteKey(PrefsKeyLastEntered);
+        PrefsSaver.Save();
     }
 
     /// <summary> 当前设定的关卡顺序。 </summary>
@@ -150,5 +210,36 @@ public static class LevelProgress
     {
         if (_levelOrder == null || _levelOrder.Length == 0) return null;
         return (string[])_levelOrder.Clone();
+    }
+
+    static bool IsFirstLevel(string key)
+    {
+        if (string.IsNullOrEmpty(key)) return false;
+        if (_levelOrder != null && _levelOrder.Length > 0)
+            return key == _levelOrder[0];
+        return key == NormalizeSceneName("level 1");
+    }
+
+    static int GetLevelIndex(string key)
+    {
+        if (_levelOrder == null || _levelOrder.Length == 0) return -1;
+        for (int i = 0; i < _levelOrder.Length; i++)
+        {
+            if (_levelOrder[i] == key) return i;
+        }
+        return -1;
+    }
+
+    static int ParseLevelNumber(string sceneName)
+    {
+        if (string.IsNullOrEmpty(sceneName)) return 0;
+        string key = NormalizeSceneName(sceneName);
+        if (string.IsNullOrEmpty(key) || !key.StartsWith("level")) return 0;
+
+        int start = "level".Length;
+        int end = start;
+        while (end < key.Length && char.IsDigit(key[end])) end++;
+        if (end <= start) return 0;
+        return int.Parse(key.Substring(start, end - start));
     }
 }

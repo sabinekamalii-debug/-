@@ -4,8 +4,8 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class OpenStoryCardCollectionFromTitle : MonoBehaviour
 {
-    public string collectionSceneName = "StoryCardCollection";
-    public string titleSceneName = "Title";
+    public string collectionSceneName = SceneNames.StoryCardCollection;
+    public string titleSceneName = SceneNames.Title;
 
     void Awake()
     {

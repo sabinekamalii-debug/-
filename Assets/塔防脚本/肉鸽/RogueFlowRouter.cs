@@ -9,20 +9,32 @@ using UnityEngine.SceneManagement;
 public class RogueFlowRouter : MonoBehaviour
 {
     [Header("固定场景名（需与 Build Settings 一致）")]
-    [SerializeField] private string entryScene = "RogueEntry";
-    [SerializeField] private string battleScene = "plot";
-    [SerializeField] private string resultScene = "RogueResult";
-    [SerializeField] private string collectionScene = "StoryCardCollection";
+    [SerializeField] private string entryScene = SceneNames.RogueEntry;
+    [SerializeField] private string battleScene = SceneNames.Plot;
+    [SerializeField] private string resultScene = SceneNames.RogueResult;
+    [SerializeField] private string collectionScene = SceneNames.StoryCardCollection;
 
     [Header("调试")]
     [SerializeField] private bool strictCheckCurrentScene = true;
-    [SerializeField] private bool verboseLog = true;
 
     /// <summary> 进入收藏页前记录当前场景，返回时回到该场景（从哪进回哪）。 </summary>
     private static string _returnSceneFromCollection;
 
     /// <summary> 从剧情碎片返回关卡时，目标关卡加载后应直接弹出结束菜单（不重打）。读取后清除。 </summary>
     private static string _showEndMenuWhenLevelLoads;
+
+    /// <summary>
+    /// 每次进入 Play 模式时重置静态路由状态。
+    /// 避免编辑器反复测试时，上一次运行残留的 _showEndMenuWhenLevelLoads / _returnSceneFromCollection
+    /// 被下一轮直接打开 BattleScene 误读，导致“一开战就弹出结束菜单”。
+    /// （正常游戏流程中，收藏→返回的设置与使用都在同一次运行内，不受此重置影响。）
+    /// </summary>
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    static void ResetStaticState()
+    {
+        _returnSceneFromCollection = null;
+        _showEndMenuWhenLevelLoads = null;
+    }
 
     /// <summary> 从关卡等非入口场景打开剧情碎片页时调用，记录当前场景以便返回。 </summary>
     public static void SetReturnSceneBeforeOpeningCollection(string sceneName)

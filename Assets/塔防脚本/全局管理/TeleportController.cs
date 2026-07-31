@@ -347,7 +347,7 @@ public class TeleportController : MonoBehaviour
         if (hasWall) return false;
         if (data.canStandOnGroundAndHighGround)
             return (hasGround && !hasWall) || hasHigh;
-        if (data.opType == OperatorType.Ranged)
+        if (OperatorData.OperatorTypeHelper.IsRanged(data.opType))
             return hasHigh;
         return hasGround && !hasWall;
     }

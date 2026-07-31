@@ -1,0 +1,46 @@
+=== Debug Log 启动 08:21:47.381 ===
+[08:21:47.382] DebugLogger 初始化成功
+[08:21:47.383] [LevelNodeButton] Awake: 按钮16
+[08:21:47.384] [LevelNodeButton] Awake: 按钮13
+[08:21:47.384] [LevelNodeButton] Awake: 按钮9
+[08:21:47.386] [LevelNodeButton] Awake: 按钮1
+[08:21:47.386] [LevelNodeButton] Awake: 按钮5
+[08:21:47.386] [LevelNodeButton] Awake: 按钮3
+[08:21:47.387] [LevelNodeButton] Awake: 按钮8
+[08:21:47.387] [LevelNodeButton] Awake: 按钮7
+[08:21:47.387] [LevelNodeButton] Awake: 按钮11
+[08:21:47.387] [LevelNodeButton] Awake: 按钮2
+[08:21:47.388] [LevelNodeButton] Awake: 按钮12
+[08:21:47.406] [LevelNodeButton] Awake: 按钮14
+[08:21:47.407] [LevelNodeButton] Awake: 按钮6
+[08:21:47.408] [LevelNodeButton] Awake: 按钮15
+[08:21:47.408] [LevelNodeButton] Awake: 按钮10
+[08:21:47.438] [LevelNodeButton] Awake: 按钮4
+[08:21:50.257] [GameManager] Awake
+[08:21:50.668] [LevelNodeButton] WaitForDialogueThenShowDrop 协程启动
+[08:21:50.669] [LevelNodeButton] Naninovel<Runtime> 未找到
+[08:21:50.669] [LevelNodeButton] 新手教程已开始, IsTutorialActive=True, 等待了0秒
+[08:21:52.365] [LevelNodeButton] 新手教程已结束, IsTutorialActive=False
+[08:21:52.566] [LevelNodeButton] 加载 RogueResult 抽卡场景，暂停游戏
+[08:21:55.733] [LevelNodeButton] Awake: 按钮16
+[08:21:55.735] [LevelNodeButton] Awake: 按钮13
+[08:21:55.735] [LevelNodeButton] Awake: 按钮9
+[08:21:55.735] [LevelNodeButton] Awake: 按钮1
+[08:21:55.735] [LevelNodeButton] Awake: 按钮5
+[08:21:55.735] [LevelNodeButton] Awake: 按钮3
+[08:21:55.736] [LevelNodeButton] Awake: 按钮8
+[08:21:55.736] [LevelNodeButton] Awake: 按钮7
+[08:21:55.736] [LevelNodeButton] Awake: 按钮11
+[08:21:55.736] [LevelNodeButton] Awake: 按钮2
+[08:21:55.737] [LevelNodeButton] Awake: 按钮12
+[08:21:55.737] [LevelNodeButton] Awake: 按钮14
+[08:21:55.738] [LevelNodeButton] Awake: 按钮6
+[08:21:55.738] [LevelNodeButton] Awake: 按钮15
+[08:21:55.738] [LevelNodeButton] Awake: 按钮10
+[08:21:55.769] [LevelNodeButton] Awake: 按钮4
+[08:21:57.438] [GameManager] Awake
+[08:21:57.798] [LevelNodeButton] WaitForDialogueThenShowDrop 协程启动
+[08:21:57.798] [LevelNodeButton] Naninovel<Runtime> 未找到
+[08:21:57.798] [LevelNodeButton] 新手教程已开始, IsTutorialActive=True, 等待了0秒
+[08:21:59.138] [LevelNodeButton] 新手教程已结束, IsTutorialActive=False
+[08:21:59.339] [LevelNodeButton] 加载 RogueResult 抽卡场景，暂停游戏

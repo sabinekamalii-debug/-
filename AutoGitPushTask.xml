@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2012/04/tasks">
+  <RegistrationInfo>
+    <Date>2026-07-04</Date>
+    <Author>SYSTEM</Author>
+    <Version>1.0</Version>
+    <Description>每12小时自动提交推送 Unity 项目到 GitHub（后台运行，不显示窗口）</Description>
+  </RegistrationInfo>
+  <Triggers>
+    <TimeTrigger>
+      <StartBoundary>2026-07-04T12:00:00</StartBoundary>
+      <Repetition>
+        <Interval>PT12H</Interval>
+        <StopAtDuration>PT24H</StopAtDuration>
+      </Repetition>
+      <ExecutionTimeLimit>PT2H</ExecutionTimeLimit>
+    </TimeTrigger>
+    <EventTrigger>
+      <Enabled>true</Enabled>
+      <LogonType>InteractiveToken</LogonType>
+    </EventTrigger>
+  </Triggers>
+  <Principals>
+    <Principal id="SYSTEM">
+      <UserId>*</UserId>
+      <RunLevel>HighestAvailable</RunLevel>
+      <LogonType>InteractiveToken</LogonType>
+    </Principal>
+  </Principals>
+  <Settings>
+    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
+    <DisallowStartIfOnBatteries>true</DisallowStartIfOnBatteries>
+    <StopIfGoingOnBatteries>true</StopIfGoingOnBatteries>
+    <StartWhenAvailable>true</StartWhenAvailable>
+  </Settings>
+  <Actions Context="Author">
+    <Exec>
+      <Command>powershell.exe</Command>
+      <Arguments>-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "D:\unity\mowang\auto-git-push.ps1"</Arguments>
+      <WorkingDirectory>D:\unity\mowang</WorkingDirectory>
+    </Exec>
+  </Actions>
+</Task>

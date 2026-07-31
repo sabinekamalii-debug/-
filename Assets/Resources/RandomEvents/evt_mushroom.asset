@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b2c3d4e5f60718293a4b5c6d7e8f90, type: 3}
+  m_Name: evt_mushroom
+  m_EditorClassIdentifier: 
+  eventId: evt_mushroom
+  title: "\u5996\u7CBE\u8611\u83C7\u5708"
+  description: "\u8349\u5730\u4E0A\u957F\u7740\u4E00\u5708\u8272\u5F69\u9C9C\u8273\u7684\u8611\u83C7\u3002\u5C0F\u5C0F\u7684\u5996\u7CBE\u5728\u8611\u83C7\u95F4\u98DE\u821E\uFF0C\u5B83\u4EEC\u4F3C\u4E4E\u60F3\u548C\u4F60\u505A\u4E2A\u4EA4\u6613\u3002"
+  backgroundImage: {fileID: 0}
+  options:
+  - buttonText: "\u63A5\u53D7\u5996\u7CBE\u7684\u793C\u7269"
+    previewText: "\u514D\u8D39\u91CD\u62BD+20\u91D1\u5E01\uFF0C\u4F46\u4E0B\u573A\u654C\u4EBA+15%\u3002"
+    resultText: "\u5996\u7CBE\u4EEC\u6B22\u5FEB\u5730\u7ED5\u7740\u4F60\u98DE\u821E\u3002\u4F46\u5B83\u4EEC\u4E5F\u5524\u9192\u4E86\u6C89\u7761\u7684\u91CE\u517D\u2026\u2026"
+    outcomes:
+    - outcomeType: 15
+      value: 1
+      stringParam: 
+      successChance: 1
+      failureOutcome: 0
+      failureValue: 0
+    - outcomeType: 1
+      value: 20
+      stringParam: 
+      successChance: 1
+      failureOutcome: 0
+      failureValue: 0
+    - outcomeType: 12
+      value: 15
+      stringParam: 
+      successChance: 1
+      failureOutcome: 0
+      failureValue: 0
+    goldCost: 0
+    requiredCardId: 
+    requiredGuardianHp: 0
+    naniScriptName: 
+    naniLabel: 
+  - buttonText: "\u8E29\u70C2\u8611\u83C7"
+    previewText: "\u83B7\u5F97 20 \u91D1\u5E01\u3002"
+    resultText: "\u4F60\u4E00\u811A\u8E29\u70C2\u4E86\u8611\u83C7\u5708\u3002\u5996\u7CBE\u4EEC\u5C16\u53EB\u7740\u56DB\u6563\u800C\u9003\uFF0C\u7559\u4E0B\u4E86\u5B83\u4EEC\u6536\u96C6\u7684\u91D1\u5E01\u3002"
+    outcomes:
+    - outcomeType: 1
+      value: 20
+      stringParam: 
+      successChance: 1
+      failureOutcome: 0
+      failureValue: 0
+    goldCost: 0
+    requiredCardId: 
+    requiredGuardianHp: 0
+    naniScriptName: 
+    naniLabel: 
+  - buttonText: "\u548C\u5996\u7CBE\u8C08\u5224"
+    previewText: "\u82B1\u8D3915\u91D1\u5E01\uFF0C\u4E0B\u573A\u6218\u6597\u91D1\u5E01+50%\u3002"
+    resultText: "\u4F60\u8E72\u4E0B\u6765\u548C\u5996\u7CBE\u9996\u9886\u8C08\u5224\u3002\"\u6210\u4EA4\uFF01\"\u5B83\u7528\u5C16\u7EC6\u7684\u58F0\u97F3\u8BF4\u3002"
+    outcomes:
+    - outcomeType: 14
+      value: 50
+      stringParam: 
+      successChance: 1
+      failureOutcome: 0
+      failureValue: 0
+    goldCost: 15
+    requiredCardId: 
+    requiredGuardianHp: 0
+    naniScriptName: 
+    naniLabel: 
+  minStage: 1
+  maxStage: 8
+  weight: 5
+  oneShot: 0
+  repeatable: 1
+  playNaniOnEnter: 0
+  naniEntryScriptName: 
+  naniEntryLabel: 

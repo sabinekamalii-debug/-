@@ -1,4 +1,4 @@
-﻿%YAML 1.1
+%YAML 1.1
 %TAG !u! tag:yousandi.cn,2023:
 --- !u!1 &1006949445794044
 GameObject:
@@ -969,7 +969,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entrySceneName: RogueEntry
-  plotSceneName: plot
 --- !u!1 &1592858419531552
 GameObject:
   m_ObjectHideFlags: 0
@@ -3121,7 +3120,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entrySceneName: RogueEntry
-  plotSceneName: StoryCardCollection
 --- !u!114 &3127271419173441245
 MonoBehaviour:
   m_ObjectHideFlags: 0

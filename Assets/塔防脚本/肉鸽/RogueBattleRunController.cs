@@ -11,6 +11,10 @@ public class RogueBattleRunController : MonoBehaviour
     [SerializeField] private int guardianMaxHp = 10;
     [SerializeField] private int guardianCurrentHp = 10;
 
+    [Header("战斗类型")]
+    [Tooltip("普通 / 精英 / Boss，影响结算奖励")]
+    [SerializeField] private BattleType battleType = BattleType.Normal;
+
     [Header("押注（占位）")]
     [SerializeField] private bool betPlaced;
 
@@ -31,10 +35,18 @@ public class RogueBattleRunController : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("[RogueBattleRun] Start");
         if (!RogueRuntimeState.HasActiveRun)
             RogueRuntimeState.StartRunIfNeeded();
 
-        guardianCurrentHp = guardianMaxHp;
+        guardianMaxHp += TalentEffectApplier.GetGuardianHpBonus();
+
+        // 跨场血量：从 RogueRuntimeState 继承；首战（GuardianMaxHp==0）则满血
+        if (RogueRuntimeState.GuardianMaxHp > 0)
+            guardianCurrentHp = Mathf.Clamp(RogueRuntimeState.GuardianCurrentHp, 1, guardianMaxHp);
+        else
+            guardianCurrentHp = guardianMaxHp;
+
         _noHit = true;
         _finished = false;
     }
@@ -59,18 +71,39 @@ public class RogueBattleRunController : MonoBehaviour
         if (_finished) return;
         _finished = true;
 
+        RogueRuntimeState.ClearBattleOnlyEffects();
+
+        // 从 GameManager 读取本场真实血量（而非本控制器的影子数值），修复无伤/满血评级
+        int realGuardianHp = 0;
+        int realGuardianMaxHp = guardianMaxHp; // fallback
+        if (GameManager.Instance != null)
+        {
+            realGuardianHp    = GameManager.Instance.playerHealth;
+            realGuardianMaxHp = GameManager.Instance.maxPlayerHealth;
+        }
+
+        // 写回跨场血量：spc_repair 在此时生效（战后回满，对下一场可见）
+        if (isWin && RogueRuntimeState.RepairAfterBattle)
+            realGuardianHp = realGuardianMaxHp;
+        RogueRuntimeState.SetGuardianHp(realGuardianHp, realGuardianMaxHp);
+
         int stage = Mathf.Max(1, RogueRuntimeState.CurrentStage);
         bool firstClear = isWin && PlayerPrefs.GetInt($"Rogue.StageClear.{stage}", 0) == 0;
         if (firstClear) PlayerPrefs.SetInt($"Rogue.StageClear.{stage}", 1);
+
+        bool usedEmergency = GameManager.Instance != null && GameManager.Instance.IsEmergencyProtocolUsed();
 
         var result = new RogueBattleResult
         {
             stage = stage,
             isWin = isWin,
             noHit = isWin && _noHit,
-            guardianHpEnd = Mathf.Max(0, guardianCurrentHp),
+            guardianHpEnd = Mathf.Max(0, realGuardianHp),
+            guardianHpMax = realGuardianMaxHp,
             firstClear = firstClear,
-            betPlaced = betPlaced
+            betPlaced = betPlaced,
+            battleType = battleType,
+            usedEmergencyProtocol = usedEmergency
         };
 
         RogueRuntimeState.PublishBattleResult(result);

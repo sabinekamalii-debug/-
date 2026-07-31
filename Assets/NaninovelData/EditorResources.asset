@@ -146,54 +146,735 @@ MonoBehaviour:
       guid: 735d6aa767879aa469134858c5b2f0a7
   - Id: Scripts
     Resources:
-    - name: "\u6B7B\u4EA1 1"
+    - name: "\u5947\u9047\u6D4B\u8BD5 1"
       pathPrefix: Scripts
-      guid: d35c22696a1406a458461b66e397d9c9
-    - name: "\u9B54\u738B 1"
+      guid: f67de5ddeeb3abf478d2bcad78700bc1
+    - name: "\u5947\u9047_merchant"
       pathPrefix: Scripts
-      guid: c71ed60448cf3a04da135d64270bd794
-    - name: "\u9B54\u738B 4"
+      guid: 983660edaf604377b850185bf453a66a
+    - name: "\u5947\u9047_gamble"
       pathPrefix: Scripts
-      guid: 894d1a3458aaaaf43be8b825e8916063
+      guid: c8a7d22dcf7d437ba420389fe0841653
+    - name: "\u5947\u9047_spring"
+      pathPrefix: Scripts
+      guid: e0680b173333413eb9148a1d1bbf8de1
+    - name: "\u5947\u9047_scroll"
+      pathPrefix: Scripts
+      guid: 69bf824be9f04679b019ee32a1aaa6c2
+    - name: "\u5947\u9047_chest"
+      pathPrefix: Scripts
+      guid: 778a4602bb40405482bf0cfbd9d69fe5
+    - name: "\u5947\u9047_well"
+      pathPrefix: Scripts
+      guid: 66e91748b9db420c97314d38f188e1ae
+    - name: "\u5947\u9047_relic"
+      pathPrefix: Scripts
+      guid: bbb0a7192ae045a2ada57c8ed5ce7dd9
+    - name: "\u5947\u9047_mine"
+      pathPrefix: Scripts
+      guid: d3d9e4d363184df6a7fc232cf448677a
+    - name: "\u5947\u9047_altar"
+      pathPrefix: Scripts
+      guid: a39be92f202941bb8006ac86b0a07eb4
+    - name: "\u5947\u9047_medic"
+      pathPrefix: Scripts
+      guid: c8a5210973cf4551b57743a9b96c5bc3
+    - name: "\u5947\u9047_beast"
+      pathPrefix: Scripts
+      guid: 07b9e1c5017e4eed88039020fd4d0905
+    - name: "\u5947\u9047_rift"
+      pathPrefix: Scripts
+      guid: a101abfd90ce4f6faa4d3ed8e94cf417
+    - name: "\u5947\u9047_mushroom"
+      pathPrefix: Scripts
+      guid: 97546d04e1e44a33a3df59b7c0a23069
+    - name: "\u5947\u9047_loom"
+      pathPrefix: Scripts
+      guid: 3bcd3cab359e4e9cbf9d2633ba34effe
+    - name: "\u5947\u9047_soulgamble"
+      pathPrefix: Scripts
+      guid: 4fb9adf9bae8468a9a68873330ac11f2
+    - name: "\u5947\u9047_veteran"
+      pathPrefix: Scripts
+      guid: 33a0d0234f0b4b6a92bc5c4a1599793a
+    - name: "\u5947\u9047_pacifist"
+      pathPrefix: Scripts
+      guid: 6c765f30f2754e44a4e8dde081dfdf8a
+    - name: "\u5947\u9047_temple"
+      pathPrefix: Scripts
+      guid: 9b656fe5980b42fea965d24b909cc443
+    - name: "\u5947\u9047_ghostfleet"
+      pathPrefix: Scripts
+      guid: f5c0cc5212dc478693bef67f5f3cdf53
+    - name: "\u5947\u9047_hermit"
+      pathPrefix: Scripts
+      guid: 85d3e18c545242b5a2fe2cac91a4cfb9
+    - name: "Resources/Naninovel/Scripts/\u9B54\u738B 1"
+      pathPrefix: Scripts
+      guid: 2adc53e2fef78404baa0adc45e2bfb69
+    - name: Resources/Naninovel/Scripts/MoWangXian
+      pathPrefix: Scripts
+      guid: d60387914d9940f4d9c4d324cb6eee1d
+    - name: Resources/Naninovel/Scripts/plot4
+      pathPrefix: Scripts
+      guid: 13f24424ee9a05544a2542c4b7d6cdc7
+    - name: Resources/Naninovel/Scripts/plot3
+      pathPrefix: Scripts
+      guid: 63e92a302c3a2844091a88c9f8207eb7
+    - name: Resources/Naninovel/Scripts/plot2
+      pathPrefix: Scripts
+      guid: 7c769d72226179f48a35d24c2b95f20d
+    - name: "Resources/Naninovel/Scripts/\u9B54\u738B 5"
+      pathPrefix: Scripts
+      guid: 53d2ecc154e6b3a419a6b5262ea37e0c
+    - name: "Resources/Naninovel/Scripts/\u9B54\u738B 8"
+      pathPrefix: Scripts
+      guid: d88de281eea9d334082b827a2108ac18
+    - name: "Resources/Naninovel/Scripts/\u5947\u9047\u6D4B\u8BD5 1"
+      pathPrefix: Scripts
+      guid: a050010b1d486a44ea6ebd55f55596d8
+    - name: "Resources/Naninovel/Scripts/\u6B7B\u4EA1 1"
+      pathPrefix: Scripts
+      guid: 6534859a17772fc45920e9d9a6a4a44f
+    - name: Resources/Naninovel/Scripts/Entry
+      pathPrefix: Scripts
+      guid: f88137f932f52c54bbd374765148c2e4
+    - name: Resources/Naninovel/Scripts/Title
+      pathPrefix: Scripts
+      guid: ab531b83a82c7874aa92b5aebaddd5f1
+    - name: Resources/Naninovel/Scripts/plot1
+      pathPrefix: Scripts
+      guid: b91d7b81496aa134cb48b71658482959
+    - name: Resources/Naninovel/Scripts/plot5
+      pathPrefix: Scripts
+      guid: fc0ce42e2b2878a4aa001ab63f98704a
+    - name: "Resources/Naninovel/Scripts/\u9B54\u738B 4"
+      pathPrefix: Scripts
+      guid: d90ec469283cdff41ab01295f1e20acd
+    - name: "Resources/Naninovel/Scripts/\u9B54\u738B 6"
+      pathPrefix: Scripts
+      guid: ab6dd03282126534d8aa36b2827c4f6a
+    - name: "Resources/Naninovel/Scripts/\u9B54\u738B 7"
+      pathPrefix: Scripts
+      guid: 99e39eb0536476c4684ea06c501e5215
+    - name: "Resources/Naninovel/Scripts/\u9B54\u738B 3"
+      pathPrefix: Scripts
+      guid: ab2b1abe4c629c646b253444756ddc31
+    - name: "Resources/Naninovel/Scripts/\u9B54\u738B 2"
+      pathPrefix: Scripts
+      guid: 19002e40794b48e4aa76df98090cf6cf
     - name: Entry
       pathPrefix: Scripts
       guid: 2a7a46a0bd7f430a95edd54be4381b51
-    - name: "\u9B54\u738B 3"
+    - name: MoWangXian
       pathPrefix: Scripts
-      guid: 91044cb99451c7249a7583b215dd41e4
-    - name: "\u9B54\u738B 6"
+      guid: 5fe77762f5991cf4f8fba85d064690b9
+    - name: plot1
       pathPrefix: Scripts
-      guid: c058d0a6e071c194cba5290e6f372770
+      guid: aee36a8b1df05bb45aa4a6d992adb2f4
+    - name: plot2
+      pathPrefix: Scripts
+      guid: 38113a5e51ca7a3438abecace409bff5
     - name: plot3
       pathPrefix: Scripts
       guid: b884e01923869c74fa0d3413f654e45d
     - name: plot4
       pathPrefix: Scripts
       guid: ef235ad824a02d6408cc3c74f113c25d
-    - name: "\u9B54\u738B 5"
-      pathPrefix: Scripts
-      guid: d309904ca957f234d913197115db1f98
-    - name: Title
-      pathPrefix: Scripts
-      guid: d04848c6a0e6caf41b144b9dd305936e
-    - name: plot1
-      pathPrefix: Scripts
-      guid: aee36a8b1df05bb45aa4a6d992adb2f4
     - name: plot5
       pathPrefix: Scripts
       guid: 8def85b9d9ace33459cfaada650eb630
-    - name: "\u9B54\u738B 7"
+    - name: Title
       pathPrefix: Scripts
-      guid: 4fc907a7755a2af46a74f0070a9aac1c
-    - name: MoWangXian
+      guid: d04848c6a0e6caf41b144b9dd305936e
+    - name: "\u5947\u9047\u6D4B\u8BD5 1"
       pathPrefix: Scripts
-      guid: 5fe77762f5991cf4f8fba85d064690b9
-    - name: "\u9B54\u738B 8"
+      guid: 00705b87e0e54a1689d5b40fb21eccda
+    - name: "\u6B7B\u4EA1 1"
       pathPrefix: Scripts
-      guid: 7956f61edbfc8664ebbe7c93af014c5d
+      guid: d35c22696a1406a458461b66e397d9c9
+    - name: "\u9B54\u738B 1"
+      pathPrefix: Scripts
+      guid: c71ed60448cf3a04da135d64270bd794
     - name: "\u9B54\u738B 2"
       pathPrefix: Scripts
       guid: 89b0eff1d01f59e49ab00db72727c254
-    - name: plot2
+    - name: "\u9B54\u738B 3"
       pathPrefix: Scripts
-      guid: 38113a5e51ca7a3438abecace409bff5
+      guid: 91044cb99451c7249a7583b215dd41e4
+    - name: "\u9B54\u738B 4"
+      pathPrefix: Scripts
+      guid: 894d1a3458aaaaf43be8b825e8916063
+    - name: "\u9B54\u738B 5"
+      pathPrefix: Scripts
+      guid: d309904ca957f234d913197115db1f98
+    - name: "\u9B54\u738B 6"
+      pathPrefix: Scripts
+      guid: c058d0a6e071c194cba5290e6f372770
+    - name: "\u9B54\u738B 7"
+      pathPrefix: Scripts
+      guid: 4fc907a7755a2af46a74f0070a9aac1c
+    - name: "\u9B54\u738B 8"
+      pathPrefix: Scripts
+      guid: 7956f61edbfc8664ebbe7c93af014c5d
+  - Id: Backgrounds/MainBackground
+    Resources:
+    - name: beijing01
+      pathPrefix: Backgrounds/MainBackground
+      guid: 4999b03d941c8994793e8cb75d9b86d7
+    - name: Gemini_Generated_Image_984fzy984fzy984f-Photoroom
+      pathPrefix: Backgrounds/MainBackground
+      guid: 0a255d015ebd238498d0b42ab152708e
+    - name: Gemini_Generated_Image_tg3n3tg3n3tg3n3t-Photoroom
+      pathPrefix: Backgrounds/MainBackground
+      guid: 33ec36ad974b22344a1576ea8542c2bf
+    - name: Gemini_Generated_Image_w7hmtww7hmtww7hm-Photoroom
+      pathPrefix: Backgrounds/MainBackground
+      guid: c51fc33b438e8bc4e92e6f0631438ab3
+    - name: "\u4E50\u5668\u5E97"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 3877e4f64705f8f42a8590c2b41736af
+    - name: "\u6821\u56ED"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 51b53268a70dc2346bea8b45ded83489
+    - name: "\u7C89\u8272\u5367\u5BA4"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 41db7df6b7d1db641b6e3fb9381eefb4
+    - name: "\u7EA2\u5BB6"
+      pathPrefix: Backgrounds/MainBackground
+      guid: d08ebe1d264d4e34bae62b5cc59da2f5
+    - name: "\u9752\u5251"
+      pathPrefix: Backgrounds/MainBackground
+      guid: bda7f0d5bf771a0428e4ba20a027a377
+    - name: "\u9752\u52512"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 0e291cfb96bf46149aa8043942aa9053
+    - name: 9ff7677406711485d4f0c3473f4a1b2b
+      pathPrefix: Backgrounds/MainBackground
+      guid: 91550175a6aeb764c9f4205b174d81a0
+    - name: 86a0e3877ffd154dbe2dd93b32b5ccfa
+      pathPrefix: Backgrounds/MainBackground
+      guid: 0f21cb47ed5801e40a1d82b80beef6a2
+    - name: 09720e68617f71644f18b298a64360db
+      pathPrefix: Backgrounds/MainBackground
+      guid: d862705b242074745b4d32dec216e60f
+    - name: 38994df425f4b49d8854e7917c891270
+      pathPrefix: Backgrounds/MainBackground
+      guid: 0320fa279e9980344b802a55e04012ba
+    - name: a67c84b4096c16b2dda16956562a9a2a
+      pathPrefix: Backgrounds/MainBackground
+      guid: 766ea70f4981dd941abeeed7f010967c
+    - name: d31da1567112c79dc685306ad8b9ff82
+      pathPrefix: Backgrounds/MainBackground
+      guid: ef5f5de5356ebcb45bddcd11f0b6b464
+    - name: e360b3bcf3294fff10d3c8d9343d4148
+      pathPrefix: Backgrounds/MainBackground
+      guid: 815d31fab13dfce4ca52ef243dad80d1
+    - name: "\u4E66\u623F"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 6b55c89dd1a131247ac94124a27b0ba3
+    - name: "\u5395\u6240"
+      pathPrefix: Backgrounds/MainBackground
+      guid: b6f01bd045e68ca47a58099b25aafc5a
+    - name: "\u591C\u96EA\u8857"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 3e46d7af62ff12244b73b2dd0cce117c
+    - name: "\u609F\u671B\u661F\u5BB6"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 5b83a37f83365dc449022ab597a549f8
+    - name: "\u6218\u573A\u5E9F\u589F"
+      pathPrefix: Backgrounds/MainBackground
+      guid: f6137024d12c1cf40bebeaa6930c29c0
+    - name: "\u623F\u95F4"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 036a7ba78194c0a41bd8257bbac160a9
+    - name: "\u6559\u5BA4"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 434581c2a55e86c468e6b713f82f3442
+    - name: "\u672A\u6765\u53EF\u671F"
+      pathPrefix: Backgrounds/MainBackground
+      guid: ce5a2cbfe35856e4ea3a5364a52c1e6b
+    - name: "\u6765\u65E5\u65B9\u957F"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 9e26174ee5fab614bbacff3e0e5a57bf
+    - name: "\u697C\u4E0A"
+      pathPrefix: Backgrounds/MainBackground
+      guid: a0372fa4aa55e7242b2e964e81c7a136
+    - name: "\u697C\u9053"
+      pathPrefix: Backgrounds/MainBackground
+      guid: e39020401330a5643b0ea4a586ccd989
+    - name: "\u6CB3\u8FB9"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 1915585e3b4d49e4d9003392f7b6ae65
+    - name: "\u6D77\u8FB9"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 87b888ad492bf3d46a24e99e02d848ca
+    - name: "\u7A7A"
+      pathPrefix: Backgrounds/MainBackground
+      guid: d0edf76c51519ca4385a25cf96a4cdbc
+    - name: "\u7AF9\u6797"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 86e18fbdf861d2048a71ac3e49292636
+    - name: "\u8857\u8DEF"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 5ed33b1372171a04095c3a8913bb56ca
+    - name: "\u9B54\u5251"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 8592675f72457284b9f2c52b91e31743
+    - name: img-1771639962_1737960222453
+      pathPrefix: Backgrounds/MainBackground
+      guid: 3b636f759bc23e0479c1a9727cb0cb4e
+    - name: "jimeng-2025-11-25-1589-\u751F\u6210\u5BA4\u5185\u5927\u5385\u56FE\uFF0C\u56FE\u4E2D\u65E0\u4EBA\u7269"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 6f31007c7a912e841a2cae098cbdf1db
+    - name: "jimeng-2025-11-25-5443-\u751F\u6210\u9633\u5149\u660E\u5A9A\u7684\u6821\u56ED\u8FC7\u9053\u98CE\u666F\u56FE\uFF0C\u56FE\u4E2D\u65E0\u4EBA\u7269"
+      pathPrefix: Backgrounds/MainBackground
+      guid: fd62b9faf87f9414f98b94824bb80ad4
+    - name: "jimeng-2025-11-25-6375-\u751F\u6210\u6821\u56ED\u8DEF\u8FB9\u98CE\u666F\u56FE\uFF0C\u56FE\u4E2D\u65E0\u4EBA\u7269"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 6ea9fd76a290ae14287d1b60f051297d
+    - name: "jimeng-2025-11-26-1159-\u751F\u6210\u846C\u793C\u5BB4\u5E2D\u56FE\uFF0C\u56FE\u4E2D\u65E0\u4EBA\u7269\uFF0C\u591A\u4E2A\u684C\u5B50"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 2fc639762b0fb054e80fc13d4e99906f
+    - name: "\u516C\u56ED"
+      pathPrefix: Backgrounds/MainBackground
+      guid: a020f6f77f6f2c94c82c621eec36d903
+    - name: "\u53E4\u8463\u5E97"
+      pathPrefix: Backgrounds/MainBackground
+      guid: c93e327b8254f1f418b3ec347fe81fd7
+    - name: "\u591C\u8857"
+      pathPrefix: Backgrounds/MainBackground
+      guid: b7f263d484f92ca4c9bb1b9bdc938978
+    - name: "\u5BB6"
+      pathPrefix: Backgrounds/MainBackground
+      guid: f18df4e8a11e05c45a6cb675fb05db51
+    - name: "\u5BDD\u5BA4"
+      pathPrefix: Backgrounds/MainBackground
+      guid: efb3a24e923a08744a7bc72d8395d0d8
+    - name: "\u5C0F\u5DF7"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 9da6fbfd59784544e974818f785e0578
+    - name: "\u5E9F\u589F"
+      pathPrefix: Backgrounds/MainBackground
+      guid: d193ae49bf9bd1a4684c3575a4213ba7
+    - name: "\u6559\u5B66\u697C"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 3dc9b39ef62b28b479e3a8f752e8b122
+    - name: "\u71C3\u70E7\u7684\u76D1\u72F1"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 1d57d625ad7267549a921996f1866629
+    - name: "\u751F\u6210\u5C0F\u5DF7\u56FE\u7247 (1)"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 5d2070dfecf0d8345b74d5c8a0ca35d5
+    - name: "\u85E4\u672C\u7AF9\u8FFD"
+      pathPrefix: Backgrounds/MainBackground
+      guid: aa80bf4afa0693a47a7776b22a6c8d8f
+    - name: "\u8857\u9053"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 7f02bf373ca30484681cccf1591b4bd1
+    - name: "\u8DEF\u4E0A"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 8425021527e9d5a4d8e87d20ec659469
+    - name: "\u4E50\u5668\u5E97\u591C"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 28f0cbc266520b6449a702aa35cf0f4d
+    - name: "\u529E\u516C\u5BA4"
+      pathPrefix: Backgrounds/MainBackground
+      guid: cdc891d993bfa194691c8bff81a9cd90
+    - name: "\u533B\u52A1\u5BA4"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 18a442b58e92bef478af142dff55fc0c
+    - name: "\u53A8\u623F"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 86d699ba289e63a4a97f500a231473b0
+    - name: "\u5403\u5E2D"
+      pathPrefix: Backgrounds/MainBackground
+      guid: be166ca512e0ca74fa2b6f6e8f0b74fc
+    - name: "\u559D\u8336\u5904"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 7edc5e0220e0d804ea56c3019b40f1e5
+    - name: "\u57CE\u4E3B\u5E9C"
+      pathPrefix: Backgrounds/MainBackground
+      guid: fa91b50f6c979d448a699ca16b01cb6c
+    - name: "\u5B66\u751F\u4F1A\u5BA4\u5185"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 4f9a3c9fc258ed44582e92826e72f8d6
+    - name: "\u5B87\u5B99\u98DE\u8239"
+      pathPrefix: Backgrounds/MainBackground
+      guid: c0b98cb6bafbe58409d0af7a87f6fe07
+    - name: "\u5C0F\u6811\u6797"
+      pathPrefix: Backgrounds/MainBackground
+      guid: f7f726c43ec8ad442a3a3f12f2fdebbd
+    - name: "\u5E97\u5185"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 894ff14aeb2ded34eb86811d74ab0be4
+    - name: "\u62BD\u8C61"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 05dbb77eee66ebd4ea9fc9c1bc5ff9ed
+    - name: "\u6821\u56ED\u4E00\u89D2"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 8ae68e6984c34bb409cbbcd0fe848c0d
+    - name: "\u6821\u56ED\u96E8"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 3ca714a5f7a8ffe4098b64c712da0eb9
+    - name: "\u751F\u6210\u57CE\u4E3B\u5E9C\u5BA4\u5185\u56FE (2)"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 2873dcdf2da5ccb42b23a9ef54ab336f
+    - name: "\u751F\u6210\u57CE\u4E3B\u5E9C\u5BA4\u5185\u56FE (3)"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 4fc52c6a879c7f9488f3716f8bf7670e
+    - name: "\u751F\u6210\u57CE\u4E3B\u5E9C\u5BA4\u5185\u56FE (7)"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 35a6b693aedfbcd46893d5e6d0ed1a63
+    - name: "\u751F\u6210\u57CE\u4E3B\u5E9C\u5BA4\u5185\u56FE (8)"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 9522ad350d5c3e4429050d118250808d
+    - name: "\u751F\u6210\u57CE\u4E3B\u5E9C\u5BA4\u5185\u56FE (9)"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 02123f0f14fe2494f86a8c644121fe33
+    - name: "\u751F\u6210\u7279\u5B9A\u56FE\u7247 (2)"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 091ac3eadc1c4944596a28d606ed6510
+    - name: "\u8003\u573A\u5916"
+      pathPrefix: Backgrounds/MainBackground
+      guid: c443d6d3d4292624d83aca99647f70d0
+    - name: "\u84DD\u6708\u8857"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 6fa962e366f916d4aa53b52ede4bc4a5
+    - name: "\u84DD\u6708\u8857\u591C"
+      pathPrefix: Backgrounds/MainBackground
+      guid: d29766727997e684aa96a137706deb2c
+    - name: "\u8BAD\u7EC3\u573A"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 4f78169ea98216a46b00bb0ce7c3807d
+    - name: "\u9152\u9986"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 1d3e9c4d39327c047be0d0ad651b356b
+    - name: "\u9910\u5385"
+      pathPrefix: Backgrounds/MainBackground
+      guid: f67473c703f1c5d44b7b435957f33ecc
+    - name: "\u5236\u4F5C\u4E2D"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 667b48a587153244494e57caee013ae1
+    - name: "\u53F0\u4E0B"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 2eb5a9461a8ca3c4085b38a782cd5769
+    - name: "\u5730\u4E0B\u5BA4"
+      pathPrefix: Backgrounds/MainBackground
+      guid: cef7506c222d196479cb40be1b4b3883
+    - name: "\u5730\u4E0B\u5BA42"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 3a7d5da72fcddca4ab6d0a853ed103b7
+    - name: "\u5893\u5730"
+      pathPrefix: Backgrounds/MainBackground
+      guid: ca6c99fac869b2c47b7d1d342230367e
+    - name: "\u5893\u57302"
+      pathPrefix: Backgrounds/MainBackground
+      guid: c55d1539e488ab4468aea347184f338b
+    - name: "\u5927\u5385"
+      pathPrefix: Backgrounds/MainBackground
+      guid: d137b3992bc579a42884c1d07fbbab58
+    - name: "\u6307\u6325\u6240"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 7885254ba6ea94a409c641e60b22e5de
+    - name: "\u65E0\u80FD\u7684\u4F5C\u8005"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 78beb53d7d7eab44bb4065e308ca63b1
+    - name: "\u6709\u725B\u554A"
+      pathPrefix: Backgrounds/MainBackground
+      guid: bc7a4fb47abef4843804bf542574b964
+    - name: "\u68EE\u6797\u591C\u666F"
+      pathPrefix: Backgrounds/MainBackground
+      guid: ad74a400c3076d648b874046ac4e0e03
+    - name: "\u6E1A\u8537\u529E\u516C\u5BA4"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 0ac2ce72cca2145429f96c02993486e1
+    - name: "\u6E29\u67D4\u4E61"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 1779200507f36984c9b405e322e3461c
+    - name: "\u751F\u6210\u7279\u5B9A\u56FE\u7247 (5)"
+      pathPrefix: Backgrounds/MainBackground
+      guid: c6b0ac946ce83f04eb96ed561caec18b
+    - name: "\u751F\u6210\u7279\u5B9A\u56FE\u7247 (7)"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 6106a3b65caa4c648838ad65ad068fa9
+    - name: "\u751F\u6210\u7279\u5B9A\u59FF\u52BF\u7ACB\u7ED8 (4)"
+      pathPrefix: Backgrounds/MainBackground
+      guid: db44a8e1425d0584ba5fa0b71528d882
+    - name: "\u751F\u6210\u75C5\u623F\u56FE\u7247 (3)"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 57d465f9574882943b7ecc41318281bf
+    - name: "\u75C5\u623F"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 5a2b06d274360c5488e5c2969bf47838
+    - name: "\u7687\u5BAB"
+      pathPrefix: Backgrounds/MainBackground
+      guid: c2b3073526d80a14c9126cccab1f3701
+    - name: "\u7B49\u5F85\u7684\u540E\u679C"
+      pathPrefix: Backgrounds/MainBackground
+      guid: ffb108a1cc1021a448d431508d9207ec
+    - name: "\u7EAF\u5FD7\u51C0\u5BB6"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 07d0f20736c1462409d22a41c0bd7ad5
+    - name: "\u8611\u83C7\u6797"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 3c8f3b7579b319140bc900d06131d00b
+    - name: "\u89D2\u843D"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 537ac9d5ad4cc9843a7ba835f9ccae4c
+    - name: "\u8FF9\u843D\u5BB6"
+      pathPrefix: Backgrounds/MainBackground
+      guid: e73ef9494c89cf74699f770a2ac6b446
+    - name: "\u91D1\u5149\u8349\u576A"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 9d28f03cd51536245a36a3295569d720
+    - name: "\u9662\u5B50\u91CC"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 868ae3deb85f9a743bfe466cbf9dd16d
+    - name: "\u9881\u5956\u53F0"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 2b1a7f4011813e14e9d2f74cd8036bb1
+    - name: bf3a408b280bc8bcb491f380264bc1ca
+      pathPrefix: Backgrounds/MainBackground
+      guid: 221228d3c8e87f64dbc51a84c32a5d52
+    - name: "jimeng-2026-02-21-4028-\u5C06\u5149\u6807\u914D\u8272\u6539\u4E3A\u51B0\u84DD\u8272\u6E10\u53D8\uFF0C\u4FDD\u7559\u9B54\u6CD5\u661F\u661F\u9020\u578B\u548C\u7C92\u5B50\u7279\u6548\uFF0C\u56FE\u6807\u4F4D\u4E8E\u753B\u9762\u4E2D\u592E\uFF0C\u900F\u660E\u80CC\u666F..."
+      pathPrefix: Backgrounds/MainBackground
+      guid: 48352a43f0abb864c9e2c6eb0e50f9bd
+    - name: version
+      pathPrefix: Backgrounds/MainBackground
+      guid: 0b98b9035217d50479d758bfe7f5a349
+    - name: "\u4E07\u5F55\u6735\u623F\u95F4"
+      pathPrefix: Backgrounds/MainBackground
+      guid: fd99335f33b2c604abe5bca8bef7debc
+    - name: "\u591C\u6D77"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 2c506c9f5b520de4687ab08f508fa594
+    - name: "\u591C\u9B54\u68EE"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 63c0f8154383aff4fba938bfe4453c8f
+    - name: "\u5C0F\u9547\u8857\u9053"
+      pathPrefix: Backgrounds/MainBackground
+      guid: d75ec6344acbfb0459711b8c646105e5
+    - name: "\u5F02\u4E16\u754C\u8349\u576A"
+      pathPrefix: Backgrounds/MainBackground
+      guid: b50791ac43169184a9653f16b48fb5be
+    - name: "\u6676\u5BB6"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 522afa79af8bf7b44b71f9042c96ad9f
+    - name: "\u6676\u5BB6\u5BA4\u5185"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 6891e6957c089e743b1cd3dc4e9b92ae
+    - name: "\u6C99\u6F20"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 16ba84376ce361b4583ea52eab079eea
+    - name: "\u6DF7\u6C8C"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 9ca37e3fc796a4a47a54c3b9e86a6524
+    - name: "\u73D1\u5BB6"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 4aed2ea33559663488b89c7e8ae3e527
+    - name: "\u751F\u6210\u4E0D\u540C\u9020\u578B\u53D1\u8272\u7684\u7F8E\u5973\u56FE\u7247
+        (14)"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 4508f78c430bf1845b7111293d872870
+    - name: "\u751F\u6210\u4E0D\u540C\u9020\u578B\u53D1\u8272\u7684\u7F8E\u5973\u56FE\u7247
+        (16)"
+      pathPrefix: Backgrounds/MainBackground
+      guid: b0b5fa1489c9ba94b989976eaf942668
+    - name: "\u767D"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 075cc0fafa9f6ff4b94c6c23267667af
+    - name: "\u9192\u623F\u95F4"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 6d6cdd42498ec0041b420ff13ca57816
+    - name: "\u9B54\u68EE"
+      pathPrefix: Backgrounds/MainBackground
+      guid: ff29328484f06084083f3fcaa01fc15e
+    - name: "\u9ED1"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 4f6de52b967559a4eae31f82a0daa7fc
+    - name: "\u9ED1\u9B54\u738B\u57CE"
+      pathPrefix: Backgrounds/MainBackground
+      guid: bb9b4ebb8de9b6848973654946b8204b
+    - name: "\u9F99\u9B54\u738B\u57CE"
+      pathPrefix: Backgrounds/MainBackground
+      guid: aa54d1ede2de1b047abebc186198b5d3
+    - name: 1(1)
+      pathPrefix: Backgrounds/MainBackground
+      guid: 4d3d0bbcde3b2a6489d810b7295bdb69
+    - name: "\u4F2F\u7235\u5E9C"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 5833a48fcdea24844884d01b2d88ce51
+    - name: "\u57CE\u5821\u5BA4\u5185"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 5cf870d355f86454b9f7c055c105d89c
+    - name: "\u591C\u68EE"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 4e0f40b529e2f254eabb0a380e33c523
+    - name: "\u5C0F\u5DF7"
+      pathPrefix: Backgrounds/MainBackground
+      guid: fb071623249fb1f42b62e6315ca88bb9
+    - name: "\u5C11\u7237\u623F\u95F4"
+      pathPrefix: Backgrounds/MainBackground
+      guid: a2cc2eec297d332428e3f1e9b00e06f5
+    - name: "\u5E03\u8BFA\u5BB6"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 8da9df1c940d4f540871a59d224f3af3
+    - name: "\u6218\u6597\u8FC7\u7684\u68EE\u6797"
+      pathPrefix: Backgrounds/MainBackground
+      guid: ce78e57464fe2c34280ba9120d90ba4f
+    - name: "\u6218\u6597\u8FC7\u7684\u68EE\u67972"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 55459f6f41db9dd4999e891a10d074ff
+    - name: "\u6559\u5802"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 96714945878df2343b4e3ff4836ad759
+    - name: "\u6BC1\u706D\u540E\u7684\u68EE\u6797"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 3e527d9bf699a224a82411c52b27912f
+    - name: "\u6CB3\u8FB9"
+      pathPrefix: Backgrounds/MainBackground
+      guid: acbc21349846fd645854629a75cd4058
+    - name: "\u6CE1\u5E03\u5BB6"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 0f5c970e84691c947babc94a6d404082
+    - name: "\u6D1E\u7A74"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 79afb28edc78f994780451b20086a91d
+    - name: "\u6D45\u91D1\u5BB6"
+      pathPrefix: Backgrounds/MainBackground
+      guid: c8c819f580b059448bcdfc3bfc803155
+    - name: "\u738B\u57CE\u8857\u9053"
+      pathPrefix: Backgrounds/MainBackground
+      guid: c9881546ec97e5f428e8d2db0e016970
+    - name: "\u811A"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 41ce5eb86ca697e45b68e2e9650c913f
+    - name: "\u8FDC\u5F81\u540E\u7684\u68EE\u6797"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 0141857ec907ffa428106c0396d6b192
+    - name: "\u9192"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 66421707ec6c78a489745e0948fbb232
+    - name: "\u9EC4\u68EE"
+      pathPrefix: Backgrounds/MainBackground
+      guid: f1336bf90ee505948aa3a13237e07037
+    - name: "\u56DE\u5FC6\u4F2F\u7235\u5E9C"
+      pathPrefix: Backgrounds/MainBackground
+      guid: a4537a5e246a5a44191aadf4cbee4ae7
+    - name: "\u56DE\u5FC6\u6676\u5BB6"
+      pathPrefix: Backgrounds/MainBackground
+      guid: e7ae086e7aa3e16428d1ae5b8385a29c
+    - name: "\u56DE\u5FC6\u6676\u5BB6\u5BA4\u5185"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 54f15927c395b574aa677e2f6dca928d
+    - name: "\u56DE\u5FC6\u68EE\u6797"
+      pathPrefix: Backgrounds/MainBackground
+      guid: cf3b32e80b831e94fb8c097fe2ca56da
+    - name: "\u56DE\u5FC6\u6CB3"
+      pathPrefix: Backgrounds/MainBackground
+      guid: fbe6536d7ac35d54b980aad647c1dcb8
+    - name: "\u56DE\u5FC6\u738B\u57CE"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 18ad1b36c4a9862409625fbbc5d9f412
+    - name: "\u56DE\u5FC6\u795E\u7236\u5BB6"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 20fa3db7273340d4d88054b770fd9f22
+    - name: "\u56DE\u5FC6\u8857\u9053"
+      pathPrefix: Backgrounds/MainBackground
+      guid: d4e5e02b91e60c14a8d06b370636b018
+    - name: "jimeng-2025-12-27-4166-\u4FDD\u6301\u539F\u753B\u9762\u98CE\u683C\u548C\u7EC6\u8282\uFF0C\u4EC5\u8C03\u6574\u6BD4\u4F8B\u4E3A16_9\uFF0C\u4E3B\u4F53\u3001\u573A\u666F\u3001\u98CE\u683C\u3001\u8272\u5F69\u3001\u6784\u56FE\u3001\u7EC6\u8282\u4E0D..."
+      pathPrefix: Backgrounds/MainBackground
+      guid: c79fd4d370f4c7b48b9f0a905400fb5b
+    - name: "jimeng-2025-12-27-5958-\u751F\u6210\u4E00\u4E2A\u4E2D\u5F0F\u53E4\u98CE\u4F11\u606F\u5BA4\uFF0C\u6574\u4F53\u8272\u8C03\u4E3A\u767D\u8272\u3001\u9ED1\u8272\u548C\u91D1\u8272\uFF0C\u88C5\u9970\u6709\u7CBE\u81F4\u7684\u96D5\u82B1\u548C\u6D41\u82CF\u5143\u7D20\uFF0C..."
+      pathPrefix: Backgrounds/MainBackground
+      guid: b5de14a3ceb810941bea6506fe503b25
+    - name: "\u4F11\u606F\u5BA4"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 8d03b643950b07945951a221b1ebfc95
+    - name: "\u534E\u7AE0\u5BB6"
+      pathPrefix: Backgrounds/MainBackground
+      guid: df30cbc06b6100f48bd48011c4f46bbb
+    - name: "\u56FE\u4E66\u9986"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 1c8d5374280159648a09c9a65bc6c052
+    - name: "\u6C60\u5B50"
+      pathPrefix: Backgrounds/MainBackground
+      guid: c2f7e3739ebb2dd429eb2eb534b19542
+    - name: "\u6F2B\u5C55"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 41221759339e8b049915062448c66fe8
+    - name: "\u751F\u6210\u9634\u6C89\u8138\u8272\u89D2\u8272\u56FE\u7247 (2)"
+      pathPrefix: Backgrounds/MainBackground
+      guid: ee856017a0f07e645acfb683d591a435
+    - name: "\u751F\u6210\u9634\u6C89\u8138\u8272\u89D2\u8272\u56FE\u7247 (3)"
+      pathPrefix: Backgrounds/MainBackground
+      guid: b9538e7839535664b8fbe691804f46bc
+    - name: "\u7687\u5BAB"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 80067b49d520395429a4f5fc16b7653e
+    - name: "\u7A92\u606F\u7684\u56DA\u7B3C"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 94d7f282f6944204abf5fa10440013eb
+    - name: "\u7F6A"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 0506bad93e51acb4ebf180739fc53a6b
+    - name: "\u7F6A\u6076\u4E4B\u90FD"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 3e935dbaae1e2954094ce2e39d682d6b
+    - name: "\u7F6A\u90FD"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 07c7d528c3eb41146aea0323775fbe17
+    - name: "\u8D44\u672C\u505A\u5C40"
+      pathPrefix: Backgrounds/MainBackground
+      guid: e0b9822d3d63f3349a57029a11e6191e
+    - name: "\u8DEF\u5357\u5BB6"
+      pathPrefix: Backgrounds/MainBackground
+      guid: acf8bc4ac91e36349ad96dbea005603a
+    - name: "\u8F6C\u79D1\u4F1A\u529E\u516C\u5BA4"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 84d97213a9a35ea4bbc1c1e7017f27aa
+    - name: "\u8FF9\u843D"
+      pathPrefix: Backgrounds/MainBackground
+      guid: bc6c95c5d7b2b17438212bedff74b552
+    - name: "\u9662\u5B50"
+      pathPrefix: Backgrounds/MainBackground
+      guid: 03ce7822d5b73374e9075899980a8576
+  - Id: Characters
+    Resources:
+    - name: "\u7A7A\u4E4B\u9B54\u738B"
+      pathPrefix: Characters
+      guid: a51414b50a65da84fa0c1c1378d150aa
+    - name: "\u7A7A\u4E4B\u9B54\u738B/\u4E0D\u6EE1"
+      pathPrefix: Characters
+      guid: c329a75f0b755634581825684a4538f1
+    - name: "\u7A7A\u4E4B\u9B54\u738B/\u4EF0\u5934"
+      pathPrefix: Characters
+      guid: c2210c3eee9a55b46acce41521e5c1e4
+    - name: "\u7A7A\u4E4B\u9B54\u738B/\u4EF0\u5934\u54ED"
+      pathPrefix: Characters
+      guid: 358cf193f5e9a5e4db0b2a3db699ed8e
+    - name: "\u7A7A\u4E4B\u9B54\u738B/\u54ED\u8FC7\u540E"
+      pathPrefix: Characters
+      guid: 89eb52b9669b950479fd7333d51c0fbe
+    - name: "\u7A7A\u4E4B\u9B54\u738B/\u5BB3\u7F9E"
+      pathPrefix: Characters
+      guid: d8ae9e1dfe508ed46bd166b7e7cd64da
+    - name: "\u7A7A\u4E4B\u9B54\u738B/\u5F00\u5FC3"
+      pathPrefix: Characters
+      guid: ca3b38e6bee46a34b8b8f6738283df76
+    - name: "\u7A7A\u4E4B\u9B54\u738B/\u5F97\u610F"
+      pathPrefix: Characters
+      guid: d40d44a540ce67c42acba0688a5250c6
+    - name: "\u7A7A\u4E4B\u9B54\u738B/\u60CA\u8BB6"
+      pathPrefix: Characters
+      guid: 8ece1edf81fc2a04f93768c8622d85d9
+    - name: "\u7A7A\u4E4B\u9B54\u738B/\u6124\u6012"
+      pathPrefix: Characters
+      guid: 869bdd31f3d1476479d66a9124e9b4d2
+    - name: "\u7A7A\u4E4B\u9B54\u738B/\u7A7A\u4E4B\u9B54\u738B"
+      pathPrefix: Characters
+      guid: 58e3aaca44d3a564caa7b484bdad1d39
+    - name: "\u7A7A\u4E4B\u9B54\u738B/\u9119\u5937"
+      pathPrefix: Characters
+      guid: 3c6dab3877c16c44c94448d300bf2f7d

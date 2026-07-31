@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b2c3d4e5f60718293a4b5c6d7e8f90, type: 3}
+  m_Name: evt_merchant
+  m_EditorClassIdentifier: 
+  eventId: evt_merchant
+  title: "\u6D41\u6D6A\u5546\u4EBA"
+  description: "\u4E00\u4E2A\u80CC\u7740\u5DE8\u5927\u884C\u56CA\u7684\u5546\u4EBA\u62E6\u4F4F\u4E86\u4F60\u7684\u53BB\u8DEF\u3002\u4ED6\u7684\u773C\u775B\u91CC\u95EA\u70C1\u7740\u72E1\u9EE0\u7684\u5149\u8292\u3002\n\"\u563F\u563F\uFF0C\u770B\u770B\u6211\u7684\u8D27\u5427\uFF0C\u4FDD\u8BC1\u7269\u8D85\u6240\u503C\uFF01\""
+  backgroundImage: {fileID: 0}
+  options:
+  - buttonText: "\u8D2D\u4E70\u5361\u724C(40\u91D1\u5E01)"
+    previewText: "\u82B1\u8D3940\u91D1\u5E01\u83B7\u5F97\u4E00\u5F20\u968F\u673A\u8FDB\u9636\u5361\u3002"
+    resultText: "\u5546\u4EBA\u7B11\u7740\u9012\u7ED9\u4F60\u4E00\u5F20\u95EA\u95EA\u53D1\u5149\u7684\u5361\u724C\u3002"
+    outcomes:
+    - outcomeType: 5
+      value: 0
+      stringParam: Advanced
+      successChance: 1
+      failureOutcome: 0
+      failureValue: 0
+    goldCost: 40
+    requiredCardId: 
+    requiredGuardianHp: 0
+    naniScriptName: 
+    naniLabel: 
+  - buttonText: "\u5356\u5361\u6362\u91D1\u5E01"
+    previewText: "\u968F\u673A\u51FA\u552E\u4E00\u5F20\u5DF2\u6709\u5361\u83B7\u5F97\u91D1\u5E01\u3002"
+    resultText: "\u4F60\u4ECE\u80CC\u5305\u91CC\u638F\u51FA\u4E00\u5F20\u5361\uFF0C\u5546\u4EBA\u6382\u91CF\u4E86\u4E00\u4E0B\uFF0C\u7ED9\u4E86\u4F60\u4E00\u4E2A\u5408\u7406\u7684\u4EF7\u683C\u3002"
+    outcomes:
+    - outcomeType: 7
+      value: 0
+      stringParam: 
+      successChance: 1
+      failureOutcome: 0
+      failureValue: 0
+    goldCost: 0
+    requiredCardId: 
+    requiredGuardianHp: 0
+    naniScriptName: 
+    naniLabel: 
+  - buttonText: "\u5F3A\u884C\u62A2\u52AB"
+    previewText: "\u514D\u8D39\u83B7\u5F97\u4E00\u5F20\u5361\uFF0C\u4F46\u906D\u9047\u8BC5\u5492\u3002"
+    resultText: "\u4F60\u4E00\u628A\u63A8\u5F00\u5546\u4EBA\u62A2\u4E86\u5C31\u8DD1\uFF01\u4ED6\u9A82\u9A82\u54A7\u54A7\u5730\u5BF9\u4F60\u4E0B\u4E86\u8BC5\u5492\u2026\u2026"
+    outcomes:
+    - outcomeType: 5
+      value: 0
+      stringParam: Advanced
+      successChance: 1
+      failureOutcome: 0
+      failureValue: 0
+    - outcomeType: 10
+      value: 1
+      stringParam: 
+      successChance: 1
+      failureOutcome: 0
+      failureValue: 0
+    goldCost: 0
+    requiredCardId: 
+    requiredGuardianHp: 0
+    naniScriptName: 
+    naniLabel: 
+  minStage: 1
+  maxStage: 10
+  weight: 5
+  oneShot: 0
+  repeatable: 1
+  playNaniOnEnter: 0
+  naniEntryScriptName: 
+  naniEntryLabel: 

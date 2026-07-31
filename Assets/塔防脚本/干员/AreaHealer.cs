@@ -42,7 +42,7 @@ public class AreaHealer : MonoBehaviour
         if (unit == null) return;
         if (unit.skillPreventAttack) return;
 
-        float interval = unit.runtimeAttackInterval;
+        float interval = unit.EffectiveAttackInterval;
         if (interval <= 0f) return;
 
         timer += Time.deltaTime;

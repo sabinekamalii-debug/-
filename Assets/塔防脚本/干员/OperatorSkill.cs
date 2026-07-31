@@ -1,30 +1,33 @@
 using UnityEngine;
 
-// ÕâÊÇËùÓĞ¼¼ÄÜµÄ¸¸Àà
+// è¿™æ˜¯æ‰€æœ‰æŠ€èƒ½çš„çˆ¶ç±»
 public abstract class OperatorSkill : MonoBehaviour
 {
-    [Header("¼¼ÄÜ»ù´¡ÅäÖÃ")]
-    public string skillName = "Î´ÃüÃû¼¼ÄÜ";
-    public float maxSP = 10f;          // ĞèÒª¶àÉÙ¼¼Á¦
-    public float duration = 10f;       // ³ÖĞøÊ±¼ä
+    [Header("æŠ€èƒ½åŸºç¡€é…ç½®")]
+    public string skillName = "æœªå‘½åæŠ€èƒ½";
+    public float maxSP = 10f;          // éœ€è¦å¤šå°‘æŠ€åŠ›
+    public float duration = 10f;       // æŒç»­æ—¶é—´
 
-    // ¼ÇÂ¼¼¼ÄÜÊôÓÚÄÄ¸ö¸ÉÔ±
+    [Tooltip("æ˜¯å¦è‡ªåŠ¨é‡Šæ”¾ï¼šå‹¾é€‰åæŠ€åŠ›å……æ»¡å³è‡ªåŠ¨è§¦å‘ï¼ˆæ˜æ—¥æ–¹èˆŸã€Œè‡ªåŠ¨å›å¤ã€ç±»æŠ€èƒ½ï¼‰ï¼›ä¸å‹¾åˆ™éœ€ç©å®¶ç‚¹å‡»å¹²å‘˜æ‰‹åŠ¨é‡Šæ”¾")]
+    public bool autoActivate = false;
+
+    // è®°å½•æŠ€èƒ½å±äºå“ªä¸ªå¹²å‘˜
     protected OperatorUnit owner;
 
-    // ³õÊ¼»¯£¨¸ÉÔ±½Å±¾»á×Ô¶¯µ÷ÓÃÕâ¸ö£©
+    // åˆå§‹åŒ–ï¼ˆå¹²å‘˜è„šæœ¬ä¼šè‡ªåŠ¨è°ƒç”¨è¿™ä¸ªï¼‰
     public virtual void Initialize(OperatorUnit unit)
     {
         owner = unit;
     }
 
-    // --- ±ØĞëÓÉ×ÓÀàÊµÏÖµÄÈı¸ö·½·¨ ---
+    // --- å¿…é¡»ç”±å­ç±»å®ç°çš„ä¸‰ä¸ªæ–¹æ³• ---
 
-    // 1. ¼¼ÄÜ¿ªÆôÊ±·¢ÉúÊ²Ã´
+    // 1. æŠ€èƒ½å¼€å¯æ—¶å‘ç”Ÿä»€ä¹ˆ
     public abstract void OnSkillStart();
 
-    // 2. ¼¼ÄÜ½øĞĞÊ±·¢ÉúÊ²Ã´ (Ã¿Ö¡µ÷ÓÃ£¬±ÈÈç³ÖĞø»ØÑª)
+    // 2. æŠ€èƒ½è¿›è¡Œæ—¶å‘ç”Ÿä»€ä¹ˆ (æ¯å¸§è°ƒç”¨ï¼Œæ¯”å¦‚æŒç»­å›è¡€)
     public virtual void OnSkillUpdate() { }
 
-    // 3. ¼¼ÄÜ½áÊøÊ±·¢ÉúÊ²Ã´ (»¹Ô­ÊôĞÔ)
+    // 3. æŠ€èƒ½ç»“æŸæ—¶å‘ç”Ÿä»€ä¹ˆ (è¿˜åŸå±æ€§)
     public abstract void OnSkillEnd();
 }

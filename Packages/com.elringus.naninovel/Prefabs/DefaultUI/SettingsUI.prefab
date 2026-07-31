@@ -1,4 +1,4 @@
-﻿%YAML 1.1
+%YAML 1.1
 %TAG !u! tag:yousandi.cn,2023:
 --- !u!1 &1038348418096266
 GameObject:
@@ -6,13 +6,14 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224466072930166602}
   - component: {fileID: 222587049983975296}
   - component: {fileID: 7472607468600404639}
   - component: {fileID: 5797688280398014687}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: NavigationSoundLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -67,6 +68,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\u97F3\u91CF"
+  m_enableAdvanceTextProcess: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
   m_sharedMaterial: {fileID: -8572479452236383033, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
@@ -104,23 +106,20 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 3
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
-  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -174,13 +173,14 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224802531778861882}
   - component: {fileID: 222418289408676988}
   - component: {fileID: 2316047856543933528}
   - component: {fileID: 2485383102702057653}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: EffectsVolumeLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,6 +235,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\u6548\u679C\u97F3\u91CF"
+  m_enableAdvanceTextProcess: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
   m_sharedMaterial: {fileID: -8572479452236383033, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
@@ -272,23 +273,20 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 3
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
-  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -342,11 +340,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224148830847921952}
   - component: {fileID: 1369907848480906931}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: SfxVolumePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -400,7 +399,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224635623090448724}
   - component: {fileID: 222747153940313326}
@@ -409,6 +408,7 @@ GameObject:
   - component: {fileID: 114391292524593682}
   - component: {fileID: 4610574607409573499}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: ReturnButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -577,13 +577,14 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224993950349872682}
   - component: {fileID: 222547346388486798}
   - component: {fileID: 2459122624547719196}
   - component: {fileID: 3378840709377267584}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: NavigationBasicLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -638,6 +639,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\u57FA\u7840"
+  m_enableAdvanceTextProcess: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
   m_sharedMaterial: {fileID: -8572479452236383033, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
@@ -675,23 +677,20 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 3
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
-  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -745,13 +744,14 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224254915857400916}
   - component: {fileID: 222137666784307260}
   - component: {fileID: 867092005370819080}
   - component: {fileID: 2651220156824850013}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: MusicVolumeLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -806,6 +806,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\u97F3\u4E50\u97F3\u91CF"
+  m_enableAdvanceTextProcess: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
   m_sharedMaterial: {fileID: -8572479452236383033, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
@@ -843,23 +844,20 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 3
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
-  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -913,7 +911,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224737814218555988}
   - component: {fileID: 222105223735725464}
@@ -921,6 +919,7 @@ GameObject:
   - component: {fileID: 114672849245353248}
   - component: {fileID: 5723665771536333063}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: SoundToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1096,13 +1095,14 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224665511676507504}
   - component: {fileID: 222622267157400452}
   - component: {fileID: 7725366649852369013}
   - component: {fileID: 5893234413196857609}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: ResolutionLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1157,6 +1157,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\u5206\u8FA8\u7387"
+  m_enableAdvanceTextProcess: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
   m_sharedMaterial: {fileID: -8572479452236383033, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
@@ -1194,23 +1195,20 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 3
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
-  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -1264,11 +1262,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224884730151852122}
   - component: {fileID: 6536083148539149691}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: SkipModePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1322,13 +1321,14 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224084985579064696}
   - component: {fileID: 222879542420082374}
   - component: {fileID: 1781313002915090033}
   - component: {fileID: 1513940031876120384}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: MessageSpeedLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1383,6 +1383,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\u6587\u672C\u901F\u5EA6"
+  m_enableAdvanceTextProcess: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
   m_sharedMaterial: {fileID: -8572479452236383033, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
@@ -1420,23 +1421,20 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 3
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
-  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -1490,12 +1488,13 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224518291551102062}
   - component: {fileID: 222939875460135288}
   - component: {fileID: 114709129119198408}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1565,11 +1564,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224206277736611374}
   - component: {fileID: 114931438535367172}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: SoundPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1631,7 +1631,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224451578260621856}
   - component: {fileID: 222490267078660600}
@@ -1639,6 +1639,7 @@ GameObject:
   - component: {fileID: 114656160003870920}
   - component: {fileID: 5388503166515920238}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: TextToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1814,12 +1815,13 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224861437631794516}
   - component: {fileID: 222569070513877958}
   - component: {fileID: 114444033477347874}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1889,13 +1891,14 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224648435610071642}
   - component: {fileID: 222760098626820330}
   - component: {fileID: 4405711441290848463}
   - component: {fileID: 2572298561546651271}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: MasterVolumeLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1950,6 +1953,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\u4E3B\u97F3\u91CF"
+  m_enableAdvanceTextProcess: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
   m_sharedMaterial: {fileID: -8572479452236383033, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
@@ -1987,23 +1991,20 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 3
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
-  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -2057,11 +2058,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224525449919657626}
   - component: {fileID: 2191388356809753649}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: MasterVolumePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2115,13 +2117,14 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224802086351121836}
   - component: {fileID: 222682129165661426}
   - component: {fileID: 8728213333858725255}
   - component: {fileID: 5456625049522075077}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: SkipModeLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2176,6 +2179,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\u8DF3\u8FC7\u6A21\u5F0F"
+  m_enableAdvanceTextProcess: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
   m_sharedMaterial: {fileID: -8572479452236383033, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
@@ -2213,23 +2217,20 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 3
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
-  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -2283,7 +2284,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224080800348467500}
   - component: {fileID: 223889644862320620}
@@ -2292,6 +2293,7 @@ GameObject:
   - component: {fileID: 114119502321119188}
   - component: {fileID: 114936347218294100}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: SettingsUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2368,26 +2370,16 @@ MonoBehaviour:
   onHide:
     m_PersistentCalls:
       m_Calls: []
-  lazyInitialize: 1
   hideOnLoad: 0
   hideInThumbnail: 0
   saveVisibilityState: 0
   blockInputWhenVisible: 1
-  allowedInputs:
-  - Submit
-  - Cancel
-  - Navigate
-  - Scroll
-  - Page
-  - Tab
-  - ToggleConsole
-  disableBlockedInputFeatures: 1
   adaptToInputMode: 1
+  allowedSamplers: []
   modalUI: 1
   modalGroup: 
   buttonControls: {fileID: 1211764198933190}
-  keyboardControls: {fileID: 7476616602249246615}
-  gamepadControls: {fileID: 9145502026569299544}
+  controlsLegend: {fileID: 0}
   fontChangeConfiguration:
   - Object: {fileID: 6524491928338343119}
     IncludeChildren: 1
@@ -2403,9 +2395,6 @@ MonoBehaviour:
   - {fileID: 114425976717378586}
   - {fileID: 114656160003870920}
   - {fileID: 114672849245353248}
-  onTabChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!225 &225150071966938046
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -2464,7 +2453,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224572571283791290}
   - component: {fileID: 222171200473092378}
@@ -2472,6 +2461,7 @@ GameObject:
   - component: {fileID: 114425976717378586}
   - component: {fileID: 8116900044921144088}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: BasicToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2647,13 +2637,14 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224627704719413356}
   - component: {fileID: 222284280277901538}
   - component: {fileID: 2173624002406113082}
   - component: {fileID: 4933195171347738435}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: ScreenModeLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2708,6 +2699,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\u5C4F\u5E55\u6A21\u5F0F"
+  m_enableAdvanceTextProcess: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
   m_sharedMaterial: {fileID: -8572479452236383033, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
@@ -2745,23 +2737,20 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 3
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
-  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -2815,11 +2804,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224511821375346388}
   - component: {fileID: 4538139941387343346}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: ResolutionPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2873,11 +2863,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224715427252874110}
   - component: {fileID: 114402738189454852}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: TextPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2940,11 +2931,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224333915620986874}
   - component: {fileID: 114412166245842400}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: BasicPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3007,13 +2999,14 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224657292872724396}
   - component: {fileID: 222698390112716458}
   - component: {fileID: 8795436689399689755}
   - component: {fileID: 8886420715019310559}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: VoiceVolumeLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3068,6 +3061,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\u97F3\u91CF"
+  m_enableAdvanceTextProcess: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
   m_sharedMaterial: {fileID: -8572479452236383033, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
@@ -3105,23 +3099,20 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 3
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
-  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -3175,11 +3166,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224885334084149006}
   - component: {fileID: 7998904968513637538}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: VoiceVolumePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3233,11 +3225,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224923678750288856}
   - component: {fileID: 1783066397492297370}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: LocalePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3291,11 +3284,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224059574868289126}
   - component: {fileID: 2003503926527015560}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: BgmVolumePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3349,13 +3343,14 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224377942051088856}
   - component: {fileID: 222574377713833954}
   - component: {fileID: 4327984926382035368}
   - component: {fileID: 2238414700024086884}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: NavigationTextLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3410,6 +3405,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\u6587\u672C"
+  m_enableAdvanceTextProcess: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
   m_sharedMaterial: {fileID: -8572479452236383033, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
@@ -3447,23 +3443,20 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 3
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
-  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -3517,12 +3510,13 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224283527277489070}
   - component: {fileID: 222609390782937344}
   - component: {fileID: 114427913145670382}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3592,11 +3586,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224178003213612712}
   - component: {fileID: 4491358433880209805}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: ScreenModePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3650,11 +3645,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224601682444965202}
   - component: {fileID: 135628214319657019}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: MessageSpeedPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3708,7 +3704,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224831621550942904}
   - component: {fileID: 222217361202324862}
@@ -3716,6 +3712,7 @@ GameObject:
   - component: {fileID: 114922371536487432}
   - component: {fileID: 6285801636601936846}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: NavigationPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3825,12 +3822,13 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 224715049621802952}
   - component: {fileID: 222070510694071996}
   - component: {fileID: 114389637328899428}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3900,11 +3898,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 5786875941822211696}
   - component: {fileID: 1897190714478544963}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: Space
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3956,7 +3955,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 2129860830814815462}
   - component: {fileID: 2315709606036312922}
@@ -3964,6 +3963,7 @@ GameObject:
   - component: {fileID: 2898421626122197880}
   - component: {fileID: 5900115803302125281}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4078,11 +4078,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 9021390438468889018}
   - component: {fileID: 1242113026854449804}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: GraphicsPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4136,11 +4137,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 7614460467265895456}
   - component: {fileID: 6141821479707004042}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: VoiceLocalePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4194,13 +4196,14 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 5801587064005011778}
   - component: {fileID: 5735340943256796379}
   - component: {fileID: 3449271381251564939}
   - component: {fileID: 6543035964879864557}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: NavigationReturnLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4255,6 +4258,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\u8FD4\u56DE"
+  m_enableAdvanceTextProcess: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
   m_sharedMaterial: {fileID: -8572479452236383033, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
@@ -4292,23 +4296,20 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 3
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
-  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -4362,13 +4363,14 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 4732011480584108547}
   - component: {fileID: 6905671709624070670}
   - component: {fileID: 2340191711040220212}
   - component: {fileID: 7797841642381409058}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: VoiceLocaleLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4423,6 +4425,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: Voice language
+  m_enableAdvanceTextProcess: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
   m_sharedMaterial: {fileID: -8572479452236383033, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
@@ -4460,23 +4463,20 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 3
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
-  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -4530,11 +4530,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 4404494431563889679}
   - component: {fileID: 4425957959256659691}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: FontPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4588,11 +4589,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 3690305869036403840}
   - component: {fileID: 910130887131391922}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: FontSizePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4646,12 +4648,13 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 7301309754167205055}
   - component: {fileID: 4859226811815477567}
   - component: {fileID: 4560194389751315728}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: PreviewAndControls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4726,13 +4729,14 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 6702468739587985946}
   - component: {fileID: 5114921078720392902}
   - component: {fileID: 6001732969423921457}
   - component: {fileID: 8807692514718927730}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: GraphicsLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4787,6 +4791,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\u56FE\u5F62\u8D28\u91CF"
+  m_enableAdvanceTextProcess: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
   m_sharedMaterial: {fileID: -8572479452236383033, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
@@ -4824,23 +4829,20 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 3
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
-  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -4894,13 +4896,14 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 6357243941046376753}
   - component: {fileID: 5038349959501859588}
   - component: {fileID: 3354576030504995105}
   - component: {fileID: 3508508960408385846}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: FontLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4955,6 +4958,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\u5B57\u4F53"
+  m_enableAdvanceTextProcess: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
   m_sharedMaterial: {fileID: -8572479452236383033, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
@@ -4992,23 +4996,20 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 3
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
-  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -5062,13 +5063,14 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 561694412068330830}
   - component: {fileID: 1886509059094546836}
   - component: {fileID: 292168653593571310}
   - component: {fileID: 1091894043378202625}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: FontSizeLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5123,6 +5125,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\u5B57\u4F53\u5927\u5C0F"
+  m_enableAdvanceTextProcess: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
   m_sharedMaterial: {fileID: -8572479452236383033, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
@@ -5160,23 +5163,20 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 3
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
-  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -5230,11 +5230,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 1805841663891012609}
   - component: {fileID: 4489560402917789585}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: AutoDelayPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5288,7 +5289,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 1938929569410304755}
   - component: {fileID: 3217002877593462748}
@@ -5296,6 +5297,7 @@ GameObject:
   - component: {fileID: 5051050373501505621}
   - component: {fileID: 2043067110362987336}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: Mask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5407,11 +5409,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 4915067915103418807}
   - component: {fileID: 4078771072383136083}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: Controls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5465,13 +5468,14 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 2115832419603487916}
   - component: {fileID: 5080900007428822267}
   - component: {fileID: 2275138503529566363}
   - component: {fileID: 7146981073007757625}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: AutoDelayLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5526,6 +5530,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\u81EA\u52A8\u5EF6\u8FDF"
+  m_enableAdvanceTextProcess: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
   m_sharedMaterial: {fileID: -8572479452236383033, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
@@ -5563,23 +5568,20 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 3
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
-  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -5633,13 +5635,14 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 3547198189895880873}
   - component: {fileID: 4682330473162160260}
   - component: {fileID: 4459957048364670467}
   - component: {fileID: 3061682041960288075}
   m_Layer: 5
+  m_HasEditorInfo: 1
   m_Name: LanguageLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5694,6 +5697,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: Language
+  m_enableAdvanceTextProcess: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
   m_sharedMaterial: {fileID: -8572479452236383033, guid: 5a5da223be1edb84887b02e14312351e, type: 2}
@@ -5731,23 +5735,20 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 3
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
-  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -5936,7 +5937,7 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3360743663400106733, guid: 1152beb649a82f848a33bf5e3818c5be, type: 3}
-      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      propertyPath: m_ActiveFontFeatures.Array.data[0]
       value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 8329935330391530486, guid: 1152beb649a82f848a33bf5e3818c5be, type: 3}
@@ -6255,11 +6256,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1740128471096931518, guid: d62be9a05107ee048aa8193e7dfc60b6, type: 3}
-      propertyPath: 'm_fontMaterials.Array.data[0]'
+      propertyPath: m_fontMaterials.Array.data[0]
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1740128471096931518, guid: d62be9a05107ee048aa8193e7dfc60b6, type: 3}
-      propertyPath: 'm_fontSharedMaterials.Array.data[0]'
+      propertyPath: m_fontSharedMaterials.Array.data[0]
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4167853097724092044, guid: d62be9a05107ee048aa8193e7dfc60b6, type: 3}
@@ -6283,7 +6284,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4464008953167132451, guid: d62be9a05107ee048aa8193e7dfc60b6, type: 3}
-      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      propertyPath: m_ActiveFontFeatures.Array.data[0]
       value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 4879365788553086045, guid: d62be9a05107ee048aa8193e7dfc60b6, type: 3}
@@ -6295,7 +6296,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4913670532824918292, guid: d62be9a05107ee048aa8193e7dfc60b6, type: 3}
-      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      propertyPath: m_ActiveFontFeatures.Array.data[0]
       value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 6290005159122848161, guid: d62be9a05107ee048aa8193e7dfc60b6, type: 3}
@@ -6816,7 +6817,7 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3360743663400106733, guid: 1152beb649a82f848a33bf5e3818c5be, type: 3}
-      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      propertyPath: m_ActiveFontFeatures.Array.data[0]
       value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 8329935330391530486, guid: 1152beb649a82f848a33bf5e3818c5be, type: 3}
@@ -7059,7 +7060,7 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3360743663400106733, guid: 1152beb649a82f848a33bf5e3818c5be, type: 3}
-      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      propertyPath: m_ActiveFontFeatures.Array.data[0]
       value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 8329935330391530486, guid: 1152beb649a82f848a33bf5e3818c5be, type: 3}
@@ -7553,7 +7554,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3315129294424793422, guid: caa66599cd25d68499790b50d75953b1, type: 3}
-      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      propertyPath: m_ActiveFontFeatures.Array.data[0]
       value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 3608482195467885845, guid: caa66599cd25d68499790b50d75953b1, type: 3}
@@ -7581,7 +7582,7 @@ PrefabInstance:
       value: -19
       objectReference: {fileID: 0}
     - target: {fileID: 4237104971235762074, guid: caa66599cd25d68499790b50d75953b1, type: 3}
-      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      propertyPath: m_ActiveFontFeatures.Array.data[0]
       value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 4258884513197513876, guid: caa66599cd25d68499790b50d75953b1, type: 3}
@@ -7593,7 +7594,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4807757867314696592, guid: caa66599cd25d68499790b50d75953b1, type: 3}
-      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      propertyPath: m_ActiveFontFeatures.Array.data[0]
       value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 5284118063128065903, guid: caa66599cd25d68499790b50d75953b1, type: 3}
@@ -7810,11 +7811,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8767023921634345067, guid: caa66599cd25d68499790b50d75953b1, type: 3}
   m_PrefabInstance: {fileID: 5040021960483662540}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &9145502026569299544 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4258884513197513876, guid: caa66599cd25d68499790b50d75953b1, type: 3}
-  m_PrefabInstance: {fileID: 5040021960483662540}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5453283406338095904
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7948,7 +7944,7 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3360743663400106733, guid: 1152beb649a82f848a33bf5e3818c5be, type: 3}
-      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      propertyPath: m_ActiveFontFeatures.Array.data[0]
       value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 8329935330391530486, guid: 1152beb649a82f848a33bf5e3818c5be, type: 3}
@@ -8750,7 +8746,7 @@ PrefabInstance:
       value: -45
       objectReference: {fileID: 0}
     - target: {fileID: 3315129294424793422, guid: 29186ca46a665614bb21e78e4a3b1e8d, type: 3}
-      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      propertyPath: m_ActiveFontFeatures.Array.data[0]
       value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 3455087265067303745, guid: 29186ca46a665614bb21e78e4a3b1e8d, type: 3}
@@ -8802,7 +8798,7 @@ PrefabInstance:
       value: -19
       objectReference: {fileID: 0}
     - target: {fileID: 4237104971235762074, guid: 29186ca46a665614bb21e78e4a3b1e8d, type: 3}
-      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      propertyPath: m_ActiveFontFeatures.Array.data[0]
       value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 4258884513197513876, guid: 29186ca46a665614bb21e78e4a3b1e8d, type: 3}
@@ -8838,7 +8834,7 @@ PrefabInstance:
       value: -19
       objectReference: {fileID: 0}
     - target: {fileID: 4807757867314696592, guid: 29186ca46a665614bb21e78e4a3b1e8d, type: 3}
-      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      propertyPath: m_ActiveFontFeatures.Array.data[0]
       value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 4970587393697184503, guid: 29186ca46a665614bb21e78e4a3b1e8d, type: 3}
@@ -9177,11 +9173,6 @@ PrefabInstance:
 --- !u!224 &2698331307872119656 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8767023921634345067, guid: 29186ca46a665614bb21e78e4a3b1e8d, type: 3}
-  m_PrefabInstance: {fileID: 6690343303765191427}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &7476616602249246615 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4258884513197513876, guid: 29186ca46a665614bb21e78e4a3b1e8d, type: 3}
   m_PrefabInstance: {fileID: 6690343303765191427}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6966496801574424797
@@ -9900,7 +9891,7 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3360743663400106733, guid: 1152beb649a82f848a33bf5e3818c5be, type: 3}
-      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      propertyPath: m_ActiveFontFeatures.Array.data[0]
       value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 8329935330391530486, guid: 1152beb649a82f848a33bf5e3818c5be, type: 3}

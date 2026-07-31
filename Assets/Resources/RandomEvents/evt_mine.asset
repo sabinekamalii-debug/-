@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b2c3d4e5f60718293a4b5c6d7e8f90, type: 3}
+  m_Name: evt_mine
+  m_EditorClassIdentifier: 
+  eventId: evt_mine
+  title: "\u5B9D\u77F3\u77FF\u8109"
+  description: "\u5C71\u4F53\u4FA7\u9762\u9732\u51FA\u4E86\u4E00\u6761\u95EA\u95EA\u53D1\u5149\u7684\u5B9D\u77F3\u77FF\u8109\u3002\u51E0\u4E2A\u77FF\u5DE5\u6B63\u5728\u65C1\u8FB9\u4F11\u606F\uFF1A\"\u6316\u5427\uFF0C\u4F46\u8981\u5C0F\u5FC3\u584C\u65B9\u3002\""
+  backgroundImage: {fileID: 0}
+  options:
+  - buttonText: "\u5C0F\u5FC3\u5F00\u91C7"
+    previewText: "\u83B7\u5F97 55 \u91D1\u5E01\u3002"
+    resultText: "\u4F60\u8010\u5FC3\u5730\u7528\u5C0F\u9524\u5B50\u6572\u4E0B\u4E86\u4E00\u888B\u5B9D\u77F3\u3002"
+    outcomes:
+    - outcomeType: 1
+      value: 55
+      stringParam: 
+      successChance: 1
+      failureOutcome: 0
+      failureValue: 0
+    goldCost: 0
+    requiredCardId: 
+    requiredGuardianHp: 0
+    naniScriptName: 
+    naniLabel: 
+  - buttonText: "\u96C7\u4F63\u77FF\u5DE5(30\u91D1\u5E01)"
+    previewText: "\u83B7\u5F97 80 \u91D1\u5E01 + \u53EF\u80FD\u83B7\u5F97\u7A00\u6709\u5361\u3002"
+    resultText: "\u4F60\u82B1\u94B1\u96C7\u4E86\u77FF\u5DE5\u5E2E\u5FD9\u3002\u4EBA\u591A\u529B\u91CF\u5927\uFF01"
+    outcomes:
+    - outcomeType: 1
+      value: 80
+      stringParam: 
+      successChance: 1
+      failureOutcome: 0
+      failureValue: 0
+    - outcomeType: 5
+      value: 0
+      stringParam: Rare
+      successChance: 0.4
+      failureOutcome: 0
+      failureValue: 0
+    goldCost: 30
+    requiredCardId: 
+    requiredGuardianHp: 0
+    naniScriptName: 
+    naniLabel: 
+  - buttonText: "\u66B4\u529B\u5F00\u91C7"
+    previewText: "70%\u83B7\u5F97120\u91D1\u5E01\uFF0C30%\u584C\u65B9\u5B88\u62A4\u70B9-5\u3002"
+    resultText: "\u4F60\u76F4\u63A5\u70B8\u5F00\u4E86\u77FF\u8109\uFF01"
+    outcomes:
+    - outcomeType: 1
+      value: 120
+      stringParam: 
+      successChance: 0.7
+      failureOutcome: 9
+      failureValue: 5
+    - outcomeType: 9
+      value: 5
+      stringParam: 
+      successChance: 0.3
+      failureOutcome: 0
+      failureValue: 0
+    goldCost: 0
+    requiredCardId: 
+    requiredGuardianHp: 0
+    naniScriptName: 
+    naniLabel: 
+  minStage: 4
+  maxStage: 16
+  weight: 5
+  oneShot: 0
+  repeatable: 1
+  playNaniOnEnter: 0
+  naniEntryScriptName: 
+  naniEntryLabel: 

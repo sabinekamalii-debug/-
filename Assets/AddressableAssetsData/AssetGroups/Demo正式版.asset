@@ -9,16 +9,331 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a189f5835953464d9ead4846e49c7c1, type: 3}
-  m_Name: Demo\u6B63\u5F0F\u7248
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: "Demo\u6B63\u5F0F\u7248"
   m_EditorClassIdentifier: 
-  m_Entries:
+  m_GroupName: "Demo\u6B63\u5F0F\u7248"
+  m_Data:
+    m_SerializedData: []
+  m_GUID: b53bef07cf1f0d143a229ea29f292178
+  m_SerializeEntries:
+  - m_GUID: 00af40517980e7c4584e288748d4dd43
+    m_Address: "Naninovel/Audio/\u6218\u6597\u8282\u594F"
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Scripts/plot1
+    - Scripts/plot2
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 03ca7a7e31c9284449b26e1983094e76
+    m_Address: Naninovel/Audio/start
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 08fffaaf5dbee794b8d41b3cbf3ab8a1
+    m_Address: "Naninovel/Audio/\u5E73\u9759\u5E26\u70B9\u5FE7\u4F24"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0a255d015ebd238498d0b42ab152708e
+    m_Address: Assets/Backgrounds/50MB/Gemini_Generated_Image_984fzy984fzy984f-Photoroom.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0af5378b69b97ff4dab6dada65cf9ba5
+    m_Address: "Naninovel/Audio/\u8F7B\u97F3\u4E50\u4F7F\u7528\u4E00\u5207"
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Scripts/plot1
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0e61df696cabbea448510879ee732b00
+    m_Address: Naninovel/ChoiceHandlers/ChatReply
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1224d69e1592d624cbde93d0f7383d91
+    m_Address: Naninovel/Spawn/ShakeCharacter
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 138c658bbca4ecf498a241b0b086f46e
+    m_Address: "Naninovel/Audio/\u4F24\u611F\u7684\u97F3\u4E50"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 149b9911ef765374fbdfc77ca8f31f3e
+    m_Address: "Naninovel/Audio/\u6E05\u51B7\u7684\u97F3\u4E50"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1add671f8348e8443bcc56290e82fc5e
+    m_Address: Naninovel/UI/ContinueInputUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1c5b86cf3cfbb1f44ae5641699077da4
+    m_Address: Naninovel/Spawn/ShakeCamera
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1f6aa29000e839c409e6a9c0704adc96
+    m_Address: Naninovel/ChoiceHandlers/ButtonList
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2795040988e866646801c80024c50be1
+    m_Address: Naninovel/Spawn/ShakePrinter
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 28475baaeb5e87b4fa8a19715ecb355e
+    m_Address: Naninovel/Audio/name
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2c162147b5e9a1349afdcec849f9f1fc
+    m_Address: "Assets/Backgrounds/\u56DE\u5FC6"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 33ec36ad974b22344a1576ea8542c2bf
+    m_Address: Assets/Backgrounds/50MB/Gemini_Generated_Image_tg3n3tg3n3tg3n3t-Photoroom.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 39b26d8626231424c89b9fae721d2783
+    m_Address: Assets/map/Ground.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 47dfee8b45d10a04b9c691a379652640
+    m_Address: Assets/map/Wall.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 480f5db62ea305c46b89a86496d2a0c9
+    m_Address: Naninovel/UI/PauseUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4999b03d941c8994793e8cb75d9b86d7
+    m_Address: Assets/Backgrounds/50MB/beijing01.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4fa6d62f894ae6e4698bfa8af59e7942
+    m_Address: Naninovel/ChoiceHandlers/ButtonArea
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Scripts/plot1
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 541aeafb36a831948b6de3ec0831bd5b
+    m_Address: Assets/Fonts/SIMKAI SDF(1).asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5b36f6ed1ceccd84698e6cae29812e94
+    m_Address: "Naninovel/Audio/\u67D4\u548C"
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Scripts/plot1
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5bf8bea2e1878404e916329bd318f4af
+    m_Address: Assets/map/HighGround.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 66421707ec6c78a489745e0948fbb232
+    m_Address: "Naninovel/Backgrounds/MainBackground/\u9192"
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Scripts/plot1
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 671ceb4f549ddf046913d7debf113469
+    m_Address: Naninovel/UI/ExternalScriptsUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6d6cdd42498ec0041b420ff13ca57816
+    m_Address: "Naninovel/Backgrounds/MainBackground/\u9192\u623F\u95F4"
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Scripts/plot1
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6e383f0d572e5214c89ea767d3d5fd60
     m_Address: Naninovel/UI/TitleUI
     m_ReadOnly: 0
-  m_SerializedLabels: []
+    m_SerializedLabels:
+    - Scripts/Title
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6f9836a3c4f777741b1962979d97e485
+    m_Address: Naninovel/TextPrinters/Chat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 702c32b2de0c0784b9a66ec90601874f
+    m_Address: Naninovel/UI/ClickThroughPanel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 735d6aa767879aa469134858c5b2f0a7
+    m_Address: Naninovel/UI/ScriptNavigatorUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 75ac3e1455a282d40bd5131a851aa446
+    m_Address: Naninovel/Audio/background
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 781828b806deb1e4cbf50ef9de41da10
+    m_Address: Naninovel/TextPrinters/Wide
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 78aece251ca4d3846bcf7c97eb9882c5
+    m_Address: Assets/map/Wall.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7bf06fa813bb9c34daf521998fa72ab1
+    m_Address: Naninovel/Spawn/Animate
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7d227b44a39755843bef08ee4cf995ad
+    m_Address: "Assets/map/\u65B9\u5757.png"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7fba909c66b25324cb77db18679c2c96
+    m_Address: Naninovel/UI/BacklogUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 879117d8ccd994943950c7989861cf69
+    m_Address: Assets/map/Ground.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 88d03f19bcbff914ba33a7c9895e2d7c
+    m_Address: Naninovel/UI/ConfirmationUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9ea050faccc01154a8a9ba67c80cdaaa
+    m_Address: Assets/map/HighGround.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9f4e71cb27fffa04486737d2cf8d622d
+    m_Address: Naninovel/Spawn/Snow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9f56c556ba32fd54fae62347c25a8145
+    m_Address: Naninovel/Spawn/ShakeBackground
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9f6c0c21894ddd04f95fa7b2e193d54c
+    m_Address: "Naninovel/Audio/\u6751\u5E84"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a32c73a3aff4b274c85b3ff16c854b07
+    m_Address: Naninovel/UI/RollbackUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a9117e2fa90704d45b3e1461596c11ee
+    m_Address: Naninovel/Spawn/Rain
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b47d9659b2be5ee4e95a776f213c9d4b
+    m_Address: Naninovel/TextPrinters/Bubble
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bb95f484e341dcd4391a572f22b7d067
+    m_Address: Naninovel/UI/VariableInputUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: be75a73ecccb90b4caa5c14edb9ac467
+    m_Address: Naninovel/Spawn/DigitalGlitch
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bf4195938b6d4a9459f6f2311ee4cde4
+    m_Address: "Naninovel/Audio/\u6109\u5FEB\u7684\u5C0F\u66F2"
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Scripts/plot1
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c3fd8d67a4cc1f04481c6720c66538e4
+    m_Address: "Naninovel/Audio/\u56DE\u5FC6\u7C7B\u578B\u7684"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c4bf810b9b6cc9f44a58fd670678ded4
+    m_Address: Naninovel/Spawn/SunShafts
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c51fc33b438e8bc4e92e6f0631438ab3
+    m_Address: Assets/Backgrounds/50MB/Gemini_Generated_Image_w7hmtww7hmtww7hm-Photoroom.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c87cebd3f0d4f174789cd351ce9591c4
+    m_Address: Naninovel/TextPrinters/Fullscreen
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dd85ce99288c2f8488447fa511b1c0d6
+    m_Address: Naninovel/UI/ToastUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e152da9f04c477142a56e64d66432064
+    m_Address: "Assets/Backgrounds/\u52C7\u80051.1"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e3b234b4273b7f64ab3f1d9fe425ed23
+    m_Address: Naninovel/UI/SceneTransitionUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e466d9326b30a4b49a3dad428b4d9968
+    m_Address: Naninovel/Spawn/Blur
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ea76638b26a915946b62907dd1e776fd
+    m_Address: Naninovel/Spawn/DepthOfField
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f3074d3f5e68d4f438c06709b5e7bc85
+    m_Address: "Assets/Backgrounds/\u52C7\u80051.2"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f5aae572225ee1b4c96d1a17fc5cb073
+    m_Address: Naninovel/UI/TipsUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f9a211517d1cb1a44964dc2254463049
+    m_Address: Naninovel/UI/MovieUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
-  m_Settings: {fileID: 0}
-  m_Namespace: 
-  m_SchemaTemplates: []
-  m_Schemas: []
+  m_Settings: {fileID: 11400000, guid: aa7a663b38b1d1e449f7c0c0bae31a3b, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: a0da1686f7398bb448a84a6bc5c262cb, type: 2}
+    - {fileID: 11400000, guid: ebdfa639cce9a634a949350d8a5416f0, type: 2}

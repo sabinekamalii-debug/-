@@ -174,6 +174,7 @@ public class InGameRoguePicker : MonoBehaviour
     {
         PickRandomOffers();
         RefreshVisuals();
+        Time.timeScale = 0f;
         _panel.SetActive(true);
         _panel.transform.SetAsLastSibling();
     }
@@ -241,8 +242,7 @@ public class InGameRoguePicker : MonoBehaviour
         var card = _currentOffers[index];
         if (card != null)
         {
-            // 因为现在系统未实装，只是做效果验证。未来在这里：
-            // RogueRuntimeState.SelectedTalentCardIds.Add(card.cardId);
+            RogueRuntimeState.AddFreeTalentCard(card);
         }
 
         ResumeGame();

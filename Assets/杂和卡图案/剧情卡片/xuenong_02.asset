@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b77700b59217ea4f86b1187cd8918fd, type: 3}
+  m_Name: xuenong_02
+  m_EditorClassIdentifier: 
+  cardId: xuenong_02
+  displayName: "\u8840\u8109\u5171\u9E23"
+  description: "\u8840\u6DB2\u4E2D\u6D8C\u52A8\u7740\u65E0\u6CD5\u8A00\u8BF4\u7684\u5171\u9E23\u3002"
+  category: 0
+  icon: {fileID: 0}
+  scriptName: "\u9B54\u738B 6"
+  labelName: 
+  unlockConditionType: 3
+  unlockParam: 2
+  fragmentSetId: xuenong_yushui
+  setIndex: 1
+  isKeyFragment: 0
+  rewardTalentPoint: 1

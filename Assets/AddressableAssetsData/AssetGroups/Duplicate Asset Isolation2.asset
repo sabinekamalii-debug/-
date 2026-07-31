@@ -16,7 +16,57 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: d32485226e970c94ca0c437d1dc6f9ff
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 0558eaefe426d2d4bb39209e203b77f8
+    m_Address: Packages/com.elringus.naninovel/Textures/Gamepad/ButtonWest.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2e32cc635c09dfe4a96c1c913b967526
+    m_Address: Packages/com.elringus.naninovel/Textures/Gamepad/ButtonNorth.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 50f18010789533e429c7347ad58af15f
+    m_Address: Packages/com.elringus.naninovel/Textures/Gamepad/BumperRight.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 53c55be1ea2534a4d97e9a3af2fc42e0
+    m_Address: Packages/com.elringus.naninovel/Prefabs/TextPrinters/PrinterSizesDefault.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 58b96f2a0c0c4a846a7967775b1d58fc
+    m_Address: Packages/com.elringus.naninovel/Fonts/Inter-Regular SDF Underlay Black.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 64a55139bbf135f44b059095a281ee20
+    m_Address: Packages/com.elringus.naninovel/Textures/UI/Continue.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 84ae66ceb70161249ae147e413e34767
+    m_Address: Packages/com.elringus.naninovel/Textures/Gamepad/BumperLeft.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8a471a00fafc3e2408561ef25664b3f5
+    m_Address: Packages/com.elringus.naninovel/Textures/Gamepad/Start.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9c9ebc449a4f39d4f98537c3d9516c32
+    m_Address: Packages/com.elringus.naninovel/Textures/Gamepad/ButtonSouth.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ef1f54a17b7d7b3478ae8f05cec8ce66
+    m_Address: Packages/com.elringus.naninovel/Textures/Gamepad/ButtonEast.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: aa7a663b38b1d1e449f7c0c0bae31a3b, type: 2}
   m_SchemaSet:

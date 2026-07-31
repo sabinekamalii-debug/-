@@ -19,6 +19,10 @@ public class OperatorBrain : MonoBehaviour
     private RangedAttacker attacker;
     private OperatorUnit unitData;
 
+    // 精英关卡环境危机
+    private bool _hazardDebuffActive = false;
+    private float _hazardAttackMultiplier = 1f;
+
     void Awake()
     {
         blocker = GetComponent<UnitBlocker>();
@@ -132,4 +136,16 @@ public class OperatorBrain : MonoBehaviour
             if (unitData != null) unitData.MaximizeSP();
         }
     }
+
+    /// <summary>
+    /// 精英关卡环境危机：临时降低干员攻击力。
+    /// </summary>
+    public void SetHazardDebuff(bool active, float attackMultiplier)
+    {
+        _hazardDebuffActive = active;
+        _hazardAttackMultiplier = active ? attackMultiplier : 1f;
+    }
+
+    public bool IsHazardDebuffed() => _hazardDebuffActive;
+    public float GetHazardAttackMultiplier() => _hazardAttackMultiplier;
 }

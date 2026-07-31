@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25b5543c5e7422745b6fe739aad8016e, type: 3}
+  m_Name: rar_ag
+  m_EditorClassIdentifier: 
+  cardId: rar_ag
+  displayName: "\u653B\u5B88\u540C\u76DF"
+  description: "\u653B\u51FB\u529B+12%\uFF0C\u5B88\u62A4\u70B9\u751F\u547D+5"
+  cardType: 4
+  rarity: 0
+  icon: {fileID: -503530879984311635, guid: a923d2f70edbd944eb654b91140a351b, type: 3}
+  cardBack: {fileID: -8122850792221740877, guid: 0109ce91ae7f9024b85a261b7282cdac, type: 3}
+  cardFront: {fileID: -70509085135828438, guid: 35077a025fa011f46a55a6c143849102, type: 3}
+  effectType: 4
+  effectValue: 12
+  effectValue2: 0
+  secondaryEffectType: 3
+  secondaryEffectValue: 5
+  secondaryEffectValue2: 0
+  effectTarget: 0
+  targetOperatorType: 0
+  targetOperatorDataId: -1
+  purchaseCooldownPenalty: 0
+  cardScope: 0
+  isGuardianRewindCard: 0
+  triggerType: 0
+  triggerValue: 0

@@ -28,6 +28,19 @@ public class RogueStatePersistence : MonoBehaviour
 
     void OnApplicationQuit()
     {
+        Save();
+    }
+
+    void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus)
+            Save(); // 切到后台 → 存档（防杀进程丢进度）
+        else
+            RogueRuntimeState.ClearPersistedRunFlag(); // 回来了 → 删除这个保护存档
+    }
+
+    private static void Save()
+    {
         try
         {
             RogueRuntimeState.SaveRunStateIfNeeded();

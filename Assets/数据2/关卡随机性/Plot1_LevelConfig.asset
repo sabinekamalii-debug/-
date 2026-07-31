@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 916a78eca572dfe4e9346f51fd4dbd5f, type: 3}
+  m_Name: Plot1_LevelConfig
+  m_EditorClassIdentifier: 
+  ranges:
+  - startLevel: 1
+    endLevel: 1
+    shopCount: 0
+    eliteCount: 0
+    bossCount: 0
+    randomEventCount: 0
+    restCount: 0
+  - startLevel: 2
+    endLevel: 5
+    shopCount: 4
+    eliteCount: 0
+    bossCount: 0
+    randomEventCount: 0
+    restCount: 0
+  - startLevel: 6
+    endLevel: 9
+    shopCount: 0
+    eliteCount: 4
+    bossCount: 0
+    randomEventCount: 0
+    restCount: 0
+  - startLevel: 10
+    endLevel: 13
+    shopCount: 0
+    eliteCount: 0
+    bossCount: 0
+    randomEventCount: 4
+    restCount: 0
+  - startLevel: 14
+    endLevel: 15
+    shopCount: 0
+    eliteCount: 0
+    bossCount: 0
+    randomEventCount: 0
+    restCount: 2
+  - startLevel: 16
+    endLevel: 16
+    shopCount: 0
+    eliteCount: 0
+    bossCount: 1
+    randomEventCount: 0
+    restCount: 0

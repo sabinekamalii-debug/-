@@ -4,20 +4,24 @@ using TMPro;
 
 /// <summary>
 /// RogueEntry 场景入口控制：
-/// - 显示 Available / Run / Permanent
+/// - 显示天赋点
 /// - 开始本局
-/// - 5:1 点数兑换
+/// - 天赋树
 /// - 进入收藏页
 /// </summary>
 public class RogueEntryController : MonoBehaviour
 {
-    [Header("可选手动绑定（不绑会自动创建简易UI）")]
+    [Header("可选手动绑定（不绑会自动查找）")]
     [SerializeField] private TMP_Text availablePointText;
     [SerializeField] private TMP_Text runPointText;
     [SerializeField] private TMP_Text permanentPointText;
     [SerializeField] private Button startRunButton;
     [SerializeField] private Button exchangeButton;
     [SerializeField] private Button collectionButton;
+
+    [Header("GameMode 选择")]
+    [Tooltip("不绑定时会在 Canvas 上自动创建")]
+    [SerializeField] private TMP_Dropdown _gameModeDropdown;
 
     private RogueFlowRouter _flow;
 
@@ -26,12 +30,13 @@ public class RogueEntryController : MonoBehaviour
         RogueRuntimeState.InitIfNeeded();
         _flow = FindFirstObjectByType<RogueFlowRouter>();
         TryBindByName();
-        EnsureSimpleUiIfMissing();
         BindButtons();
+        EnsureGameModeUI();
         RogueUIUtil.EnsureButtonLabelTmp(startRunButton);
         RogueUIUtil.EnsureButtonLabelTmp(exchangeButton);
         RogueUIUtil.EnsureButtonLabelTmp(collectionButton);
         RogueUIUtil.EnsureButtonsVisible(startRunButton, exchangeButton, collectionButton);
+        RogueUIUtil.DisableCrossSceneUIBlockers();
     }
 
     private void Start()
@@ -54,8 +59,8 @@ public class RogueEntryController : MonoBehaviour
 
         if (exchangeButton != null)
         {
-            exchangeButton.onClick.RemoveListener(ExchangePoint);
-            exchangeButton.onClick.AddListener(ExchangePoint);
+            exchangeButton.onClick.RemoveListener(OpenTalentTree);
+            exchangeButton.onClick.AddListener(OpenTalentTree);
         }
 
         if (collectionButton != null)
@@ -67,26 +72,54 @@ public class RogueEntryController : MonoBehaviour
 
     public void StartRun()
     {
+        EnsureRunModifierConfig();
         RogueRuntimeState.StartRunIfNeeded();
         RefreshTexts();
+        if (_flow != null) _flow.EnterBattleFromEntry();
+    }
 
-        // 第一关开始时，先赠送一次抽卡
-        if (RogueRuntimeState.CurrentStage == 1)
+    private static void EnsureRunModifierConfig()
+    {
+        if (RogueRuntimeState.ModifierConfig != null) return;
+        RunModifierConfig config = null;
+        try
         {
-            RogueResultController.IsFirstStageDrop = true;
-            RogueResultController.IsMidGameDrop = true;
-            UnityEngine.SceneManagement.SceneManager.LoadScene("RogueResult", UnityEngine.SceneManagement.LoadSceneMode.Additive);
+            config = Resources.Load<RunModifierConfig>("LevelConfigs/RunModifierConfig");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"[RogueEntryController] Resources.Load 异常: {e.Message}");
+            config = null;
+        }
+        if (config != null)
+        {
+            RogueRuntimeState.SetRunModifierConfig(config);
+            Debug.Log("[RogueEntryController] RunModifierConfig 从 .asset 加载成功");
         }
         else
         {
-            if (_flow != null) _flow.EnterBattleFromEntry();
+            var fallback = ScriptableObject.CreateInstance<RunModifierConfig>();
+            fallback.fixedCutoff = BalanceConfig.HybridFixedCutoff;
+            fallback.enemyHpMin = BalanceConfig.HybridEnemyHpMin;
+            fallback.enemyHpMax = BalanceConfig.HybridEnemyHpMax;
+            fallback.enemySpeedMin = BalanceConfig.HybridEnemySpeedMin;
+            fallback.enemySpeedMax = BalanceConfig.HybridEnemySpeedMax;
+            fallback.startDPOffsetMin = BalanceConfig.HybridStartDPOffsetMin;
+            fallback.startDPOffsetMax = BalanceConfig.HybridStartDPOffsetMax;
+            fallback.maxLifePointOffsetMin = BalanceConfig.HybridMaxLifePointOffsetMin;
+            fallback.maxLifePointOffsetMax = BalanceConfig.HybridMaxLifePointOffsetMax;
+            fallback.enemySwapChance = BalanceConfig.HybridEnemySwapChance;
+            fallback.hpGrowthPerStage = BalanceConfig.HybridHpGrowthPerStage;
+            fallback.speedGrowthPerStage = BalanceConfig.HybridSpeedGrowthPerStage;
+            RogueRuntimeState.SetRunModifierConfig(fallback);
+            Debug.Log("[RogueEntryController] RunModifierConfig.asset 缺失，已用 BalanceConfig 常量创建兜底配置");
         }
     }
 
-    public void ExchangePoint()
+    public void OpenTalentTree()
     {
-        RogueRuntimeState.TryExchangeAvailableToPermanent();
-        RefreshTexts();
+        if (Application.isPlaying)
+            UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.SoulShop);
     }
 
     public void OpenCollection()
@@ -97,76 +130,194 @@ public class RogueEntryController : MonoBehaviour
     private void RefreshTexts()
     {
         if (availablePointText != null)
-            availablePointText.text = $"当前可用点数: {RogueRuntimeState.AvailablePoint}";
+            availablePointText.text = $"天赋点: {TalentTreeState.TalentPoints}";
         if (runPointText != null)
-            runPointText.text = $"本局点数: {RogueRuntimeState.RunPoint}";
+            runPointText.text = "";
         if (permanentPointText != null)
-            permanentPointText.text = $"永久点数: {RogueRuntimeState.PermanentPoint}";
+            permanentPointText.text = "";
     }
 
-    private void EnsureSimpleUiIfMissing()
+    /// <summary>
+    /// 确保 GameMode 下拉选择 UI 存在。
+    /// 如果场景中已有名为 "GameModeDropdown" 的 TMP_Dropdown，直接绑定；
+    /// 否则在 Canvas 上自动创建。
+    /// </summary>
+    private void EnsureGameModeUI()
     {
-        if (availablePointText != null && runPointText != null && permanentPointText != null
-            && startRunButton != null && exchangeButton != null && collectionButton != null)
-            return;
-
-        Canvas canvas = FindFirstObjectByType<Canvas>();
-        if (canvas == null)
+        // 尝试查找已有 dropdown
+        if (_gameModeDropdown == null)
         {
-            var go = new GameObject("AutoCanvas");
-            canvas = go.AddComponent<Canvas>();
-            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            go.AddComponent<CanvasScaler>();
-            go.AddComponent<GraphicRaycaster>();
+            var existing = GameObject.Find("GameModeDropdown");
+            if (existing != null)
+                _gameModeDropdown = existing.GetComponent<TMP_Dropdown>();
         }
 
-        var panel = new GameObject("RogueEntry_AutoPanel", typeof(RectTransform), typeof(Image));
-        panel.transform.SetParent(canvas.transform, false);
-        var panelRect = panel.GetComponent<RectTransform>();
-        panelRect.anchorMin = new Vector2(0f, 1f);
-        panelRect.anchorMax = new Vector2(0f, 1f);
-        panelRect.pivot = new Vector2(0f, 1f);
-        panelRect.anchoredPosition = new Vector2(20f, -20f);
-        panelRect.sizeDelta = new Vector2(520f, 360f);
-        panel.GetComponent<Image>().color = new Color(0f, 0f, 0f, 0.5f);
+        // 如果场景中没有，在 Canvas 上自动创建
+        if (_gameModeDropdown == null)
+        {
+            var canvas = RogueUIUtil.FindSceneCanvas();
+            if (canvas == null) return;
 
-        availablePointText = CreateText(panel.transform, "可用点文本", new Vector2(20f, -30f));
-        runPointText = CreateText(panel.transform, "本局点文本", new Vector2(20f, -80f));
-        permanentPointText = CreateText(panel.transform, "永久点文本", new Vector2(20f, -130f));
+            // 找到开始按钮的位置，把下拉菜单放在其下方
+            var startBtn = GameObject.Find("开始本局按钮");
+            Vector2 basePos = new Vector2(-900, 230);
+            Vector2 startBtnSize = new Vector2(260, 55);
+            if (startBtn != null)
+            {
+                var startRt = startBtn.GetComponent<RectTransform>();
+                if (startRt != null)
+                {
+                    basePos = new Vector2(startRt.anchoredPosition.x, startRt.anchoredPosition.y - 70);
+                    startBtnSize = startRt.sizeDelta;
+                }
+            }
 
-        startRunButton = CreateButton(panel.transform, "开始本局", new Vector2(20f, -200f), out _);
-        exchangeButton = CreateButton(panel.transform, "点数兑换(5:1)", new Vector2(20f, -255f), out _);
-        collectionButton = CreateButton(panel.transform, "进入收藏页", new Vector2(20f, -310f), out _);
+            // 创建标签
+            var labelGo = new GameObject("GameModeLabel", typeof(TextMeshProUGUI));
+            labelGo.transform.SetParent(canvas.transform, false);
+            var labelTmp = labelGo.GetComponent<TextMeshProUGUI>();
+            labelTmp.text = "关卡模式";
+            labelTmp.fontSize = 24;
+            labelTmp.alignment = TextAlignmentOptions.MidlineRight;
+            labelTmp.color = Color.white;
+            var labelRt = labelGo.GetComponent<RectTransform>();
+            labelRt.anchorMin = new Vector2(0.5f, 0.5f);
+            labelRt.anchorMax = new Vector2(0.5f, 0.5f);
+            labelRt.pivot = new Vector2(1f, 0.5f);
+            labelRt.anchoredPosition = new Vector2(basePos.x - 5, basePos.y);
+            labelRt.sizeDelta = new Vector2(100, 30);
+
+            // 创建下拉框
+            var go = new GameObject("GameModeDropdown", typeof(TMP_Dropdown));
+            go.transform.SetParent(canvas.transform, false);
+            _gameModeDropdown = go.GetComponent<TMP_Dropdown>();
+            var dropdownRt = go.GetComponent<RectTransform>();
+            dropdownRt.anchorMin = new Vector2(0.5f, 0.5f);
+            dropdownRt.anchorMax = new Vector2(0.5f, 0.5f);
+            dropdownRt.pivot = new Vector2(0f, 0.5f);
+            dropdownRt.anchoredPosition = new Vector2(basePos.x + 5, basePos.y);
+            dropdownRt.sizeDelta = new Vector2(startBtnSize.x, 30);
+
+            // 添加选项文本（TMP_Dropdown 需要 Template 结构）
+            var captionTrans = new GameObject("Label").transform;
+            captionTrans.SetParent(go.transform, false);
+            var captionText = captionTrans.gameObject.AddComponent<TextMeshProUGUI>();
+            captionText.fontSize = 22;
+            captionText.alignment = TextAlignmentOptions.Center;
+            captionText.color = Color.white;
+
+            var templateGo = new GameObject("Template", typeof(UnityEngine.UI.Image), typeof(UnityEngine.UI.ScrollRect), typeof(UnityEngine.UI.Mask), typeof(UnityEngine.UI.ContentSizeFitter));
+            templateGo.transform.SetParent(go.transform, false);
+            templateGo.SetActive(false);
+            var templateRt = templateGo.GetComponent<RectTransform>();
+            templateRt.anchorMin = new Vector2(0, 0);
+            templateRt.anchorMax = new Vector2(1, 0);
+            templateRt.pivot = new Vector2(0.5f, 1);
+            templateRt.anchoredPosition = new Vector2(0, 0);
+            templateRt.sizeDelta = new Vector2(0, 120);
+
+            var viewport = new GameObject("Viewport", typeof(UnityEngine.UI.Image), typeof(UnityEngine.UI.Mask));
+            viewport.transform.SetParent(templateGo.transform, false);
+            var viewportRt = viewport.GetComponent<RectTransform>();
+            viewportRt.anchorMin = new Vector2(0, 0);
+            viewportRt.anchorMax = new Vector2(1, 1);
+            viewportRt.pivot = new Vector2(0, 1);
+            viewportRt.sizeDelta = new Vector2(0, 0);
+            viewportRt.offsetMin = new Vector2(0, 0);
+            viewportRt.offsetMax = new Vector2(0, 0);
+
+            var content = new GameObject("Content", typeof( RectTransform));
+            content.transform.SetParent(viewport.transform, false);
+            var contentRt = content.GetComponent<RectTransform>();
+            contentRt.anchorMin = new Vector2(0, 1);
+            contentRt.anchorMax = new Vector2(1, 1);
+            contentRt.pivot = new Vector2(0.5f, 1);
+            contentRt.anchoredPosition = new Vector2(0, 0);
+            contentRt.sizeDelta = new Vector2(0, 28);
+
+            var item = new GameObject("Item", typeof(UnityEngine.UI.Toggle));
+            item.transform.SetParent(content.transform, false);
+            var itemRt = item.GetComponent<RectTransform>();
+            itemRt.anchorMin = new Vector2(0, 0.5f);
+            itemRt.anchorMax = new Vector2(1, 0.5f);
+            itemRt.pivot = new Vector2(0.5f, 0.5f);
+            itemRt.sizeDelta = new Vector2(0, 30);
+
+            var itemLabel = new GameObject("ItemLabel", typeof(TextMeshProUGUI));
+            itemLabel.transform.SetParent(item.transform, false);
+            var itemLabelTmp = itemLabel.GetComponent<TextMeshProUGUI>();
+            itemLabelTmp.fontSize = 22;
+            itemLabelTmp.alignment = TextAlignmentOptions.MidlineLeft;
+            itemLabelTmp.color = Color.black;
+            var itemLabelRt = itemLabel.GetComponent<RectTransform>();
+            itemLabelRt.anchorMin = new Vector2(0, 0);
+            itemLabelRt.anchorMax = new Vector2(1, 1);
+            itemLabelRt.pivot = new Vector2(0.5f, 0.5f);
+            itemLabelRt.sizeDelta = new Vector2(0, 0);
+            itemLabelRt.offsetMin = new Vector2(10, 0);
+            itemLabelRt.offsetMax = new Vector2(-10, 0);
+
+            // 连接 TMP_Dropdown 的引用
+            _gameModeDropdown.captionText = captionText;
+            _gameModeDropdown.itemText = itemLabelTmp;
+            _gameModeDropdown.template = templateGo.GetComponent<RectTransform>();
+        }
+
+        if (_gameModeDropdown == null) return;
+
+        // 设置选项 - 使用反射设置 captionText 和 itemTemplate
+        _gameModeDropdown.ClearOptions();
+        var options = new System.Collections.Generic.List<TMP_Dropdown.OptionData>
+        {
+            new TMP_Dropdown.OptionData("固定模式", null),
+            new TMP_Dropdown.OptionData("混合模式", null),
+            new TMP_Dropdown.OptionData("随机模式", null),
+        };
+        _gameModeDropdown.AddOptions(options);
+
+        // 同步当前模式
+        _gameModeDropdown.value = (int)RogueRuntimeState.CurrentGameMode;
+
+        // 监听变化
+        _gameModeDropdown.onValueChanged.RemoveAllListeners();
+        _gameModeDropdown.onValueChanged.AddListener(OnGameModeChanged);
+    }
+
+    private void OnGameModeChanged(int index)
+    {
+        var mode = (GameMode)index;
+        RogueRuntimeState.SetGameMode(mode);
+        Debug.Log($"[RogueEntryController] 关卡模式切换为: {mode}");
     }
 
     private void TryBindByName()
     {
         if (availablePointText == null)
-            availablePointText = FindTmpInScene("可用点文本") ?? FindTmpInScene("AvailablePointText");
+            availablePointText = FindTmpInScene("可用点文本");
         if (runPointText == null)
-            runPointText = FindTmpInScene("本局点文本") ?? FindTmpInScene("RunPointText");
+            runPointText = FindTmpInScene("本局点文本");
         if (permanentPointText == null)
-            permanentPointText = FindTmpInScene("永久点文本") ?? FindTmpInScene("PermanentPointText");
+            permanentPointText = FindTmpInScene("永久点文本");
 
         if (startRunButton == null)
-            startRunButton = FindInScene<Button>("开始本局按钮") ?? FindInScene<Button>("StartRunButton");
+            startRunButton = FindInScene<Button>("开始本局按钮");
         if (exchangeButton == null)
-            exchangeButton = FindInScene<Button>("点数兑换按钮") ?? FindInScene<Button>("ExchangeButton");
+            exchangeButton = FindInScene<Button>("天赋树按钮") ?? FindInScene<Button>("点数兑换按钮");
         if (collectionButton == null)
-            collectionButton = FindInScene<Button>("进入收藏页按钮") ?? FindInScene<Button>("CollectionButton");
+            collectionButton = FindInScene<Button>("进入收藏页按钮");
     }
 
     private static TMP_Text FindTmpInScene(string goName)
     {
         var go = GameObject.Find(goName);
         if (go == null) return null;
+
         var tmp = go.GetComponent<TMP_Text>();
         if (tmp != null) return tmp;
 
         var legacy = go.GetComponent<Text>();
         if (legacy == null) return null;
 
-        // 自动把旧 Text 升级为 TMP_Text，避免你换新文本后再手动修脚本引用。
         var t = legacy.text;
         var c = legacy.color;
         var a = legacy.alignment;
@@ -187,20 +338,6 @@ public class RogueEntryController : MonoBehaviour
         return go.GetComponent<T>();
     }
 
-    private static void SetRect(string goName, Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot, Vector2 anchoredPos, Vector2 size)
-    {
-        var go = GameObject.Find(goName);
-        if (go == null) return;
-        var rt = go.GetComponent<RectTransform>();
-        if (rt == null) return;
-        rt.anchorMin = anchorMin;
-        rt.anchorMax = anchorMax;
-        rt.pivot = pivot;
-        rt.anchoredPosition = anchoredPos;
-        rt.sizeDelta = size;
-        rt.localScale = Vector3.one;
-    }
-
     private static TextAlignmentOptions ConvertAlignment(TextAnchor anchor)
     {
         return anchor switch
@@ -216,52 +353,5 @@ public class RogueEntryController : MonoBehaviour
             TextAnchor.LowerRight => TextAlignmentOptions.BottomRight,
             _ => TextAlignmentOptions.Center
         };
-    }
-
-    private static TMP_Text CreateText(Transform parent, string name, Vector2 anchoredPos)
-    {
-        var go = new GameObject(name, typeof(RectTransform), typeof(TextMeshProUGUI));
-        go.transform.SetParent(parent, false);
-        var rect = go.GetComponent<RectTransform>();
-        rect.anchorMin = new Vector2(0f, 1f);
-        rect.anchorMax = new Vector2(0f, 1f);
-        rect.pivot = new Vector2(0f, 1f);
-        rect.anchoredPosition = anchoredPos;
-        rect.sizeDelta = new Vector2(460f, 40f);
-
-        var text = go.GetComponent<TextMeshProUGUI>();
-        text.fontSize = 28;
-        text.alignment = TextAlignmentOptions.MidlineLeft;
-        text.color = Color.white;
-        text.text = name;
-        return text;
-    }
-
-    private static Button CreateButton(Transform parent, string label, Vector2 anchoredPos, out TMP_Text labelText)
-    {
-        var go = new GameObject(label, typeof(RectTransform), typeof(Image), typeof(Button));
-        go.transform.SetParent(parent, false);
-        var rect = go.GetComponent<RectTransform>();
-        rect.anchorMin = new Vector2(0f, 1f);
-        rect.anchorMax = new Vector2(0f, 1f);
-        rect.pivot = new Vector2(0f, 1f);
-        rect.anchoredPosition = anchoredPos;
-        rect.sizeDelta = new Vector2(260f, 42f);
-        go.GetComponent<Image>().color = Color.white;
-
-        var textGo = new GameObject("Text", typeof(RectTransform), typeof(TextMeshProUGUI));
-        textGo.transform.SetParent(go.transform, false);
-        var textRect = textGo.GetComponent<RectTransform>();
-        textRect.anchorMin = Vector2.zero;
-        textRect.anchorMax = Vector2.one;
-        textRect.offsetMin = Vector2.zero;
-        textRect.offsetMax = Vector2.zero;
-        labelText = textGo.GetComponent<TextMeshProUGUI>();
-        labelText.fontSize = 24;
-        labelText.alignment = TextAlignmentOptions.Center;
-        labelText.color = Color.black;
-        labelText.text = label;
-
-        return go.GetComponent<Button>();
     }
 }

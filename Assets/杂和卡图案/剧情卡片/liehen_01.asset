@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b77700b59217ea4f86b1187cd8918fd, type: 3}
+  m_Name: liehen_01
+  m_EditorClassIdentifier: 
+  cardId: liehen_01
+  displayName: "\u5F02\u53D8\u4E4B\u5146"
+  description: "\u5929\u8FB9\u51FA\u73B0\u4E86\u4E0D\u7965\u7684\u7EA2\u8272\u5149\u8292\u3002"
+  category: 0
+  icon: {fileID: 0}
+  scriptName: "\u9B54\u738B 5"
+  labelName: 
+  unlockConditionType: 1
+  unlockParam: 3
+  fragmentSetId: liehen_zhishi
+  setIndex: 0
+  isKeyFragment: 0
+  rewardTalentPoint: 1

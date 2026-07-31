@@ -77,9 +77,16 @@ public class DeploymentManager : MonoBehaviour
             var go = GameObject.Find("守护点");
             if (go != null) basePoint = go.transform;
         }
+        // 天赋树部署线加成
+        maxDP += TalentTreeState.GetDpCapBonus();
+        dpRecoverRate += TalentTreeState.GetDpRegenBonus();
+        currentDP += TalentTreeState.GetInitialDpBonus();
+        deployRangeExtra += TalentTreeState.GetDeployRangeBonus();
         // 以 Inspector/控制台里设置的 Current DP 为准，不覆盖；只做范围限制并刷新 UI
         currentDP = Mathf.Clamp(currentDP, 0, maxDP);
-        Time.timeScale = 1f;
+        // 第一关抽卡流程中不恢复 timeScale
+        if (!RogueResultController.IsMidGameDrop && !RogueResultController.IsFirstStageDrop)
+            Time.timeScale = 1f;
         UpdateCostUI();
     }
 
@@ -325,7 +332,7 @@ public class DeploymentManager : MonoBehaviour
             if (newUnit != null)
             {
                 OperatorData data = newUnit.data;
-                if (data != null && data.opType == OperatorType.Ranged && GridSystem.Instance != null)
+                if (data != null && OperatorData.OperatorTypeHelper.IsRanged(data.opType) && GridSystem.Instance != null)
                     GridSystem.Instance.ShowHighGroundHighlights();
             }
         }
@@ -377,7 +384,7 @@ public class DeploymentManager : MonoBehaviour
                     SystemMessageUI.Instance.ShowMessage("此干员只能部署在地面或高台", Color.red);
                 }
             }
-            else if (data.opType == OperatorType.Ranged)
+            else if (OperatorData.OperatorTypeHelper.IsRanged(data.opType))
             {
                 // 普通远程：只能高台
                 isValidDest = GridSystem.Instance.highGroundTilemap.HasTile(cellPos);
@@ -402,7 +409,9 @@ public class DeploymentManager : MonoBehaviour
                 // 按实际费用扣费（含 OperatorStatBonus 的 deployCostBonus），并记录到 unit.deployCost，撤退时按此退还
                 unit.deployCost = unit.GetDeployCost();
 
+                int dpBeforeDeploy = currentDP;
                 currentDP -= unit.deployCost;
+                
                 UpdateCostUI();
 
                 Time.timeScale = 1f; 
@@ -470,7 +479,9 @@ public class DeploymentManager : MonoBehaviour
         {
             // 撤退时返还本次部署所花费用（若没有记录则退回基础费用）
             int refund = unit.deployCost > 0 ? unit.deployCost : unit.data.cost;
+            int dpBeforeRefund = currentDP;
             currentDP += refund;
+            
             UpdateCostUI();
         }
         if (unit.blocker != null) unit.blocker.ReleaseAllEnemies();
@@ -492,7 +503,9 @@ public class DeploymentManager : MonoBehaviour
     public void AddDP(int amount)
     {
         if (amount <= 0) return;
+        int dpBeforeAdd = currentDP;
         currentDP = Mathf.Min(currentDP + amount, maxDP);
+        
         UpdateCostUI();
     }
 

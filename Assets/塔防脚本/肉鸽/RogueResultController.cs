@@ -49,8 +49,6 @@ public class RogueResultController : MonoBehaviour
     [SerializeField] private string revealAnimatorStateName = "Reveal";
     [Tooltip("无视频/无动画时等待多久（秒）后翻开。")]
     [SerializeField] private float revealAnimDuration = 0.6f;
-    [Tooltip("翻开后卡片正面停留多久（秒）再关选卡面板，让玩家看到正面。")]
-    [SerializeField] private float revealShowDuration = 3f;
     [Tooltip("卡槽内播视频时整体缩放比例（1=铺满卡槽，0.7=完整视频缩小到 70% 显示，不裁切边角）。")]
     [Range(0.3f, 1f)]
     [SerializeField] private float cardRevealVideoScale = 0.85f;
@@ -68,6 +66,9 @@ public class RogueResultController : MonoBehaviour
     /// <summary> 是否为第一关抽卡（与局内掉落区分） </summary>
     public static bool IsFirstStageDrop = false;
 
+    /// <summary> 是否为守护点时光回溯救场抽卡 </summary>
+    public static bool IsGuardianRewindDrop = false;
+
     /// <summary> 抽卡完成事件（第一关抽卡完成后触发，用于自动进入战斗） </summary>
     public static event System.Action OnMidGameDropCompleted;
 
@@ -76,15 +77,21 @@ public class RogueResultController : MonoBehaviour
     private bool _needCardPick;
     private GameObject _resultPanel;
     private GameObject _cardSelectPanel;
+    private GameObject _skipConfirmPanel;
+    private GameObject _skipButton;
     private GameObject _cardTooltipPanel;
     private TMP_Text _cardTooltipText;
     private RectTransform _cardTooltipRect;
-    private TalentCardData[] _currentOffers = new TalentCardData[3];
-    private List<Button> _cardButtons = new List<Button>();
+    private TalentCardData[] _currentOffers = new TalentCardData[4];
+        private List<Button> _cardButtons = new List<Button>();
+    private Vector2[] _slotOriginalPos;
+    private Vector3[] _slotOriginalScale;
     private bool _revealingInProgress;
     private bool _revealClickToClose;
+    private bool _animationSkipped;
     private GameObject _revealClickOverlay;
-    private bool[] _slotRevealed = new bool[3];
+    private bool[] _slotRevealed = new bool[4];
+    private Button _rerollButton;
     private GameObject _clickToReturnToTitleOverlay;
     private VideoPlayer _fallbackRevealVideoPlayer;
     private GameObject _fallbackRevealVideoPanel;
@@ -104,11 +111,9 @@ public class RogueResultController : MonoBehaviour
     [SerializeField] private bool useOutlinePulseEffect = true;
     [SerializeField] private float outlinePulsePeakWidth = 0.22f;
     [SerializeField] private Color outlinePulseColor = new Color(1f, 0.9f, 0.3f, 1f);
-    [SerializeField] private int outlinePulseCount = 1;
     [SerializeField] private float greatVictoryOutlinePulsePeakWidth = 0.22f;
     [SerializeField] private Color greatVictoryOutlinePulseColor = new Color(1f, 0.35f, 0.2f, 1f);
     [SerializeField] private Color victoryOutlinePulseColor = new Color(0.62f, 0.34f, 1f, 1f);
-    [SerializeField] private bool useGreatVictoryFlash = false;
     [SerializeField] private float greatVictoryFlashDuration = 0.07f;
     [SerializeField] private float greatVictoryScalePulseMultiplier = 1.0f;
     [SerializeField] private bool useImpactShakeEffect = true;
@@ -153,6 +158,9 @@ public class RogueResultController : MonoBehaviour
     {
         EnsureResultSceneUIRootActive();
 
+        // 正常流程（从关卡进入）时重置 TestMode，避免之前直接运行场景残留的 TestMode=true 导致 SavePersistent 一直被跳过
+        RogueRuntimeState.TestMode = false;
+
         if (IsMidGameDrop)
         {
             GameObject panel = GameObject.Find("结算面板");
@@ -166,7 +174,10 @@ public class RogueResultController : MonoBehaviour
         }
         else if (simulateBattleResultWhenDirectRun && !RogueRuntimeState.HasPendingBattleResult)
         {
-            RogueRuntimeState.ClearSelectedTalentCardsForTesting();
+            // 直接运行本场景 = 测试模式：每次进入都从干净状态开始，
+            // 且结算不永久提交天赋点，便于反复测试而不累积进度。
+            RogueRuntimeState.TestMode = true;
+            RogueRuntimeState.ForceResetRun();
             RogueRuntimeState.StartRunIfNeeded();
             RogueRuntimeState.PublishBattleResult(new RogueBattleResult
             {
@@ -182,9 +193,16 @@ public class RogueResultController : MonoBehaviour
         if (!IsMidGameDrop) SettleIfNeeded();
         if (_needCardPick)
         {
+            // 场景 Inspector 里拖的旧预制体没有 Name/Desc 文字组件，强制用代码创建
+            cardSlotPrefab = null;
+
             EnsureCardSelectPanel();
             PickRandomOffers();
-            bool hasAnyOffer = _currentOffers[0] != null || _currentOffers[1] != null || _currentOffers[2] != null;
+            bool hasAnyOffer = false;
+            for (int i = 0; i < RogueRuntimeState.CardPickSlotCount; i++)
+            {
+                if (_currentOffers[i] != null) { hasAnyOffer = true; break; }
+            }
             if (hasAnyOffer && _cardSelectPanel != null)
             {
                 BringCardPanelToFront();
@@ -198,6 +216,88 @@ public class RogueResultController : MonoBehaviour
         else
         {
             SetResultPanelVisible(true);
+        }
+
+        EnsureTestResetButton();
+    }
+
+    /// <summary>
+    /// 测试模式（直接运行场景）下，在结算面板旁加一个「测试重置」按钮，
+    /// 点击后重新加载本场景，从干净状态再测一次，无需手动停止 Play。
+    /// </summary>
+    private void EnsureTestResetButton()
+    {
+        if (!simulateBattleResultWhenDirectRun) return;
+        if (GameObject.Find("测试重置按钮") != null) return;
+
+        Transform panel = (titleText != null && titleText.transform.parent != null)
+            ? titleText.transform.parent
+            : (nextBattleButton != null ? nextBattleButton.transform.parent : null);
+        if (panel == null) return;
+
+        var btn = CreateButton(panel, "清空卡片", new Vector2(620f, -450f));
+        btn.name = "清空卡片按钮";
+        btn.onClick.RemoveListener(ClearCardsAndRepick);
+        btn.onClick.AddListener(ClearCardsAndRepick);
+    }
+
+    /// <summary>
+    /// 测试用：一键清空本局所有已获得的卡片及其效果，并立即重新弹出选卡界面，
+    /// 无需重载场景，方便来回测试不同卡片组合。
+    /// </summary>
+    private void ClearCardsAndRepick()
+    {
+        RogueRuntimeState.ClearAllAcquiredCardsForTesting();
+
+        // 复位选卡动画/结算留下的中间状态
+        _revealingInProgress = false;
+        _revealClickToClose = false;
+        _animationSkipped = false;
+        if (_skipButton != null) _skipButton.SetActive(true);
+        if (_revealClickOverlay != null) _revealClickOverlay.SetActive(false);
+        HideCardTooltip();
+
+        int n = Mathf.Min(_cardButtons.Count, _slotOriginalPos != null ? _slotOriginalPos.Length : 0);
+        for (int i = 0; i < n; i++)
+        {
+            var b = _cardButtons[i];
+            if (b == null) continue;
+            b.gameObject.SetActive(true);
+            b.interactable = true;
+            var rt = b.GetComponent<RectTransform>();
+            if (rt != null)
+            {
+                rt.anchoredPosition = _slotOriginalPos[i];
+                rt.localScale = _slotOriginalScale[i];
+                var cg = rt.GetComponent<CanvasGroup>();
+                if (cg != null) cg.alpha = 1f;
+            }
+        }
+
+        _needCardPick = true;
+        EnsureCardSelectPanel();
+        PickRandomOffers();
+        ShowCardSelectPanel();
+    }
+
+    private void CaptureSlotOriginals()
+    {
+        int n = _cardButtons.Count;
+        _slotOriginalPos = new Vector2[n];
+        _slotOriginalScale = new Vector3[n];
+        for (int i = 0; i < n; i++)
+        {
+            var rt = _cardButtons[i] != null ? _cardButtons[i].GetComponent<RectTransform>() : null;
+            if (rt != null)
+            {
+                _slotOriginalPos[i] = rt.anchoredPosition;
+                _slotOriginalScale[i] = rt.localScale;
+            }
+            else
+            {
+                _slotOriginalPos[i] = Vector2.zero;
+                _slotOriginalScale[i] = Vector3.one;
+            }
         }
     }
 
@@ -292,9 +392,9 @@ public class RogueResultController : MonoBehaviour
         if (titleText != null)
             canvas = titleText.GetComponentInParent<Canvas>();
         if (canvas == null)
-            canvas = FindFirstObjectByType<Canvas>(FindObjectsInactive.Include);
+            canvas = RogueUIUtil.FindSceneCanvas();
         if (canvas == null) return;
-        
+
         // 创建全屏点击覆盖层
         var go = new GameObject("ClickToReturnToTitle", typeof(RectTransform), typeof(Image), typeof(Button));
         go.transform.SetParent(canvas.transform, false);
@@ -341,7 +441,7 @@ public class RogueResultController : MonoBehaviour
         else
         {
             // 返回Title场景
-            VideoSceneLoader.LoadScene("Title");
+            VideoSceneLoader.LoadScene(SceneNames.Title);
         }
     }
     
@@ -352,7 +452,7 @@ public class RogueResultController : MonoBehaviour
         if (titleText != null)
             canvas = titleText.GetComponentInParent<Canvas>();
         if (canvas == null)
-            canvas = FindFirstObjectByType<Canvas>(FindObjectsInactive.Include);
+            canvas = RogueUIUtil.FindSceneCanvas();
         
         if (canvas != null)
         {
@@ -393,7 +493,7 @@ public class RogueResultController : MonoBehaviour
     {
         // 使用NaninovelReturnRequest加载死亡 1剧情
         NaninovelReturnRequest.Set("死亡 1", "");
-        VideoSceneLoader.LoadScene("Title");
+        VideoSceneLoader.LoadScene(SceneNames.Title);
     }
 
     private void EnsureCardSelectPanel()
@@ -413,7 +513,7 @@ public class RogueResultController : MonoBehaviour
             canvas = titleText.GetComponentInParent<Canvas>();
 
         if (canvas == null)
-            canvas = FindFirstObjectByType<Canvas>(FindObjectsInactive.Include);
+            canvas = RogueUIUtil.FindSceneCanvas();
 
         // 如果是局内掉落，必须确保 Canvas 是全屏 Overlap 模式且渲染层级最高
         if (IsMidGameDrop && canvas != null)
@@ -468,20 +568,42 @@ public class RogueResultController : MonoBehaviour
         titleRect.anchoredPosition = new Vector2(0f, -48f);
         titleRect.sizeDelta = new Vector2(700f, 56f);
         var titleTmp = titleGo.GetComponent<TextMeshProUGUI>();
-        titleTmp.text = "选择一张天赋（消耗本局点数）";
+        if (IsGuardianRewindDrop)
+            titleTmp.text = "<color=#ff4444>【应急协议启动】</color>\n选择一份战术支援";
+        else if (IsMidGameDrop)
+            titleTmp.text = "选择一张天赋";
+        else
+            titleTmp.text = "选择一张天赋（消耗本局点数）";
         titleTmp.fontSize = 36;
         titleTmp.alignment = TextAlignmentOptions.Center;
         titleTmp.color = Color.white;
 
-        const float cardW = 540f;
-        const float cardH = 960f;
-        const float gap = 80f;
-        const float cardSlotY = -100f;
+        if (IsGuardianRewindDrop)
+        {
+            var costGo = new GameObject("代价说明", typeof(RectTransform), typeof(TextMeshProUGUI));
+            costGo.transform.SetParent(_cardSelectPanel.transform, false);
+            var costRect = costGo.GetComponent<RectTransform>();
+            costRect.anchorMin = new Vector2(0.5f, 1f);
+            costRect.anchorMax = new Vector2(0.5f, 1f);
+            costRect.pivot = new Vector2(0.5f, 1f);
+            costRect.anchoredPosition = new Vector2(0f, -115f);
+            costRect.sizeDelta = new Vector2(800f, 40f);
+            var costTmp = costGo.GetComponent<TextMeshProUGUI>();
+            costTmp.text = "<color=#ffaa44>⚠ 代价：本局守护点最大生命值 -1（永久降低上限）</color>";
+            costTmp.fontSize = 22;
+            costTmp.alignment = TextAlignmentOptions.Center;
+            costTmp.color = new Color(1f, 0.8f, 0.3f, 1f);
+        }
+
+        const float cardW = 351f;
+        const float cardH = 624f;
+        const float gap = 52f;
+        const float cardSlotY = -120f;
         float startX = -(cardW + gap);
 
         if (cardSlotPrefab != null)
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < RogueRuntimeState.CardPickSlotCount; i++)
             {
                 var slotGo = UnityEngine.Object.Instantiate(cardSlotPrefab, _cardSelectPanel.transform);
                 slotGo.name = $"CardSlot_{i}";
@@ -515,16 +637,45 @@ public class RogueResultController : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < RogueRuntimeState.CardPickSlotCount; i++)
             {
                 var slot = CreateCardSlot(_cardSelectPanel.transform, i, new Vector2(startX + i * (cardW + gap), cardSlotY), new Vector2(cardW, cardH));
                 _cardButtons.Add(slot);
             }
         }
 
+        CaptureSlotOriginals();
         EnsureCardTooltipPanel();
 
-        if (allowSkipPick)
+        // spc_reroll：每场可重抽 1 次（普通选卡时可用）
+        if (!IsGuardianRewindDrop && RogueRuntimeState.HasBattleReroll)
+        {
+            float rrY = cardSlotY - cardH - 180f;
+            var rrGo = new GameObject("重抽按钮", typeof(RectTransform), typeof(Image), typeof(Button));
+            rrGo.transform.SetParent(_cardSelectPanel.transform, false);
+            var rrRect = rrGo.GetComponent<RectTransform>();
+            rrRect.anchorMin = new Vector2(0.5f, 1f);
+            rrRect.anchorMax = new Vector2(0.5f, 1f);
+            rrRect.pivot = new Vector2(0.5f, 1f);
+            rrRect.anchoredPosition = new Vector2(0f, rrY);
+            rrRect.sizeDelta = new Vector2(360f, 70f);
+            rrGo.GetComponent<Image>().color = new Color(0.3f, 0.5f, 0.8f, 1f);
+            var rrText = new GameObject("Text", typeof(RectTransform), typeof(TextMeshProUGUI));
+            rrText.transform.SetParent(rrGo.transform, false);
+            var rrTextRect = rrText.GetComponent<RectTransform>();
+            rrTextRect.anchorMin = rrTextRect.anchorMax = Vector2.zero;
+            rrTextRect.offsetMin = rrTextRect.offsetMax = Vector2.zero;
+            var rrTmp = rrText.GetComponent<TextMeshProUGUI>();
+            rrTmp.text = "重抽 (1/场)";
+            rrTmp.fontSize = 24;
+            rrTmp.alignment = TextAlignmentOptions.Center;
+            rrTmp.color = Color.white;
+            _rerollButton = rrGo.GetComponent<Button>();
+            _rerollButton.onClick.AddListener(OnRerollClicked);
+        }
+
+        bool canSkip = allowSkipPick && !IsGuardianRewindDrop;
+        if (canSkip)
         {
             float skipY = cardSlotY - cardH - 100f;
             var skipBtn = CreateButton(_cardSelectPanel.transform, "跳过", new Vector2(0f, skipY));
@@ -534,7 +685,34 @@ public class RogueResultController : MonoBehaviour
             skipRect.pivot = new Vector2(0.5f, 1f);
             skipRect.anchoredPosition = new Vector2(0f, skipY);
             skipRect.sizeDelta = new Vector2(280f, 64f);
-            skipBtn.onClick.AddListener(OnSkipCardPick);
+
+            // 使用与回入口按钮相同的金色边框背景图
+            var skipImg = skipBtn.GetComponent<Image>();
+            if (skipImg != null)
+            {
+                // 运行时从场景中的回入口按钮获取同款金色背景
+                var refBtn = GameObject.Find("回入口按钮");
+                if (refBtn != null)
+                {
+                    var refImg = refBtn.GetComponent<Image>();
+                    if (refImg != null && refImg.sprite != null)
+                        skipImg.sprite = refImg.sprite;
+                }
+                skipImg.type = Image.Type.Simple;
+                skipImg.preserveAspect = true;
+                skipImg.color = Color.white;
+                skipImg.raycastTarget = true;
+            }
+            // 文字改为金色并放大
+            var skipText = skipBtn.GetComponentInChildren<TextMeshProUGUI>();
+            if (skipText != null)
+            {
+                skipText.color = new Color(1f, 0.84f, 0f, 1f); // 金色
+                skipText.fontSize = 32;
+            }
+
+            skipBtn.onClick.AddListener(OnSkipCardPickRequested);
+            _skipButton = skipBtn.gameObject;
         }
 
         _cardSelectPanel.SetActive(false);
@@ -555,45 +733,48 @@ public class RogueResultController : MonoBehaviour
         var slotImg = go.GetComponent<Image>();
         slotImg.color = Color.white;
 
-        // 让 Icon 完全覆盖整个卡片
+        // 卡图 - 只占上方区域，不覆盖下方文字
         var iconGo = new GameObject("Icon", typeof(RectTransform), typeof(Image));
         iconGo.transform.SetParent(go.transform, false);
         var iconRect = iconGo.GetComponent<RectTransform>();
-        iconRect.anchorMin = Vector2.zero;
-        iconRect.anchorMax = Vector2.one;
+        iconRect.anchorMin = new Vector2(0f, 0.3f);
+        iconRect.anchorMax = new Vector2(1f, 1f);
         iconRect.pivot = new Vector2(0.5f, 0.5f);
         iconRect.anchoredPosition = Vector2.zero;
         iconRect.sizeDelta = Vector2.zero;
         var iconImg = iconGo.GetComponent<Image>();
         iconImg.color = Color.white;
         iconImg.raycastTarget = false;
-        iconImg.preserveAspect = false;
+        iconImg.preserveAspect = true;
 
-        // 描述文本和消耗文本现在不需要了，因为 Icon 完全覆盖卡片
-        // float nameBottom = size.y - iconH - 4f;
-        // var descGo = new GameObject("Desc", typeof(RectTransform), typeof(TextMeshProUGUI));
-        // descGo.transform.SetParent(go.transform, false);
-        // SetFullRect(descGo.GetComponent<RectTransform>(), 10f, 44f, 10f, size.y - nameBottom);
-        // var descTmp = descGo.GetComponent<TextMeshProUGUI>();
-        // descTmp.fontSize = 16;
-        // descTmp.alignment = TextAlignmentOptions.TopLeft;
-        // descTmp.color = new Color(0.9f, 0.9f, 0.9f);
-        // descTmp.text = "";
-        // descTmp.enableWordWrapping = true;
+        // 卡名
+        var nameGo = new GameObject("Name", typeof(RectTransform), typeof(TextMeshProUGUI));
+        nameGo.transform.SetParent(go.transform, false);
+        var nameRect = nameGo.GetComponent<RectTransform>();
+        nameRect.anchorMin = new Vector2(0f, 0.78f);
+        nameRect.anchorMax = new Vector2(1f, 1f);
+        nameRect.offsetMin = new Vector2(12f, 0f);
+        nameRect.offsetMax = new Vector2(-12f, -16f);
+        var nameTmp = nameGo.GetComponent<TextMeshProUGUI>();
+        nameTmp.fontSize = 94;
+        nameTmp.fontStyle = TMPro.FontStyles.Bold;
+        nameTmp.alignment = TextAlignmentOptions.Center;
+        nameTmp.color = Color.black;
+        nameTmp.enableWordWrapping = true;
 
-        // var costGo = new GameObject("Cost", typeof(RectTransform), typeof(TextMeshProUGUI));
-        // costGo.transform.SetParent(go.transform, false);
-        // var costRect = costGo.GetComponent<RectTransform>();
-        // costRect.anchorMin = new Vector2(0f, 0f);
-        // costRect.anchorMax = new Vector2(1f, 0f);
-        // costRect.pivot = new Vector2(0.5f, 0f);
-        // costRect.anchoredPosition = new Vector2(0f, 10f);
-        // costRect.sizeDelta = new Vector2(-20f, 32f);
-        // var costTmp = costGo.GetComponent<TextMeshProUGUI>();
-        // costTmp.fontSize = 20;
-        // costTmp.alignment = TextAlignmentOptions.Center;
-        // costTmp.color = Color.yellow;
-        // costTmp.text = "0点";
+        // 描述
+        var descGo = new GameObject("Desc", typeof(RectTransform), typeof(TextMeshProUGUI));
+        descGo.transform.SetParent(go.transform, false);
+        var descRect = descGo.GetComponent<RectTransform>();
+        descRect.anchorMin = new Vector2(0f, 0f);
+        descRect.anchorMax = new Vector2(1f, 0.72f);
+        descRect.offsetMin = new Vector2(12f, 12f);
+        descRect.offsetMax = new Vector2(-12f, -8f);
+        var descTmp = descGo.GetComponent<TextMeshProUGUI>();
+        descTmp.fontSize = 70;
+        descTmp.alignment = TextAlignmentOptions.Center;
+        descTmp.color = Color.black;
+        descTmp.enableWordWrapping = true;
 
         var btn = go.GetComponent<Button>();
         int capture = index;
@@ -642,9 +823,11 @@ public class RogueResultController : MonoBehaviour
 
     private void ShowCardTooltip(int slotIndex)
     {
-        if (slotIndex < 0 || slotIndex >= 3 || _currentOffers[slotIndex] == null) { HideCardTooltip(); return; }
+        if (slotIndex < 0 || slotIndex >= RogueRuntimeState.CardPickSlotCount || _currentOffers[slotIndex] == null) { HideCardTooltip(); return; }
+        // 未翻开的卡片不显示信息tooltip
+        if (!_slotRevealed[slotIndex]) { HideCardTooltip(); return; }
         var c = _currentOffers[slotIndex];
-        _cardTooltipText.text = $"{c.displayName}\n类型:{c.cardType}\n稀有度:{c.rarity}\n消耗:{c.costRunPoint}点\n\n{c.description}";
+        _cardTooltipText.text = $"{c.displayName}\n类型:{c.cardType}\n稀有度:{c.rarity}\n\n{c.description}";
         _cardTooltipPanel.SetActive(true);
         _cardTooltipPanel.transform.SetAsLastSibling();
         if (_cardButtons != null && slotIndex < _cardButtons.Count && _cardButtons[slotIndex] != null)
@@ -671,6 +854,22 @@ public class RogueResultController : MonoBehaviour
 
     private void PickRandomOffers()
     {
+        if (IsGuardianRewindDrop)
+        {
+            var guardianCards = GuardianRewindCardManager.Draw3Cards();
+            for (int i = 0; i < RogueRuntimeState.CardPickSlotCount; i++)
+            {
+                _currentOffers[i] = null;
+                _slotRevealed[i] = false;
+            }
+            for (int i = 0; i < guardianCards.Count && i < RogueRuntimeState.CardPickSlotCount; i++)
+            {
+                _currentOffers[i] = guardianCards[i];
+            }
+            RefreshCardSlotVisuals();
+            return;
+        }
+
         var selected = new HashSet<string>(RogueRuntimeState.SelectedTalentCardIds);
         var available = new List<TalentCardData>();
         
@@ -684,7 +883,7 @@ public class RogueResultController : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < RogueRuntimeState.CardPickSlotCount; i++)
         {
             _currentOffers[i] = null;
             _slotRevealed[i] = false;
@@ -696,23 +895,63 @@ public class RogueResultController : MonoBehaviour
             return;
         }
 
-        // 卡池不足 3 张时允许重复抽取，保证三槽都有卡显示
-        for (int i = 0; i < 3; i++)
+        // 卡池不足时允许重复抽取，保证槽位都有卡显示；spc_fortune 提升稀有/传说出现率
+        int slotCount = RogueRuntimeState.CardPickSlotCount;
+        for (int i = 0; i < slotCount; i++)
         {
-            int idx = UnityEngine.Random.Range(0, available.Count);
-            _currentOffers[i] = available[idx];
-            if (available.Count >= 3)
-                available.RemoveAt(idx);
+            if (available.Count == 0) break;
+            TalentCardData chosen = DrawWeighted(available);
+            _currentOffers[i] = chosen;
+            if (available.Count > slotCount)
+                available.Remove(chosen);
         }
 
         RefreshCardSlotVisuals();
     }
 
+    /// <summary> 按稀有度加权抽取一张卡（spc_fortune 提升稀有/传说出现率）。 </summary>
+    private TalentCardData DrawWeighted(List<TalentCardData> pool)
+    {
+        if (pool == null || pool.Count == 0) return null;
+        float total = 0f;
+        float[] weights = new float[pool.Count];
+        for (int k = 0; k < pool.Count; k++)
+        {
+            float w = 1f;
+            if (RogueRuntimeState.RareRateUpActive)
+            {
+                switch (pool[k].rarity)
+                {
+                    case TalentCardRarity.Rare: w = 3f; break;
+                    case TalentCardRarity.Legendary: w = 6f; break;
+                    default: w = 1f; break;
+                }
+            }
+            weights[k] = w;
+            total += w;
+        }
+        float r = UnityEngine.Random.Range(0f, total);
+        for (int k = 0; k < pool.Count; k++)
+        {
+            r -= weights[k];
+            if (r <= 0f) return pool[k];
+        }
+        return pool[pool.Count - 1];
+    }
+
+    private void OnRerollClicked()
+    {
+        if (!RogueRuntimeState.HasBattleReroll) return;
+        PickRandomOffers();
+        RogueRuntimeState.ConsumeBattleReroll();
+        if (_rerollButton != null) _rerollButton.interactable = false;
+    }
+
     private void RefreshCardSlotVisuals()
     {
-        int runPoint = RogueRuntimeState.RunPoint;
-        
-        for (int i = 0; i < 3; i++)
+        int runPoint = RogueRuntimeState.RunGold;
+
+        for (int i = 0; i < RogueRuntimeState.CardPickSlotCount; i++)
         {
             if (i >= _cardButtons.Count) break;
             var btn = _cardButtons[i];
@@ -727,6 +966,9 @@ public class RogueResultController : MonoBehaviour
 
             if (card != null)
             {
+                var nameTmp = FindChildTMPRecursive(root, "Name", "Title", "标题", "卡名");
+                var descTmp = FindChildTMPRecursive(root, "Desc", "描述", "Description");
+
                 if (_slotRevealed[i])
                 {
                     // 已翻开状态：显示正面和icon
@@ -811,7 +1053,21 @@ public class RogueResultController : MonoBehaviour
                     }
                 }
 
-                bool canAfford = IsMidGameDrop || runPoint >= card.costRunPoint;
+                // 仅在翻开后显示卡名和描述，未翻开时隐藏
+                if (nameTmp != null)
+                {
+                    nameTmp.text = _slotRevealed[i] ? card.displayName : "";
+                    nameTmp.gameObject.SetActive(_slotRevealed[i]);
+                }
+                if (descTmp != null)
+                {
+                    descTmp.text = _slotRevealed[i]
+                        ? (string.IsNullOrEmpty(card.description) ? card.cardType.ToString() : card.description)
+                        : "";
+                    descTmp.gameObject.SetActive(_slotRevealed[i]);
+                }
+
+                bool canAfford = IsMidGameDrop || true;
                 btn.interactable = canAfford;
             }
             else
@@ -930,10 +1186,12 @@ public class RogueResultController : MonoBehaviour
 
     private void OnPickCard(int slotIndex)
     {
-        if (slotIndex < 0 || slotIndex >= 3) return;
+        if (slotIndex < 0 || slotIndex >= RogueRuntimeState.CardPickSlotCount) return;
         if (_revealingInProgress) return;
         var card = _currentOffers[slotIndex];
         if (card == null) return;
+        // 选中卡片后隐藏跳过按钮
+        if (_skipButton != null) _skipButton.SetActive(false);
         StartCoroutine(RevealThenPick(slotIndex));
     }
 
@@ -1018,14 +1276,32 @@ public class RogueResultController : MonoBehaviour
         }
         if (card != null)
         {
-            if (IsMidGameDrop)
+            if (IsGuardianRewindDrop)
+                GuardianRewindCardManager.ApplySelectedCard(card);
+            else if (IsMidGameDrop)
                 RogueRuntimeState.AddFreeTalentCard(card);
             else
                 RogueRuntimeState.TryPickTalentCard(card);
         }
+
+        // spc_double：下一张卡效果 +50%
+        if (card != null)
+        {
+            bool isDouble = card.cardId == "spc_double";
+            if (!isDouble && RogueRuntimeState.PendingNextCardBonusPercent > 0)
+            {
+                RogueRuntimeState.ApplyCardMultiplier(card.cardId, 1f + RogueRuntimeState.PendingNextCardBonusPercent / 100f);
+                RogueRuntimeState.ClearPendingNextCardBonus();
+            }
+            if (isDouble)
+                RogueRuntimeState.SetPendingNextCardBonus(50);
+        }
+
         yield return null;
+
+        // ── 卡片选中动画：其他卡片消失 + 选中卡片移到中央，点击可跳过 ──
+        _animationSkipped = false;
         EnsureRevealClickOverlay();
-        _revealClickToClose = false;
         if (_revealClickOverlay != null)
         {
             _revealClickOverlay.SetActive(true);
@@ -1034,30 +1310,61 @@ public class RogueResultController : MonoBehaviour
             if (overlayBtn != null)
             {
                 overlayBtn.onClick.RemoveAllListeners();
+                overlayBtn.onClick.AddListener(() => _animationSkipped = true);
+            }
+            var confirmText = _revealClickOverlay.GetComponentInChildren<TextMeshProUGUI>(true);
+            if (confirmText != null) confirmText.gameObject.SetActive(false);
+        }
+
+        yield return AnimateCardSelection(slotIndex);
+
+        // 动画结束，显示彩色确认文字，切换为确认点击
+        _revealClickToClose = false;
+        if (_revealClickOverlay != null)
+        {
+            var overlayBtn = _revealClickOverlay.GetComponent<Button>();
+            if (overlayBtn != null)
+            {
+                overlayBtn.onClick.RemoveAllListeners();
                 overlayBtn.onClick.AddListener(OnRevealClickToClose);
             }
+            var confirmText = _revealClickOverlay.GetComponentInChildren<TextMeshProUGUI>(true);
+            if (confirmText != null) confirmText.gameObject.SetActive(true);
         }
+
         yield return new WaitUntil(() => _revealClickToClose);
         if (_revealClickOverlay != null) _revealClickOverlay.SetActive(false);
         HideCardSelectPanel();
 
         if (IsMidGameDrop)
         {
+            bool isGuardianRewind = IsGuardianRewindDrop;
+            IsGuardianRewindDrop = false;
             IsMidGameDrop = false;
-            // 仅在真正完成选择后恢复时间，而不是在跳过时立即恢复
-            if (GameManager.Instance != null) GameManager.Instance.ResetMidGameDropFlag();
-            var unloadOperation = UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync("RogueResult");
-            if (unloadOperation != null)
+            if (GameManager.Instance != null)
             {
-                yield return unloadOperation;
-                // 场景卸载完成后恢复游戏时间
+                GameManager.Instance.ResetMidGameDropFlag();
+                if (isGuardianRewind)
+                {
+                    GameManager.Instance.OnEmergencyProtocolComplete();
+                }
+                else
+                {
+                    Time.timeScale = 1f;
+                }
+            }
+            else
+            {
                 Time.timeScale = 1f;
             }
 
-            // 如果是第一关抽卡，触发完成事件
-            if (IsFirstStageDrop)
+            bool isfirst = IsFirstStageDrop;
+            IsFirstStageDrop = false;
+
+            var unloadOperation = UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync("RogueResult");
+
+            if (isfirst)
             {
-                IsFirstStageDrop = false;
                 OnMidGameDropCompleted?.Invoke();
             }
             yield break;
@@ -1072,6 +1379,68 @@ public class RogueResultController : MonoBehaviour
     private void OnRevealClickToClose()
     {
         _revealClickToClose = true;
+    }
+
+    private IEnumerator AnimateCardSelection(int selectedIndex)
+    {
+        const float duration = 0.5f;
+        float elapsed = 0f;
+
+        var selectedBtn = selectedIndex < _cardButtons.Count ? _cardButtons[selectedIndex] : null;
+        if (selectedBtn == null) yield break;
+        var selectedRect = selectedBtn.GetComponent<RectTransform>();
+        if (selectedRect == null) yield break;
+
+        // 禁用所有卡片按钮
+        foreach (var btn in _cardButtons)
+        {
+            if (btn != null) btn.interactable = false;
+        }
+
+        Vector2 selectedStartPos = selectedRect.anchoredPosition;
+        Vector2 selectedTargetPos = new Vector2(0f, -100f);
+        Vector3 selectedStartScale = selectedRect.localScale;
+        Vector3 selectedTargetScale = selectedStartScale * 1.1f;
+
+        // 收集其他卡片用于淡出
+        var otherRects = new List<RectTransform>();
+        var otherCGs = new List<CanvasGroup>();
+        for (int i = 0; i < _cardButtons.Count; i++)
+        {
+            if (i == selectedIndex || _cardButtons[i] == null) continue;
+            var rt = _cardButtons[i].GetComponent<RectTransform>();
+            if (rt == null) continue;
+            var cg = rt.GetComponent<CanvasGroup>();
+            if (cg == null) cg = rt.gameObject.AddComponent<CanvasGroup>();
+            otherRects.Add(rt);
+            otherCGs.Add(cg);
+        }
+
+        while (elapsed < duration && !_animationSkipped)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            float eased = 1f - Mathf.Pow(1f - t, 3f);
+
+            selectedRect.anchoredPosition = Vector2.Lerp(selectedStartPos, selectedTargetPos, eased);
+            selectedRect.localScale = Vector3.Lerp(selectedStartScale, selectedTargetScale, eased);
+
+            for (int i = 0; i < otherCGs.Count; i++)
+            {
+                otherCGs[i].alpha = 1f - eased;
+            }
+
+            yield return null;
+        }
+
+        // 强制设为最终状态
+        selectedRect.anchoredPosition = selectedTargetPos;
+        selectedRect.localScale = _animationSkipped ? selectedStartScale : selectedTargetScale;
+        for (int i = 0; i < otherRects.Count; i++)
+        {
+            otherCGs[i].alpha = 0f;
+            otherRects[i].gameObject.SetActive(false);
+        }
     }
 
     private void EnsureRevealClickOverlay()
@@ -1092,13 +1461,14 @@ public class RogueResultController : MonoBehaviour
         var textGo = new GameObject("Text", typeof(RectTransform), typeof(TextMeshProUGUI));
         textGo.transform.SetParent(go.transform, false);
         var textRect = textGo.GetComponent<RectTransform>();
-        textRect.anchorMin = new Vector2(0.5f, 0.15f);
-        textRect.anchorMax = new Vector2(0.5f, 0.15f);
-        textRect.pivot = new Vector2(0.5f, 0.5f);
-        textRect.sizeDelta = new Vector2(400f, 60f);
+        textRect.anchorMin = new Vector2(0.5f, 1f);
+        textRect.anchorMax = new Vector2(0.5f, 1f);
+        textRect.pivot = new Vector2(0.5f, 1f);
+        textRect.anchoredPosition = new Vector2(0f, -844f);
+        textRect.sizeDelta = new Vector2(400f, 80f);
         var tmp = textGo.GetComponent<TextMeshProUGUI>();
-        tmp.text = "点击屏幕继续";
-        tmp.fontSize = 28;
+        tmp.text = "<size=130%><color=#FFD700>确</color>  <color=#00E5FF>认</color></size>";
+        tmp.fontSize = 42;
         tmp.alignment = TextAlignmentOptions.Center;
         tmp.raycastTarget = false;
         go.SetActive(false);
@@ -1135,7 +1505,7 @@ public class RogueResultController : MonoBehaviour
     private VideoPlayer EnsureFallbackRevealVideoPlayer()
     {
         if (_fallbackRevealVideoPlayer != null) return _fallbackRevealVideoPlayer;
-        var canvas = FindFirstObjectByType<Canvas>();
+        var canvas = RogueUIUtil.FindSceneCanvas();
         if (canvas == null) return null;
         _fallbackRevealRenderTexture = new RenderTexture(1280, 720, 0);
         _fallbackRevealRenderTexture.name = "RogueRevealVideoRT";
@@ -1313,7 +1683,7 @@ public class RogueResultController : MonoBehaviour
         var descTmp = FindChildTMPRecursive(root, "Desc", "描述", "Description");
         var costTmp = FindChildTMPRecursive(root, "Cost", "消耗", "点数", "CostText");
         
-        int runPoint = RogueRuntimeState.RunPoint;
+        int runPoint = RogueRuntimeState.RunGold;
         if (card != null)
         {
             if (iconImg != null)
@@ -1330,9 +1700,9 @@ public class RogueResultController : MonoBehaviour
                 if (iconRt != null && (iconRt.sizeDelta.x < 10f || iconRt.sizeDelta.y < 10f))
                     iconRt.sizeDelta = new Vector2(Mathf.Max(iconRt.sizeDelta.x, 100f), Mathf.Max(iconRt.sizeDelta.y, 100f));
             }
-            if (nameTmp != null) nameTmp.text = card.displayName;
-            if (descTmp != null) descTmp.text = string.IsNullOrEmpty(card.description) ? card.cardType.ToString() : card.description;
-            if (costTmp != null) costTmp.text = IsMidGameDrop ? "免费" : $"{card.costRunPoint}点";
+            if (nameTmp != null) { nameTmp.text = card.displayName; }
+            if (descTmp != null) { descTmp.text = string.IsNullOrEmpty(card.description) ? card.cardType.ToString() : card.description; }
+            if (costTmp != null) costTmp.text = IsMidGameDrop ? "免费" : "";
         }
         else
         {
@@ -1352,36 +1722,133 @@ public class RogueResultController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 点击跳过时弹出确认对话框
+    /// </summary>
+    private void OnSkipCardPickRequested()
+    {
+        if (_cardSelectPanel == null) return;
+
+        if (_skipConfirmPanel != null)
+        {
+            _skipConfirmPanel.SetActive(true);
+            _skipConfirmPanel.transform.SetAsLastSibling();
+            return;
+        }
+
+        _skipConfirmPanel = new GameObject("SkipConfirmPanel", typeof(RectTransform), typeof(Image));
+        _skipConfirmPanel.transform.SetParent(_cardSelectPanel.transform, false);
+        var panelRt = _skipConfirmPanel.GetComponent<RectTransform>();
+        panelRt.anchorMin = Vector2.zero;
+        panelRt.anchorMax = Vector2.one;
+        panelRt.offsetMin = Vector2.zero;
+        panelRt.offsetMax = Vector2.zero;
+        var panelImg = _skipConfirmPanel.GetComponent<Image>();
+        panelImg.color = new Color(0f, 0f, 0f, 0.6f);
+        panelImg.raycastTarget = true;
+
+        // 对话框容器
+        var boxGo = new GameObject("ConfirmBox", typeof(RectTransform), typeof(Image));
+        boxGo.transform.SetParent(_skipConfirmPanel.transform, false);
+        var boxRt = boxGo.GetComponent<RectTransform>();
+        boxRt.anchorMin = new Vector2(0.5f, 0.5f);
+        boxRt.anchorMax = new Vector2(0.5f, 0.5f);
+        boxRt.pivot = new Vector2(0.5f, 0.5f);
+        boxRt.sizeDelta = new Vector2(500f, 280f);
+        var boxImg = boxGo.GetComponent<Image>();
+        boxImg.color = new Color(0.12f, 0.12f, 0.18f, 0.96f);
+
+        // 提示文字
+        var msgGo = new GameObject("Message", typeof(RectTransform), typeof(TextMeshProUGUI));
+        msgGo.transform.SetParent(boxGo.transform, false);
+        var msgRt = msgGo.GetComponent<RectTransform>();
+        msgRt.anchorMin = new Vector2(0.5f, 1f);
+        msgRt.anchorMax = new Vector2(0.5f, 1f);
+        msgRt.pivot = new Vector2(0.5f, 1f);
+        msgRt.anchoredPosition = new Vector2(0f, -30f);
+        msgRt.sizeDelta = new Vector2(460f, 80f);
+        var msgTmp = msgGo.GetComponent<TextMeshProUGUI>();
+        msgTmp.text = "是否确认跳过本次抽卡？";
+        msgTmp.fontSize = 30;
+        msgTmp.alignment = TextAlignmentOptions.Center;
+        msgTmp.color = Color.white;
+
+        // 确认按钮
+        var confirmBtn = CreateButton(boxGo.transform, "确认跳过", new Vector2(-110f, 30f));
+        var confirmRect = confirmBtn.GetComponent<RectTransform>();
+        confirmRect.anchorMin = new Vector2(0.5f, 0f);
+        confirmRect.anchorMax = new Vector2(0.5f, 0f);
+        confirmRect.pivot = new Vector2(0.5f, 0f);
+        confirmRect.anchoredPosition = new Vector2(-110f, 30f);
+        confirmRect.sizeDelta = new Vector2(200f, 60f);
+        var confirmImg = confirmBtn.GetComponent<Image>();
+        if (confirmImg != null) confirmImg.color = new Color(0.6f, 0.15f, 0.15f, 0.95f);
+        var confirmTmp = confirmBtn.GetComponentInChildren<TextMeshProUGUI>();
+        if (confirmTmp != null) confirmTmp.color = Color.white;
+        confirmBtn.onClick.AddListener(() =>
+        {
+            if (_skipConfirmPanel != null) _skipConfirmPanel.SetActive(false);
+            OnSkipCardPick();
+        });
+
+        // 取消按钮
+        var cancelBtn = CreateButton(boxGo.transform, "取消", new Vector2(110f, 30f));
+        var cancelRect = cancelBtn.GetComponent<RectTransform>();
+        cancelRect.anchorMin = new Vector2(0.5f, 0f);
+        cancelRect.anchorMax = new Vector2(0.5f, 0f);
+        cancelRect.pivot = new Vector2(0.5f, 0f);
+        cancelRect.anchoredPosition = new Vector2(110f, 30f);
+        cancelRect.sizeDelta = new Vector2(200f, 60f);
+        var cancelImg = cancelBtn.GetComponent<Image>();
+        if (cancelImg != null) cancelImg.color = new Color(0.2f, 0.35f, 0.6f, 0.95f);
+        var cancelTmp = cancelBtn.GetComponentInChildren<TextMeshProUGUI>();
+        if (cancelTmp != null) cancelTmp.color = Color.white;
+        cancelBtn.onClick.AddListener(() =>
+        {
+            if (_skipConfirmPanel != null) _skipConfirmPanel.SetActive(false);
+        });
+
+        _skipConfirmPanel.SetActive(true);
+        _skipConfirmPanel.transform.SetAsLastSibling();
+    }
+
     private void OnSkipCardPick()
     {
         HideCardSelectPanel();
         if (IsMidGameDrop)
         {
+            bool isGuardianRewind = IsGuardianRewindDrop;
+            IsGuardianRewindDrop = false;
             IsMidGameDrop = false;
-            // 仅在真正完成选择后恢复时间，而不是在跳过时立即恢复
-            if (GameManager.Instance != null) GameManager.Instance.ResetMidGameDropFlag();
-            var unloadOperation = UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync("RogueResult");
-            if (unloadOperation != null)
+            if (GameManager.Instance != null)
             {
-                StartCoroutine(ResumeTimeAfterUnload(unloadOperation));
+                GameManager.Instance.ResetMidGameDropFlag();
+                if (isGuardianRewind)
+                {
+                    GameManager.Instance.OnEmergencyProtocolComplete();
+                }
+                else
+                {
+                    Time.timeScale = 1f;
+                }
+            }
+            else
+            {
+                Time.timeScale = 1f;
             }
 
-            // 如果是第一关抽卡，触发完成事件
-            if (IsFirstStageDrop)
+            bool isfirst = IsFirstStageDrop;
+            IsFirstStageDrop = false;
+
+            var unloadOperation = UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync("RogueResult");
+
+            if (isfirst)
             {
-                IsFirstStageDrop = false;
                 OnMidGameDropCompleted?.Invoke();
             }
             return;
         }
         StartCoroutine(ShowResultPanelWithEffects());
-    }
-    
-    private IEnumerator ResumeTimeAfterUnload(AsyncOperation unloadOperation)
-    {
-        yield return unloadOperation;
-        // 场景卸载完成后恢复游戏时间
-        Time.timeScale = 1f;
     }
 
     private void BindButtons()
@@ -1433,7 +1900,7 @@ public class RogueResultController : MonoBehaviour
                 $"无伤:{(result.noHit ? "是" : "否")}\n" +
                 $"守护点剩余:{result.guardianHpEnd}\n" +
                 $"押注结果:{summary.betOutcome}");
-            SetText(gainText, $"本次获得RunPoint:+{summary.runPointGain}|永久点:+{summary.permanentPointGain}");
+            SetText(gainText, $"金币:+{summary.goldGain}");
             RefreshTotalText();
         }
         // 失败时跳过抽卡，直接显示结算
@@ -1526,7 +1993,7 @@ public class RogueResultController : MonoBehaviour
             if (titleText == null && (txt.Contains("战斗") || txt.Contains("胜利") || txt.Contains("失败"))) titleText = t;
             if (detailText == null && (txt.Contains("详情") || txt.Contains("关卡"))) detailText = t;
             if (gainText == null && (txt.Contains("收益") || txt.Contains("获得"))) gainText = t;
-            if (totalText == null && (txt.Contains("总点") || txt.Contains("本局点"))) totalText = t;
+            if (totalText == null && (txt.Contains("总点") || txt.Contains("本局点") || txt.Contains("持有") || txt.Contains("金币"))) totalText = t;
         }
     }
 
@@ -1571,16 +2038,19 @@ public class RogueResultController : MonoBehaviour
 
     private void ShowGainAndTotalBelowTitle(RogueSettlementSummary summary)
     {
+        // 本场收益：展示这一战拿到的货币奖励，并点明各自去向
+        //   金币 → 商店（重抽/买卡）   天赋点 → 天赋树（永久成长）
         if (gainText != null)
         {
             gainText.gameObject.SetActive(true);
-            gainText.text = $"收益 +{summary.runPointGain}";
+            gainText.text = $"收益  金币+{summary.goldGain}   天赋点+{summary.talentPointGain}";
         }
 
+        // 当前持有：跨战斗延续的两种货币，统一展示，去掉容易误解的“总点数”叫法
         if (totalText != null)
         {
             totalText.gameObject.SetActive(true);
-            totalText.text = $"总点数 {RogueRuntimeState.RunPoint}";
+            totalText.text = $"持有  金币{RogueRuntimeState.RunGold}   天赋点{TalentTreeState.TalentPoints}";
         }
     }
 
@@ -1830,9 +2300,7 @@ public class RogueResultController : MonoBehaviour
     {
         if (_useSimplifiedSettlementView) return;
         SetText(totalText,
-            $"当前本局点数:{RogueRuntimeState.RunPoint}\n" +
-            $"当前可用点数:{RogueRuntimeState.AvailablePoint}\n" +
-            $"当前永久点数:{RogueRuntimeState.PermanentPoint}");
+            $"持有  金币{RogueRuntimeState.RunGold}   天赋点{TalentTreeState.TalentPoints}");
     }
 
     /// <summary> 显示结算面板时调用：确保绑定完整并强制刷新 TMP 显示（避免面板从隐藏变为显示时文字不更新）。</summary>
@@ -1853,7 +2321,7 @@ public class RogueResultController : MonoBehaviour
         if (_flow != null)
             _flow.ReturnEntryFromResult();
         else
-            VideoSceneLoader.LoadScene("RogueEntry");
+            VideoSceneLoader.LoadScene(SceneNames.RogueEntry);
     }
 
     /// <summary> 下一战：关卡数+1，跳转到 plot 选关。 </summary>
@@ -1864,7 +2332,7 @@ public class RogueResultController : MonoBehaviour
         // 标记为通关后返回，保留通过状态
         LevelSceneLoadContext.SetFromVictory();
         
-        VideoSceneLoader.LoadScene("plot");
+        VideoSceneLoader.LoadScene(SceneNames.Plot);
     }
 
     private void EnsureSimpleUiIfMissing()
@@ -1879,7 +2347,7 @@ public class RogueResultController : MonoBehaviour
 
         if (panel == null)
         {
-            Canvas canvas = FindFirstObjectByType<Canvas>();
+            Canvas canvas = RogueUIUtil.FindSceneCanvas();
             if (canvas == null)
             {
                 var c = new GameObject("AutoCanvas");

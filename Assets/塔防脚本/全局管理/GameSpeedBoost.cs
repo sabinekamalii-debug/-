@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// 按住 Ctrl 时游戏速度变为 8 倍，松开恢复 1 倍。
@@ -20,8 +21,6 @@ public class GameSpeedBoost : MonoBehaviour
     public bool useLeftControl = true;
     public bool useRightControl = true;
 
-    private bool _keyHeld;
-
     void Update()
     {
         // 游戏结束：保持 0，不干预
@@ -32,11 +31,6 @@ public class GameSpeedBoost : MonoBehaviour
         if (NewbieTutorialController.IsTutorialActive)
             return;
 
-        // 遭遇战菜单打开：保持 0，不干预
-        if (EncounterManager.Instance != null && EncounterManager.Instance.panelRoot != null
-            && EncounterManager.Instance.panelRoot.activeSelf)
-            return;
-
         // 部署拖拽、寻路选点、撤退模式：DeploymentManager 已设 timeScale=0，不覆盖
         if (DeploymentManager.Instance != null && DeploymentManager.Instance.isGamePaused)
             return;
@@ -45,13 +39,17 @@ public class GameSpeedBoost : MonoBehaviour
         if (TeleportController.Instance != null && TeleportController.Instance.IsInTeleportMode)
             return;
 
-        // 【新增】紫色敌人死亡抽卡中：保持 0，不干预
+        // 第一关抽卡流程中：保持 0，不干预
+        if (RogueResultController.IsMidGameDrop || RogueResultController.IsFirstStageDrop)
+            return;
+
+        // 紫色敌人死亡抽卡中：保持 0，不干预
         if (GameManager.Instance != null && GameManager.Instance.IsPurpleEnemyDropProcessing())
             return;
 
-        _keyHeld = (useLeftControl && Input.GetKey(KeyCode.LeftControl))
-                   || (useRightControl && Input.GetKey(KeyCode.RightControl));
+        bool leftHeld  = useLeftControl  && Keyboard.current != null && Keyboard.current.leftCtrlKey.isPressed;
+        bool rightHeld = useRightControl && Keyboard.current != null && Keyboard.current.rightCtrlKey.isPressed;
 
-        Time.timeScale = _keyHeld ? speedWhenHeld : 1f;
+        Time.timeScale = (leftHeld || rightHeld) ? speedWhenHeld : 1f;
     }
 }

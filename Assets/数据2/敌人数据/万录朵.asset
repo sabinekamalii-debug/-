@@ -1,5 +1,5 @@
 %YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
+%TAG !u! tag:yousandi.cn,2023:
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: "\u4E07\u5F55\u6735"
   m_EditorClassIdentifier: 
   lives: 2500
+  defense: 0
   damage: 18
   damageforplayer: 2
   speed: 1
+  attackInterval: 1
+  attackRange: 4
   dpOnKill: 11

@@ -1,11 +1,26 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
 /// <summary>
-/// 左侧剧情卡片面板：根据「卡片库」和「已解锁状态」生成小卡片，只显示已解锁的。
-/// 用法：在场景里做一个左侧竖条 Canvas，挂本脚本，把 cardDatabase 填好；关卡结束时调用 UnlockAndShow(cardId) 或只 Unlock，面板会在有解锁卡片时显示。
+/// 剧情卡片呈现状态筛选
+/// </summary>
+public enum StoryCardStatusFilter
+{
+    All,        // 全部
+    Unlocked,   // 已解锁
+    Unviewed    // 未观看
+}
+
+/// <summary>
+/// 剧情卡片面板：根据「卡片库」「解锁状态」「筛选条件」显示卡片。
+/// 未解锁卡片显示灰色 + 🔒 图标，
+/// 已解锁未观看显示高亮边框 + NEW 角标，
+/// 已观看正常显示。
+/// 用法：在场景里做一个 Canvas，挂本脚本，把 cardDatabase 填好；
+/// 关卡结束时调用 UnlockAndShow(cardId) 或只 Unlock。
 /// </summary>
 public class StoryCardPanel : MonoBehaviour
 {
@@ -17,7 +32,7 @@ public class StoryCardPanel : MonoBehaviour
     [Header("卡片按钮预制体（需带 StoryCardButton；不填则用代码生成简单按钮）")]
     public GameObject cardButtonPrefab;
 
-    [Header("卡片容器（子物体将作为卡片挂载点，需带 VerticalLayoutGroup 更佳）")]
+    [Header("卡片容器（子物体将作为卡片挂载点）")]
     public Transform cardContainer;
 
     [Header("无卡片时是否隐藏整块面板")]
@@ -29,6 +44,21 @@ public class StoryCardPanel : MonoBehaviour
     public Button nextPageButton;
     public TMP_Text pageText;
 
+    [Header("分类筛选")]
+    [Tooltip("分类筛选按钮容器下的 Toggle；未赋值时自动查找")]
+    public ToggleGroup categoryToggleGroup;
+    public Toggle toggleAllCategory;
+    public Toggle toggleMain;
+    public Toggle toggleSide;
+    public Toggle toggleCharacter;
+    public Toggle toggleEvent;
+
+    [Header("状态筛选")]
+    public ToggleGroup statusToggleGroup;
+    public Toggle toggleStatusAll;
+    public Toggle toggleStatusUnlocked;
+    public Toggle toggleStatusUnviewed;
+
     [Header("卡片尺寸")]
     public Vector2 cardSize = new Vector2(180f, 320f);
 
@@ -38,9 +68,33 @@ public class StoryCardPanel : MonoBehaviour
     [Tooltip("脚本名格式，{0} 为卡片序号")]
     public string scriptNameFormat = "魔王{0}";
 
+    [Header("套系（V2 新增）")]
+    [Tooltip("剧情套系数据库（用于套系筛选和进度展示）")]
+    public List<StorySetData> setDatabase = new List<StorySetData>();
+
+    [Header("返回按钮")]
+    [Tooltip("返回天赋卡片面板的按钮")]
+    public Button returnButton;
+    [Tooltip("返回时显示的面板（天赋卡片面板根节点）")]
+    public GameObject heldCardsPanelRoot;
+
+    [Header("奖励提示（V2 新增）")]
+    [Tooltip("首次观看碎片时弹出天赋点奖励文本（可选）")]
+    public TMP_Text rewardToastText;
+    [Tooltip("奖励提示显示持续时间（秒）")]
+    public float rewardToastDuration = 2f;
+    [Tooltip("奖励提示格式：{0}=天赋点数, {1}=碎片名")]
+    public string rewardToastFormat = "+{0} 天赋点（{1}）";
+
+    // ── 筛选状态 ──
+    StoryCardCategory? _categoryFilter = null; // null = 全部
+    StoryCardStatusFilter _statusFilter = StoryCardStatusFilter.All;
+    string _setFilter = ""; // V2: 非空=按套系筛选
+
     readonly List<StoryCardButton> _buttons = new List<StoryCardButton>();
     readonly List<StoryCardData> _visibleCards = new List<StoryCardData>();
     int _currentPage = 0;
+    float _rewardToastTimer;
 
     void Awake()
     {
@@ -57,14 +111,65 @@ public class StoryCardPanel : MonoBehaviour
         if (Instance == this) Instance = null;
     }
 
+    void BindReturnButton()
+    {
+        if (returnButton == null)
+        {
+            var t = FindChildRecursive(transform, "BackButton");
+            if (t != null) returnButton = t.GetComponent<Button>();
+        }
+        if (returnButton != null)
+            returnButton.onClick.AddListener(ReturnToHeldCards);
+    }
+
+    void ReturnToHeldCards()
+    {
+        gameObject.SetActive(false);
+        if (heldCardsPanelRoot != null)
+            heldCardsPanelRoot.SetActive(true);
+    }
+
     void Start()
     {
         TryBindPageControls();
         BindPageButtonEvents();
+        TryBindFilterToggles();
+        BindReturnButton();
         Refresh();
     }
 
-    /// <summary> 刷新列表：只显示已解锁的卡片。 </summary>
+    void OnEnable()
+    {
+        StoryCardButton.OnRewardGranted += OnCardRewardGranted;
+        Refresh();
+    }
+
+    void OnDisable()
+    {
+        StoryCardButton.OnRewardGranted -= OnCardRewardGranted;
+    }
+
+    void Update()
+    {
+        if (_rewardToastTimer > 0f)
+        {
+            _rewardToastTimer -= Time.unscaledDeltaTime;
+            if (_rewardToastTimer <= 0f && rewardToastText != null)
+                rewardToastText.gameObject.SetActive(false);
+        }
+    }
+
+    void OnCardRewardGranted(StoryCardData cardData, int reward)
+    {
+        if (rewardToastText != null && cardData != null)
+        {
+            rewardToastText.text = string.Format(rewardToastFormat, reward, cardData.displayName);
+            rewardToastText.gameObject.SetActive(true);
+            _rewardToastTimer = rewardToastDuration;
+        }
+    }
+
+    /// <summary> 刷新列表：按当前筛选条件显示卡片。 </summary>
     public void Refresh()
     {
         Transform root = cardContainer != null ? cardContainer : transform;
@@ -79,12 +184,11 @@ public class StoryCardPanel : MonoBehaviour
             gameObject.SetActive(_visibleCards.Count > 0);
 
         EnsureButtonPoolFixed(root);
-
         NormalizeAllButtons();
         RenderPage();
     }
 
-    /// <summary> 解锁一张卡片并刷新、显示面板（关卡通关时调用）。 </summary>
+    /// <summary> 解锁一张卡片并刷新、显示面板。 </summary>
     public void UnlockAndShow(string cardId)
     {
         StoryCardUnlockState.Unlock(cardId);
@@ -92,7 +196,7 @@ public class StoryCardPanel : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    /// <summary> 仅解锁，不强制显示（例如发到背包，由玩家自己点开左侧看）。 </summary>
+    /// <summary> 仅解锁，不强制显示。 </summary>
     public void Unlock(string cardId)
     {
         StoryCardUnlockState.Unlock(cardId);
@@ -115,6 +219,56 @@ public class StoryCardPanel : MonoBehaviour
         RenderPage();
     }
 
+    // ── 筛选器 ──
+
+    /// <summary> 设置分类筛选 </summary>
+    public void SetCategoryFilter(string categoryName)
+    {
+        if (string.IsNullOrEmpty(categoryName) || categoryName == "All")
+            _categoryFilter = null;
+        else if (Enum.TryParse<StoryCardCategory>(categoryName, out var cat))
+            _categoryFilter = cat;
+        else
+            _categoryFilter = null;
+
+        _currentPage = 0;
+        Refresh();
+    }
+
+    /// <summary> 设置状态筛选 </summary>
+    public void SetStatusFilter(string statusName)
+    {
+        if (string.IsNullOrEmpty(statusName) || statusName == "All")
+            _statusFilter = StoryCardStatusFilter.All;
+        else if (statusName == "Unlocked")
+            _statusFilter = StoryCardStatusFilter.Unlocked;
+        else if (statusName == "Unviewed")
+            _statusFilter = StoryCardStatusFilter.Unviewed;
+
+        _currentPage = 0;
+        Refresh();
+    }
+
+    /// <summary> V2: 设置套系筛选（setId 或 ""=全部） </summary>
+    public void SetSetFilter(string setId)
+    {
+        _setFilter = setId ?? "";
+        _currentPage = 0;
+        Refresh();
+    }
+
+    void OnCategoryToggleChanged(string categoryName)
+    {
+        SetCategoryFilter(categoryName);
+    }
+
+    void OnStatusToggleChanged(string statusName)
+    {
+        SetStatusFilter(statusName);
+    }
+
+    // ── 私有方法 ──
+
     void CollectExistingButtons(Transform root)
     {
         _buttons.Clear();
@@ -127,16 +281,43 @@ public class StoryCardPanel : MonoBehaviour
 
     void RebuildVisibleCards()
     {
+        // V2: 每次刷新时检查是否有因 flag/链条/套系变化而解锁的新碎片
+        StoryCardUnlockState.CheckAllPending();
+
         _visibleCards.Clear();
-        foreach (var data in cardDatabase)
+        int totalCards = cardDatabase.Count;
+
+        for (int i = 0; i < totalCards; i++)
         {
+            var data = cardDatabase[i];
             if (data == null) continue;
-            
-            // 只添加已解锁的卡片
-            if (StoryCardUnlockState.IsUnlocked(data.cardId))
+
+            // 分类筛选
+            if (_categoryFilter != null && data.category != _categoryFilter.Value)
+                continue;
+
+            // V2: 套系筛选
+            if (!string.IsNullOrEmpty(_setFilter) && data.fragmentSetId != _setFilter)
+                continue;
+
+            bool isUnlocked = StoryCardUnlockState.IsUnlocked(data.cardId);
+
+            // 状态筛选
+            switch (_statusFilter)
             {
-                _visibleCards.Add(data);
+                case StoryCardStatusFilter.Unlocked:
+                    if (!isUnlocked) continue;
+                    break;
+                case StoryCardStatusFilter.Unviewed:
+                    if (!isUnlocked) continue;
+                    if (StoryCardUnlockState.IsViewed(data.cardId)) continue;
+                    break;
+                case StoryCardStatusFilter.All:
+                default:
+                    break;
             }
+
+            _visibleCards.Add(data);
         }
 
         int pageCount = GetPageCount();
@@ -159,14 +340,20 @@ public class StoryCardPanel : MonoBehaviour
 
         var rootRect = (cardContainer != null ? cardContainer : transform) as RectTransform;
         var slots = BuildPageSlots(rootRect, count);
+
         for (int i = 0; i < count && i < _buttons.Count; i++)
         {
             int globalIndex = start + i + 1;
             var btn = _buttons[i];
             var data = _visibleCards[start + i];
             btn.gameObject.SetActive(true);
-            btn.SetData(data, globalIndex);
-            if (useIndexToScriptName)
+
+            bool isUnlocked = StoryCardUnlockState.IsUnlocked(data.cardId);
+            bool isViewed = isUnlocked && StoryCardUnlockState.IsViewed(data.cardId);
+
+            btn.SetCardState(data, isUnlocked, isViewed, globalIndex);
+
+            if (isUnlocked && useIndexToScriptName)
                 btn.SetRuntimeTarget(string.Format(scriptNameFormat, globalIndex), "");
 
             var rt = btn.GetComponent<RectTransform>();
@@ -303,6 +490,44 @@ public class StoryCardPanel : MonoBehaviour
         }
     }
 
+    void TryBindFilterToggles()
+    {
+        // 按名称自动查找分类筛选 Toggle
+        if (toggleAllCategory == null) toggleAllCategory = FindToggleByName("FilterAllCategory");
+        if (toggleAllCategory != null) BindToggle(toggleAllCategory, () => OnCategoryToggleChanged("All"));
+        if (toggleMain == null) toggleMain = FindToggleByName("FilterMain");
+        if (toggleMain != null) BindToggle(toggleMain, () => OnCategoryToggleChanged("Main"));
+        if (toggleSide == null) toggleSide = FindToggleByName("FilterSide");
+        if (toggleSide != null) BindToggle(toggleSide, () => OnCategoryToggleChanged("Side"));
+        if (toggleCharacter == null) toggleCharacter = FindToggleByName("FilterCharacter");
+        if (toggleCharacter != null) BindToggle(toggleCharacter, () => OnCategoryToggleChanged("Character"));
+        if (toggleEvent == null) toggleEvent = FindToggleByName("FilterEvent");
+        if (toggleEvent != null) BindToggle(toggleEvent, () => OnCategoryToggleChanged("Event"));
+
+        if (categoryToggleGroup == null && toggleAllCategory != null)
+            categoryToggleGroup = toggleAllCategory.GetComponentInParent<ToggleGroup>();
+
+        // 状态筛选 Toggle
+        if (toggleStatusAll == null) toggleStatusAll = FindToggleByName("FilterStatusAll");
+        if (toggleStatusAll != null) BindToggle(toggleStatusAll, () => OnStatusToggleChanged("All"));
+        if (toggleStatusUnlocked == null) toggleStatusUnlocked = FindToggleByName("FilterStatusUnlocked");
+        if (toggleStatusUnlocked != null) BindToggle(toggleStatusUnlocked, () => OnStatusToggleChanged("Unlocked"));
+        if (toggleStatusUnviewed == null) toggleStatusUnviewed = FindToggleByName("FilterStatusUnviewed");
+        if (toggleStatusUnviewed != null) BindToggle(toggleStatusUnviewed, () => OnStatusToggleChanged("Unviewed"));
+
+        if (statusToggleGroup == null && toggleStatusAll != null)
+            statusToggleGroup = toggleStatusAll.GetComponentInParent<ToggleGroup>();
+    }
+
+    void BindToggle(Toggle toggle, UnityEngine.Events.UnityAction action)
+    {
+        toggle.onValueChanged.RemoveAllListeners();
+        toggle.onValueChanged.AddListener((isOn) =>
+        {
+            if (isOn) action();
+        });
+    }
+
     static Button FindButtonByName(string name)
     {
         var go = GameObject.Find(name);
@@ -317,11 +542,17 @@ public class StoryCardPanel : MonoBehaviour
         return go.GetComponent<TMP_Text>();
     }
 
+    static Toggle FindToggleByName(string name)
+    {
+        var go = GameObject.Find(name);
+        if (go == null) return null;
+        return go.GetComponent<Toggle>();
+    }
+
     GameObject CreateOneButton(Transform parent)
     {
         if (cardButtonPrefab != null)
         {
-            // worldPositionStays = false：用父节点坐标系，避免预制体 z=-935 等导致卡片在相机背后、Game 视图不可见
             var go = Instantiate(cardButtonPrefab, parent, false);
             if (go.GetComponent<StoryCardButton>() == null)
                 go.AddComponent<StoryCardButton>();
@@ -344,7 +575,7 @@ public class StoryCardPanel : MonoBehaviour
         var img = g.AddComponent<Image>();
         img.color = new Color(0.2f, 0.2f, 0.3f, 0.95f);
 
-        var textGo = new GameObject("Text");
+        var textGo = new GameObject("Name");
         textGo.transform.SetParent(g.transform, false);
         var textRect = textGo.AddComponent<RectTransform>();
         textRect.anchorMin = Vector2.zero;
@@ -359,5 +590,17 @@ public class StoryCardPanel : MonoBehaviour
         var cardBtn = g.AddComponent<StoryCardButton>();
         cardBtn.nameText = tmp;
         return g;
+    }
+
+    static Transform FindChildRecursive(Transform parent, string name)
+    {
+        for (int i = 0; i < parent.childCount; i++)
+        {
+            var child = parent.GetChild(i);
+            if (child.name == name) return child;
+            var found = FindChildRecursive(child, name);
+            if (found != null) return found;
+        }
+        return null;
     }
 }

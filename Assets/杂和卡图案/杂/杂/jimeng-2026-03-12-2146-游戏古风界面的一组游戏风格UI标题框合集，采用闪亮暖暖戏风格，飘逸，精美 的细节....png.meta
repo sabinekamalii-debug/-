@@ -1,0 +1,242 @@
+fileFormatVersion: 2
+guid: 7a6d94544138a034392734bfb68c0662
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 904761520443417899
+    second: "jimeng-2026-03-12-2146-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E
+      \u7684\u7EC6\u8282..._0"
+  - first:
+      213: -2956023759435585785
+    second: "jimeng-2026-03-12-2146-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E
+      \u7684\u7EC6\u8282..._1"
+  - first:
+      213: 7395979662461844645
+    second: "jimeng-2026-03-12-2146-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E
+      \u7684\u7EC6\u8282..._2"
+  - first:
+      213: -31725120851072155
+    second: "jimeng-2026-03-12-2146-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E
+      \u7684\u7EC6\u8282..._3"
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: "jimeng-2026-03-12-2146-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E
+        \u7684\u7EC6\u8282..._0"
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 593
+        width: 1417
+        height: 625
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b25e8782fcb5e8c00800000000000000
+      internalID: 904761520443417899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "jimeng-2026-03-12-2146-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E
+        \u7684\u7EC6\u8282..._1"
+      rect:
+        serializedVersion: 2
+        x: 1537
+        y: 623
+        width: 1441
+        height: 673
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7072a3f6d081af6d0800000000000000
+      internalID: -2956023759435585785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "jimeng-2026-03-12-2146-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E
+        \u7684\u7EC6\u8282..._2"
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 65
+        width: 1357
+        height: 428
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ac3d03415cc3a660800000000000000
+      internalID: 7395979662461844645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "jimeng-2026-03-12-2146-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E
+        \u7684\u7EC6\u8282..._3"
+      rect:
+        serializedVersion: 2
+        x: 1574
+        y: 42
+        width: 1347
+        height: 504
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56b2731bb2a4f8ff0800000000000000
+      internalID: -31725120851072155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      "jimeng-2026-03-12-2146-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E \u7684\u7EC6\u8282..._0": 904761520443417899
+      "jimeng-2026-03-12-2146-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E \u7684\u7EC6\u8282..._1": -2956023759435585785
+      "jimeng-2026-03-12-2146-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E \u7684\u7EC6\u8282..._2": 7395979662461844645
+      "jimeng-2026-03-12-2146-\u6E38\u620F\u53E4\u98CE\u754C\u9762\u7684\u4E00\u7EC4\u6E38\u620F\u98CE\u683CUI\u6807\u9898\u6846\u5408\u96C6\uFF0C\u91C7\u7528\u95EA\u4EAE\u6696\u6696\u620F\u98CE\u683C\uFF0C\u98D8\u9038\uFF0C\u7CBE\u7F8E \u7684\u7EC6\u8282..._3": -31725120851072155
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

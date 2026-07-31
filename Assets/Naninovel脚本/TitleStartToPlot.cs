@@ -5,42 +5,26 @@ using TMPro;
 [RequireComponent(typeof(Button))]
 public class TitleStartToPlot : MonoBehaviour
 {
-    [Tooltip("入口场景名，无存档时进入")]
-    public string entrySceneName = "RogueEntry";
-    [Tooltip("关卡选择场景名，有存档时进入")]
-    public string plotSceneName = "plot";
+    [Tooltip("开始游戏时进入的场景")]
+    public string entrySceneName = SceneNames.RogueEntry;
 
-    void Awake()
+    void Start()
     {
         // 只在 NewGameButton 上生效；剧情碎片按钮虽然也挂了本脚本，但不应接管它的行为
         if (gameObject.name != "NewGameButton") return;
 
-        RogueRuntimeState.InitIfNeeded();
         var btn = GetComponent<Button>();
         if (btn == null) return;
+        // 在 Start 中移除所有监听，确保 Naninovel TitleNewGameButton.OnEnable 添加的监听也被清除
         btn.onClick.RemoveAllListeners();
         btn.onClick.AddListener(OnClickStart);
-        RefreshButtonLabel();
-    }
-
-    void RefreshButtonLabel()
-    {
-        string label = RogueRuntimeState.HasActiveRun ? "继续" : "开始游戏";
-        var tmp = GetComponentInChildren<TMP_Text>(true);
-        if (tmp != null) tmp.text = label;
-        else
-        {
-            var legacy = GetComponentInChildren<Text>(true);
-            if (legacy != null) legacy.text = label;
-        }
     }
 
     void OnClickStart()
     {
         Time.timeScale = 1f;
-        if (RogueRuntimeState.HasActiveRun)
-            VideoSceneLoader.LoadScene(plotSceneName);
-        else
-            VideoSceneLoader.LoadScene(entrySceneName);
+        // 每次点击开始游戏都强制重置，开始全新一局
+        RogueRuntimeState.ForceResetRun();
+        VideoSceneLoader.LoadScene(entrySceneName);
     }
 }

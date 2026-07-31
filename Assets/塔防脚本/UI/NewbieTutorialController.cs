@@ -75,7 +75,8 @@ public class NewbieTutorialController : MonoBehaviour
         IsTutorialActive = false;
         SetDeactivateListActive(true);
         if (_blocker != null) _blocker.SetActive(false);
-        Time.timeScale = 1f;
+        // 不在 OnDisable 里恢复 timeScale，避免场景切换时取消暂停
+        // timeScale 由 ResumeAndHideBlocker() 在教程正常结束时恢复
     }
 
     private void SetDeactivateListActive(bool active)
@@ -122,7 +123,13 @@ public class NewbieTutorialController : MonoBehaviour
     {
         IsTutorialActive = false;
         SetDeactivateListActive(true);
-        Time.timeScale = 1f;
+        // 不在这里恢复 timeScale！
+        // 如果是第一关抽卡流程，LevelNodeButton.WaitForDialogueThenShowDrop 会接管暂停控制。
+        // 否则保持默认行为恢复。
+        if (!RogueResultController.IsFirstStageDrop && !RogueResultController.IsMidGameDrop)
+        {
+            Time.timeScale = 1f;
+        }
         if (_blocker != null) _blocker.SetActive(false);
     }
 

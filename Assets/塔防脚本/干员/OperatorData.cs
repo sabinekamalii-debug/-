@@ -13,7 +13,34 @@ public class OperatorData : ScriptableObject
     public float attackInterval = 1.0f;
     public float attackRange = 3.5f;
 
-    public enum OperatorType { Melee, Ranged }
+    public enum OperatorType
+    {
+        Vanguard = 0,   // 先锋 - 近战，低费回费
+        Guard = 1,      // 近卫 - 近战，均衡输出
+        Defender = 2,   // 重装 - 近战，高防御
+        Sniper = 3,     // 狙击 - 远程，高攻速高暴击
+        Caster = 4,     // 术师 - 远程，高伤害穿透
+        Medic = 5,      // 医疗 - 远程，治疗
+        Specialist = 6, // 特种 - 近战，特殊机制
+    }
+
+    public static class OperatorTypeHelper
+    {
+        public static bool IsMelee(OperatorType type)
+        {
+            return type == OperatorType.Vanguard ||
+                   type == OperatorType.Guard ||
+                   type == OperatorType.Defender ||
+                   type == OperatorType.Specialist;
+        }
+
+        public static bool IsRanged(OperatorType type)
+        {
+            return type == OperatorType.Sniper ||
+                   type == OperatorType.Caster ||
+                   type == OperatorType.Medic;
+        }
+    }
 
     [Header("类型")]
     public OperatorType opType;
@@ -39,4 +66,8 @@ public class OperatorData : ScriptableObject
 
     [Tooltip("是否为治疗型干员（如牧师）")]
     public bool isHealer = false;
+
+    [Header("暴击（狙击职业专属）")]
+    [Tooltip("基础暴击率（%），仅狙击职业有意义，与天赋卡暴击加算。狙击建议 20~30%。")]
+    public int baseCritChance = 0;
 }

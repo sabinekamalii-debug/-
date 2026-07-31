@@ -1,0 +1,201 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2cdf0df4ee3a01488d71a4f9583fdaf, type: 3}
+  m_Name: BackgroundsConfiguration
+  m_EditorClassIdentifier: 
+  DefaultDuration: 0.35
+  DefaultEasing: 0
+  AutoShowOnModify: 1
+  SceneOrigin: {x: 0.5, y: 0}
+  ZOffset: 100
+  ZStep: 0.1
+  DefaultMetadata:
+    Implementation: Naninovel.PlaceholderBackground, Elringus.Naninovel.Runtime,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    Loader:
+      PathPrefix: Backgrounds
+      ProviderTypes:
+      - Naninovel.AddressableResourceProvider, Elringus.Naninovel.Runtime, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      - Naninovel.ProjectResourceProvider, Elringus.Naninovel.Runtime, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+    guid: 7812ce53-b3ff-4bf9-8a7d-d69a35779776
+    customData:
+      rid: -2
+    Pivot: {x: 0.5, y: 0.5}
+    PixelsPerUnit: 100
+    FilterMode: 2
+    EnableDepthPass: 1
+    DepthAlphaCutoff: 0.5
+    CustomTextureMaterial: {fileID: 0}
+    CustomSpriteMaterial: {fileID: 0}
+    RenderTexture: {fileID: 0}
+    RenderRectangle:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    MatchMode: 0
+    CustomMatchRatio: 0
+    Poses: []
+    ScenePathRoot: Assets/Scenes
+  Metadata:
+    ids:
+    - MainBackground
+    metas:
+    - Implementation: Naninovel.SpriteBackground, Elringus.Naninovel.Runtime, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      Loader:
+        PathPrefix: Backgrounds
+        ProviderTypes:
+        - Naninovel.AddressableResourceProvider, Elringus.Naninovel.Runtime, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        - Naninovel.ProjectResourceProvider, Elringus.Naninovel.Runtime, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      guid: 2ff92c17-2e99-496f-99b1-23485185efb8
+      customData:
+        rid: 7566529218145681514
+      Pivot: {x: 0.5, y: 0.5}
+      PixelsPerUnit: 100
+      FilterMode: 2
+      EnableDepthPass: 1
+      DepthAlphaCutoff: 0.5
+      CustomTextureMaterial: {fileID: 0}
+      CustomSpriteMaterial: {fileID: 0}
+      RenderTexture: {fileID: 0}
+      RenderRectangle:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1
+        height: 1
+      MatchMode: 0
+      CustomMatchRatio: 0
+      Poses: []
+      ScenePathRoot: Assets/Scenes
+  SharedPoses: []
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 7566529218145681514
+      type: {class: PlaceholderBackgroundMetadata, ns: Naninovel, asm: Elringus.Naninovel.Runtime}
+      data:
+        PlaceholderAppearances:
+        - name: Black
+          colors:
+          - {r: 0, g: 0, b: 0, a: 1}
+          speed: 0
+          angle: 0
+          radial: 0
+          textSize: 1
+          textColor: {r: 0, g: 0, b: 0, a: 1}
+          textSpeed: {x: 0, y: 0}
+        - name: White
+          colors:
+          - {r: 1, g: 1, b: 1, a: 1}
+          speed: 0
+          angle: 0
+          radial: 0
+          textSize: 1
+          textColor: {r: 1, g: 1, b: 1, a: 1}
+          textSpeed: {x: 0, y: 0}
+        - name: Light
+          colors:
+          - {r: 0.85, g: 0.85, b: 0.65, a: 1}
+          - {r: 0.85, g: 0.5, b: 0.5, a: 1}
+          - {r: 0.35, g: 0.5, b: 0.85, a: 1}
+          speed: 0.05
+          angle: 45
+          radial: 0
+          textSize: 1
+          textColor: {r: 1, g: 1, b: 1, a: 0.2}
+          textSpeed: {x: -0.05, y: -0.025}
+        - name: Dark
+          colors:
+          - {r: 0.3, g: 0.35, b: 0.6, a: 1}
+          - {r: 0.4, g: 0.3, b: 0.6, a: 1}
+          - {r: 0.5, g: 0.3, b: 0.35, a: 1}
+          speed: -0.05
+          angle: 45
+          radial: 0
+          textSize: 1
+          textColor: {r: 1, g: 1, b: 1, a: 0.1}
+          textSpeed: {x: 0.05, y: 0.025}
+        - name: City
+          colors:
+          - {r: 0.26, g: 0.3, b: 0.3, a: 1}
+          - {r: 0.3, g: 0.4, b: 0.44, a: 1}
+          - {r: 0.62, g: 0.62, b: 0.32, a: 1}
+          - {r: 0.31, g: 0.45, b: 0.15, a: 1}
+          - {r: 0.34, g: 0.34, b: 0.34, a: 1}
+          - {r: 0.72, g: 0.71, b: 0.5, a: 1}
+          speed: 0.005
+          angle: 0
+          radial: 0
+          textSize: 1
+          textColor: {r: 1, g: 1, b: 1, a: 0.15}
+          textSpeed: {x: -0.1, y: 0.01}
+        - name: Desert
+          colors:
+          - {r: 0.54, g: 0.89, b: 1, a: 1}
+          - {r: 1, g: 0.96, b: 0.68, a: 1}
+          - {r: 0.86, g: 0.71, b: 0.31, a: 1}
+          - {r: 0.56, g: 0.46, b: 0.24, a: 1}
+          speed: 0
+          angle: -90
+          radial: 0
+          textSize: 1
+          textColor: {r: 0.26, g: 0.18, b: 0, a: 0.25}
+          textSpeed: {x: 0.1, y: 0}
+        - name: Snow
+          colors:
+          - {r: 0.96, g: 1, b: 1, a: 1}
+          - {r: 0.76, g: 0.95, b: 1, a: 1}
+          - {r: 0.44, g: 0.64, b: 0.83, a: 1}
+          - {r: 0.24, g: 0.45, b: 0.56, a: 1}
+          speed: 0
+          angle: -90
+          radial: 0
+          textSize: 1
+          textColor: {r: 0, g: 0.21, b: 0.32, a: 0.19}
+          textSpeed: {x: 0, y: 0.05}
+        - name: Mist
+          colors:
+          - {r: 0.16, g: 0.16, b: 0.16, a: 1}
+          - {r: 0.22, g: 0.22, b: 0.22, a: 1}
+          - {r: 0.33, g: 0.33, b: 0.33, a: 1}
+          - {r: 0.46, g: 0.46, b: 0.46, a: 1}
+          - {r: 0.33, g: 0.33, b: 0.33, a: 1}
+          - {r: 0.22, g: 0.22, b: 0.22, a: 1}
+          speed: 0.025
+          angle: 0
+          radial: 1
+          textSize: 1
+          textColor: {r: 0.55, g: 0.55, b: 0.55, a: 0.15}
+          textSpeed: {x: -0.1, y: 0.05}
+        - name: Cosmos
+          colors:
+          - {r: 0.12, g: 0, b: 0.12, a: 1}
+          - {r: 0.1, g: 0, b: 0.18, a: 1}
+          - {r: 0.11, g: 0.02, b: 0.28, a: 1}
+          - {r: 0.12, g: 0.04, b: 0.42, a: 1}
+          - {r: 0.26, g: 0.35, b: 0.56, a: 1}
+          - {r: 0.58, g: 0.47, b: 0.01, a: 1}
+          speed: -0.1
+          angle: 0
+          radial: 1
+          textSize: 1
+          textColor: {r: 0.6, g: 0.6, b: 0.6, a: 0.1}
+          textSpeed: {x: -0.05, y: 0.025}

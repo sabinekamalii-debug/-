@@ -7,7 +7,9 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     [Header("")]
-    [Tooltip("守护点初始生命值，可在 Inspector 中自定义")]
+    [Tooltip("守护点最大生命值")]
+    public int maxPlayerHealth = 5;
+    [Tooltip("守护点当前生命值，可在 Inspector 中自定义")]
     public int playerHealth = 5;
     public bool isGameOver = false;
     
@@ -15,19 +17,34 @@ public class GameManager : MonoBehaviour
     public UIController uiController;
 
     private bool _isMidGameDropProcessing = false;
+    private bool _guardianRewindUsed = false;
+    private bool _isGuardianRewindProcessing = false;
+
+    [Header("应急协议（时光回溯）")]
+    [Tooltip("是否开启应急协议：守护点生命≤1时触发，选择战术支援并回退敌人5秒")]
+    public bool enableEmergencyProtocol = true;
+    [Tooltip("回退秒数（时光倒流长）")]
+    public float rewindSeconds = 5f;
+    [Tooltip("触发阈值：守护点生命≤此值时触发应急协议")]
+    public int emergencyProtocolThreshold = 1;
+    [Tooltip("回溯后敌人眩晕秒数（给玩家喘息时间）")]
+    public float postRewindStunSeconds = 2f;
 
     [Header("守护点血条（可选）")]
     [Tooltip("若血条画布不是守护点的子物体，拖入这里；GameOver 时会自动隐藏")]
     public GameObject guardPointHealthBarCanvas;
 
     [Header("死亡特效")]
-    [Tooltip("死亡时的红色全屏覆盖层，不填则自动创建")]
+    [Tooltip("死亡时的红色全屏覆盖层 Prefab，不填则自动创建")]
     public GameObject deathOverlay;
     private Canvas _deathCanvas;
     private GameObject _deathOverlayObject;
     private GameObject _deathTextObject;
-    private bool _isDeathTransitionComplete = false;
     private bool _isListeningForClick = false;
+
+    [Header("时光回溯特效")]
+    [Tooltip("时光回溯视觉特效 Prefab，不填则代码自动创建")]
+    public GameObject rewindEffectPrefab;
 
     public void DelayThenSetInactive(GameObject target, float delay)
     {
@@ -45,23 +62,60 @@ public class GameManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+
+        // 确保 GameSpeedBoost 始终存在（Ctrl 加速）
+        if (GetComponent<GameSpeedBoost>() == null)
+            gameObject.AddComponent<GameSpeedBoost>();
     }
 
     public void Start()
     {
-        playerHealth += TalentEffectApplier.GetGuardianHpBonus();
+        int guardianBonus = TalentEffectApplier.GetGuardianHpBonus();
+        maxPlayerHealth = 5 + guardianBonus;
+
+        // 跨场血量：首战满血，后续战斗承接上场残余血量
+        if (RogueRuntimeState.GuardianMaxHp > 0)
+        {
+            playerHealth = Mathf.Clamp(RogueRuntimeState.GuardianCurrentHp, 1, maxPlayerHealth);
+        }
+        else
+        {
+            playerHealth = maxPlayerHealth;
+        }
 
         if (uiController != null)
         {
             uiController.UpdateLivesUI(playerHealth);
         }
+
+        // 通知 BattleEventManager 战斗开始
+        if (BattleEventManager.Instance != null)
+            BattleEventManager.Instance.OnBattleStart();
     }
-    
+
     public void TakeDamage(int damageAmount)
     {
         if (isGameOver) return;
+        if (_isGuardianRewindProcessing) return;
 
-        playerHealth -= damageAmount;
+        int newHealth = playerHealth - damageAmount;
+
+        if (enableEmergencyProtocol && !_guardianRewindUsed && playerHealth > emergencyProtocolThreshold && newHealth <= emergencyProtocolThreshold)
+        {
+            int oldHealth = playerHealth;
+            playerHealth = emergencyProtocolThreshold;
+            
+            if (uiController != null)
+            {
+                uiController.UpdateLivesUI(playerHealth);
+            }
+            TriggerEmergencyProtocol();
+            return;
+        }
+
+        int preDamageHealth = playerHealth;
+        playerHealth = newHealth;
+        
 
         if (uiController != null)
         {
@@ -86,7 +140,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
 
         RogueResultController.IsMidGameDrop = true;
-        SceneManager.LoadScene("RogueResult", LoadSceneMode.Additive);
+        SceneManager.LoadScene(SceneNames.RogueResult, LoadSceneMode.Additive);
     }
 
     public void ResetMidGameDropFlag()
@@ -99,12 +153,202 @@ public class GameManager : MonoBehaviour
         return _isMidGameDropProcessing;
     }
 
+    public void TriggerEmergencyProtocol()
+    {
+        if (_guardianRewindUsed || _isGuardianRewindProcessing) return;
+
+        _guardianRewindUsed = true;
+        _isGuardianRewindProcessing = true;
+
+        maxPlayerHealth = Mathf.Max(1, maxPlayerHealth - 1);
+        if (playerHealth > maxPlayerHealth)
+            playerHealth = maxPlayerHealth;
+
+        Time.timeScale = 0f;
+
+        RogueResultController.IsGuardianRewindDrop = true;
+        RogueResultController.IsMidGameDrop = true;
+        SceneManager.LoadScene(SceneNames.RogueResult, LoadSceneMode.Additive);
+    }
+
+    public void OnEmergencyProtocolComplete()
+    {
+        StartCoroutine(EmergencyProtocolCompleteCoroutine());
+    }
+
+    private IEnumerator EmergencyProtocolCompleteCoroutine()
+    {
+        yield return PlayRewindVisualEffect();
+
+        _isGuardianRewindProcessing = false;
+
+        OperatorUnit.RewindAllOperatorsHealth(rewindSeconds);
+
+        Enemy2.RewindAllEnemies(rewindSeconds);
+
+        Enemy2.StunAllEnemies(postRewindStunSeconds);
+
+        Time.timeScale = 1f;
+    }
+
+    private IEnumerator PlayRewindVisualEffect()
+    {
+        Canvas canvas = null;
+        GameObject overlayGo = null;
+        TMPro.TextMeshProUGUI countTmp = null;
+        UnityEngine.UI.Image img = null;
+
+        if (rewindEffectPrefab != null)
+        {
+            // 使用 Prefab 实例化
+            var effectInstance = Instantiate(rewindEffectPrefab);
+            canvas = effectInstance.GetComponent<Canvas>();
+            var overlayTransform = effectInstance.transform.Find("RewindOverlay");
+            if (overlayTransform != null)
+            {
+                overlayGo = overlayTransform.gameObject;
+                img = overlayGo.GetComponent<UnityEngine.UI.Image>();
+            }
+            var countdownTransform = effectInstance.transform.Find("CountdownText");
+            if (countdownTransform != null)
+                countTmp = countdownTransform.GetComponent<TMPro.TextMeshProUGUI>();
+        }
+        else
+        {
+            // 回退：代码创建
+            var canvasGo = new GameObject("EmergencyProtocol_Effect", typeof(Canvas));
+            canvas = canvasGo.GetComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.sortingOrder = 9999;
+
+            overlayGo = new GameObject("RewindOverlay", typeof(RectTransform), typeof(UnityEngine.UI.Image));
+            overlayGo.transform.SetParent(canvas.transform, false);
+            var rect = overlayGo.GetComponent<RectTransform>();
+            rect.anchorMin = Vector2.zero;
+            rect.anchorMax = Vector2.one;
+            rect.offsetMin = Vector2.zero;
+            rect.offsetMax = Vector2.zero;
+            img = overlayGo.GetComponent<UnityEngine.UI.Image>();
+            img.color = new Color(0.3f, 0.2f, 0.8f, 0f);
+
+            var countdownGo = new GameObject("CountdownText", typeof(RectTransform), typeof(TMPro.TextMeshProUGUI));
+            countdownGo.transform.SetParent(canvas.transform, false);
+            var countRect = countdownGo.GetComponent<RectTransform>();
+            countRect.anchorMin = new Vector2(0.5f, 0.5f);
+            countRect.anchorMax = new Vector2(0.5f, 0.5f);
+            countRect.pivot = new Vector2(0.5f, 0.5f);
+            countRect.sizeDelta = new Vector2(600, 200);
+            countRect.anchoredPosition = Vector2.zero;
+            countTmp = countdownGo.GetComponent<TMPro.TextMeshProUGUI>();
+            countTmp.alignment = TMPro.TextAlignmentOptions.Center;
+            countTmp.fontSize = 120;
+            countTmp.color = new Color(0.8f, 0.8f, 1f, 1f);
+            countTmp.text = "时光回溯中...";
+        }
+
+        try
+        {
+            float totalDuration = 1.5f;
+            float elapsed = 0f;
+            while (elapsed < totalDuration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float t = elapsed / totalDuration;
+                float alpha = Mathf.Sin(t * Mathf.PI) * 0.5f;
+                if (img != null) img.color = new Color(0.3f, 0.2f, 0.8f, alpha);
+                yield return null;
+            }
+
+            int displaySeconds = Mathf.CeilToInt(rewindSeconds);
+            for (int i = displaySeconds; i >= 1; i--)
+            {
+                if (countTmp != null)
+                {
+                    countTmp.text = i.ToString();
+                    countTmp.transform.localScale = Vector3.one * 1.5f;
+                }
+                float countTime = 0.3f;
+                float countElapsed = 0f;
+                while (countElapsed < countTime)
+                {
+                    countElapsed += Time.unscaledDeltaTime;
+                    float ct = countElapsed / countTime;
+                    if (countTmp != null)
+                    {
+                        countTmp.transform.localScale = Vector3.Lerp(Vector3.one * 1.5f, Vector3.one * 0.8f, ct);
+                        countTmp.color = new Color(0.8f, 0.8f, 1f, 1f - ct * 0.3f);
+                    }
+                    yield return null;
+                }
+            }
+
+            if (countTmp != null)
+            {
+                countTmp.text = "—— 时间重定向 ——";
+                countTmp.fontSize = 60;
+                countTmp.color = new Color(1f, 0.9f, 0.5f, 1f);
+                countTmp.transform.localScale = Vector3.one;
+            }
+
+            float fadeTime = 0.5f;
+            float fadeElapsed = 0f;
+            while (fadeElapsed < fadeTime)
+            {
+                fadeElapsed += Time.unscaledDeltaTime;
+                float ft = fadeElapsed / fadeTime;
+                if (img != null) img.color = new Color(0.3f, 0.2f, 0.8f, 0.5f * (1f - ft));
+                if (countTmp != null) countTmp.color = new Color(1f, 0.9f, 0.5f, 1f - ft);
+                yield return null;
+            }
+        }
+        finally
+        {
+            if (canvas != null) Destroy(canvas.gameObject);
+        }
+    }
+
+    public bool IsEmergencyProtocolUsed()
+    {
+        return _guardianRewindUsed;
+    }
+
+    public void ResetEmergencyProtocolForNewRun()
+    {
+        _guardianRewindUsed = false;
+        _isGuardianRewindProcessing = false;
+    }
+
+    public void HealGuardian(int amount)
+    {
+        if (isGameOver) return;
+        int oldHealth = playerHealth;
+        playerHealth = Mathf.Min(playerHealth + amount, maxPlayerHealth);
+        
+        if (uiController != null)
+        {
+            uiController.UpdateLivesUI(playerHealth);
+        }
+    }
+
+    public void AddDeploymentPoints(int amount)
+    {
+        if (DeploymentManager.Instance != null)
+        {
+            DeploymentManager.Instance.AddDP(amount);
+        }
+    }
+
     private void GameOver()
     {
-        Debug.Log("[GameManager] GameOver 被调用！");
+        // 死亡时写回残血到跨场状态（HP 为 0）
+        RogueRuntimeState.SetGuardianHp(0, maxPlayerHealth);
+
+        // 通知 BattleEventManager 战斗结束
+        if (BattleEventManager.Instance != null)
+            BattleEventManager.Instance.OnBattleEnd();
+
         isGameOver = true;
         Time.timeScale = 0;
-        Debug.Log("[GameManager] Time.timeScale 已设为 0");
 
         if (GridSystem.Instance != null && GridSystem.Instance.defensePoint != null)
         {
@@ -177,22 +421,15 @@ public class GameManager : MonoBehaviour
             }
         }
         
-        _isDeathTransitionComplete = true;
-        
         _isListeningForClick = true;
-        Debug.Log("[GameManager] 死亡动画完成，点击监听已启用");
     }
     
     private void CreateDeathOverlay()
     {
-        Debug.Log("[GameManager] CreateDeathOverlay 开始创建死亡覆盖层");
-        
         _isListeningForClick = true;
-        Debug.Log("[GameManager] 点击监听已启用");
-        
+
         if (deathOverlay != null)
         {
-            Debug.Log("[GameManager] 使用自定义死亡覆盖层");
             _deathOverlayObject = Instantiate(deathOverlay);
             _deathOverlayObject.SetActive(true);
             return;
@@ -201,7 +438,6 @@ public class GameManager : MonoBehaviour
         _deathCanvas = new GameObject("DeathCanvas").AddComponent<Canvas>();
         _deathCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
         _deathCanvas.sortingOrder = 9999;
-        DontDestroyOnLoad(_deathCanvas.gameObject);
         
         _deathOverlayObject = new GameObject("DeathOverlay", typeof(RectTransform), typeof(UnityEngine.UI.Image));
         _deathOverlayObject.transform.SetParent(_deathCanvas.transform, false);
@@ -242,34 +478,28 @@ public class GameManager : MonoBehaviour
     
     private void OnDeathOverlayClicked()
     {
-        Debug.Log("[GameManager] OnDeathOverlayClicked 被调用！");
         HandleDeathClick();
     }
-    
+
     private void Update()
     {
         if (_isListeningForClick && (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)))
         {
-            Debug.Log("[GameManager] Update 检测到点击！");
             HandleDeathClick();
         }
     }
     
     private void HandleDeathClick()
     {
-        Debug.Log("[GameManager] HandleDeathClick 开始执行...");
         _isListeningForClick = false;
-        
+
         Time.timeScale = 1f;
-        Debug.Log("[GameManager] Time.timeScale 已设为 1");
-        
+
         if (_deathCanvas != null)
         {
-            Debug.Log("[GameManager] 销毁死亡画布");
             Destroy(_deathCanvas.gameObject);
         }
         
-        Debug.Log("[GameManager] 开始加载 RogueResult 场景");
-        VideoSceneLoader.LoadScene("RogueResult");
+        VideoSceneLoader.LoadScene(SceneNames.RogueResult);
     }
 }

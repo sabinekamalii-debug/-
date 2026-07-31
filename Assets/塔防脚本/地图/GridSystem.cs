@@ -34,6 +34,17 @@ public class GridSystem : MonoBehaviour
         gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
         CreateGrid();
     }
+
+    /// <summary>
+    /// 重建网格（MapBuilder 铺完 Tilemap 后调用）。
+    /// 公开方法，供 BattleSceneBootstrap 在运行时地图构建完成后调用。
+    /// </summary>
+    public void RebuildGrid()
+    {
+        gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
+        gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
+        CreateGrid();
+    }
 // 【全新功能】把整块地图直接染成金色！
     // =======================================================
     public void HighlightEntireLayer(OperatorData.OperatorType opType)
@@ -41,11 +52,11 @@ public class GridSystem : MonoBehaviour
         
         ResetMapHighlight(); // 先恢复原色
 
-        if (opType == OperatorData.OperatorType.Melee && groundTilemap != null)
+        if (OperatorData.OperatorTypeHelper.IsMelee(opType) && groundTilemap != null)
         {
             groundTilemap.color = goldColor;
         }
-        else if (opType == OperatorData.OperatorType.Ranged && highGroundTilemap != null)
+        else if (OperatorData.OperatorTypeHelper.IsRanged(opType) && highGroundTilemap != null)
         {
             highGroundTilemap.color = goldColor;
         }
@@ -92,12 +103,12 @@ public class GridSystem : MonoBehaviour
             if (hasWall) continue;
 
             // 规则 4：区分职业验证地形
-            if (opData.opType == OperatorData.OperatorType.Melee && hasGround && !hasHighGround)
+            if (OperatorData.OperatorTypeHelper.IsMelee(opData.opType) && hasGround && !hasHighGround)
             {
                 // 近战：必须是平地，加入高亮名单
                 positions.Add(n.worldPosition);
             }
-            else if (opData.opType == OperatorData.OperatorType.Ranged && hasHighGround)
+            else if (OperatorData.OperatorTypeHelper.IsRanged(opData.opType) && hasHighGround)
             {
                 // 远程：必须是高台，加入高亮名单，并精确对齐高台中心
                 positions.Add(highGroundTilemap.GetCellCenterWorld(cellPos));

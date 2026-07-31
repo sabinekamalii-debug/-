@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b2c3d4e5f60718293a4b5c6d7e8f90, type: 3}
+  m_Name: evt_beast
+  m_EditorClassIdentifier: 
+  eventId: evt_beast
+  title: "\u56F0\u517D\u4E4B\u6597"
+  description: "\u4E00\u53EA\u53D7\u4F24\u7684\u5DE8\u517D\u88AB\u56F0\u5728\u9677\u9631\u4E2D\uFF0C\u53D1\u51FA\u4F4E\u6C89\u7684\u54C0\u9E23\u3002\u5B83\u7684\u773C\u795E\u4E2D\u65E2\u6709\u654C\u610F\uFF0C\u4E5F\u6709\u4E00\u4E1D\u54C0\u6C42\u3002"
+  backgroundImage: {fileID: 0}
+  options:
+  - buttonText: "\u91CA\u653E\u5DE8\u517D"
+    previewText: "\u83B7\u5F97\u4E00\u5F20\u7A00\u6709\u5B88\u62A4\u5361\uFF0C\u4E0B\u573A\u654C\u4EBA+20%\u3002"
+    resultText: "\u4F60\u780D\u65AD\u4E86\u9677\u9631\u7684\u7EF3\u7D22\u3002\u5DE8\u517D\u5486\u54EE\u4E00\u58F0\uFF0C\u7559\u4E0B\u4E00\u5F20\u5B88\u62A4\u5361\u540E\u51B2\u5165\u68EE\u6797\u3002\u4F46\u5B83\u7684\u53EB\u58F0\u5F15\u6765\u4E86\u66F4\u591A\u654C\u4EBA\u2026\u2026"
+    outcomes:
+    - outcomeType: 5
+      value: 0
+      stringParam: Rare
+      successChance: 1
+      failureOutcome: 0
+      failureValue: 0
+    - outcomeType: 12
+      value: 20
+      stringParam: 
+      successChance: 1
+      failureOutcome: 0
+      failureValue: 0
+    goldCost: 0
+    requiredCardId: 
+    requiredGuardianHp: 0
+    naniScriptName: 
+    naniLabel: 
+  - buttonText: "\u730E\u6740\u5DE8\u517D"
+    previewText: "\u83B7\u5F97 60 \u91D1\u5E01\u3002"
+    resultText: "\u4F60\u7ED9\u4E86\u5DE8\u517D\u4E00\u4E2A\u75DB\u5FEB\u3002\u5B83\u7684\u76AE\u6BDB\u548C\u7259\u9F7F\u5728\u5E02\u573A\u4E0A\u4EF7\u503C\u4E0D\u83F2\u3002"
+    outcomes:
+    - outcomeType: 1
+      value: 60
+      stringParam: 
+      successChance: 1
+      failureOutcome: 0
+      failureValue: 0
+    goldCost: 0
+    requiredCardId: 
+    requiredGuardianHp: 0
+    naniScriptName: 
+    naniLabel: 
+  - buttonText: "\u5C1D\u8BD5\u9A6F\u670D(30\u91D1\u5E01)"
+    previewText: "\u82B1\u8D39\u91D1\u5E01\u9A6F\u670D\uFF0C\u83B7\u5F97\u4E00\u5F20\u5B88\u62A4\u5361\u3002"
+    resultText: "\u4F60\u5C0F\u5FC3\u7FFC\u7FFC\u5730\u5582\u98DF\u5DE8\u517D\u3002\u5B83\u4F4E\u4E0B\u5934\uFF0C\u8BA4\u53EF\u4E86\u4F60\u8FD9\u4E2A\u65B0\u4E3B\u4EBA\u3002"
+    outcomes:
+    - outcomeType: 5
+      value: 0
+      stringParam: Advanced
+      successChance: 1
+      failureOutcome: 0
+      failureValue: 0
+    goldCost: 30
+    requiredCardId: 
+    requiredGuardianHp: 0
+    naniScriptName: 
+    naniLabel: 
+  minStage: 2
+  maxStage: 10
+  weight: 5
+  oneShot: 0
+  repeatable: 0
+  playNaniOnEnter: 0
+  naniEntryScriptName: 
+  naniEntryLabel: 

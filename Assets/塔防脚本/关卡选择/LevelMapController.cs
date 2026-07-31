@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 /// <summary>
@@ -15,17 +17,25 @@ public class LevelMapController : MonoBehaviour
     public static LevelMapController Instance { get; private set; }
 
     [Header("关卡顺序")]
-    [Tooltip("与 Build Settings 中的场景名一致，如 level 1, level 2。共16关。")]
+    [Tooltip("与 Build Settings 中的场景名一致，如 level 1, level 2。共30关。")]
     public string[] levelOrder = new[]
     {
         "level 1","level 2","level 3","level 4",
         "level 5","level 6","level 7","level 8",
         "level 9","level 10","level 11","level 12",
         "level 13","level 14","level 15","level 16",
+        "level 17","level 18","level 19","level 20",
+        "level 21","level 22","level 23","level 24",
+        "level 25","level 26","level 27","level 28",
+        "level 29","level 30",
     };
 
     [Header("关卡随机配置")]
-    [Tooltip("拖入简单关卡配置（推荐）")]
+    [Tooltip("拖入关卡随机配置（灵活，支持自定义区间）")]
+    public LevelRandomConfig levelRandomConfig;
+    
+    [Header("关卡随机配置（简化版）")]
+    [Tooltip("拖入简单关卡配置。LevelRandomConfig 为空时才使用这个。")]
     public SimpleLevelRandomConfig simpleLevelRandomConfig;
 
     [Header("关卡连线配置")]
@@ -50,16 +60,17 @@ public class LevelMapController : MonoBehaviour
 
 #if UNITY_EDITOR
         if (clearProgressOnEnterInEditor)
-        {
             LevelProgress.ClearAll();
-            LevelRandomizer.Reset();
-        }
 #endif
 
         LevelProgress.SetLevelOrder(levelOrder);
         LevelProgress.SetConnectionConfig(connectionConfig);
 
-        if (simpleLevelRandomConfig != null)
+        if (levelRandomConfig != null)
+        {
+            LevelRandomizer.SetConfig(levelRandomConfig);
+        }
+        else if (simpleLevelRandomConfig != null)
         {
             LevelRandomizer.SetSimpleConfig(simpleLevelRandomConfig);
         }
@@ -110,10 +121,39 @@ public class LevelMapController : MonoBehaviour
     {
         if (scrollRect == null)
             scrollRect = GetComponentInChildren<ScrollRect>(true);
-        
+
+        // 编辑器下确保输入模块能接收滚轮事件，避免 Game 窗口未点击时滚轮无效
+        ForceInputModuleActive();
+
         RefreshAllLevelButtons();
         
         EnsureLinesBehindButtons();
+    }
+
+    /// <summary>
+    /// 编辑器下：
+    /// - 旧版 StandaloneInputModule：设 forceModuleActive=true
+    /// - 新版 InputSystemUIInputModule：通过 InputSystem.settings 确保编辑器下输入直通 Game 窗口
+    /// 打包后构建窗口自带焦点，不影响。
+    /// </summary>
+    private static void ForceInputModuleActive()
+    {
+#if UNITY_EDITOR
+        // 旧版 Input Module
+        if (EventSystem.current != null)
+        {
+            var standalone = EventSystem.current.currentInputModule as StandaloneInputModule;
+            if (standalone != null)
+                standalone.forceModuleActive = true;
+        }
+
+        // 新版 Input System：编辑器下让所有设备输入直接送到 Game 窗口
+        if (InputSystem.settings != null)
+        {
+            InputSystem.settings.editorInputBehaviorInPlayMode =
+                InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
+        }
+#endif
     }
 
     void LateUpdate()

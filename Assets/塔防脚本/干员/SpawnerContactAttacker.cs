@@ -106,25 +106,34 @@ public class SpawnerContactAttacker : MonoBehaviour
         if (_contactEnemies.Count == 0 && _contactSpawners.Count == 0) return;
 
         _attackTimer += Time.deltaTime;
-        float interval = unit != null ? unit.runtimeAttackInterval : 1f;
+        float interval = unit != null ? unit.EffectiveAttackInterval : 1f;
         if (interval <= 0f) interval = 1f;
 
         if (_attackTimer >= interval)
         {
-            int damage = unit != null ? unit.runtimeAttackDamage : 1;
-
-            bool ignoreDefense = unit != null && unit.GetComponent<IgnoreDefenseAttacker>() != null;
+            int penetration = unit != null ? unit.GetPenetrationPercent() : 0;
+            bool ignoreDefense = false;
             // 若本干员有 UnitBlocker，敌人伤害只由 OperatorUnit 对「被阻挡的」造成，此处不再对接触列表里的敌人出手，避免顺手打死路过的敌人
             bool enemyDamageHandledByBlocker = unit != null && unit.blocker != null;
             if (_contactEnemies.Count > 0 && !enemyDamageHandledByBlocker)
             {
                 Enemy2 first = _contactEnemies[0];
-                if (first != null) first.TakeDamage(damage, ignoreDefense);
+                if (first != null && unit != null)
+                {
+                    var (dmg, _) = unit.CalculateDamage(first);
+                    first.TakeDamage(dmg, ignoreDefense, penetration);
+                    unit.OnDamageDealt(dmg);
+                }
             }
             else if (_contactSpawners.Count > 0)
             {
                 SpawnerHealth first = _contactSpawners[0];
-                if (first != null && !first.isBroken) first.TakeDamage(damage);
+                if (first != null && !first.isBroken && unit != null)
+                {
+                    var (dmg, _) = unit.CalculateDamage(null);
+                    first.TakeDamage(dmg);
+                    unit.OnDamageDealt(dmg);
+                }
             }
 
             _attackTimer = 0f;
