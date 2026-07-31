@@ -180,6 +180,22 @@ public class RogueEntryController : MonoBehaviour
         var mode = (GameMode)index;
         RogueRuntimeState.SetGameMode(mode);
         Debug.Log($"[RogueEntryController] 关卡模式切换为: {mode}");
+
+        // 更新按钮上的文字
+        string modeName = mode switch
+        {
+            GameMode.Fixed => "固定模式",
+            GameMode.Hybrid => "混合模式",
+            GameMode.Random => "随机模式",
+            _ => "未知"
+        };
+        var captionTr = _gameModeDropdown.transform.Find("Caption");
+        if (captionTr != null)
+        {
+            var caption = captionTr.GetComponent<TMPro.TextMeshProUGUI>();
+            if (caption != null)
+                caption.text = "模式选择：" + modeName;
+        }
     }
 
     private void TryBindByName()
