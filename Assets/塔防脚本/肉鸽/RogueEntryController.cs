@@ -196,6 +196,36 @@ public class RogueEntryController : MonoBehaviour
             if (caption != null)
                 caption.text = "模式选择：" + modeName;
         }
+
+        // 刷新下拉列表中的描述文字
+        RefreshDropdownDescriptions();
+    }
+
+    /// <summary> 刷新下拉列表中每项的 Description 文字 </summary>
+    private void RefreshDropdownDescriptions()
+    {
+        if (_gameModeDropdown == null) return;
+        var template = _gameModeDropdown.template;
+        if (template == null) return;
+        var contentTr = template.Find("Viewport/Content");
+        if (contentTr == null) return;
+
+        string[] descs = {
+            "全部关卡使用设计师手调的固定配置",
+            "前5关固定，后段叠加受控随机修饰",
+            "全部关卡叠加随机修饰，每局不同体验"
+        };
+
+        for (int i = 0; i < contentTr.childCount && i < descs.Length; i++)
+        {
+            var descTr = contentTr.GetChild(i).Find("Description");
+            if (descTr != null)
+            {
+                var descTmp = descTr.GetComponent<TMPro.TextMeshProUGUI>();
+                if (descTmp != null)
+                    descTmp.text = descs[i];
+            }
+        }
     }
 
     private void TryBindByName()

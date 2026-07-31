@@ -128,6 +128,8 @@ public static class CreateGameModeDropdown
         vlg.padding = new RectOffset(2, 2, 3, 3);
         var csf = content.GetComponent<ContentSizeFitter>();
         csf.verticalFit = ContentSizeFitter.FitMode.MinSize;
+        // 挂载描述刷新脚本
+        content.AddComponent<DropdownDescSetter>();
         scrollRect.content = contentRt;
 
         // ===== Item 模板（每项 84px 高：标题28行 + 描述24行 + 间距）=====
@@ -185,7 +187,7 @@ public static class CreateGameModeDropdown
         var descGo = new GameObject("Description", typeof(TextMeshProUGUI));
         descGo.transform.SetParent(item.transform, false);
         var descTmp = descGo.GetComponent<TextMeshProUGUI>();
-        descTmp.text = "全部关卡手调固定配置，体验确定稳定";
+        descTmp.text = ""; // 运行时由 RogueEntryController 动态设置
         descTmp.fontSize = 16;
         descTmp.alignment = TextAlignmentOptions.MidlineLeft;
         descTmp.color = new Color(0.65f, 0.6f, 0.5f);
