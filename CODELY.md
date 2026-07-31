@@ -56,7 +56,8 @@
 - [2026-07-31 18:42:35] [2026-07-31] 新增4个战斗关卡 LevelConfig 资产：L19迷雾沼泽(森林/S形4层走廊单路径)、L20双峰峡谷(沙漠/上下双路径)、L21螺旋深渊(Boss/外圈到中心螺旋路径/Bigboss)、L22十字要塞(精英/十字交叉双路径)。全部用 execute_csharp_script 通过 AssetDatabase.CreateAsset 创建，路径不穿墙已验证。BattleSceneBootstrap.useDefaultConfigForTesting 可指定 defaultTestConfig 直接测试关卡。
 - [2026-07-31 19:23:45] [2026-07-31] 关卡地图可视化编辑器已创建：Assets/Editor/LevelConfigMapEditor.cs，菜单 Tools→关卡地图编辑器。三种模式：View(只读)、Paint(左键刷地形/右键循环切换)、Path(左键添加航点/右键删除/拖动移动航点，自动吸附网格+打通地面)。支持 Ctrl+Z 撤销和 Ctrl+Y 重做（通过 Undo.RegisterCompleteObjectUndo）。路线终点标记为蓝色"守"=守护点，起点标记为绿色"出"=刷怪点。Path模式下可高亮显示路径经过的格子。
 - [2026-08-01 06:57:14] [2026-08-01] 固定模式跳转链路验证通过。30个 LevelConfig.asset 已全部导出（L1-L30），Editor 模式下测试：点击按钮2 → Resources.Load LevelConfig → BattleSceneBootstrap 初始化关卡成功 (ID=1) → LevelRunModifiers HP×1.00 SPD×1.00 固定模式无修饰 → 敌人池正常初始化。RunModifierConfig.asset 已创建。**Why:** 设计文档标记"尚未导出"是旧信息，实际已全部就绪。**How to apply:** 固定模式可直接测试，无需额外操作。
-- [2026-08-01 06:57:14] [2026-08-01] 开局 UI 模式选择开关已实现：RogueEntryController 在 Awake 时自动调用 EnsureGameModeUI()，场景中有名为 "GameModeDropdown" 的 TMP_Dropdown 时直接绑定，无则在 Canvas 上自动创建（位于"开始本局按钮"下方）。三个选项：固定模式/混合模式/随机模式，切换即时更新 RogueRuntimeState.CurrentGameMode。已验证三种模式切换正常。**Why:** 玩家需要选择关卡模式。**How to apply:** 如需在场景编辑器中预置 dropdown，在 UIRoot Canvas 下添加名为 "GameModeDropdown" 的 TMP_Dropdown 即可跳过自动创建。
+- [2026-08-01 07:18:04] [2026-08-01] 开局 UI 模式选择改为纯场景对象（不再代码自动创建）。RogueEntryController.EnsureGameModeUI() 只做绑定和初始化，不创建 UI。场景中已有 GameModeLabel + GameModeDropdown 两个可视化对象，可在 Hierarchy 中自由调整。编辑器脚本 Tools/创建关卡模式下拉 可一键重建。样式：深蓝半透明背景 + 金色 Outline 边框 + 金色 ▼ 箭头 + 下拉列表悬停高亮。**Why:** 用户要求可视化可调，不要代码创建。**How to apply:** 直接在 Hierarchy 选 GameModeDropdown 调整位置/大小/颜色；如需重建，删掉旧对象后点 Tools/创建关卡模式下拉。
+
 - [2026-08-01 06:57:14] [2026-08-01] Level 7 (Level_07_Battle.asset) 的 waveGroups=0，导致 IsPlayableLevelConfig() 返回 false，触发回退到可用战斗关卡。这是唯一一个波次数据为空的 LevelConfig。**Why:** 创建时可能遗漏了波次配置。**How to apply:** 如需修复，用关卡地图编辑器或 LevelConfigMapEditor 给 L7 补上 waveGroups 数据。
 
 ### Reference
