@@ -1,53 +1,48 @@
 @echo off
-chcp 65001 >nul 2>&1
+setlocal enabledelayedexpansion
+
 echo.
 echo ============================================================
-echo   自动推送任务安装器 v3
+echo   Auto Git Push Task Installer v3
 echo ============================================================
 echo.
-echo   任务1: AutoGitPush-Mowang  — 每 10 分钟推送一次
-echo   任务2: AutoGitBundle-Mowang — 每天 22:00 完整备份
+echo   Task 1: AutoGitPush-Mowang   - Push every 10 minutes
+echo   Task 2: AutoGitBundle-Mowang - Full backup daily at 22:00
 echo.
-echo   需要管理员权限创建任务计划。
-echo   请右键此文件 → "以管理员身份运行"
+echo   Admin rights required.
+echo   Right-click this file ^> "Run as administrator"
 echo.
 pause
 
-:: ===== 任务1: 每 10 分钟推送 =====
+:: Delete old tasks
 schtasks /delete /tn "AutoGitPush-Mowang" /f >nul 2>&1
-schtasks /create /tn "AutoGitPush-Mowang" ^
-    /tr "powershell.exe -ExecutionPolicy Bypass -NoProfile -File D:\unity\mowang\auto-git-push.ps1" ^
-    /sc minute /mo 10 ^
-    /rl highest ^
-    /f
+schtasks /delete /tn "AutoGitBundle-Mowang" /f >nul 2>&1
 
+:: Task 1: Push every 10 minutes
+schtasks /create /tn "AutoGitPush-Mowang" /tr "powershell.exe -ExecutionPolicy Bypass -NoProfile -File D:\unity\mowang\auto-git-push.ps1" /sc minute /mo 10 /rl highest /f
 if %errorlevel% == 0 (
-    echo   [OK] 任务1创建成功: 每 10 分钟推送
+    echo   [OK] Task 1: Push every 10 min
 ) else (
-    echo   [FAIL] 任务1创建失败，错误代码: %errorlevel%
+    echo   [FAIL] Task 1: error %errorlevel%
 )
 
-:: ===== 任务2: 每天 22:00 完整备份 =====
-schtasks /delete /tn "AutoGitBundle-Mowang" /f >nul 2>&1
-schtasks /create /tn "AutoGitBundle-Mowang" ^
-    /tr "powershell.exe -ExecutionPolicy Bypass -NoProfile -File D:\unity\mowang\auto-git-bundle.ps1" ^
-    /sc daily /st "22:00" ^
-    /rl highest ^
-    /f
-
+:: Task 2: Daily bundle backup at 22:00
+schtasks /create /tn "AutoGitBundle-Mowang" /tr "powershell.exe -ExecutionPolicy Bypass -NoProfile -File D:\unity\mowang\auto-git-bundle.ps1" /sc daily /st "22:00" /rl highest /f
 if %errorlevel% == 0 (
-    echo   [OK] 任务2创建成功: 每天 22:00 完整备份到 D:\GitBackups\
+    echo   [OK] Task 2: Daily bundle at 22:00 -^> D:\GitBackups\
 ) else (
-    echo   [FAIL] 任务2创建失败，错误代码: %errorlevel%
+    echo   [FAIL] Task 2: error %errorlevel%
 )
 
 echo.
 echo ============================================================
-echo   立即运行一次推送测试？
+echo   Run push test now?
 echo ============================================================
 pause
-powershell.exe -ExecutionPolicy Bypass -NoProfile -File D:\unity\mowang\auto-git-push.ps1
 echo.
-echo   日志: type D:\unity\mowang\auto-git-push.log
+echo Running auto-git-push.ps1...
+powershell.exe -ExecutionPolicy Bypass -NoProfile -File "D:\unity\mowang\auto-git-push.ps1"
+echo.
+echo Log: D:\unity\mowang\auto-git-push.log
 echo.
 pause
