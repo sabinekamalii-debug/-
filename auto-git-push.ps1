@@ -16,17 +16,21 @@ function Write-Log {
 
 Write-Log "----- Check start -----"
 
-# --- 1. 清理死代理 ---
-$proxy = git config --global --get http.proxy 2>&1
-if ($proxy -and $proxy.ToString().Trim() -ne "") {
-    Write-Log "Git proxy found: $proxy — testing..."
+# --- 1. 清理死代理 (global + local) ---
+$proxyG = git config --global --get http.proxy 2>&1
+$proxyL = git config --local --get http.proxy 2>&1
+if (($proxyG -and $proxyG.ToString().Trim() -ne "") -or ($proxyL -and $proxyL.ToString().Trim() -ne "")) {
+    Write-Log "Git proxy found — testing connectivity..."
     $testResult = git ls-remote --heads origin 2>&1
     if ($LASTEXITCODE -ne 0) {
-        Write-Log "Proxy dead, removing"
+        Write-Log "Proxy dead, removing all proxy config"
         git config --global --unset http.proxy 2>&1 | Out-Null
         git config --global --unset https.proxy 2>&1 | Out-Null
+        git config --local --unset http.proxy 2>&1 | Out-Null
+        git config --local --unset https.proxy 2>&1 | Out-Null
+        git config --local --unset http.sslbackend 2>&1 | Out-Null
     } else {
-        Write-Log "Proxy works"
+        Write-Log "Proxy works, keeping it"
     }
 }
 
