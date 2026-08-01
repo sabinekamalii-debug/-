@@ -1,6 +1,7 @@
 # ============================================================
-# Auto Git Push Script v3
-# 由 Windows 任务计划每 10 分钟调用，运行后退出
+# Auto Git Push Script v4
+# 由 Windows 任务计划每 6 小时调用，运行后退出
+# 推送方式：SSH（Windows OpenSSH，绕过 Git msys2 中文路径编码问题）
 # ============================================================
 
 $projectPath = "D:\unity\mowang"
@@ -16,22 +17,12 @@ function Write-Log {
 
 Write-Log "----- Check start -----"
 
-# --- 1. 确保代理配置正确 ---
-# 先试直连，不通则设代理，代理也不通则尝试设置默认代理
+# --- 1. SSH 连接检测 ---
 $testResult = git ls-remote --heads origin 2>&1
 if ($LASTEXITCODE -ne 0) {
-    Write-Log "Direct connection failed, setting proxy"
-    git config --global http.proxy "http://127.0.0.1:7897" 2>&1 | Out-Null
-    git config --global https.proxy "http://127.0.0.1:7897" 2>&1 | Out-Null
-    # 再测一次
-    $testResult2 = git ls-remote --heads origin 2>&1
-    if ($LASTEXITCODE -ne 0) {
-        Write-Log "Proxy also failed, will try push anyway"
-    } else {
-        Write-Log "Proxy works"
-    }
+    Write-Log "SSH connection failed, will try push anyway"
 } else {
-    Write-Log "Direct connection works"
+    Write-Log "SSH connection OK"
 }
 
 # --- 2. 检查是否有改动 ---
