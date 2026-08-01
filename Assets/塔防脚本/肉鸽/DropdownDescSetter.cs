@@ -2,15 +2,14 @@ using UnityEngine;
 using TMPro;
 
 /// <summary>
-/// 挂在下拉 Content 上，当模板被激活创建 Item 后，自动为每项设置描述文字。
-/// 用 LateUpdate 轮询检测，设置完成后自毁。
+/// 挂在下拉 Content 上，展开后自动为每项设置描述文字（旁白）。
 /// </summary>
 public class DropdownDescSetter : MonoBehaviour
 {
     private static readonly string[] Descriptions = {
-        "全部关卡使用设计师手调的固定配置",
-        "前5关固定，后段叠加受控随机修饰",
-        "全部关卡叠加随机修饰，每局不同体验"
+        "（每关固定关卡）",
+        "（固定与随机关卡相结合）",
+        "（每关随机关卡）"
     };
 
     private bool _done;
@@ -18,16 +17,13 @@ public class DropdownDescSetter : MonoBehaviour
     private void LateUpdate()
     {
         if (_done) return;
-        // 等至少有 4 个子对象（原型模板 + 3个选项）
         if (transform.childCount < 4) return;
 
         for (int i = 0; i < transform.childCount; i++)
         {
             var child = transform.GetChild(i);
-            // 跳过原型模板（Item 名，不是"Item(Clone)"）
             if (child.name == "Item") continue;
 
-            // 找到实际的 Item，通过 Title 文字匹配描述索引
             var titleTr = child.Find("Title");
             if (titleTr == null) continue;
             var titleTmp = titleTr.GetComponent<TextMeshProUGUI>();

@@ -8,13 +8,6 @@ public static class CreateGameModeDropdown
 {
     static readonly string BtnSpritePath = "Assets/杂和卡图案/杂/杂/jimeng-2026-03-12-2146-游戏古风界面的一组游戏风格UI标题框合集，采用闪亮暖暖戏风格，飘逸，精美 的细节....png";
 
-    // 三个模式的描述文字
-    static readonly string[] ModeDescriptions = new[] {
-        "全部关卡使用设计师手调的固定配置",
-        "前5关固定，后段叠加受控随机修饰",
-        "全部关卡叠加随机修饰，每局不同体验"
-    };
-
     [MenuItem("Tools/创建关卡模式下拉")]
     public static void Create()
     {
@@ -22,7 +15,7 @@ public static class CreateGameModeDropdown
         if (canvas == null) { Debug.LogError("UIRoot not found"); return; }
 
         var btnSprite = AssetDatabase.LoadAssetAtPath<Sprite>(BtnSpritePath);
-        if (btnSprite == null) { Debug.LogError("按钮贴图未找到: " + BtnSpritePath); return; }
+        if (btnSprite == null) { Debug.LogError("按钮贴图未找到"); return; }
 
         // 删除旧对象
         var oldLabel = GameObject.Find("GameModeLabel");
@@ -30,8 +23,8 @@ public static class CreateGameModeDropdown
         var oldDropdown = GameObject.Find("GameModeDropdown");
         if (oldDropdown != null) GameObject.DestroyImmediate(oldDropdown);
 
-        float width = 260f;
-        float height = 54f;
+        float btnW = 260f;
+        float btnH = 54f;
 
         // ===== 下拉框本体 =====
         var go = new GameObject("GameModeDropdown", typeof(Image), typeof(TMP_Dropdown));
@@ -42,29 +35,29 @@ public static class CreateGameModeDropdown
         dropdownRt.anchorMax = new Vector2(0, 1);
         dropdownRt.pivot = new Vector2(0, 0.5f);
         dropdownRt.anchoredPosition = new Vector2(60, -382);
-        dropdownRt.sizeDelta = new Vector2(width, height);
+        dropdownRt.sizeDelta = new Vector2(btnW, btnH);
 
         var bgImage = go.GetComponent<Image>();
         bgImage.sprite = btnSprite;
         bgImage.type = Image.Type.Simple;
         bgImage.color = new Color(0.85f, 0.85f, 0.9f, 1f);
 
-        // ===== Caption: "模式选择：混合模式" =====
+        // Caption
         var captionGo = new GameObject("Caption", typeof(TextMeshProUGUI));
         captionGo.transform.SetParent(go.transform, false);
         var captionText = captionGo.GetComponent<TextMeshProUGUI>();
         captionText.text = "模式选择：混合模式";
-        captionText.fontSize = 20;
-        captionText.alignment = TextAlignmentOptions.MidlineLeft;
+        captionText.fontSize = 22;
+        captionText.alignment = TextAlignmentOptions.Center;
         captionText.color = new Color(1f, 0.85f, 0.5f);
         var captionRt = captionGo.GetComponent<RectTransform>();
         captionRt.anchorMin = new Vector2(0, 0);
         captionRt.anchorMax = new Vector2(1, 1);
-        captionRt.pivot = new Vector2(0, 0.5f);
-        captionRt.offsetMin = new Vector2(55, 0);
-        captionRt.offsetMax = new Vector2(-55, 0);
+        captionRt.pivot = new Vector2(0.5f, 0.5f);
+        captionRt.offsetMin = new Vector2(50, 0);
+        captionRt.offsetMax = new Vector2(-50, 0);
 
-        // ===== 箭头 =====
+        // Arrow
         var arrowGo = new GameObject("Arrow", typeof(TextMeshProUGUI));
         arrowGo.transform.SetParent(go.transform, false);
         var arrowText = arrowGo.GetComponent<TextMeshProUGUI>();
@@ -76,30 +69,27 @@ public static class CreateGameModeDropdown
         arrowRt.anchorMin = new Vector2(1, 0);
         arrowRt.anchorMax = new Vector2(1, 1);
         arrowRt.pivot = new Vector2(1, 0.5f);
-        arrowRt.offsetMin = new Vector2(-45, 0);
-        arrowRt.offsetMax = new Vector2(-15, 0);
+        arrowRt.offsetMin = new Vector2(-40, 0);
+        arrowRt.offsetMax = new Vector2(-12, 0);
 
-        // ===== Template =====
-        var templateGo = new GameObject("Template", typeof(Image));
+        // ===== Template（透明背景，比按钮宽以容纳旁白描述）=====
+        var templateGo = new GameObject("Template", typeof(RectTransform));
         templateGo.transform.SetParent(go.transform, false);
         templateGo.SetActive(false);
         var templateRt = templateGo.GetComponent<RectTransform>();
         templateRt.anchorMin = new Vector2(0, 0);
-        templateRt.anchorMax = new Vector2(1, 0);
-        templateRt.pivot = new Vector2(0.5f, 1);
+        templateRt.anchorMax = new Vector2(0, 0);
+        templateRt.pivot = new Vector2(0, 1);
         templateRt.anchoredPosition = new Vector2(0, -3);
-        templateRt.sizeDelta = new Vector2(0, 270);
-
-        var templateImg = templateGo.GetComponent<Image>();
-        templateImg.color = new Color(0.05f, 0.08f, 0.18f, 0.95f);
+        templateRt.sizeDelta = new Vector2(520, 176);
 
         var scrollRect = templateGo.AddComponent<ScrollRect>();
         scrollRect.horizontal = false;
         scrollRect.vertical = true;
         scrollRect.movementType = ScrollRect.MovementType.Clamped;
-        var rectMask = templateGo.AddComponent<RectMask2D>();
+        templateGo.AddComponent<RectMask2D>();
 
-        // ===== Viewport =====
+        // Viewport
         var viewport = new GameObject("Viewport", typeof(RectTransform));
         viewport.transform.SetParent(templateGo.transform, false);
         var viewportRt = viewport.GetComponent<RectTransform>();
@@ -110,7 +100,7 @@ public static class CreateGameModeDropdown
         viewportRt.offsetMax = Vector2.zero;
         scrollRect.viewport = viewportRt;
 
-        // ===== Content =====
+        // Content
         var content = new GameObject("Content", typeof(RectTransform), typeof(VerticalLayoutGroup), typeof(ContentSizeFitter));
         content.transform.SetParent(viewport.transform, false);
         var contentRt = content.GetComponent<RectTransform>();
@@ -118,88 +108,89 @@ public static class CreateGameModeDropdown
         contentRt.anchorMax = new Vector2(1, 1);
         contentRt.pivot = new Vector2(0.5f, 1);
         contentRt.anchoredPosition = Vector2.zero;
-        contentRt.sizeDelta = new Vector2(0, 84);
+        contentRt.sizeDelta = new Vector2(0, btnH);
         var vlg = content.GetComponent<VerticalLayoutGroup>();
         vlg.childForceExpandWidth = true;
         vlg.childForceExpandHeight = false;
         vlg.childControlWidth = true;
         vlg.childControlHeight = false;
-        vlg.spacing = 1;
-        vlg.padding = new RectOffset(2, 2, 3, 3);
+        vlg.spacing = 4;
         var csf = content.GetComponent<ContentSizeFitter>();
         csf.verticalFit = ContentSizeFitter.FitMode.MinSize;
-        // 挂载描述刷新脚本
         content.AddComponent<DropdownDescSetter>();
         scrollRect.content = contentRt;
 
-        // ===== Item 模板（每项 84px 高：标题28行 + 描述24行 + 间距）=====
+        // ===== Item 模板（按钮贴图 + 右侧旁白描述）=====
         var item = new GameObject("Item", typeof(RectTransform));
         item.transform.SetParent(content.transform, false);
         var itemRt = item.GetComponent<RectTransform>();
         itemRt.anchorMin = new Vector2(0, 0.5f);
         itemRt.anchorMax = new Vector2(1, 0.5f);
-        itemRt.pivot = new Vector2(0.5f, 0.5f);
-        itemRt.sizeDelta = new Vector2(0, 84);
+        itemRt.pivot = new Vector2(0, 0.5f);
+        itemRt.sizeDelta = new Vector2(0, btnH);
         var le = item.AddComponent<LayoutElement>();
-        le.preferredHeight = 84;
+        le.preferredHeight = btnH;
 
-        // ----- Toggle -----
+        // --- 按钮贴图部分（左侧 260px）---
+        var btnArea = new GameObject("BtnArea", typeof(Image));
+        btnArea.transform.SetParent(item.transform, false);
+        var btnAreaImg = btnArea.GetComponent<Image>();
+        btnAreaImg.sprite = btnSprite;
+        btnAreaImg.type = Image.Type.Simple;
+        btnAreaImg.color = new Color(0.85f, 0.85f, 0.9f, 1f);
+        var btnAreaRt = btnArea.GetComponent<RectTransform>();
+        btnAreaRt.anchorMin = new Vector2(0, 0);
+        btnAreaRt.anchorMax = new Vector2(0, 1);
+        btnAreaRt.pivot = new Vector2(0, 0.5f);
+        btnAreaRt.sizeDelta = new Vector2(btnW, 0);
+        btnAreaRt.offsetMin = new Vector2(0, 0);
+        btnAreaRt.offsetMax = new Vector2(btnW, 0);
+
+        // Toggle（点整个 Item 都能选）
         var toggle = item.AddComponent<Toggle>();
         toggle.transition = Selectable.Transition.ColorTint;
         var tc = toggle.colors;
-        tc.normalColor = new Color(0.12f, 0.18f, 0.3f, 0.6f);
-        tc.highlightedColor = new Color(0.2f, 0.35f, 0.6f, 0.7f);
-        tc.pressedColor = new Color(0.25f, 0.45f, 0.75f, 0.85f);
-        tc.selectedColor = new Color(0.15f, 0.25f, 0.45f, 0.7f);
-        tc.disabledColor = new Color(0.08f, 0.12f, 0.2f, 0.5f);
+        tc.normalColor = new Color(0.85f, 0.85f, 0.9f, 1f);
+        tc.highlightedColor = new Color(1f, 1f, 1f, 1f);
+        tc.pressedColor = new Color(0.7f, 0.8f, 1f, 1f);
+        tc.selectedColor = new Color(0.9f, 0.9f, 1f, 1f);
+        tc.disabledColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
         tc.fadeDuration = 0.1f;
         toggle.colors = tc;
+        toggle.targetGraphic = btnAreaImg;
 
-        // ----- 背景图片（响应悬停/点击变色）-----
-        var itemBg = new GameObject("ItemBackground", typeof(Image));
-        itemBg.transform.SetParent(item.transform, false);
-        var itemBgImg = itemBg.GetComponent<Image>();
-        itemBgImg.color = tc.normalColor;
-        var itemBgRt = itemBg.GetComponent<RectTransform>();
-        itemBgRt.anchorMin = new Vector2(0, 0);
-        itemBgRt.anchorMax = new Vector2(1, 1);
-        itemBgRt.offsetMin = Vector2.zero;
-        itemBgRt.offsetMax = Vector2.zero;
-        itemBgRt.SetAsFirstSibling();
-        toggle.targetGraphic = itemBgImg;
-
-        // ----- 标题文字（模式名称）-----
+        // 标题（模式名称，在按钮贴图范围内居中）
         var titleGo = new GameObject("Title", typeof(TextMeshProUGUI));
         titleGo.transform.SetParent(item.transform, false);
         var titleTmp = titleGo.GetComponent<TextMeshProUGUI>();
         titleTmp.text = "固定模式";
         titleTmp.fontSize = 24;
-        titleTmp.alignment = TextAlignmentOptions.MidlineLeft;
+        titleTmp.alignment = TextAlignmentOptions.Center;
         titleTmp.color = new Color(1f, 0.9f, 0.6f);
         var titleRt = titleGo.GetComponent<RectTransform>();
-        titleRt.anchorMin = new Vector2(0, 1);
-        titleRt.anchorMax = new Vector2(1, 1);
-        titleRt.pivot = new Vector2(0, 1);
-        titleRt.offsetMin = new Vector2(12, -28);
-        titleRt.offsetMax = new Vector2(-8, 0);
+        titleRt.anchorMin = new Vector2(0, 0);
+        titleRt.anchorMax = new Vector2(0, 1);
+        titleRt.pivot = new Vector2(0.5f, 0.5f);
+        titleRt.sizeDelta = new Vector2(btnW - 80, 0);
+        titleRt.anchoredPosition = new Vector2(btnW / 2f, 0);
 
-        // ----- 描述文字（灰色小字）-----
+        // 描述（旁白，在按钮右侧）
         var descGo = new GameObject("Description", typeof(TextMeshProUGUI));
         descGo.transform.SetParent(item.transform, false);
         var descTmp = descGo.GetComponent<TextMeshProUGUI>();
-        descTmp.text = ""; // 运行时由 RogueEntryController 动态设置
-        descTmp.fontSize = 16;
+        descTmp.text = "";
+        descTmp.fontSize = 20;
         descTmp.alignment = TextAlignmentOptions.MidlineLeft;
-        descTmp.color = new Color(0.65f, 0.6f, 0.5f);
+        descTmp.color = new Color(0.75f, 0.7f, 0.6f);
         var descRt = descGo.GetComponent<RectTransform>();
-        descRt.anchorMin = new Vector2(0, 1);
+        descRt.anchorMin = new Vector2(0, 0);
         descRt.anchorMax = new Vector2(1, 1);
-        descRt.pivot = new Vector2(0, 1);
-        descRt.offsetMin = new Vector2(12, -56);
-        descRt.offsetMax = new Vector2(-8, -28);
+        descRt.pivot = new Vector2(0, 0.5f);
+        descRt.offsetMin = new Vector2(btnW + 12, 0);
+        descRt.offsetMax = new Vector2(0, 0);
 
         // ===== 连接 =====
-        dropdown.captionText = null; // 不用 TMP_Dropdown 默认的 caption 更新
+        dropdown.captionText = null;
         dropdown.itemText = titleTmp;
         dropdown.template = templateRt;
 
@@ -234,6 +225,6 @@ public static class CreateGameModeDropdown
         EditorSceneManager.MarkSceneDirty(scene);
         EditorSceneManager.SaveScene(scene);
 
-        Debug.Log("✅ 模式选择下拉重建完成：按钮显示当前模式，每项含标题+描述，悬停变色。");
+        Debug.Log("✅ 模式选择下拉重建完成。描述在按钮右侧旁白显示。");
     }
 }
