@@ -8,6 +8,7 @@ using UnityEngine.UI;
 /// 挂在「关卡选择场景」的根物体或 Scroll View 上。
 /// 
 /// 功能：
+/// - 大局驱动：从 RogueRuntimeState.CurrentActConfig 读取节点数和关卡池
 /// - 线性解锁：打完第N关自动解锁第N+1关
 /// - 随机类型：每4关一组，随机分配商店/精英/Boss等
 /// - 状态管理：处理从关卡返回时的进度保存
@@ -16,8 +17,8 @@ public class LevelMapController : MonoBehaviour
 {
     public static LevelMapController Instance { get; private set; }
 
-    [Header("关卡顺序")]
-    [Tooltip("与 Build Settings 中的场景名一致，如 level 1, level 2。共30关。")]
+    [Header("关卡顺序（旧版兼容，ActConfig 无值时使用）")]
+    [Tooltip("与 Build Settings 中的场景名一致。ActConfig 存在时此字段被忽略。")]
     public string[] levelOrder = new[]
     {
         "level 1","level 2","level 3","level 4",
@@ -39,7 +40,7 @@ public class LevelMapController : MonoBehaviour
     public SimpleLevelRandomConfig simpleLevelRandomConfig;
 
     [Header("关卡连线配置")]
-    [Tooltip("拖入连线配置（不填则线性解锁 1→2→3→...→16）")]
+    [Tooltip("拖入连线配置（不填则线性解锁 1→2→3→...→N）")]
     public LevelConnectionConfig connectionConfig;
 
     [Header("划动区域（不填则自动找）")]
@@ -58,10 +59,31 @@ public class LevelMapController : MonoBehaviour
         }
         Instance = this;
 
+        RogueRuntimeState.InitIfNeeded();
+
 #if UNITY_EDITOR
         if (clearProgressOnEnterInEditor)
             LevelProgress.ClearAll();
 #endif
+
+        // 直接运行 plot 场景测试时，CurrentActId 可能为 0，自动选第一个大局
+        if (RogueRuntimeState.CurrentActId <= 0)
+        {
+            var firstAct = ActRegistry.GetFirstAct();
+            if (firstAct != null)
+            {
+                RogueRuntimeState.StartAct(firstAct.actId);
+            }
+        }
+
+        // 如果有 ActConfig，从它生成 levelOrder（覆盖 Inspector 中的默认值）
+        var actConfig = RogueRuntimeState.CurrentActConfig;
+        if (actConfig != null && actConfig.totalNodes > 0)
+        {
+            levelOrder = new string[actConfig.totalNodes];
+            for (int i = 0; i < actConfig.totalNodes; i++)
+                levelOrder[i] = $"level{i + 1}";
+        }
 
         LevelProgress.SetLevelOrder(levelOrder);
         LevelProgress.SetConnectionConfig(connectionConfig);
@@ -75,6 +97,7 @@ public class LevelMapController : MonoBehaviour
             LevelRandomizer.SetSimpleConfig(simpleLevelRandomConfig);
         }
         
+        LevelRandomizer.SetActConfig(actConfig);
         LevelRandomizer.Initialize();
         
         CheckAndApplyReturnContext();

@@ -5,18 +5,22 @@ using TMPro;
 
 /// <summary>
 /// 「碎裂之镜」剧情碎片收藏面板
-/// - 加载所有 StorySetData + StoryCardData
-/// - 将碎片渲染到镜面上的对应位置
+/// - 自动从 Resources/StoryCards/ 加载所有 StoryCardData
+/// - 按 fragmentSetId 自动分组（无 setId 的按 category 分组）
+/// - 网格布局：按 category 分区，每区按套系分行
 /// - 点击碎片 → 播放 Naninovel 脚本
-/// - 显示每个套系的环形进度（已解锁/总数）
+/// - 显示每个套系的进度（已解锁/总数）
 /// </summary>
 public class StoryMirrorPanel : MonoBehaviour
 {
     public static StoryMirrorPanel Instance { get; private set; }
 
-    [Header("套系数据库")]
-    public List<StorySetData> setDatabase = new List<StorySetData>();
+    [Header("碎片数据（自动加载）")]
+    [Tooltip("可选：手动指定卡片列表。留空则自动从 Resources/StoryCards/ 加载全部")]
     public List<StoryCardData> cardDatabase = new List<StoryCardData>();
+
+    [Tooltip("可选：套系覆盖列表。用于自定义套系显示名/图标，无需手动创建")]
+    public List<StorySetData> setDatabase = new List<StorySetData>();
 
     [Header("碎片预制体（需带 FragmentShard 组件）")]
     public GameObject shardPrefab;
@@ -25,6 +29,14 @@ public class StoryMirrorPanel : MonoBehaviour
     public RectTransform mirrorRoot;
     [Tooltip("镜面纹理（圆形或方形，带裂纹视觉）")]
     public Image mirrorBackground;
+
+    [Header("自动布局参数")]
+    [Tooltip("碎片水平间距")]
+    public float shardSpacingX = 110f;
+    [Tooltip("碎片垂直间距（行高，含标签）")]
+    public float shardSpacingY = 150f;
+    [Tooltip("套系标签与碎片的垂直偏移")]
+    public float labelOffsetY = 35f;
 
     [Header("镜头推近")]
     [Tooltip("推近时的缩放倍率")]
@@ -51,11 +63,23 @@ public class StoryMirrorPanel : MonoBehaviour
     // ── 内部状态 ──
     readonly List<FragmentShard> _shards = new List<FragmentShard>();
     readonly List<GameObject> _progressBars = new List<GameObject>();
+    readonly List<GameObject> _groupLabels = new List<GameObject>();
     FragmentShard _zoomedShard;
     bool _isZoomed;
     float _rewardToastTimer;
 
     readonly Dictionary<string, StoryCardData> _cardLookup = new Dictionary<string, StoryCardData>();
+    readonly Dictionary<string, StorySetData> _setOverrideLookup = new Dictionary<string, StorySetData>();
+    readonly List<CardGroup> _groups = new List<CardGroup>();
+
+    // ── 自动分组结构 ──
+    class CardGroup
+    {
+        public string groupKey;
+        public StoryCardCategory category;
+        public List<StoryCardData> cards = new List<StoryCardData>();
+        public string displayName;
+    }
 
     void Awake()
     {
@@ -74,7 +98,9 @@ public class StoryMirrorPanel : MonoBehaviour
 
     void Start()
     {
+        BuildSetOverrideLookup();
         BuildCardLookup();
+        DiscoverGroups();
         BuildMirror();
         RefreshAll();
 
@@ -96,59 +122,166 @@ public class StoryMirrorPanel : MonoBehaviour
             if (_rewardToastTimer <= 0f && rewardToastText != null)
                 rewardToastText.gameObject.SetActive(false);
         }
-
-        // 脉冲动画由单个 FragmentShard.Update 自行处理
     }
 
     // ═══════════════════════════════════════════════
-    //  构建
+    //  数据加载 & 自动分组
     // ═══════════════════════════════════════════════
+
+    void BuildSetOverrideLookup()
+    {
+        _setOverrideLookup.Clear();
+        foreach (var set in setDatabase)
+        {
+            if (set != null && !string.IsNullOrEmpty(set.setId))
+                _setOverrideLookup[set.setId] = set;
+        }
+    }
 
     void BuildCardLookup()
     {
         _cardLookup.Clear();
+
+        // 先从手动指定的 cardDatabase 加载
         foreach (var card in cardDatabase)
         {
             if (card != null && !string.IsNullOrEmpty(card.cardId))
                 _cardLookup[card.cardId] = card;
         }
-        // 也尝试从 Resources 补充
-        foreach (var card in Resources.LoadAll<StoryCardData>(""))
+
+        // 再从 Resources/StoryCards/ 自动补充
+        foreach (var card in Resources.LoadAll<StoryCardData>("StoryCards"))
         {
             if (card != null && !string.IsNullOrEmpty(card.cardId) && !_cardLookup.ContainsKey(card.cardId))
                 _cardLookup[card.cardId] = card;
         }
     }
 
+    void DiscoverGroups()
+    {
+        _groups.Clear();
+        var groupMap = new Dictionary<string, CardGroup>();
+
+        foreach (var card in _cardLookup.Values)
+        {
+            if (card == null) continue;
+
+            // 有 fragmentSetId 的用 setId 分组，没有的按 category 分组
+            string key = string.IsNullOrEmpty(card.fragmentSetId)
+                ? $"_{card.category}"
+                : card.fragmentSetId;
+
+            if (!groupMap.TryGetValue(key, out var group))
+            {
+                group = new CardGroup { groupKey = key, category = card.category };
+                groupMap[key] = group;
+            }
+
+            group.cards.Add(card);
+        }
+
+        // 组内按 setIndex 排序
+        foreach (var g in groupMap.Values)
+            g.cards.Sort((a, b) => a.setIndex.CompareTo(b.setIndex));
+
+        // 组间排序：先按 category（Main < Side < Character < Event），再按 groupKey
+        _groups.AddRange(groupMap.Values);
+        _groups.Sort((a, b) =>
+        {
+            int c = a.category.CompareTo(b.category);
+            return c != 0 ? c : string.Compare(a.groupKey, b.groupKey, System.StringComparison.Ordinal);
+        });
+
+        // 派生显示名
+        foreach (var g in _groups)
+        {
+            if (_setOverrideLookup.TryGetValue(g.groupKey, out var setData) && setData != null)
+                g.displayName = setData.displayName;
+            else
+                g.displayName = DeriveDisplayName(g);
+        }
+    }
+
+    static string DeriveDisplayName(CardGroup group)
+    {
+        // 无 fragmentSetId 的按 category 命名
+        if (group.groupKey.StartsWith("_"))
+        {
+            return group.category switch
+            {
+                StoryCardCategory.Main => "主线碎片",
+                StoryCardCategory.Side => "支线碎片",
+                StoryCardCategory.Character => "角色碎片",
+                StoryCardCategory.Event => "事件碎片",
+                _ => "碎片"
+            };
+        }
+
+        // 有 fragmentSetId 的：尝试从 key 派生可读名称
+        // 如 "act1_main" → "第一幕 · 主线", "act1_spring" → "第一幕 · 残影之泉"
+        var parts = group.groupKey.Split('_');
+        if (parts.Length >= 2 && parts[0].StartsWith("act"))
+        {
+            string actName = parts[0] switch
+            {
+                "act1" => "第一幕",
+                "act2" => "第二幕",
+                "act3" => "第三幕",
+                "act4" => "第四幕",
+                "act5" => "第五幕",
+                _ => parts[0]
+            };
+            string subName = parts[1] switch
+            {
+                "main" => "主线",
+                "side" => "支线",
+                "spring" => "残影之泉",
+                _ => parts[1]
+            };
+            return $"{actName} · {subName}";
+        }
+
+        // 兜底：把下划线换成中点
+        return group.groupKey.Replace("_", " · ");
+    }
+
+    // ═══════════════════════════════════════════════
+    //  镜面构建（自动布局）
+    // ═══════════════════════════════════════════════
+
     void BuildMirror()
     {
-        // 清理旧碎片
         foreach (var s in _shards)
             if (s != null) Destroy(s.gameObject);
         _shards.Clear();
 
+        foreach (var lbl in _groupLabels)
+            if (lbl != null) Destroy(lbl);
+        _groupLabels.Clear();
+
         Transform root = mirrorRoot != null ? mirrorRoot : transform;
+        float rootHeight = mirrorRoot != null ? mirrorRoot.rect.height : 800f;
 
-        foreach (var set in setDatabase)
+        // 从顶部开始向下排列
+        float yCursor = rootHeight * 0.5f - shardSpacingY * 0.5f;
+
+        foreach (var group in _groups)
         {
-            if (set == null || set.fragmentCardIds.Count == 0) continue;
+            int count = group.cards.Count;
+            if (count == 0) continue;
 
-            var cardsInSet = new List<StoryCardData>();
-            foreach (var cid in set.fragmentCardIds)
+            // 创建套系标签
+            var labelGo = CreateGroupLabel(root, group.displayName, new Vector2(0, yCursor + labelOffsetY));
+            _groupLabels.Add(labelGo);
+
+            // 居中排列碎片
+            float rowWidth = (count - 1) * shardSpacingX;
+            float startX = -rowWidth * 0.5f;
+
+            for (int i = 0; i < count; i++)
             {
-                if (_cardLookup.TryGetValue(cid, out var cd))
-                    cardsInSet.Add(cd);
-            }
-
-            if (cardsInSet.Count == 0) continue;
-
-            // 计算该套系中每个碎片在镜面上的位置
-            var positions = CalculateShardPositions(set, cardsInSet.Count);
-
-            for (int i = 0; i < cardsInSet.Count; i++)
-            {
-                var card = cardsInSet[i];
-                var pos = positions[i];
+                var card = group.cards[i];
+                Vector2 pos = new Vector2(startX + i * shardSpacingX, yCursor);
 
                 var go = shardPrefab != null
                     ? Instantiate(shardPrefab, root, false)
@@ -158,39 +291,27 @@ public class StoryMirrorPanel : MonoBehaviour
                 if (shard == null)
                     shard = go.AddComponent<FragmentShard>();
 
-                shard.Init(card, set, pos, i, OnShardClicked);
+                shard.Init(card, null, pos, i, OnShardClicked);
                 _shards.Add(shard);
             }
+
+            yCursor -= shardSpacingY;
         }
     }
 
-    List<Vector2> CalculateShardPositions(StorySetData set, int count)
+    GameObject CreateGroupLabel(Transform parent, string text, Vector2 pos)
     {
-        var result = new List<Vector2>();
-
-        if (count <= 1)
-        {
-            // 单碎片居中
-            result.Add(new Vector2(
-                (set.mirrorCenter.x - 0.5f) * mirrorRoot.rect.width,
-                (set.mirrorCenter.y - 0.5f) * mirrorRoot.rect.height
-            ));
-            return result;
-        }
-
-        float radius = set.mirrorRadius * Mathf.Min(mirrorRoot.rect.width, mirrorRoot.rect.height) * 0.5f;
-        float startAngle = -set.mirrorArcDegrees * 0.5f;
-        float angleStep = count > 1 ? set.mirrorArcDegrees / (count - 1) : 0f;
-
-        for (int i = 0; i < count; i++)
-        {
-            float angle = (startAngle + angleStep * i) * Mathf.Deg2Rad;
-            float x = Mathf.Sin(angle) * radius + (set.mirrorCenter.x - 0.5f) * mirrorRoot.rect.width;
-            float y = Mathf.Cos(angle) * radius + (set.mirrorCenter.y - 0.5f) * mirrorRoot.rect.height;
-            result.Add(new Vector2(x, y));
-        }
-
-        return result;
+        var go = new GameObject($"Label_{text}");
+        go.transform.SetParent(parent, false);
+        var rt = go.AddComponent<RectTransform>();
+        rt.anchoredPosition = pos;
+        rt.sizeDelta = new Vector2(600, 40);
+        var tmp = go.AddComponent<TextMeshProUGUI>();
+        tmp.text = text;
+        tmp.fontSize = 26;
+        tmp.alignment = TextAlignmentOptions.Center;
+        tmp.color = new Color(0.9f, 0.85f, 0.6f, 0.9f);
+        return go;
     }
 
     GameObject CreateFallbackShard(Transform parent)
@@ -216,18 +337,31 @@ public class StoryMirrorPanel : MonoBehaviour
 
         if (progressContainer == null) return;
 
-        foreach (var set in setDatabase)
+        foreach (var group in _groups)
         {
-            if (set == null) continue;
-            var (unlocked, total, keyUnlocked) = StoryCardUnlockState.GetSetProgress(set.setId);
+            // 直接从组内卡片计算进度，不依赖 StoryCardUnlockState 的 setId 查询
+            int unlocked = 0;
+            int total = 0;
+            bool keyUnlocked = false;
 
-            var go = setProgressPrefab != null
-                ? Instantiate(setProgressPrefab, progressContainer, false)
-                : null;
-
-            if (go != null)
+            foreach (var card in group.cards)
             {
-                _progressBars.Add(go);
+                if (card.isKeyFragment)
+                    keyUnlocked = StoryCardUnlockState.IsUnlocked(card.cardId);
+                else
+                {
+                    total++;
+                    if (StoryCardUnlockState.IsUnlocked(card.cardId))
+                        unlocked++;
+                }
+            }
+
+            if (total == 0 && !keyUnlocked) continue;
+
+            GameObject go;
+            if (setProgressPrefab != null)
+            {
+                go = Instantiate(setProgressPrefab, progressContainer, false);
 
                 var fillImage = FindChildImage(go.transform, "Fill");
                 if (fillImage != null)
@@ -235,12 +369,27 @@ public class StoryMirrorPanel : MonoBehaviour
 
                 var progressText = FindChildTMP(go.transform, "ProgressText");
                 if (progressText != null)
-                    progressText.text = $"{unlocked}/{total}";
+                    progressText.text = $"{unlocked}/{Mathf.Max(1, total)}";
 
                 var nameText = FindChildTMP(go.transform, "SetName");
                 if (nameText != null)
-                    nameText.text = set.displayName;
+                    nameText.text = group.displayName;
             }
+            else
+            {
+                // 文字回退
+                go = new GameObject($"Progress_{group.displayName}");
+                go.transform.SetParent(progressContainer, false);
+                var rt = go.AddComponent<RectTransform>();
+                rt.sizeDelta = new Vector2(400, 30);
+                var tmp = go.AddComponent<TextMeshProUGUI>();
+                tmp.fontSize = 20;
+                tmp.alignment = TextAlignmentOptions.Left;
+                tmp.color = new Color(0.8f, 0.8f, 0.85f, 0.9f);
+                tmp.text = $"{group.displayName}  {unlocked}/{Mathf.Max(1, total)}" + (keyUnlocked ? " ★" : "");
+            }
+
+            _progressBars.Add(go);
         }
     }
 
@@ -255,20 +404,17 @@ public class StoryMirrorPanel : MonoBehaviour
         var data = shard.CardData;
         if (!StoryCardUnlockState.IsUnlocked(data.cardId)) return;
 
-        // 推近到该碎片
         if (!_isZoomed)
             ZoomToShard(shard);
         else if (_zoomedShard == shard)
             ZoomOut();
 
-        // 播放剧情
         string script = string.IsNullOrEmpty(data.scriptName) ? "plot1" : data.scriptName;
         string label = data.labelName ?? "";
 
         NaninovelReturnRequest.Set(script, label);
         NaninovelReturnAutoPlayer.Ensure();
 
-        // 在 Title 场景播放
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "Title")
         {
             VideoSceneLoader.LoadScene(SceneNames.Title);
@@ -301,6 +447,7 @@ public class StoryMirrorPanel : MonoBehaviour
     {
         StoryCardUnlockState.RefreshCache();
         BuildCardLookup();
+        DiscoverGroups();
 
         // 更新碎片状态
         foreach (var shard in _shards)
@@ -359,15 +506,12 @@ public class StoryMirrorPanel : MonoBehaviour
     /// </summary>
     public void SyncFromSetDatabase()
     {
+        // 自动模式下无需手动同步，保留方法兼容外部调用
         cardDatabase.Clear();
-        foreach (var set in setDatabase)
+        foreach (var card in _cardLookup.Values)
         {
-            if (set == null) continue;
-            foreach (var cid in set.fragmentCardIds)
-            {
-                if (_cardLookup.TryGetValue(cid, out var card) && !cardDatabase.Contains(card))
-                    cardDatabase.Add(card);
-            }
+            if (card != null)
+                cardDatabase.Add(card);
         }
     }
 }

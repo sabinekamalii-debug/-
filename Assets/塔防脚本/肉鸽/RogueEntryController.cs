@@ -87,13 +87,11 @@ public class RogueEntryController : MonoBehaviour
         }
         catch (System.Exception e)
         {
-            Debug.LogWarning($"[RogueEntryController] Resources.Load 异常: {e.Message}");
             config = null;
         }
         if (config != null)
         {
             RogueRuntimeState.SetRunModifierConfig(config);
-            Debug.Log("[RogueEntryController] RunModifierConfig 从 .asset 加载成功");
         }
         else
         {
@@ -111,7 +109,6 @@ public class RogueEntryController : MonoBehaviour
             fallback.hpGrowthPerStage = BalanceConfig.HybridHpGrowthPerStage;
             fallback.speedGrowthPerStage = BalanceConfig.HybridSpeedGrowthPerStage;
             RogueRuntimeState.SetRunModifierConfig(fallback);
-            Debug.Log("[RogueEntryController] RunModifierConfig.asset 缺失，已用 BalanceConfig 常量创建兜底配置");
         }
     }
 
@@ -153,7 +150,6 @@ public class RogueEntryController : MonoBehaviour
 
         if (_gameModeDropdown == null)
         {
-            Debug.LogWarning("[RogueEntryController] 未找到 GameModeDropdown，请在场景中创建 TMP_Dropdown 并命名为 GameModeDropdown。");
             return;
         }
 
@@ -179,7 +175,6 @@ public class RogueEntryController : MonoBehaviour
     {
         var mode = (GameMode)index;
         RogueRuntimeState.SetGameMode(mode);
-        Debug.Log($"[RogueEntryController] 关卡模式切换为: {mode}");
 
         // 更新按钮上的文字
         string modeName = mode switch
@@ -211,9 +206,9 @@ public class RogueEntryController : MonoBehaviour
         if (contentTr == null) return;
 
         string[] descs = {
-            "全部关卡使用设计师手调的固定配置",
-            "前5关固定，后段叠加受控随机修饰",
-            "全部关卡叠加随机修饰，每局不同体验"
+            "固定关卡顺序，原版战斗数据",
+            "前5关固定顺序，后续关卡顺序随机打乱",
+            "全部关卡顺序随机打乱，每局不同体验"
         };
 
         for (int i = 0; i < contentTr.childCount && i < descs.Length; i++)

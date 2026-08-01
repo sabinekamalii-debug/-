@@ -9,7 +9,6 @@ public static class LevelProgressDebugMenu
     {
         bool enabled = LevelProgress.IsTestUnlockEnabled();
         LevelProgress.SetTestUnlockEnabled(!enabled);
-        Debug.Log($"[LevelProgress] 测试全解锁已 {(enabled ? "关闭" : "开启")}");
     }
 
     [MenuItem("魔塔/关卡进度/切换测试全解锁", true)]
@@ -22,14 +21,12 @@ public static class LevelProgressDebugMenu
     private static void UnlockAllLevels()
     {
         LevelProgress.UnlockAllForTesting();
-        Debug.Log("[LevelProgress] 已强制解锁全部关卡");
     }
 
     [MenuItem("魔塔/关卡进度/清空关卡进度", false, 30)]
     private static void ClearProgress()
     {
         LevelProgress.ClearAll();
-        Debug.Log("[LevelProgress] 已清空关卡进度");
     }
 }
 #endif

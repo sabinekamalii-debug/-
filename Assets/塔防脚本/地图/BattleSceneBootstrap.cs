@@ -58,24 +58,17 @@ public class BattleSceneBootstrap : MonoBehaviour
                     config = fallback;
                     // 直接运行场景测试时，重置可能残留的静态状态，避免上一局的暂停标志卡住游戏
                     ResetStaleStaticState();
-                    Debug.LogWarning($"[BattleSceneBootstrap] 未检测到传入的 LevelConfig，" +
-                        $"使用默认测试关卡构建地图: {config.displayName}");
                 }
                 else
                 {
-                    Debug.LogError("[BattleSceneBootstrap] 无传入 LevelConfig，且默认测试配置(Level_01_Battle)缺失，无法构建地图。");
                     return;
                 }
             }
             else
             {
-                Debug.LogWarning("[BattleSceneBootstrap] LevelSceneLoadContext 中没有 LevelConfig，" +
-                    "跳过初始化（旧模式）。");
                 return; // 兼容旧场景：没有配置就不注入
             }
         }
-
-        Debug.Log($"[BattleSceneBootstrap] 初始化关卡: {config.displayName} (ID={config.levelId})");
 
         // 2. 解析依赖（未手动拖入则自动查找）
         ResolveDependencies();
@@ -87,7 +80,6 @@ public class BattleSceneBootstrap : MonoBehaviour
         }
         else
         {
-            Debug.LogError("[BattleSceneBootstrap] MapBuilder 未绑定，地图无法构建！");
         }
 
         // 4. 注入波次和路线到 Spawner
@@ -185,7 +177,6 @@ public class BattleSceneBootstrap : MonoBehaviour
         }
         else if (!string.IsNullOrEmpty(config.afterLevelLabel) && currentLevelId > 0 && currentLevelId != config.levelId)
         {
-            Debug.LogWarning($"[BattleSceneBootstrap] 使用回退关卡配置 {config.levelId}，但当前关卡编号为 {currentLevelId}。自动生成 AfterLevel 标签以避免错误跳转。");
             levelEndMenu.labelName = $"AfterLevel{currentLevelId}";
         }
         else

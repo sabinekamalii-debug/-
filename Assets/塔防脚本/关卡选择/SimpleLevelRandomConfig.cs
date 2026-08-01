@@ -44,7 +44,10 @@ public class SimpleLevelRandomConfig : ScriptableObject
     public LevelGroupConfig group9to12 = new LevelGroupConfig { shopCount = 1, eliteCount = 1 };
 
     [Header("第13-16关")]
-    public LevelGroupConfig group13to16 = new LevelGroupConfig { shopCount = 1, eliteCount = 1, bossCount = 1 };
+    public LevelGroupConfig group13to16 = new LevelGroupConfig { shopCount = 1, eliteCount = 1 };
+
+    [Header("第17-21关")]
+    public LevelGroupConfig group17to21 = new LevelGroupConfig { eliteCount = 3, bossCount = 1 };
 
     public List<LevelRangeFull> ConvertToRanges()
     {
@@ -53,7 +56,8 @@ public class SimpleLevelRandomConfig : ScriptableObject
             new LevelRangeFull { startLevel = 1, endLevel = 4, config = group1to4 },
             new LevelRangeFull { startLevel = 5, endLevel = 8, config = group5to8 },
             new LevelRangeFull { startLevel = 9, endLevel = 12, config = group9to12 },
-            new LevelRangeFull { startLevel = 13, endLevel = 16, config = group13to16 }
+            new LevelRangeFull { startLevel = 13, endLevel = 16, config = group13to16 },
+            new LevelRangeFull { startLevel = 17, endLevel = 21, config = group17to21 }
         };
     }
 }

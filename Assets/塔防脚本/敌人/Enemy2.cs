@@ -93,7 +93,6 @@ public class Enemy2 : MonoBehaviour
         currentHealth = Mathf.RoundToInt(data.lives * LevelRunModifiers.EnemyHpMultiplier);
         maxHealth = currentHealth;
         _runtimeMoveSpeedMultiplier = LevelRunModifiers.EnemySpeedMultiplier;
-        Debug.Log($"[Enemy2] OnEnable: HP×{LevelRunModifiers.EnemyHpMultiplier:F2} SPD×{LevelRunModifiers.EnemySpeedMultiplier:F2}");
         
         _currentWayPoint = 0;
         if (currentPath == null)

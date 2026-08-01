@@ -20,7 +20,6 @@ public class TalentCardBatchGenerator
 
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
-        Debug.Log("所有卡片生成完成！");
     }
 
     private static void CreateCard(string folder, string cardId, string displayName,
@@ -160,7 +159,6 @@ public class TalentCardBatchGenerator
             0, OperatorData.OperatorType.Guard, -1,
             "击杀后攻速 +30% 持续3秒\n攻击吸血 8%");
 
-        Debug.Log("攻击卡 16 张生成完成");
     }
 
     // ════════════════════════════════════════════════════════════
@@ -266,7 +264,6 @@ public class TalentCardBatchGenerator
             0, OperatorData.OperatorType.Guard, -1,
             "防御 +30%\n最大 HP +20%\n格挡率+25%（待实现）");
 
-        Debug.Log("防御卡 15 张生成完成");
     }
 
     // ════════════════════════════════════════════════════════════
@@ -390,7 +387,6 @@ public class TalentCardBatchGenerator
             0, OperatorData.OperatorType.Guard, -1,
             "每个存活干员为守护点 +2HP\n守护点 HP +2");
 
-        Debug.Log("守护卡 18 张生成完成");
     }
 
     // ════════════════════════════════════════════════════════════
@@ -476,7 +472,6 @@ public class TalentCardBatchGenerator
             0, OperatorData.OperatorType.Guard, -1,
             "低血时攻击 +40%\n攻速 +12%\n低血时技能伤害 +50%（待实现）");
 
-        Debug.Log("技能卡 12 张生成完成");
     }
 
     // ════════════════════════════════════════════════════════════
@@ -549,7 +544,6 @@ public class TalentCardBatchGenerator
             0, OperatorData.OperatorType.Guard, -1,
             "攻击 +15%\n防御 +15%\nHP +15%\n攻速 +15%\n暴击率 +10%（待效果列表扩展）");
 
-        Debug.Log("稀有卡 10 张生成完成");
     }
 
     // ════════════════════════════════════════════════════════════
@@ -623,6 +617,5 @@ public class TalentCardBatchGenerator
             0, OperatorData.OperatorType.Guard, -1,
             "暴击率 +15%\n金币 +20%\n稀有/传说卡出现率提升");
 
-        Debug.Log("特殊卡 10 张生成完成");
     }
 }

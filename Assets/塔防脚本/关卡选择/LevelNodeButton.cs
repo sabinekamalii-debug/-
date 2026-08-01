@@ -59,7 +59,7 @@ public class LevelNodeButton : MonoBehaviour
 
     private static readonly int[] FallbackBattleConfigIds = new[]
     {
-        1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17
+        1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21
     };
 
     Button _button;
@@ -111,11 +111,16 @@ public class LevelNodeButton : MonoBehaviour
     {
         if (!useNewArchitecture || _levelNumber <= 0) return;
 
+        // 随机/混合模式下，按关卡类型从对应池中取打乱后的 LevelConfig ID。
+        // 普通关卡只随机普通关卡，精英只随机精英，Boss 只随机 Boss。
+        LevelType btnType = GetLevelType(_levelNumber);
+        int configId = RogueRuntimeState.GetLevelConfigIdForStage(_levelNumber, btnType);
+
         // 支持多种命名格式
         string[] possibleNames = {
-            $"Level_{_levelNumber:D2}_Battle",  // Level_03_Battle
-            $"Level_{_levelNumber}_Battle",      // Level_3_Battle
-            $"LevelConfig_{_levelNumber}",
+            $"Level_{configId:D2}_Battle",  // Level_03_Battle
+            $"Level_{configId}_Battle",      // Level_3_Battle
+            $"LevelConfig_{configId}",
         };
 
         foreach (var name in possibleNames)
@@ -127,13 +132,9 @@ public class LevelNodeButton : MonoBehaviour
 
         if (_cachedLevelConfig != null && !IsPlayableLevelConfig(_cachedLevelConfig))
         {
-            Debug.LogWarning($"[LevelNodeButton] 关卡 {_levelNumber} 的 LevelConfig 不完整或不可玩，回退至已有可用战斗关卡。" );
             _cachedLevelConfig = GetPlayableFallbackLevelConfig();
             _loadedInvalidConfig = true;
-            if (_cachedLevelConfig == null)
-            {
-                Debug.LogError("[LevelNodeButton] 未找到可回退的有效 LevelConfig，旧关卡场景将按原始场景加载。");
-            }
+
         }
     }
 
@@ -402,6 +403,8 @@ public class LevelNodeButton : MonoBehaviour
         if (levelType == LevelType.Shop)
         {
             ShopReturnContext.SetShopLevel(_levelNumber);
+            // 非战斗节点自动标记完成，解锁下一关；可反复进入
+            LevelProgress.MarkCompleted(_sceneName);
             VideoSceneLoader.LoadScene(SceneNames.GoldShop);
             return;
         }
@@ -409,15 +412,10 @@ public class LevelNodeButton : MonoBehaviour
         // 随机事件节点 → 随机选择一个事件场景加载
         if (levelType == LevelType.RandomEvent)
         {
-            string[] eventScenes = {
-                "RandomEvent",
-                "RandomEvent_Forest",
-                "RandomEvent_Temple",
-                "RandomEvent_Grave",
-                "RandomEvent_Cave",
-                "RandomEvent_Street"
-            };
-            string picked = eventScenes[Random.Range(0, eventScenes.Length)];
+            // [TEST] 固定加载 RandomEvent 场景，测试完恢复随机
+            string picked = "RandomEvent";
+            // 非战斗节点自动标记完成，解锁下一关；可反复进入
+            LevelProgress.MarkCompleted(_sceneName);
             VideoSceneLoader.LoadScene(picked);
             return;
         }
@@ -426,6 +424,8 @@ public class LevelNodeButton : MonoBehaviour
         if (levelType == LevelType.Rest)
         {
             RestReturnContext.SetRestLevel(_levelNumber);
+            // 非战斗节点自动标记完成，解锁下一关；可反复进入
+            LevelProgress.MarkCompleted(_sceneName);
             VideoSceneLoader.LoadScene(SceneNames.Rest);
             return;
         }
@@ -435,29 +435,11 @@ public class LevelNodeButton : MonoBehaviour
         {
             _cachedLevelConfig = GetPlayableFallbackLevelConfig(levelType);
             _loadedInvalidConfig = true;
-            if (_cachedLevelConfig != null)
-            {
-                Debug.LogWarning($"[LevelNodeButton] 关卡 {_levelNumber} 无有效配置，回退至可用战斗关卡 {_cachedLevelConfig.levelId}。" );
-            }
         }
 
         if (_cachedLevelConfig != null)
         {
-            LevelConfig configToUse = _cachedLevelConfig;
-
-            if (RogueRuntimeState.ShouldApplyModifiers(_levelNumber))
-            {
-                var modifierConfig = RogueRuntimeState.ModifierConfig;
-                if (modifierConfig != null)
-                {
-                    int subSeed = RunRng.DeriveLevelSeed(RogueRuntimeState.RunSeed, _levelNumber);
-                    var rng = new RunRng(subSeed);
-                    configToUse = _cachedLevelConfig.ApplyRunModifiers(rng, _levelNumber, modifierConfig);
-                    Debug.Log($"[LevelNodeButton] 关卡 {_levelNumber} 超过固定阈值 {RogueRuntimeState.GetFixedCutoff()}，叠加随机修饰 (subSeed={subSeed})");
-                }
-            }
-
-            LevelSceneLoadContext.SetLevelConfig(configToUse, _levelNumber, _sceneName);
+            LevelSceneLoadContext.SetLevelConfig(_cachedLevelConfig, _levelNumber, _sceneName);
             VideoSceneLoader.LoadScene(SceneNames.BattleScene);
             return;
         }
@@ -483,12 +465,9 @@ public class LevelNodeButton : MonoBehaviour
         string fallbackScene = GetFallbackOldSceneName();
         if (!string.IsNullOrEmpty(fallbackScene))
         {
-            Debug.LogWarning($"[LevelNodeButton] 旧场景 {_sceneName} 不可加载，回退至可用旧战斗场景 {fallbackScene}。" );
             VideoSceneLoader.LoadScene(fallbackScene);
             return;
         }
-
-        Debug.LogError($"[LevelNodeButton] 无法加载关卡 {_sceneName}，请检查关卡配置或场景是否存在。");
     }
 
     static IEnumerator WaitForDialogueThenShowDrop()

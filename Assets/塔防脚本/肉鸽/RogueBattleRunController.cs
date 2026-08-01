@@ -35,7 +35,6 @@ public class RogueBattleRunController : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("[RogueBattleRun] Start");
         if (!RogueRuntimeState.HasActiveRun)
             RogueRuntimeState.StartRunIfNeeded();
 

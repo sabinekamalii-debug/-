@@ -18,6 +18,9 @@ public class LevelConfig : ScriptableObject
     [Tooltip("关卡唯一 ID，如 3, 4, 5... 对应原 level 3/4/5")]
     public int levelId;
 
+    [Tooltip("所属大局 ID，0=未分配。用于 ActConfig 关卡池分类。")]
+    public int actId = 0;
+
     [Tooltip("关卡显示名，如「荒原遭遇战」")]
     public string displayName = "未命名关卡";
 
@@ -192,10 +195,6 @@ public class LevelConfig : ScriptableObject
         {
             copy.waveGroups = ApplyEnemyPoolSwap(rng, modifierConfig);
         }
-
-        Debug.Log($"[LevelConfig] ApplyRunModifiers: L{levelNumber} S{rng.Seed} " +
-            $"HP×{copy.enemyHpMultiplier:F2} SPD×{copy.enemySpeedMultiplier:F2} " +
-            $"DP={copy.startDP} Life={copy.maxLifePoint}");
 
         return copy;
     }

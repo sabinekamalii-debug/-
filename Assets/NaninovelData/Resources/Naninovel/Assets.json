@@ -397,6 +397,12 @@
             "group": ""
         },
         {
+            "guid": "e2d23bd5002c4c2eb0908cfc4aefcd85",
+            "prefix": "Scripts",
+            "path": "残影之泉",
+            "group": ""
+        },
+        {
             "guid": "7bf06fa813bb9c34daf521998fa72ab1",
             "prefix": "Spawn",
             "path": "Animate",

@@ -80,12 +80,9 @@ public class LevelStandardizer : EditorWindow
             {
                 masterScene = EditorSceneManager.OpenScene(MASTER_SCENE_PATH, OpenSceneMode.Additive);
             }
-
-            Debug.Log($"[LevelStandardizer] Master scene loaded: {masterScene.path}");
         }
         catch (System.Exception ex)
         {
-            Debug.LogError($"[LevelStandardizer] 无法打开 master scene: {ex.Message}");
             EditorUtility.DisplayDialog("错误", "无法打开 level 1，请关闭它后再试", "确定");
             return;
         }
@@ -95,7 +92,6 @@ public class LevelStandardizer : EditorWindow
         {
             if (!File.Exists(path))
             {
-                Debug.LogWarning($"[LevelStandardizer] 跳过不存在的场景: {path}");
                 continue;
             }
 
@@ -104,16 +100,13 @@ public class LevelStandardizer : EditorWindow
             {
                 case ProcessResult.FullSuccess:
                     success++;
-                    Debug.Log($"[LevelStandardizer] [OK] Level {levelNum}: 完全成功");
                     break;
                 case ProcessResult.PartialSuccess:
                     partial++;
-                    Debug.LogWarning($"[LevelStandardizer] [PARTIAL] Level {levelNum}: 部分成功");
                     failures.Add($"Level {levelNum} (部分)");
                     break;
                 case ProcessResult.Failed:
                     failed++;
-                    Debug.LogError($"[LevelStandardizer] [FAIL] Level {levelNum}: 失败");
                     failures.Add($"Level {levelNum}");
                     break;
             }
@@ -125,12 +118,10 @@ public class LevelStandardizer : EditorWindow
             if (masterScene.IsValid() && masterScene.isLoaded)
             {
                 EditorSceneManager.CloseScene(masterScene, true);
-                Debug.Log("[LevelStandardizer] Master scene closed");
             }
         }
         catch (System.Exception ex)
         {
-            Debug.LogWarning($"[LevelStandardizer] 关闭 master 失败: {ex.Message}");
         }
 
         string msg = $"完全成功: {success}\n部分成功: {partial}\n失败: {failed}\n合计: {TARGET_LEVELS.Length}";
@@ -151,8 +142,6 @@ public class LevelStandardizer : EditorWindow
     /// </summary>
     private static ProcessResult ProcessSingleLevel(string scenePath, int levelNumber, Scene masterScene)
     {
-        Debug.Log($"[LevelStandardizer] --- 开始 Level {levelNumber}: {scenePath} ---");
-
         // 步骤 A：以 Additive 模式打开目标关卡（master 不会被关闭）
         Scene targetScene = default;
         try
@@ -177,15 +166,11 @@ public class LevelStandardizer : EditorWindow
 
             if (!targetScene.IsValid())
             {
-                Debug.LogError($"[LevelStandardizer] Level {levelNumber}: target scene invalid");
                 return ProcessResult.Failed;
             }
-
-            Debug.Log($"[LevelStandardizer] Level {levelNumber}: target scene loaded, roots={targetScene.rootCount}");
         }
         catch (System.Exception ex)
         {
-            Debug.LogError($"[LevelStandardizer] Level {levelNumber}: OpenScene failed: {ex.Message}");
             return ProcessResult.Failed;
         }
 
@@ -196,19 +181,11 @@ public class LevelStandardizer : EditorWindow
             masterObjects = FindRootObjectsByName(masterScene, COPY_TARGETS);
             if (masterObjects.Count != COPY_TARGETS.Length)
             {
-                Debug.LogError($"[LevelStandardizer] Level {levelNumber}: master 缺对象 {masterObjects.Count}/{COPY_TARGETS.Length}");
-                var missing = COPY_TARGETS.Where(n => !masterObjects.ContainsKey(n));
-                Debug.LogError($"  Missing: {string.Join(",", missing)}");
                 // 不返回失败，尝试继续
-            }
-            else
-            {
-                Debug.Log($"[LevelStandardizer] Level {levelNumber}: master 全部 {masterObjects.Count} 个对象就绪");
             }
         }
         catch (System.Exception ex)
         {
-            Debug.LogError($"[LevelStandardizer] Level {levelNumber}: FindRoot failed: {ex.Message}");
             TryCloseScene(targetScene);
             return ProcessResult.Failed;
         }
@@ -220,11 +197,9 @@ public class LevelStandardizer : EditorWindow
         try
         {
             DeleteExistingCopies(targetScene);
-            Debug.Log($"[LevelStandardizer] Level {levelNumber}: 已删除旧对象");
         }
         catch (System.Exception ex)
         {
-            Debug.LogWarning($"[LevelStandardizer] Level {levelNumber}: 删除失败: {ex.Message}");
         }
 
         // 步骤 D：从 master 复制 6 个对象到 target（master 仍开着！）
@@ -233,7 +208,6 @@ public class LevelStandardizer : EditorWindow
         {
             if (!masterObjects.TryGetValue(name, out GameObject masterObj) || masterObj == null)
             {
-                Debug.LogWarning($"  跳过 {name}: master 对象不可用");
                 allCopied = false;
                 continue;
             }
@@ -245,18 +219,15 @@ public class LevelStandardizer : EditorWindow
                 SceneManager.MoveGameObjectToScene(clone, targetScene);
                 copiedObjects[name] = clone;
                 anyCopied = true;
-                Debug.Log($"  复制成功: {name}");
             }
             catch (System.Exception ex)
             {
-                Debug.LogError($"  复制 {name} 失败: {ex.Message}");
                 allCopied = false;
             }
         }
 
         if (!anyCopied)
         {
-            Debug.LogError($"[LevelStandardizer] Level {levelNumber}: 6 个对象全部复制失败");
             TryCloseScene(targetScene);
             return ProcessResult.Failed;
         }
@@ -265,11 +236,9 @@ public class LevelStandardizer : EditorWindow
         try
         {
             FixCanvasSettings(targetScene, copiedObjects);
-            Debug.Log($"[LevelStandardizer] Level {levelNumber}: Canvas 修复完成");
         }
         catch (System.Exception ex)
         {
-            Debug.LogWarning($"[LevelStandardizer] Level {levelNumber}: Canvas 修复失败: {ex.Message}");
             allCopied = false;
         }
 
@@ -277,11 +246,9 @@ public class LevelStandardizer : EditorWindow
         try
         {
             FixTransforms(copiedObjects);
-            Debug.Log($"[LevelStandardizer] Level {levelNumber}: Transform 修复完成");
         }
         catch (System.Exception ex)
         {
-            Debug.LogWarning($"[LevelStandardizer] Level {levelNumber}: Transform 修复失败: {ex.Message}");
             allCopied = false;
         }
 
@@ -289,11 +256,9 @@ public class LevelStandardizer : EditorWindow
         try
         {
             FixManagerReferences(targetScene, copiedObjects);
-            Debug.Log($"[LevelStandardizer] Level {levelNumber}: 引用接线完成");
         }
         catch (System.Exception ex)
         {
-            Debug.LogWarning($"[LevelStandardizer] Level {levelNumber}: 引用接线失败: {ex.Message}");
             allCopied = false;
         }
 
@@ -301,22 +266,18 @@ public class LevelStandardizer : EditorWindow
         try
         {
             FixGridDefensePoint(targetScene);
-            Debug.Log($"[LevelStandardizer] Level {levelNumber}: Grid 修复完成");
         }
         catch (System.Exception ex)
         {
-            Debug.LogWarning($"[LevelStandardizer] Level {levelNumber}: Grid 修复失败: {ex.Message}");
         }
 
         // 步骤 I：设置关卡参数
         try
         {
             FixLevelParameters(copiedObjects, levelNumber);
-            Debug.Log($"[LevelStandardizer] Level {levelNumber}: 参数设置完成");
         }
         catch (System.Exception ex)
         {
-            Debug.LogWarning($"[LevelStandardizer] Level {levelNumber}: 参数设置失败: {ex.Message}");
             allCopied = false;
         }
 
@@ -330,7 +291,6 @@ public class LevelStandardizer : EditorWindow
         }
         catch (System.Exception ex)
         {
-            Debug.LogWarning($"[LevelStandardizer] Level {levelNumber}: 遭遇战菜单禁用失败: {ex.Message}");
         }
 
         // 步骤 K：保存并关闭 target 场景
@@ -348,12 +308,10 @@ public class LevelStandardizer : EditorWindow
         {
             EditorSceneManager.MarkSceneDirty(scene);
             bool saved = EditorSceneManager.SaveScene(scene);
-            Debug.Log($"[LevelStandardizer] Level {levelNumber}: SaveScene = {saved}");
             return saved;
         }
         catch (System.Exception ex)
         {
-            Debug.LogError($"[LevelStandardizer] Level {levelNumber}: SaveScene failed: {ex.Message}");
             return false;
         }
     }
@@ -369,7 +327,6 @@ public class LevelStandardizer : EditorWindow
         }
         catch (System.Exception ex)
         {
-            Debug.LogWarning($"[LevelStandardizer] CloseScene failed: {ex.Message}");
         }
     }
 
@@ -573,7 +530,6 @@ public class LevelStandardizer : EditorWindow
         }
         catch (System.Exception ex)
         {
-            Debug.LogWarning($"    {componentName}.{fieldName} 接线失败: {ex.Message}");
         }
     }
 
@@ -625,7 +581,6 @@ public class LevelStandardizer : EditorWindow
         }
         catch (System.Exception ex)
         {
-            Debug.LogWarning($"    {componentName}.{fieldName} 设置失败: {ex.Message}");
         }
     }
 }

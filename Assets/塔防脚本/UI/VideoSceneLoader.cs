@@ -97,7 +97,6 @@ public class VideoSceneLoader : MonoBehaviour
         }
         catch (System.Exception e)
         {
-            Debug.LogError($"[VideoSceneLoader] 初始化失败: {e.Message}\n{e.StackTrace}");
         }
     }
 
@@ -369,7 +368,7 @@ public class VideoSceneLoader : MonoBehaviour
             // 导致下次显示又要重新 Prepare() 解码（0.5~2s）。暂停可保留已解码帧，
             // 下次显示直接 Play() 复用，避免切场景重复解码。
             LogStep("VideoPlayer.Pause()");
-            videoPlayer.Pause();
+            if (videoPlayer.enabled) videoPlayer.Pause();
         }
     }
 

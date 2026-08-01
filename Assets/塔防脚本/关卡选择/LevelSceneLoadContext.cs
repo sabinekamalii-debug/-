@@ -45,6 +45,9 @@ public class LevelSceneLoadContext
     /// <summary> 当前关卡场景名（兼容旧模式）。 </summary>
     private static string _currentLevelSceneName;
 
+    /// <summary> 当前大局 ID（跨场景传递）。 </summary>
+    private static int _currentActId;
+
     /// <summary>
     /// 设置即将进入的关卡配置（新架构入口）。
     /// 调用后 BattleScene 会读取此配置来构建地图和波次。
@@ -54,6 +57,7 @@ public class LevelSceneLoadContext
         _currentLevelConfig = config;
         _currentLevelId = levelId;
         _currentLevelSceneName = sceneName ?? $"level{levelId}";
+        _currentActId = RogueRuntimeState.CurrentActId;
         SetFromSelection();
     }
 
@@ -75,12 +79,19 @@ public class LevelSceneLoadContext
         return _currentLevelSceneName;
     }
 
+    /// <summary> 获取当前大局 ID。 </summary>
+    public static int GetCurrentActId()
+    {
+        return _currentActId;
+    }
+
     /// <summary> 清空关卡配置（BattleScene 初始化完成后调用）。 </summary>
     public static void ClearLevelConfig()
     {
         _currentLevelConfig = null;
         _currentLevelId = 0;
         _currentLevelSceneName = null;
+        _currentActId = 0;
     }
 
     // ===== 原有方法（保持兼容） =====

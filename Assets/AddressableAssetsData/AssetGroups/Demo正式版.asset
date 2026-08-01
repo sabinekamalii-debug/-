@@ -331,6 +331,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e2d23bd5002c4c2eb0908cfc4aefcd85
+    m_Address: "Naninovel/Scripts/\u6B8B\u5F71\u4E4B\u6CC9"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: aa7a663b38b1d1e449f7c0c0bae31a3b, type: 2}
   m_SchemaSet:

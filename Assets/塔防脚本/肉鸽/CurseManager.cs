@@ -27,8 +27,6 @@ public static class CurseManager
             if (card != null && card.isCurse)
                 _curseDatabase.Add(card);
         }
-
-        Debug.Log($"[CurseManager] 加载了 {_curseDatabase.Count} 张诅咒卡");
     }
 
     /// <summary> 随机获取一张未激活的诅咒卡。 </summary>
@@ -51,7 +49,6 @@ public static class CurseManager
         if (curse == null || !curse.isCurse) return;
         if (_activeCurses.Contains(curse)) return;
         _activeCurses.Add(curse);
-        Debug.Log($"[CurseManager] 施加诅咒: {curse.displayName}");
     }
 
     /// <summary> 移除指定的诅咒。 </summary>
@@ -59,8 +56,6 @@ public static class CurseManager
     {
         if (curse == null) return false;
         bool removed = _activeCurses.Remove(curse);
-        if (removed)
-            Debug.Log($"[CurseManager] 解除诅咒: {curse.displayName}");
         return removed;
     }
 
@@ -78,7 +73,6 @@ public static class CurseManager
         int idx = Random.Range(0, removable.Count);
         string name = removable[idx].displayName;
         _activeCurses.Remove(removable[idx]);
-        Debug.Log($"[CurseManager] 随机解除诅咒: {name}");
         return name;
     }
 

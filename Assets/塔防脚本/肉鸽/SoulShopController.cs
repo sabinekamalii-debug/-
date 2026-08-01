@@ -33,7 +33,6 @@ public class SoulShopController : MonoBehaviour, IPointerDownHandler, IDragHandl
         _treeRoot = GameObject.Find("TreeRoot")?.GetComponent<RectTransform>();
         if (_treeRoot == null)
         {
-            Debug.LogError("[SoulShopController] 场景中没有找到 TreeRoot，请检查场景搭建");
             return;
         }
 

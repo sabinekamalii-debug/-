@@ -45,9 +45,8 @@ public class RogueStatePersistence : MonoBehaviour
         {
             RogueRuntimeState.SaveRunStateIfNeeded();
         }
-        catch (System.Exception e)
+        catch (System.Exception)
         {
-            Debug.LogWarning($"[RogueStatePersistence] 保存状态失败: {e.Message}");
         }
     }
 }

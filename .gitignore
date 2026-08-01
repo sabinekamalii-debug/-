@@ -83,8 +83,8 @@ Assets/Screenshots/
 *.ogg
 
 # TMP SDF 字体图集（可达100MB+，可从 .ttf 重新生成）
-Assets/Fonts/*SDF*.asset
-Assets/Fonts/*SDF*.asset.meta
+**/*SDF*.asset
+**/*SDF*.asset.meta
 
 # 备份
 sysinfo.txt

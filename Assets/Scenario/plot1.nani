@@ -485,4 +485,58 @@ wplayer: （看着他的腿）你能行吗？
 晶: 训个屁！你分明就是单纯想施虐吧！谁家训练是这么训的！腿刚好就这么搞是吧！
 晶: 说好的“世上十个哥哥九个妹控”呢！谁家妹控打妹妹这么狠啊！
 醒.笑: 那你真幸运，不好意思，你刚好抽到那剩下的十分之一了
-@goto plot2
+
+; ========== 主线碎片占位标签（后续补充剧情内容） ==========
+; 通关第5关 → 解锁主线碎片「疑云」
+# AfterLevel5
+@showPrinter
+@back 黑
+旁白: （待填写：通关第5关后的主线剧情——疑云）
+@hideAll wait!
+@hidePrinter wait!
+@loadScene "plot"
+
+; 通关第10关 → 解锁主线碎片「追迹」
+# AfterLevel10
+@showPrinter
+@back 黑
+旁白: （待填写：通关第10关后的主线剧情——追迹）
+@hideAll wait!
+@hidePrinter wait!
+@loadScene "plot"
+
+; 通关第15关 → 解锁主线碎片「暗涌」
+# AfterLevel15
+@showPrinter
+@back 黑
+旁白: （待填写：通关第15关后的主线剧情——暗涌）
+@hideAll wait!
+@hidePrinter wait!
+@loadScene "plot"
+
+; 首次通关精英关 → 解锁主线碎片「转折」
+# AfterFirstElite
+@showPrinter
+@back 黑
+旁白: （待填写：首次通关精英关后的主线剧情——转折）
+@hideAll wait!
+@hidePrinter wait!
+@loadScene "plot"
+
+; 通关第20关 → 解锁主线碎片「迫近」
+# AfterLevel20
+@showPrinter
+@back 黑
+旁白: （待填写：通关第20关后的主线剧情——迫近）
+@hideAll wait!
+@hidePrinter wait!
+@loadScene "plot"
+
+; 通关Boss关 → 解锁主线碎片「终局」
+# AfterBoss
+@showPrinter
+@back 黑
+旁白: （待填写：击败Boss后的主线结局——终局）
+@hideAll wait!
+@hidePrinter wait!
+@loadScene "plot"

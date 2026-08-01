@@ -55,7 +55,6 @@ public class MapBuilder : MonoBehaviour
     {
         if (config == null)
         {
-            Debug.LogError("[MapBuilder] LevelConfig 为空，无法构建地图。");
             return;
         }
 
@@ -121,7 +120,6 @@ public class MapBuilder : MonoBehaviour
     {
         if (_gridSystem == null)
         {
-            Debug.LogError("[MapBuilder] GridSystem.Instance 为空。请确保 GridSystem 先于 MapBuilder 初始化。");
             return;
         }
 
@@ -135,7 +133,6 @@ public class MapBuilder : MonoBehaviour
 
         if (config.gridData == null || config.gridData.Length == 0)
         {
-            Debug.LogWarning($"[MapBuilder] LevelConfig [{config.displayName}] 的 gridData 为空，跳过铺地图。");
             return;
         }
 
@@ -145,7 +142,6 @@ public class MapBuilder : MonoBehaviour
 
         if (groundTM == null && wallTM == null && highGroundTM == null)
         {
-            Debug.LogError("[MapBuilder] GridSystem 的 Tilemap 引用全部为空。");
             return;
         }
 

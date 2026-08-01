@@ -317,6 +317,12 @@ MonoBehaviour:
     - name: "\u9B54\u738B 8"
       pathPrefix: Scripts
       guid: 7956f61edbfc8664ebbe7c93af014c5d
+    - name: "\u6B8B\u5F71\u4E4B\u6CC9"
+      pathPrefix: Scripts
+      guid: fd20db718a3ca6e458cc76d4bfb546a6
+    - name: "\u6B8B\u5F71\u4E4B\u6CC9"
+      pathPrefix: Scripts
+      guid: e2d23bd5002c4c2eb0908cfc4aefcd85
   - Id: Backgrounds/MainBackground
     Resources:
     - name: beijing01

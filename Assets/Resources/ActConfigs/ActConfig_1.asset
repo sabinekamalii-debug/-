@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a826555e5b3ef94db78721ec92896a2, type: 3}
+  m_Name: ActConfig_1
+  m_EditorClassIdentifier: 
+  actId: 1
+  actName: "\u9B54\u738B\u7684\u8BD5\u70BC"
+  description: "\u7A7A\u4E4B\u9B54\u738B\u521D\u6B21\u964D\u4E34\uFF0C\u52C7\u8005\u8E0F\u4E0A\u5F81\u9014\u7684\u7B2C\u4E00\u6BB5\u65C5\u7A0B\u3002"
+  mainScriptName: plot1
+  introLabel: Intro
+  outroLabel: Outro
+  normalLevelPool: 0100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c000000110000001200000013000000
+  eliteLevelPool: 0d0000000e0000000f0000001400000016000000
+  bossLevelConfigId: 16
+  totalNodes: 21
+  bossNodeIndex: 21
+  fixedNodeTypes:
+  - nodeIndex: 1
+    levelType: 0
+  - nodeIndex: 2
+    levelType: 4
+  - nodeIndex: 3
+    levelType: 1
+  - nodeIndex: 4
+    levelType: 2
+  - nodeIndex: 5
+    levelType: 5
+  mainLineUnlockStages: 01000000050000000a0000000f00000015000000
+  backgroundSprite: {fileID: 0}
+  mapTheme: 0
+  unlockType: 0
+  requiredCompletedActId: 0
+  requiredTotalRuns: 0
+  storyFragments: []

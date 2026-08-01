@@ -12,7 +12,6 @@ public static class LevelRunModifiers
         EnemySpeedMultiplier = config.enemySpeedMultiplier;
         if (Mathf.Approximately(EnemyHpMultiplier, 0f)) EnemyHpMultiplier = 1f;
         if (Mathf.Approximately(EnemySpeedMultiplier, 0f)) EnemySpeedMultiplier = 1f;
-        Debug.Log($"[LevelRunModifiers] HP×{EnemyHpMultiplier:F2} SPD×{EnemySpeedMultiplier:F2}");
     }
 
     public static void Reset()

@@ -1,0 +1,330 @@
+fileFormatVersion: 2
+guid: XC8csSuqB3P4IcastEUQj4gsypvGrkBa8f7XNM8ptKvcF2GAkG2SIgU=
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 9164918686136795189
+    second: "jimeng-2026-02-25-1838-\u79FB\u9664\u56FE\u7247\u4E2D\u7684\u89D2\u8272\uFF0C\u53EA\u4FDD\u7559\u706B\u7130\u9B54\u6CD5\u7403\u7279\u6548\uFF0C\u80CC\u666F\u4E3A\u900F\u660E_0"
+  - first:
+      213: -596379503695445375
+    second: "jimeng-2026-02-25-1838-\u79FB\u9664\u56FE\u7247\u4E2D\u7684\u89D2\u8272\uFF0C\u53EA\u4FDD\u7559\u706B\u7130\u9B54\u6CD5\u7403\u7279\u6548\uFF0C\u80CC\u666F\u4E3A\u900F\u660E_1"
+  - first:
+      213: -7200343080009259165
+    second: "jimeng-2026-02-25-1838-\u79FB\u9664\u56FE\u7247\u4E2D\u7684\u89D2\u8272\uFF0C\u53EA\u4FDD\u7559\u706B\u7130\u9B54\u6CD5\u7403\u7279\u6548\uFF0C\u80CC\u666F\u4E3A\u900F\u660E_2"
+  - first:
+      213: -358139916983988098
+    second: "jimeng-2026-02-25-1838-\u79FB\u9664\u56FE\u7247\u4E2D\u7684\u89D2\u8272\uFF0C\u53EA\u4FDD\u7559\u706B\u7130\u9B54\u6CD5\u7403\u7279\u6548\uFF0C\u80CC\u666F\u4E3A\u900F\u660E_3"
+  - first:
+      213: -7007979028828961835
+    second: "jimeng-2026-02-25-1838-\u79FB\u9664\u56FE\u7247\u4E2D\u7684\u89D2\u8272\uFF0C\u53EA\u4FDD\u7559\u706B\u7130\u9B54\u6CD5\u7403\u7279\u6548\uFF0C\u80CC\u666F\u4E3A\u900F\u660E_4"
+  externalObjects: {}
+  serializedVersion: 14
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  webStreaming: 0
+  priorityLevel: 0
+  uploadedMode: 2
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    maxPlaceholderSize: 32
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    maxPlaceholderSize: 32
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    maxPlaceholderSize: 32
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    maxPlaceholderSize: 32
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: HMIAndroid
+    maxTextureSize: 2048
+    maxPlaceholderSize: 32
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: OpenHarmony
+    maxTextureSize: 2048
+    maxPlaceholderSize: 32
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    maxPlaceholderSize: 32
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WeixinMiniGame
+    maxTextureSize: 2048
+    maxPlaceholderSize: 32
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: "jimeng-2026-02-25-1838-\u79FB\u9664\u56FE\u7247\u4E2D\u7684\u89D2\u8272\uFF0C\u53EA\u4FDD\u7559\u706B\u7130\u9B54\u6CD5\u7403\u7279\u6548\uFF0C\u80CC\u666F\u4E3A\u900F\u660E_0"
+      rect:
+        serializedVersion: 2
+        x: 727
+        y: 1755
+        width: 58
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 530068abcf4503f70800000000000000
+      internalID: 9164918686136795189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "jimeng-2026-02-25-1838-\u79FB\u9664\u56FE\u7247\u4E2D\u7684\u89D2\u8272\uFF0C\u53EA\u4FDD\u7559\u706B\u7130\u9B54\u6CD5\u7403\u7279\u6548\uFF0C\u80CC\u666F\u4E3A\u900F\u660E_1"
+      rect:
+        serializedVersion: 2
+        x: 177
+        y: 1107
+        width: 118
+        height: 67
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 182c8ea400c39b7f0800000000000000
+      internalID: -596379503695445375
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "jimeng-2026-02-25-1838-\u79FB\u9664\u56FE\u7247\u4E2D\u7684\u89D2\u8272\uFF0C\u53EA\u4FDD\u7559\u706B\u7130\u9B54\u6CD5\u7403\u7279\u6548\uFF0C\u80CC\u666F\u4E3A\u900F\u660E_2"
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 413
+        width: 1381
+        height: 1300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3672b172e1e331c90800000000000000
+      internalID: -7200343080009259165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "jimeng-2026-02-25-1838-\u79FB\u9664\u56FE\u7247\u4E2D\u7684\u89D2\u8272\uFF0C\u53EA\u4FDD\u7559\u706B\u7130\u9B54\u6CD5\u7403\u7279\u6548\uFF0C\u80CC\u666F\u4E3A\u900F\u660E_3"
+      rect:
+        serializedVersion: 2
+        x: 490
+        y: 409
+        width: 109
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e70184c94a1a70bf0800000000000000
+      internalID: -358139916983988098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "jimeng-2026-02-25-1838-\u79FB\u9664\u56FE\u7247\u4E2D\u7684\u89D2\u8272\uFF0C\u53EA\u4FDD\u7559\u706B\u7130\u9B54\u6CD5\u7403\u7279\u6548\uFF0C\u80CC\u666F\u4E3A\u900F\u660E_4"
+      rect:
+        serializedVersion: 2
+        x: 849
+        y: 209
+        width: 63
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d343410438aebe90800000000000000
+      internalID: -7007979028828961835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      "jimeng-2026-02-25-1838-\u79FB\u9664\u56FE\u7247\u4E2D\u7684\u89D2\u8272\uFF0C\u53EA\u4FDD\u7559\u706B\u7130\u9B54\u6CD5\u7403\u7279\u6548\uFF0C\u80CC\u666F\u4E3A\u900F\u660E_0": 9164918686136795189
+      "jimeng-2026-02-25-1838-\u79FB\u9664\u56FE\u7247\u4E2D\u7684\u89D2\u8272\uFF0C\u53EA\u4FDD\u7559\u706B\u7130\u9B54\u6CD5\u7403\u7279\u6548\uFF0C\u80CC\u666F\u4E3A\u900F\u660E_1": -596379503695445375
+      "jimeng-2026-02-25-1838-\u79FB\u9664\u56FE\u7247\u4E2D\u7684\u89D2\u8272\uFF0C\u53EA\u4FDD\u7559\u706B\u7130\u9B54\u6CD5\u7403\u7279\u6548\uFF0C\u80CC\u666F\u4E3A\u900F\u660E_2": -7200343080009259165
+      "jimeng-2026-02-25-1838-\u79FB\u9664\u56FE\u7247\u4E2D\u7684\u89D2\u8272\uFF0C\u53EA\u4FDD\u7559\u706B\u7130\u9B54\u6CD5\u7403\u7279\u6548\uFF0C\u80CC\u666F\u4E3A\u900F\u660E_3": -358139916983988098
+      "jimeng-2026-02-25-1838-\u79FB\u9664\u56FE\u7247\u4E2D\u7684\u89D2\u8272\uFF0C\u53EA\u4FDD\u7559\u706B\u7130\u9B54\u6CD5\u7403\u7279\u6548\uFF0C\u80CC\u666F\u4E3A\u900F\u660E_4": -7007979028828961835
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  doOverrideTextureManagerOperations: 0
+  platformOperationGroupSettings: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

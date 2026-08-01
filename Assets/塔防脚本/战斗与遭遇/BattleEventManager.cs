@@ -167,7 +167,6 @@ public class BattleEventManager : MonoBehaviour
                 _eventDatabase.Add(evt);
         }
 
-        Debug.Log($"[BattleEventManager] 加载了 {_eventDatabase.Count} 个局内随机事件");
     }
 
     #endregion
@@ -484,19 +483,6 @@ public class BattleEventManager : MonoBehaviour
                 RogueRuntimeState.TryPickTalentCard(card);
         }
 
-        // 召唤友方NPC（占位：实际效果待 GameManager 接入）
-        if (eff.spawnAlly > 0 && GameManager.Instance != null)
-        {
-            Debug.Log("[BattleEventManager] 召唤友方NPC（功能待接入具体NPC生成系统）");
-        }
-
-        // 额外刷敌人（占位）
-        if (eff.spawnExtraEnemies > 0 && GameManager.Instance != null)
-        {
-            Debug.Log($"[BattleEventManager] 额外刷出 {eff.spawnExtraEnemies} 个敌人（功能待接入Spawner系统）");
-        }
-
-        Debug.Log("[BattleEventManager] 事件效果已应用");
     }
 
     private void Shuffle<T>(List<T> list)

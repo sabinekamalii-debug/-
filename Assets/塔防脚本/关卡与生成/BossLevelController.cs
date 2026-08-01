@@ -97,14 +97,12 @@ public class BossLevelController : MonoBehaviour
     {
         if (spawner == null)
         {
-            Debug.LogError("[BossLevelController] Spawner 未配置！");
             return;
         }
 
         GameObject bossObj = GetPooledEnemy(bossEnemyType);
         if (bossObj == null)
         {
-            Debug.LogError("[BossLevelController] 无法从对象池获取Boss！类型=" + bossEnemyType);
             return;
         }
 
@@ -126,8 +124,6 @@ public class BossLevelController : MonoBehaviour
 
         if (bossHealthBarRoot != null) bossHealthBarRoot.SetActive(true);
         ShowPhaseAlert("阶段 1 — Boss 出现！");
-
-        Debug.Log("[BossLevelController] Boss已生成");
     }
 
     GameObject GetPooledEnemy(int type)
@@ -200,7 +196,6 @@ public class BossLevelController : MonoBehaviour
         _currentPhase = phase;
         string alert = phase == 2 ? "阶段 2 — Boss 开始召唤小怪！" : "阶段 3 — Boss 狂暴！";
         ShowPhaseAlert(alert);
-        Debug.Log("[BossLevelController] 进入阶段 " + phase);
 
         if (_bossEnemy == null) return;
         foreach (var sr in _bossEnemy.GetComponentsInChildren<SpriteRenderer>(true))
@@ -264,8 +259,6 @@ public class BossLevelController : MonoBehaviour
             minion.SetActive(true);
             spawned++;
         }
-
-        Debug.Log("[BossLevelController] 召唤 " + spawned + " 个小怪");
     }
 
     void OnBossDefeated()
@@ -278,8 +271,6 @@ public class BossLevelController : MonoBehaviour
 
         if (DeploymentManager.Instance != null)
             DeploymentManager.Instance.AddDP(30);
-
-        Debug.Log("[BossLevelController] Boss 被击败！");
     }
 
     public int GetCurrentPhase() => _currentPhase;

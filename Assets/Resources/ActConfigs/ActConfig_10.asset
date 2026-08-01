@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a826555e5b3ef94db78721ec92896a2, type: 3}
+  m_Name: ActConfig_10
+  m_EditorClassIdentifier: 
+  actId: 10
+  actName: "\u672A\u547D\u540D\u5927\u5C40\u5341"
+  description: "\u5F85\u8BBE\u8BA1"
+  mainScriptName: 
+  introLabel: Intro
+  outroLabel: Outro
+  normalLevelPool: 2400000025000000260000002700000028000000290000002a0000002b0000002c0000002d0000002e0000002f000000300000003100000032000000
+  eliteLevelPool: 0100000002000000030000000400000005000000
+  bossLevelConfigId: 16
+  totalNodes: 21
+  bossNodeIndex: 21
+  mainLineUnlockStages: 01000000050000000a0000000f00000015000000
+  backgroundSprite: {fileID: 0}
+  mapTheme: 1
+  unlockType: 1
+  requiredCompletedActId: 9
+  requiredTotalRuns: 0
+  storyFragments: []

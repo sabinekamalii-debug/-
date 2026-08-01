@@ -7,6 +7,7 @@ public static class LevelRandomizer
     private static bool _initialized = false;
     private static LevelRandomConfig _config;
     private static SimpleLevelRandomConfig _simpleConfig;
+    private static ActConfig _actConfig;
 
     public static void SetConfig(LevelRandomConfig config)
     {
@@ -21,6 +22,12 @@ public static class LevelRandomizer
         _initialized = false;
     }
 
+    public static void SetActConfig(ActConfig config)
+    {
+        _actConfig = config;
+        _initialized = false;
+    }
+
     public static void Initialize()
     {
         // 每次都重新生成，确保配置文件的最新值生效
@@ -28,7 +35,7 @@ public static class LevelRandomizer
 
         _levelTypes.Clear();
 
-        for (int i = 1; i <= 16; i++)
+        for (int i = 1; i <= 21; i++)
         {
             _levelTypes[i] = LevelType.NormalBattle;
         }
@@ -49,6 +56,16 @@ public static class LevelRandomizer
             ProcessDefault();
         }
 
+        // 应用 ActConfig 的固定节点类型（覆盖随机结果）
+        if (_actConfig != null && _actConfig.fixedNodeTypes != null)
+        {
+            foreach (var fixedType in _actConfig.fixedNodeTypes)
+            {
+                if (fixedType != null && fixedType.nodeIndex > 0)
+                    _levelTypes[fixedType.nodeIndex] = fixedType.levelType;
+            }
+        }
+
         _initialized = true;
     }
 
@@ -58,11 +75,12 @@ public static class LevelRandomizer
         ProcessFullRange(5, 8, config.group5to8);
         ProcessFullRange(9, 12, config.group9to12);
         ProcessFullRange(13, 16, config.group13to16);
+        ProcessFullRange(17, 21, config.group17to21);
     }
 
     static void ProcessFullRange(int start, int end, SimpleLevelRandomConfig.LevelGroupConfig config)
     {
-        if (start < 1 || end > 16 || start > end)
+        if (start < 1 || end > 21 || start > end)
             return;
 
         List<int> positions = new List<int>();
@@ -147,12 +165,14 @@ public static class LevelRandomizer
         var config1 = new SimpleLevelRandomConfig.LevelGroupConfig { shopCount = 1 };
         var config2 = new SimpleLevelRandomConfig.LevelGroupConfig { eliteCount = 1 };
         var config3 = new SimpleLevelRandomConfig.LevelGroupConfig { shopCount = 1, eliteCount = 1 };
-        var config4 = new SimpleLevelRandomConfig.LevelGroupConfig { shopCount = 1, eliteCount = 1, bossCount = 1 };
+        var config4 = new SimpleLevelRandomConfig.LevelGroupConfig { shopCount = 1, eliteCount = 1 };
+        var config5 = new SimpleLevelRandomConfig.LevelGroupConfig { eliteCount = 3, bossCount = 1 };
 
         ProcessFullRange(1, 4, config1);
         ProcessFullRange(5, 8, config2);
         ProcessFullRange(9, 12, config3);
         ProcessFullRange(13, 16, config4);
+        ProcessFullRange(17, 21, config5);
     }
 
     public static LevelType GetLevelType(int levelNum)

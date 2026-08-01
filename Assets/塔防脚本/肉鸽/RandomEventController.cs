@@ -39,6 +39,7 @@ public class RandomEventController : MonoBehaviour
     private static string s_pendingResultText;    // 选项结果文本（选后展示）
     private static string s_pendingResultLog;     // 结果执行的日志（ApplyPendingOutcomes 时生成）
     private static List<RandomEventOutcome> s_pendingOutcomes; // 待执行的结果（选项脚本触发时暂存）
+    private static bool s_entryNaniReturn;        // true = 进场Naninovel播完回来，直接回地图
 
     // Domain Reload 禁用时，每次 Enter Play Mode 手动重置全部静态状态，
     // 避免 Awake() 直接进入错误的"从 Naninovel 返回"分支。
@@ -51,6 +52,7 @@ public class RandomEventController : MonoBehaviour
         s_pendingResultText = null;
         s_pendingResultLog = null;
         s_pendingOutcomes = null;
+        s_entryNaniReturn = false;
     }
 
     private void Awake()
@@ -59,10 +61,17 @@ public class RandomEventController : MonoBehaviour
         _currentLevelNum = RogueRuntimeState.CurrentStage;
         BindSceneObjects();
 
-        // 从 Naninovel 剧本返回？恢复状态（仅在"选项触发剧本"流程下出现）
+        // 从 Naninovel 剧本返回？
         if (s_returnedFromNani)
         {
             s_returnedFromNani = false;
+            if (s_entryNaniReturn)
+            {
+                // 进场Naninovel播完 → 直接回地图
+                s_entryNaniReturn = false;
+                ReturnToMap();
+                return;
+            }
             // 选项已选 → 执行暂存的结果 + 显示
             ApplyPendingOutcomes();
             ShowPendingResult();
@@ -164,9 +173,31 @@ public class RandomEventController : MonoBehaviour
 
     private void DisplayEvent(RandomEventData evt)
     {
-        // 注：进场触发剧情已移除（曾基于 evt.playNaniOnEnter + evt.naniEntryScriptName 跳 Title）。
-        //   仅保留"选项触发"路径：选项被点击后，若该选项配了 naniScriptName，再跳剧本。
+        // 进场自动播放 Naninovel：如果事件配了 naniEntryScriptName，进场直接跳剧本
+        if (!string.IsNullOrEmpty(evt.naniEntryScriptName))
+        {
+            s_returnedFromNani = true;
+            s_entryNaniReturn = true;
+            if (evt.oneShot)
+                RogueRuntimeState.MarkEventEncountered(evt.eventId);
+            // 延迟跳转，避免 VideoSceneLoader.isLoading 仍为 true 导致跳转被跳过
+            // 进场Naninovel播完后直接回Plot地图，不回RandomEvent场景
+            StartCoroutine(DelayedJumpToNaninovel(evt.naniEntryScriptName, evt.naniEntryLabel, SceneNames.Plot));
+            return;
+        }
+
         RenderEventUI(evt);
+    }
+
+    private System.Collections.IEnumerator DelayedJumpToNaninovel(string scriptName, string label, string returnScene = null)
+    {
+        // 等几帧让上一个场景加载协程跑完（isLoading 变 false）
+        yield return new WaitForSeconds(0.3f);
+        // 如果指定了返回场景（如进场Naninovel直接回Plot），用它；否则用当前场景名
+        string scene = returnScene ?? SceneManager.GetActiveScene().name;
+        NaninovelReturnRequest.Set(scriptName, label ?? "", scene);
+        NaninovelReturnAutoPlayer.Ensure();
+        VideoSceneLoader.LoadScene(SceneNames.Title);
     }
 
     /// <summary> 纯 UI 渲染（不含 Naninovel 跳转判断） </summary>

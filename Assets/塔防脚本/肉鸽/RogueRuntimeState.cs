@@ -22,6 +22,7 @@ public static class RogueRuntimeState
     private const string KeySelectedTalentIds = "Rogue.SelectedTalentIds";
     private const string KeyGameMode = "Rogue.GameMode";
     private const string KeyRunSeed = "Rogue.RunSeed";
+    private const string KeyCurrentActId = "Rogue.CurrentActId";
     private const char KeyTalentIdSep = '|';
 
     private static bool _initialized;
@@ -40,15 +41,43 @@ public static class RogueRuntimeState
 
     public static GameMode CurrentGameMode { get; private set; } = GameMode.Hybrid;
     public static int RunSeed { get; private set; }
+
+    /// <summary> 当前大局 ID（0=未选择大局）。 </summary>
+    public static int CurrentActId { get; private set; }
+
+    /// <summary> 当前大局配置（运行时从 ActRegistry 加载，可能为 null）。 </summary>
+    public static ActConfig CurrentActConfig => ActRegistry.GetActConfig(CurrentActId);
     private static RunRng _runRng;
     public static RunRng RunRng => _runRng;
     private static RunModifierConfig _modifierConfig;
     public static RunModifierConfig ModifierConfig => _modifierConfig;
 
+    /// <summary> 按关卡类型分组的打乱 LevelConfig ID 池。 </summary>
+    private static Dictionary<LevelType, int[]> _typeShuffledPools;
+    private const int ShufflePoolScanRange = 50;
+
     public static void SetGameMode(GameMode mode)
     {
         CurrentGameMode = mode;
         SavePersistent();
+    }
+
+    /// <summary>
+    /// 选择大局并持久化。在玩家选择大局或自动选择第一个大局时调用。
+    /// </summary>
+    public static void StartAct(int actId)
+    {
+        CurrentActId = actId;
+        SavePersistent();
+    }
+
+    /// <summary>
+    /// 标记当前大局已通关。击败 Boss 后调用。
+    /// </summary>
+    public static void CompleteCurrentAct()
+    {
+        if (CurrentActId <= 0) return;
+        ActRegistry.MarkActCompleted(CurrentActId);
     }
 
     public static void SetRunModifierConfig(RunModifierConfig config)
@@ -65,8 +94,160 @@ public static class RogueRuntimeState
 
     public static bool ShouldApplyModifiers(int levelNumber)
     {
-        if (CurrentGameMode == GameMode.Fixed) return false;
-        return levelNumber > GetFixedCutoff();
+        // 随机/混合模式不再修改战斗数值，只打乱关卡顺序。
+        return false;
+    }
+
+    /// <summary>
+    /// 根据当前模式返回第 stageNumber 关实际应加载的 LevelConfig ID。
+    /// 有 ActConfig 时：Fixed=池内按序，Hybrid=前cutoff按序+后续打乱，Random=全打乱。Boss固定。
+    /// 无 ActConfig 时：回退旧逻辑（stageNumber 直接作为 ID）。
+    /// </summary>
+    public static int GetLevelConfigIdForStage(int stageNumber, LevelType levelType = LevelType.NormalBattle)
+    {
+        InitIfNeeded();
+        if (stageNumber <= 0) return stageNumber;
+
+        // 非战斗类型不参与随机
+        if (levelType != LevelType.NormalBattle && levelType != LevelType.Elite && levelType != LevelType.Boss)
+            return stageNumber;
+
+        var actConfig = CurrentActConfig;
+
+        // 无 ActConfig 时回退旧逻辑
+        if (actConfig == null)
+        {
+            switch (CurrentGameMode)
+            {
+                case GameMode.Fixed:
+                    return stageNumber;
+                case GameMode.Hybrid:
+                    if (stageNumber <= GetFixedCutoff()) return stageNumber;
+                    return GetShuffledLevelIdForType(stageNumber, levelType);
+                case GameMode.Random:
+                    return GetShuffledLevelIdForType(stageNumber, levelType);
+                default:
+                    return stageNumber;
+            }
+        }
+
+        // 有 ActConfig：Boss 固定
+        if (levelType == LevelType.Boss)
+            return actConfig.bossLevelConfigId > 0 ? actConfig.bossLevelConfigId : stageNumber;
+
+        int[] pool = actConfig.GetLevelPool(levelType);
+        if (pool == null || pool.Length == 0)
+            return stageNumber;
+
+        switch (CurrentGameMode)
+        {
+            case GameMode.Fixed:
+                return pool[(stageNumber - 1) % pool.Length];
+            case GameMode.Hybrid:
+                if (stageNumber <= GetFixedCutoff())
+                    return pool[(stageNumber - 1) % pool.Length];
+                return GetShuffledLevelIdForType(stageNumber, levelType);
+            case GameMode.Random:
+                return GetShuffledLevelIdForType(stageNumber, levelType);
+            default:
+                return stageNumber;
+        }
+    }
+
+    private static int GetShuffledLevelIdForType(int stageNumber, LevelType levelType)
+    {
+        if (_typeShuffledPools == null)
+            GenerateShuffledOrder();
+
+        // 非战斗类型（商店/休息/事件）不参与随机，直接返回原关卡号
+        if (levelType != LevelType.NormalBattle && levelType != LevelType.Elite && levelType != LevelType.Boss)
+            return stageNumber;
+
+        if (_typeShuffledPools == null || !_typeShuffledPools.TryGetValue(levelType, out var pool) || pool == null || pool.Length == 0)
+            return stageNumber;
+
+        int idx = (stageNumber - 1) % pool.Length;
+        return pool[idx];
+    }
+
+    private static void GenerateShuffledOrder()
+    {
+        _typeShuffledPools = new Dictionary<LevelType, int[]>();
+
+        var actConfig = CurrentActConfig;
+
+        // 有 ActConfig：直接使用其关卡池
+        if (actConfig != null)
+        {
+            var normalArr = (int[])actConfig.normalLevelPool?.Clone() ?? new int[0];
+            var eliteArr = (int[])actConfig.eliteLevelPool?.Clone() ?? new int[0];
+            var bossArr = actConfig.bossLevelConfigId > 0
+                ? new[] { actConfig.bossLevelConfigId }
+                : new int[0];
+
+            if (_runRng != null)
+            {
+                _runRng.Shuffle(normalArr);
+                _runRng.Shuffle(eliteArr);
+            }
+
+            _typeShuffledPools[LevelType.NormalBattle] = normalArr;
+            _typeShuffledPools[LevelType.Elite] = eliteArr;
+            _typeShuffledPools[LevelType.Boss] = bossArr;
+
+            return;
+        }
+
+        // 回退：扫描 Resources/LevelConfigs/ 目录
+        var normalIds = new List<int>();
+        var eliteIds = new List<int>();
+        var bossIds = new List<int>();
+
+        for (int id = 1; id <= ShufflePoolScanRange; id++)
+        {
+            string[] names = {
+                $"Level_{id:D2}_Battle",
+                $"Level_{id}_Battle",
+            };
+            LevelConfig config = null;
+            foreach (var name in names)
+            {
+                config = Resources.Load<LevelConfig>($"LevelConfigs/{name}");
+                if (config != null) break;
+            }
+            if (config == null) continue;
+
+            switch (config.levelType)
+            {
+                case LevelType.Elite:
+                    eliteIds.Add(id);
+                    break;
+                case LevelType.Boss:
+                    bossIds.Add(id);
+                    break;
+                default:
+                    normalIds.Add(id);
+                    break;
+            }
+        }
+
+        if (_runRng != null)
+        {
+            var normalArr = normalIds.ToArray();
+            var eliteArr = eliteIds.ToArray();
+            var bossArr = bossIds.ToArray();
+            _runRng.Shuffle(normalArr);
+            _runRng.Shuffle(eliteArr);
+            _runRng.Shuffle(bossArr);
+            _typeShuffledPools[LevelType.NormalBattle] = normalArr;
+            _typeShuffledPools[LevelType.Elite] = eliteArr;
+            _typeShuffledPools[LevelType.Boss] = bossArr;
+        }
+    }
+
+    private static void ClearShuffledOrder()
+    {
+        _typeShuffledPools = null;
     }
 
     /// <summary>
@@ -87,7 +268,6 @@ public static class RogueRuntimeState
     /// <summary> 清空已选天赋卡（内存 + 存档），用于开新局 / 结束本局，避免存档串台。 </summary>
     private static void ClearSelectedTalentIds()
     {
-        Debug.Log($"[RogueRuntimeState] ClearSelectedTalentIds called — clearing {_selectedTalentIds.Count} cards. Stack: {System.Environment.StackTrace}");
         _selectedTalentIds.Clear();
         PlayerPrefs.DeleteKey(KeySelectedTalentIds);
     }
@@ -203,8 +383,12 @@ public static class RogueRuntimeState
             GuardianMaxHp     = PlayerPrefs.GetInt(KeyGuardianMaxHp, 0);
             CurrentGameMode = (GameMode)PlayerPrefs.GetInt(KeyGameMode, (int)GameMode.Hybrid);
             RunSeed = PlayerPrefs.GetInt(KeyRunSeed, 0);
+            CurrentActId = PlayerPrefs.GetInt(KeyCurrentActId, 0);
             if (RunSeed != 0)
+            {
                 _runRng = new RunRng(RunSeed);
+                GenerateShuffledOrder();
+            }
         }
     }
 
@@ -450,6 +634,13 @@ public static class RogueRuntimeState
     public static void ForceResetRun()
     {
         InitIfNeeded();
+        // 如果没有选择大局，自动选择第一个可用的
+        if (CurrentActId <= 0)
+        {
+            var firstAct = ActRegistry.GetFirstAct();
+            if (firstAct != null)
+                CurrentActId = firstAct.actId;
+        }
         RunGold = 0;
         CardDrawCount = 0;
         HasActiveRun = false;
@@ -461,6 +652,7 @@ public static class RogueRuntimeState
         ClearEventState();
         CurseManager.ClearCurses();
         ClearGuardianHp();
+        ClearShuffledOrder();
         SavePersistent();
     }
 
@@ -477,7 +669,7 @@ public static class RogueRuntimeState
 
         RunSeed = System.Environment.TickCount ^ (int)System.DateTime.Now.Ticks;
         _runRng = new RunRng(RunSeed);
-        Debug.Log($"[RogueRuntimeState] 新局开始: GameMode={CurrentGameMode}, Seed={RunSeed}");
+        GenerateShuffledOrder();
 
         // V2 剧情碎片：累计局数 +1，并检查 TotalRuns 条件碎片
         StoryCardUnlockState.IncrementRunAndCheck();
@@ -519,6 +711,7 @@ public static class RogueRuntimeState
         ClearEventState();
         CurseManager.ClearCurses();
         ClearGuardianHp();
+        ClearShuffledOrder();
         SavePersistent();
         return talentGain;
     }
@@ -543,6 +736,7 @@ public static class RogueRuntimeState
         ClearEventState();
         CurseManager.ClearCurses();
         ClearGuardianHp();
+        ClearShuffledOrder();
         SavePersistent();
         return consolation;
     }
@@ -773,6 +967,7 @@ public static class RogueRuntimeState
         PlayerPrefs.SetString(KeySelectedTalentIds, string.Join(KeyTalentIdSep.ToString(), _selectedTalentIds));
         PlayerPrefs.SetInt(KeyGameMode, (int)CurrentGameMode);
         PlayerPrefs.SetInt(KeyRunSeed, RunSeed);
+        PlayerPrefs.SetInt(KeyCurrentActId, CurrentActId);
         PrefsSaver.Save();
     }
 

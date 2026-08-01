@@ -58,7 +58,6 @@ public class EliteLevelController : MonoBehaviour
             hook.bonusDP = eliteBonusDP;
         }
 
-        if (debugLog) Debug.Log("[EliteLevelController] 精英关卡初始化完成");
     }
 
     IEnumerator HazardLoop()
@@ -99,7 +98,6 @@ public class EliteLevelController : MonoBehaviour
                 marker = op.gameObject.AddComponent<HazardDebuffMarker>();
             marker.Apply(hazardAttackMultiplier);
         }
-        if (debugLog) Debug.Log("[EliteLevelController] 环境危机开始");
     }
 
     void EndHazard()
@@ -112,7 +110,6 @@ public class EliteLevelController : MonoBehaviour
             var marker = op.GetComponent<HazardDebuffMarker>();
             if (marker != null) marker.Remove();
         }
-        if (debugLog) Debug.Log("[EliteLevelController] 环境危机结束");
     }
 
     public bool IsHazardActive() => _hazardActive;
