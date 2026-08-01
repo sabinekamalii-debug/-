@@ -16,22 +16,22 @@ function Write-Log {
 
 Write-Log "----- Check start -----"
 
-# --- 1. 清理死代理 (global + local) ---
-$proxyG = git config --global --get http.proxy 2>&1
-$proxyL = git config --local --get http.proxy 2>&1
-if (($proxyG -and $proxyG.ToString().Trim() -ne "") -or ($proxyL -and $proxyL.ToString().Trim() -ne "")) {
-    Write-Log "Git proxy found — testing connectivity..."
-    $testResult = git ls-remote --heads origin 2>&1
+# --- 1. 确保代理配置正确 ---
+# 先试直连，不通则设代理，代理也不通则尝试设置默认代理
+$testResult = git ls-remote --heads origin 2>&1
+if ($LASTEXITCODE -ne 0) {
+    Write-Log "Direct connection failed, setting proxy"
+    git config --global http.proxy "http://127.0.0.1:7897" 2>&1 | Out-Null
+    git config --global https.proxy "http://127.0.0.1:7897" 2>&1 | Out-Null
+    # 再测一次
+    $testResult2 = git ls-remote --heads origin 2>&1
     if ($LASTEXITCODE -ne 0) {
-        Write-Log "Proxy dead, removing all proxy config"
-        git config --global --unset http.proxy 2>&1 | Out-Null
-        git config --global --unset https.proxy 2>&1 | Out-Null
-        git config --local --unset http.proxy 2>&1 | Out-Null
-        git config --local --unset https.proxy 2>&1 | Out-Null
-        git config --local --unset http.sslbackend 2>&1 | Out-Null
+        Write-Log "Proxy also failed, will try push anyway"
     } else {
-        Write-Log "Proxy works, keeping it"
+        Write-Log "Proxy works"
     }
+} else {
+    Write-Log "Direct connection works"
 }
 
 # --- 2. 检查是否有改动 ---
