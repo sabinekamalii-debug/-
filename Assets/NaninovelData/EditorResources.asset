@@ -323,6 +323,36 @@ MonoBehaviour:
     - name: "\u6B8B\u5F71\u4E4B\u6CC9"
       pathPrefix: Scripts
       guid: e2d23bd5002c4c2eb0908cfc4aefcd85
+    - name: "\u8FF7\u9014\u4E4B\u6B4C"
+      pathPrefix: Scripts
+      guid: a5da405061be499e970a92702373e931
+    - name: "\u5C01\u5370\u4E4B\u5730"
+      pathPrefix: Scripts
+      guid: 479d0ab917f74cfe80e1754aea552016
+    - name: "\u65AD\u5251\u4E4B\u51A2"
+      pathPrefix: Scripts
+      guid: 38b2ef7beee24664909f7007386c9162
+    - name: "\u661F\u9668\u4E4B\u5730"
+      pathPrefix: Scripts
+      guid: 50d6cd47595e4c71a3edae0fcb649904
+    - name: "\u6E21\u9B42\u4E4B\u6CB3"
+      pathPrefix: Scripts
+      guid: ceb1a351ed274a3b8c717e8489c064e9
+    - name: "\u6DF1\u6E0A\u4F4E\u8BED"
+      pathPrefix: Scripts
+      guid: 2b78ca8929e349c59c1be779f4e22a81
+    - name: "\u955C\u4E2D\u5E7B\u5F71"
+      pathPrefix: Scripts
+      guid: 7bce3d90a3fc4739bcdceb7e97fbc325
+    - name: "\u6708\u4E0B\u72EC\u767D"
+      pathPrefix: Scripts
+      guid: 6aba7028ec8846f78f96c931aeee1cf4
+    - name: "\u591C\u8BDD\u9B54\u68EE"
+      pathPrefix: Scripts
+      guid: 45deea42f5f1421b89c23e0260df4074
+    - name: "\u65E7\u65E5\u4E66\u4FE1"
+      pathPrefix: Scripts
+      guid: 42548a26a3064b54acc0adde481d6c72
   - Id: Backgrounds/MainBackground
     Resources:
     - name: beijing01

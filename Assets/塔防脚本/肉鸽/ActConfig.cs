@@ -2,6 +2,27 @@ using System;
 using UnityEngine;
 
 /// <summary>
+/// 战前对话配置：指定哪个节点序号在进入战斗前播放对话。
+/// 默认为场景内文字对话（NewbieTutorialController），勾选 useNaninovel 后才跳转 Naninovel。
+/// </summary>
+[Serializable]
+public class PreBattleDialogue
+{
+    [Tooltip("触发对话的节点序号（1-based，如5=第5关前）")]
+    public int stageNumber = 1;
+
+    [Tooltip("是否跳转 Naninovel 播放剧情（仅特殊关卡勾选）")]
+    public bool useNaninovel = false;
+
+    [Tooltip("Naninovel label 名（useNaninovel=true 时使用，在当前大局的 mainScriptName 脚本中）")]
+    public string labelName = "";
+
+    [Tooltip("场景内对话内容（useNaninovel=false 时使用，逐行显示）")]
+    [TextArea(2, 4)]
+    public string[] inSceneLines = new string[0];
+}
+
+/// <summary>
 /// 固定节点类型：强制指定某个节点的类型，不参与随机。
 /// </summary>
 [Serializable]
@@ -50,6 +71,10 @@ public class ActConfig : ScriptableObject
 
     [Tooltip("大局结局 Naninovel label（击败Boss后播放）")]
     public string outroLabel = "";
+
+    [Header("战前对话")]
+    [Tooltip("战斗前的简短对话：在指定节点序号点击进入战斗前，先播放一段 Naninovel 对话再加载战斗")]
+    public PreBattleDialogue[] preBattleDialogues = new PreBattleDialogue[0];
 
     #endregion
 

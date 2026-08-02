@@ -409,14 +409,12 @@ public class LevelNodeButton : MonoBehaviour
             return;
         }
 
-        // 随机事件节点 → 随机选择一个事件场景加载
+        // 随机事件节点 → 统一加载 RandomEvent 场景（背景图由 RandomEventData.backgroundImage 驱动）
         if (levelType == LevelType.RandomEvent)
         {
-            // [TEST] 固定加载 RandomEvent 场景，测试完恢复随机
-            string picked = "RandomEvent";
             // 非战斗节点自动标记完成，解锁下一关；可反复进入
             LevelProgress.MarkCompleted(_sceneName);
-            VideoSceneLoader.LoadScene(picked);
+            VideoSceneLoader.LoadScene("RandomEvent");
             return;
         }
 
@@ -440,6 +438,28 @@ public class LevelNodeButton : MonoBehaviour
         if (_cachedLevelConfig != null)
         {
             LevelSceneLoadContext.SetLevelConfig(_cachedLevelConfig, _levelNumber, _sceneName);
+
+            // 检查是否有战前对话（在进入战斗前先播一段 Naninovel 短对话）
+            ActConfig actConfig = RogueRuntimeState.CurrentActConfig;
+            if (actConfig != null && actConfig.preBattleDialogues != null)
+            {
+                string preBattleLabel = null;
+                foreach (var dialogue in actConfig.preBattleDialogues)
+                {
+                    if (dialogue.stageNumber == _levelNumber)
+                    {
+                        preBattleLabel = dialogue.labelName;
+                        break;
+                    }
+                }
+                if (!string.IsNullOrEmpty(preBattleLabel) && !string.IsNullOrEmpty(actConfig.mainScriptName))
+                {
+                    NaninovelReturnRequest.Set(actConfig.mainScriptName, preBattleLabel, SceneNames.BattleScene);
+                    VideoSceneLoader.LoadScene(SceneNames.Title);
+                    return;
+                }
+            }
+
             VideoSceneLoader.LoadScene(SceneNames.BattleScene);
             return;
         }

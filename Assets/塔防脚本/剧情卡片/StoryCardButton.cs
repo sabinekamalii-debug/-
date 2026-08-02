@@ -11,7 +11,7 @@ public class StoryCardButton : MonoBehaviour
 
     /// <summary>
     /// V2: 首次观看碎片发放天赋点奖励时触发（data=卡片数据, reward=天赋点数量）。
-    /// StoryCardPanel 或 StoryMirrorPanel 可以订阅此事件弹出浮动提示。
+    /// StoryCardPanel 可以订阅此事件弹出浮动提示。
     /// </summary>
     public static System.Action<StoryCardData, int> OnRewardGranted;
 
@@ -221,14 +221,10 @@ public class StoryCardButton : MonoBehaviour
     {
         if (nameText != null)
         {
-            nameText.text = cardData != null ? "???" : "???";
+            nameText.text = "???";
             nameText.color = new Color(0.5f, 0.5f, 0.5f, 0.8f);
         }
-        if (iconImage != null)
-        {
-            iconImage.sprite = null;
-            iconImage.color = new Color(0.3f, 0.3f, 0.3f, 0.5f);
-        }
+        // 只改背景颜色变灰，不清 sprite
         if (_bgImage != null)
             _bgImage.color = new Color(0.25f, 0.25f, 0.25f, 0.5f);
 
@@ -240,13 +236,14 @@ public class StoryCardButton : MonoBehaviour
 
     void ApplyUnlockedAppearance(int fragmentIndex)
     {
-        if (_bgImage != null) _bgImage.color = _originalBgColor;
+        if (_bgImage != null)
+            _bgImage.color = _originalBgColor;
 
-        if (iconImage != null)
+        // 只在 data.icon 有值时才替换 sprite
+        if (iconImage != null && data != null && data.icon != null)
         {
+            iconImage.sprite = data.icon;
             iconImage.color = Color.white;
-            if (data != null && data.icon != null)
-                iconImage.sprite = data.icon;
             iconImage.enabled = true;
         }
 

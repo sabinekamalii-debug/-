@@ -69,7 +69,7 @@ public class RogueCollectionController : MonoBehaviour
     {
         if (cardGridRoot == null) return;
         if (FindFirstObjectByType<HeldCardsFrame>() != null) return;
-        if (FindFirstObjectByType<StoryCardPanel>() != null) return;
+        if (FindObjectsByType<StoryCardPanel>(FindObjectsInactive.Include, FindObjectsSortMode.None).Length > 0) return;
 
         var unlocked = StoryCardUnlockState.GetUnlockedCardIds();
         EnsureRowCount(unlocked.Count > 0 ? unlocked.Count : 1);

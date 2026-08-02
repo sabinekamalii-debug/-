@@ -31,9 +31,7 @@
 *.opendb
 *.VC.db
 
-# 团结引擎自动生成的 .scene 副本（正式文件是 .unity）
-*.scene
-*.scene.meta
+# 团结引擎 .scene 是原生场景格式，必须追踪
 
 # OS 生成文件
 .DS_Store

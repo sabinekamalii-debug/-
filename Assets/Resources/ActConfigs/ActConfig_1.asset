@@ -18,6 +18,19 @@ MonoBehaviour:
   mainScriptName: plot1
   introLabel: Intro
   outroLabel: Outro
+  preBattleDialogues:
+  - stageNumber: 1
+    labelName: BeforeStage1
+  - stageNumber: 5
+    labelName: BeforeStage5
+  - stageNumber: 10
+    labelName: BeforeStage10
+  - stageNumber: 15
+    labelName: BeforeStage15
+  - stageNumber: 20
+    labelName: BeforeStage20
+  - stageNumber: 21
+    labelName: BeforeBoss
   normalLevelPool: 0100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c000000110000001200000013000000
   eliteLevelPool: 0d0000000e0000000f0000001400000016000000
   bossLevelConfigId: 16

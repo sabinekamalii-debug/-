@@ -819,7 +819,7 @@
 天赋卡,atk_killbuff,description,击杀后攻速+30%持续3秒，吸血8%,string
 天赋卡,atk_killbuff,cardType,Attack,TalentCardType
 天赋卡,atk_killbuff,rarity,Common,TalentCardRarity
-天赋卡,atk_killbuff,slotDiscount,0.00,float
+天赋卡,atk_killbuff,slotDiscount,0.90,float
 天赋卡,atk_killbuff,effectType,KillAttackSpeedBuff,TalentEffectType
 天赋卡,atk_killbuff,effectValue,30,int
 天赋卡,atk_killbuff,effectValue2,3,int
@@ -897,7 +897,7 @@
 天赋卡,atk_lifesteal2,description,吸血18%，最大生命+10%,string
 天赋卡,atk_lifesteal2,cardType,Attack,TalentCardType
 天赋卡,atk_lifesteal2,rarity,Common,TalentCardRarity
-天赋卡,atk_lifesteal2,slotDiscount,0.00,float
+天赋卡,atk_lifesteal2,slotDiscount,1.00,float
 天赋卡,atk_lifesteal2,effectType,LifeStealPercent,TalentEffectType
 天赋卡,atk_lifesteal2,effectValue,18,int
 天赋卡,atk_lifesteal2,effectValue2,0,int
@@ -1443,7 +1443,7 @@
 天赋卡,def_block,description,防御力+30%，最大生命+20%,string
 天赋卡,def_block,cardType,Defense,TalentCardType
 天赋卡,def_block,rarity,Common,TalentCardRarity
-天赋卡,def_block,slotDiscount,0.00,float
+天赋卡,def_block,slotDiscount,0.75,float
 天赋卡,def_block,effectType,DefensePercent,TalentEffectType
 天赋卡,def_block,effectValue,30,int
 天赋卡,def_block,effectValue2,0,int
@@ -2171,7 +2171,7 @@
 天赋卡,grd_rewind2,description,时光回溯额外1次,string
 天赋卡,grd_rewind2,cardType,Guardian,TalentCardType
 天赋卡,grd_rewind2,rarity,Common,TalentCardRarity
-天赋卡,grd_rewind2,slotDiscount,0.00,float
+天赋卡,grd_rewind2,slotDiscount,1.00,float
 天赋卡,grd_rewind2,effectType,GuardianRewindExtraCount,TalentEffectType
 天赋卡,grd_rewind2,effectValue,1,int
 天赋卡,grd_rewind2,effectValue2,0,int
@@ -2899,7 +2899,7 @@
 天赋卡,skl_vanguard_laststand,description,先锋阵亡时自动触发技能返还部署点；无技能则返还撤退至守护点时的部署费用,string
 天赋卡,skl_vanguard_laststand,cardType,Skill,TalentCardType
 天赋卡,skl_vanguard_laststand,rarity,Common,TalentCardRarity
-天赋卡,skl_vanguard_laststand,slotDiscount,0.00,float
+天赋卡,skl_vanguard_laststand,slotDiscount,1.00,float
 天赋卡,skl_vanguard_laststand,effectType,None,TalentEffectType
 天赋卡,skl_vanguard_laststand,effectValue,0,int
 天赋卡,skl_vanguard_laststand,effectValue2,0,int

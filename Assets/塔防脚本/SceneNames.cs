@@ -14,10 +14,6 @@ public static class SceneNames
     public const string BattleScene = "BattleScene";
     public const string StoryCardCollection = "StoryCardCollection";
 
-    // 随机事件场景
-    public const string RandomEventCave = "RandomEvent_Cave";
-    public const string RandomEventStreet = "RandomEvent_Street";
-    public const string RandomEventForest = "RandomEvent_Forest";
-    public const string RandomEventTemple = "RandomEvent_Temple";
-    public const string RandomEventGrave = "RandomEvent_Grave";
+    // 随机事件场景（统一单场景）
+    public const string RandomEvent = "RandomEvent";
 }

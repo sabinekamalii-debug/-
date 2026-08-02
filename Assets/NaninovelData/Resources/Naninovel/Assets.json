@@ -409,6 +409,66 @@
             "group": ""
         },
         {
+            "guid": "a5da405061be499e970a92702373e931",
+            "prefix": "Scripts",
+            "path": "迷途之歌",
+            "group": ""
+        },
+        {
+            "guid": "2b78ca8929e349c59c1be779f4e22a81",
+            "prefix": "Scripts",
+            "path": "深渊低语",
+            "group": ""
+        },
+        {
+            "guid": "6aba7028ec8846f78f96c931aeee1cf4",
+            "prefix": "Scripts",
+            "path": "月下独白",
+            "group": ""
+        },
+        {
+            "guid": "479d0ab917f74cfe80e1754aea552016",
+            "prefix": "Scripts",
+            "path": "封印之地",
+            "group": ""
+        },
+        {
+            "guid": "ceb1a351ed274a3b8c717e8489c064e9",
+            "prefix": "Scripts",
+            "path": "渡魂之河",
+            "group": ""
+        },
+        {
+            "guid": "50d6cd47595e4c71a3edae0fcb649904",
+            "prefix": "Scripts",
+            "path": "星陨之地",
+            "group": ""
+        },
+        {
+            "guid": "42548a26a3064b54acc0adde481d6c72",
+            "prefix": "Scripts",
+            "path": "旧日书信",
+            "group": ""
+        },
+        {
+            "guid": "45deea42f5f1421b89c23e0260df4074",
+            "prefix": "Scripts",
+            "path": "夜话魔森",
+            "group": ""
+        },
+        {
+            "guid": "7bce3d90a3fc4739bcdceb7e97fbc325",
+            "prefix": "Scripts",
+            "path": "镜中幻影",
+            "group": ""
+        },
+        {
+            "guid": "38b2ef7beee24664909f7007386c9162",
+            "prefix": "Scripts",
+            "path": "断剑之冢",
+            "group": ""
+        },
+        {
             "guid": "e466d9326b30a4b49a3dad428b4d9968",
             "prefix": "Spawn",
             "path": "Blur",

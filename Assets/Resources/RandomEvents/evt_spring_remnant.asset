@@ -38,7 +38,7 @@ MonoBehaviour:
   minStage: 0
   maxStage: 0
   weight: 5
-  oneShot: 0
+  oneShot: 1
   repeatable: 0
   playNaniOnEnter: 1
   naniEntryScriptName: "\u6B8B\u5F71\u4E4B\u6CC9"

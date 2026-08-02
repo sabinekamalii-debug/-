@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b2c3d4e5f60718293a4b5c6d7e8f90, type: 3}
+  m_Name: evt_lost_song
+  m_EditorClassIdentifier: 
+  eventId: evt_lost_song
+  title: "\u8FF7\u9014\u4E4B\u6B4C"
+  description: "\u9B54\u68EE\u4E2D\u56DE\u8361\u7740\u60A0\u626C\u54C0\u5A49\u7684\u6B4C\u58F0\uFF0C\u50CF\u662F\u67D0\u79CD\u53E4\u8001\u7684\u6447\u7BEE\u66F2\u3002"
+  backgroundImage: {fileID: 0}
+  options:
+  - buttonText: "\u7EE7\u7EED"
+    previewText: 
+    resultText: 
+    outcomes: []
+    goldCost: 0
+    requiredCardId: 
+    requiredGuardianHp: 0
+    naniScriptName: 
+    naniLabel: 
+  - buttonText: "\u7EE7\u7EED"
+    previewText: 
+    resultText: 
+    outcomes: []
+    goldCost: 0
+    requiredCardId: 
+    requiredGuardianHp: 0
+    naniScriptName: 
+    naniLabel: 
+  minStage: 0
+  maxStage: 0
+  weight: 4
+  oneShot: 1
+  repeatable: 0
+  playNaniOnEnter: 1
+  naniEntryScriptName: "\u8FF7\u9014\u4E4B\u6B4C"
+  naniEntryLabel: 

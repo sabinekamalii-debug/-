@@ -48,6 +48,9 @@ public class LevelSceneLoadContext
     /// <summary> 当前大局 ID（跨场景传递）。 </summary>
     private static int _currentActId;
 
+    /// <summary> 战前场景内对话内容（跨场景传递给 BattleScene 的 NewbieTutorialController）。 </summary>
+    private static string[] _preBattleDialogueLines;
+
     /// <summary>
     /// 设置即将进入的关卡配置（新架构入口）。
     /// 调用后 BattleScene 会读取此配置来构建地图和波次。

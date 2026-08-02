@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b2c3d4e5f60718293a4b5c6d7e8f90, type: 3}
+  m_Name: evt_old_letters
+  m_EditorClassIdentifier: 
+  eventId: evt_old_letters
+  title: "\u65E7\u65E5\u4E66\u4FE1"
+  description: "\u5E9F\u589F\u4E2D\u7684\u94C1\u76D2\u91CC\u88C5\u7740\u7A7A\u4E4B\u9B54\u738B\u4E0A\u4E00\u4E16\u5199\u7ED9\u81EA\u5DF1\u7684\u4E66\u4FE1\u3002"
+  backgroundImage: {fileID: 0}
+  options:
+  - buttonText: "\u7EE7\u7EED"
+    previewText: 
+    resultText: 
+    outcomes: []
+    goldCost: 0
+    requiredCardId: 
+    requiredGuardianHp: 0
+    naniScriptName: 
+    naniLabel: 
+  - buttonText: "\u7EE7\u7EED"
+    previewText: 
+    resultText: 
+    outcomes: []
+    goldCost: 0
+    requiredCardId: 
+    requiredGuardianHp: 0
+    naniScriptName: 
+    naniLabel: 
+  minStage: 0
+  maxStage: 0
+  weight: 4
+  oneShot: 1
+  repeatable: 0
+  playNaniOnEnter: 1
+  naniEntryScriptName: "\u65E7\u65E5\u4E66\u4FE1"
+  naniEntryLabel: 

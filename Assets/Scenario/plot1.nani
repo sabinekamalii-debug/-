@@ -486,57 +486,122 @@ wplayer: （看着他的腿）你能行吗？
 晶: 说好的“世上十个哥哥九个妹控”呢！谁家妹控打妹妹这么狠啊！
 醒.笑: 那你真幸运，不好意思，你刚好抽到那剩下的十分之一了
 
-; ========== 主线碎片占位标签（后续补充剧情内容） ==========
-; 通关第5关 → 解锁主线碎片「疑云」
+; ============================================
+; 战斗前主线对话（占位，后续自行修改内容）
+; 点击关卡按钮 → 播此对话 → 自动进入战斗
+; ============================================
+
+; 第1关前 → 战前对话
+# BeforeStage1
+@showPrinter
+@back 魔森
+@char 空之魔王.不满 pos:50,-20 scale:0.55
+空之魔王: 变强的路上总要失去些什么，不是吗？
+空之魔王: 我找恶之魔王帮我解决一些麻烦，结果恰好遇上了人类勇者的讨伐
+空之魔王: 我们得去帮帮恶之魔王，拖拽右边的可购买角色，击退敌人吧
+@stop
+
+; 通关第5关前 → 战前对话「疑云」
+# BeforeStage5
+@showPrinter
+@back 魔森
+@char 空之魔王.不满 pos:50,-20 scale:0.55
+空之魔王: （占位）不对劲。这附近的魔力流动比之前强了很多。
+空之魔王: （占位）有人在故意引导我们朝某个方向走。小心点。
+@stop
+
+; 通关第10关前 → 战前对话「追迹」
+# BeforeStage10
+@showPrinter
+@back 战斗过的森林
+@char 空之魔王.愤怒 pos:50,-20 scale:0.55
+空之魔王: （占位）我看到了。前面那个身影……是他。
+空之魔王: （占位）浮木的残影还在这片森林里游荡。冠冕在共鸣。
+@stop
+
+; 通关第15关前 → 战前对话「暗涌」
+# BeforeStage15
+@showPrinter
+@back 毁灭后的森林
+@char 空之魔王.仰头 pos:50,-20 scale:0.55
+空之魔王: （占位）冠冕在发烫。从来没有这样过。
+空之魔王: （占位）这片土地下面有东西在回应冠冕。你感觉到了吗？
+@stop
+
+; 首次通关精英关前 → 战前对话「转折」
+# BeforeFirstElite
+@showPrinter
+@back 夜魔森
+@char 空之魔王.惊讶 pos:50,-20 scale:0.55
+空之魔王: （占位）等等——前面那个不是普通敌人。
+空之魔王: （占位）我能感觉到和冠冕同源的力量。是其他魔王的眷属。准备好。
+@stop
+
+; 通关第20关前 → 战前对话「迫近」
+# BeforeStage20
+@showPrinter
+@back 混沌
+@char 空之魔王.哭过后 pos:50,-20 scale:0.55
+空之魔王: （占位）已经到这一步了。再往前，就是这轮轮回的终点。
+空之魔王: （占位）我不知道这一次结局会怎样。但这一次……至少我不是一个人。
+@stop
+
+; Boss战前 → 战前对话「终局」
+# BeforeBoss
+@showPrinter
+@back 黑魔王城
+@char 空之魔王.愤怒 pos:50,-20 scale:0.55
+空之魔王: （占位）来了。这个大局的支配者就在前面。
+空之魔王: （占位）打完这一场，如果冠冕还不重置……我们就能继续往前走。准备好了吗？
+@stop
+
+; ════════════════════════════════════════════
+; 以下是战后返回 plot 场景的 label（通关后剧情）
+; ════════════════════════════════════════════
 # AfterLevel5
 @showPrinter
 @back 黑
-旁白: （待填写：通关第5关后的主线剧情——疑云）
+旁白: （待填写：通关第5关后的剧情内容）
 @hideAll wait!
 @hidePrinter wait!
 @loadScene "plot"
 
-; 通关第10关 → 解锁主线碎片「追迹」
 # AfterLevel10
 @showPrinter
 @back 黑
-旁白: （待填写：通关第10关后的主线剧情——追迹）
+旁白: （待填写：通关第10关后的剧情内容）
 @hideAll wait!
 @hidePrinter wait!
 @loadScene "plot"
 
-; 通关第15关 → 解锁主线碎片「暗涌」
 # AfterLevel15
 @showPrinter
 @back 黑
-旁白: （待填写：通关第15关后的主线剧情——暗涌）
+旁白: （待填写：通关第15关后的剧情内容）
 @hideAll wait!
 @hidePrinter wait!
 @loadScene "plot"
 
-; 首次通关精英关 → 解锁主线碎片「转折」
 # AfterFirstElite
 @showPrinter
 @back 黑
-旁白: （待填写：首次通关精英关后的主线剧情——转折）
+旁白: （待填写：首次通关精英关后的剧情内容）
 @hideAll wait!
 @hidePrinter wait!
 @loadScene "plot"
 
-; 通关第20关 → 解锁主线碎片「迫近」
 # AfterLevel20
 @showPrinter
 @back 黑
-旁白: （待填写：通关第20关后的主线剧情——迫近）
+旁白: （待填写：通关第20关后的剧情内容）
 @hideAll wait!
 @hidePrinter wait!
 @loadScene "plot"
 
-; 通关Boss关 → 解锁主线碎片「终局」
 # AfterBoss
 @showPrinter
 @back 黑
-旁白: （待填写：击败Boss后的主线结局——终局）
+旁白: （待填写：击败Boss后的结局内容）
 @hideAll wait!
 @hidePrinter wait!
 @loadScene "plot"
