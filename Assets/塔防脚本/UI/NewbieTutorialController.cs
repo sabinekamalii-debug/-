@@ -47,6 +47,20 @@ public class NewbieTutorialController : MonoBehaviour
 
     private void Start()
     {
+        // 优先从跨场景上下文获取战前对话内容
+        var preBattleLines = LevelSceneLoadContext.GetPreBattleDialogueLines();
+        if (preBattleLines != null && preBattleLines.Length > 0)
+        {
+            lines = preBattleLines;
+            LevelSceneLoadContext.ClearPreBattleDialogueLines();
+        }
+        else
+        {
+            // 没有战前对话 → 不显示教程
+            if (tutorialRoot != null) tutorialRoot.SetActive(false);
+            return;
+        }
+
         if (tutorialRoot == null)
         {
             var found = GameObject.Find("新手教程");

@@ -1,10 +1,10 @@
 {
-  "unity_port": 59708,
-  "stream_port": 56281,
+  "unity_port": -1,
+  "stream_port": 56472,
   "created_date": "2026-07-19T02:59:24.101Z",
   "project_path": "D:/unity/mowang/Assets",
   "reloading": false,
-  "reason": "ready",
-  "seq": 15559,
-  "last_heartbeat": "2026-08-02T00:46:07.053Z"
+  "reason": "unity_quit",
+  "seq": 1346,
+  "last_heartbeat": "2026-08-02T06:32:16.659Z"
 }

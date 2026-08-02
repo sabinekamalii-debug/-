@@ -439,24 +439,36 @@ public class LevelNodeButton : MonoBehaviour
         {
             LevelSceneLoadContext.SetLevelConfig(_cachedLevelConfig, _levelNumber, _sceneName);
 
-            // 检查是否有战前对话（在进入战斗前先播一段 Naninovel 短对话）
+            // 检查是否有战前对话
             ActConfig actConfig = RogueRuntimeState.CurrentActConfig;
             if (actConfig != null && actConfig.preBattleDialogues != null)
             {
-                string preBattleLabel = null;
+                PreBattleDialogue preBattleDialogue = null;
                 foreach (var dialogue in actConfig.preBattleDialogues)
                 {
                     if (dialogue.stageNumber == _levelNumber)
                     {
-                        preBattleLabel = dialogue.labelName;
+                        preBattleDialogue = dialogue;
                         break;
                     }
                 }
-                if (!string.IsNullOrEmpty(preBattleLabel) && !string.IsNullOrEmpty(actConfig.mainScriptName))
+                if (preBattleDialogue != null)
                 {
-                    NaninovelReturnRequest.Set(actConfig.mainScriptName, preBattleLabel, SceneNames.BattleScene);
-                    VideoSceneLoader.LoadScene(SceneNames.Title);
-                    return;
+                    if (preBattleDialogue.useNaninovel
+                        && !string.IsNullOrEmpty(preBattleDialogue.labelName)
+                        && !string.IsNullOrEmpty(actConfig.mainScriptName))
+                    {
+                        // 跳转 Naninovel 播放剧情，播完后加载 BattleScene
+                        NaninovelReturnRequest.Set(actConfig.mainScriptName, preBattleDialogue.labelName, SceneNames.BattleScene);
+                        VideoSceneLoader.LoadScene(SceneNames.Title);
+                        return;
+                    }
+
+                    if (preBattleDialogue.inSceneLines != null && preBattleDialogue.inSceneLines.Length > 0)
+                    {
+                        // 场景内文字对话：传递给 BattleScene 的 NewbieTutorialController
+                        LevelSceneLoadContext.SetPreBattleDialogueLines(preBattleDialogue.inSceneLines);
+                    }
                 }
             }
 

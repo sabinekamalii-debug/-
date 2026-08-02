@@ -162,10 +162,11 @@ public static class LevelRandomizer
 
     static void ProcessDefault()
     {
-        var config1 = new SimpleLevelRandomConfig.LevelGroupConfig { shopCount = 1 };
+        // 21个按钮全部为战斗类型（普通/精英/Boss），商店/奇遇/休息作为节点间弹窗事件，不占按钮位置
+        var config1 = new SimpleLevelRandomConfig.LevelGroupConfig();
         var config2 = new SimpleLevelRandomConfig.LevelGroupConfig { eliteCount = 1 };
-        var config3 = new SimpleLevelRandomConfig.LevelGroupConfig { shopCount = 1, eliteCount = 1 };
-        var config4 = new SimpleLevelRandomConfig.LevelGroupConfig { shopCount = 1, eliteCount = 1 };
+        var config3 = new SimpleLevelRandomConfig.LevelGroupConfig { eliteCount = 1 };
+        var config4 = new SimpleLevelRandomConfig.LevelGroupConfig { eliteCount = 1 };
         var config5 = new SimpleLevelRandomConfig.LevelGroupConfig { eliteCount = 3, bossCount = 1 };
 
         ProcessFullRange(1, 4, config1);

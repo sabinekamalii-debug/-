@@ -97,6 +97,24 @@ public class LevelSceneLoadContext
         _currentActId = 0;
     }
 
+    /// <summary> 设置战前场景内对话内容（进入 BattleScene 前调用）。 </summary>
+    public static void SetPreBattleDialogueLines(string[] lines)
+    {
+        _preBattleDialogueLines = lines;
+    }
+
+    /// <summary> 获取战前场景内对话内容（NewbieTutorialController 消费后应 ClearPreBattleDialogueLines）。 </summary>
+    public static string[] GetPreBattleDialogueLines()
+    {
+        return _preBattleDialogueLines;
+    }
+
+    /// <summary> 清空战前对话内容。 </summary>
+    public static void ClearPreBattleDialogueLines()
+    {
+        _preBattleDialogueLines = null;
+    }
+
     // ===== 原有方法（保持兼容） =====
 
     /// <summary> 设置为"从选关界面进入"的上下文。 </summary>

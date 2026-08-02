@@ -8,6 +8,11 @@ public static class CreateGameModeDropdown
 {
     static readonly string BtnSpritePath = "Assets/杂和卡图案/杂/杂/jimeng-2026-03-12-2146-游戏古风界面的一组游戏风格UI标题框合集，采用闪亮暖暖戏风格，飘逸，精美 的细节....png";
 
+    const float BtnW = 260f;
+    const float BtnH = 54f;
+    const float DescW = 260f;
+    const float TotalW = BtnW + DescW; // 520
+
     [MenuItem("Tools/创建关卡模式下拉")]
     public static void Create()
     {
@@ -19,14 +24,13 @@ public static class CreateGameModeDropdown
 
         // 删除旧对象
         var oldLabel = GameObject.Find("GameModeLabel");
-        if (oldLabel != null) GameObject.DestroyImmediate(oldLabel);
+        if (oldLabel != null) Object.DestroyImmediate(oldLabel);
         var oldDropdown = GameObject.Find("GameModeDropdown");
-        if (oldDropdown != null) GameObject.DestroyImmediate(oldDropdown);
+        if (oldDropdown != null) Object.DestroyImmediate(oldDropdown);
+        var oldDesc = GameObject.Find("GameModeDesc");
+        if (oldDesc != null) Object.DestroyImmediate(oldDesc);
 
-        float btnW = 260f;
-        float btnH = 54f;
-
-        // ===== 下拉框本体 =====
+        // ===== 下拉框本体（只显示按钮宽度）=====
         var go = new GameObject("GameModeDropdown", typeof(Image), typeof(TMP_Dropdown));
         go.transform.SetParent(canvas.transform, false);
         var dropdown = go.GetComponent<TMP_Dropdown>();
@@ -35,7 +39,7 @@ public static class CreateGameModeDropdown
         dropdownRt.anchorMax = new Vector2(0, 1);
         dropdownRt.pivot = new Vector2(0, 0.5f);
         dropdownRt.anchoredPosition = new Vector2(60, -382);
-        dropdownRt.sizeDelta = new Vector2(btnW, btnH);
+        dropdownRt.sizeDelta = new Vector2(BtnW, BtnH);
 
         var bgImage = go.GetComponent<Image>();
         bgImage.sprite = btnSprite;
@@ -54,25 +58,25 @@ public static class CreateGameModeDropdown
         captionRt.anchorMin = new Vector2(0, 0);
         captionRt.anchorMax = new Vector2(1, 1);
         captionRt.pivot = new Vector2(0.5f, 0.5f);
-        captionRt.offsetMin = new Vector2(50, 0);
-        captionRt.offsetMax = new Vector2(-50, 0);
+        captionRt.offsetMin = new Vector2(40, 0);
+        captionRt.offsetMax = new Vector2(-40, 0);
 
         // Arrow
         var arrowGo = new GameObject("Arrow", typeof(TextMeshProUGUI));
         arrowGo.transform.SetParent(go.transform, false);
         var arrowText = arrowGo.GetComponent<TextMeshProUGUI>();
-        arrowText.text = "▸";
-        arrowText.fontSize = 16;
+        arrowText.text = "▼";
+        arrowText.fontSize = 14;
         arrowText.alignment = TextAlignmentOptions.MidlineRight;
         arrowText.color = new Color(1f, 0.85f, 0.5f);
         var arrowRt = arrowGo.GetComponent<RectTransform>();
         arrowRt.anchorMin = new Vector2(1, 0);
         arrowRt.anchorMax = new Vector2(1, 1);
         arrowRt.pivot = new Vector2(1, 0.5f);
-        arrowRt.offsetMin = new Vector2(-40, 0);
-        arrowRt.offsetMax = new Vector2(-12, 0);
+        arrowRt.offsetMin = new Vector2(-30, 0);
+        arrowRt.offsetMax = new Vector2(-8, 0);
 
-        // ===== Template（透明背景，比按钮宽以容纳旁白描述）=====
+        // ===== Template（比按钮宽，右侧容纳描述文字）=====
         var templateGo = new GameObject("Template", typeof(RectTransform));
         templateGo.transform.SetParent(go.transform, false);
         templateGo.SetActive(false);
@@ -81,7 +85,11 @@ public static class CreateGameModeDropdown
         templateRt.anchorMax = new Vector2(0, 0);
         templateRt.pivot = new Vector2(0, 1);
         templateRt.anchoredPosition = new Vector2(0, -3);
-        templateRt.sizeDelta = new Vector2(520, 176);
+        templateRt.sizeDelta = new Vector2(TotalW, BtnH * 3 + 8);
+
+        // 模板背景（半透明深蓝）
+        var tplBg = templateGo.AddComponent<Image>();
+        tplBg.color = new Color(0.08f, 0.06f, 0.12f, 0.92f);
 
         var scrollRect = templateGo.AddComponent<ScrollRect>();
         scrollRect.horizontal = false;
@@ -108,30 +116,30 @@ public static class CreateGameModeDropdown
         contentRt.anchorMax = new Vector2(1, 1);
         contentRt.pivot = new Vector2(0.5f, 1);
         contentRt.anchoredPosition = Vector2.zero;
-        contentRt.sizeDelta = new Vector2(0, btnH);
+        contentRt.sizeDelta = new Vector2(0, BtnH);
         var vlg = content.GetComponent<VerticalLayoutGroup>();
         vlg.childForceExpandWidth = true;
         vlg.childForceExpandHeight = false;
         vlg.childControlWidth = true;
         vlg.childControlHeight = false;
-        vlg.spacing = 4;
+        vlg.spacing = 2;
         var csf = content.GetComponent<ContentSizeFitter>();
         csf.verticalFit = ContentSizeFitter.FitMode.MinSize;
         content.AddComponent<DropdownDescSetter>();
         scrollRect.content = contentRt;
 
-        // ===== Item 模板（按钮贴图 + 右侧旁白描述）=====
+        // ===== Item 模板（左按钮 + 右描述）=====
         var item = new GameObject("Item", typeof(RectTransform));
         item.transform.SetParent(content.transform, false);
         var itemRt = item.GetComponent<RectTransform>();
         itemRt.anchorMin = new Vector2(0, 0.5f);
         itemRt.anchorMax = new Vector2(1, 0.5f);
         itemRt.pivot = new Vector2(0, 0.5f);
-        itemRt.sizeDelta = new Vector2(0, btnH);
+        itemRt.sizeDelta = new Vector2(0, BtnH);
         var le = item.AddComponent<LayoutElement>();
-        le.preferredHeight = btnH;
+        le.preferredHeight = BtnH;
 
-        // --- 按钮贴图部分（左侧 260px）---
+        // --- 左侧按钮贴图 ---
         var btnArea = new GameObject("BtnArea", typeof(Image));
         btnArea.transform.SetParent(item.transform, false);
         var btnAreaImg = btnArea.GetComponent<Image>();
@@ -142,11 +150,9 @@ public static class CreateGameModeDropdown
         btnAreaRt.anchorMin = new Vector2(0, 0);
         btnAreaRt.anchorMax = new Vector2(0, 1);
         btnAreaRt.pivot = new Vector2(0, 0.5f);
-        btnAreaRt.sizeDelta = new Vector2(btnW, 0);
-        btnAreaRt.offsetMin = new Vector2(0, 0);
-        btnAreaRt.offsetMax = new Vector2(btnW, 0);
+        btnAreaRt.sizeDelta = new Vector2(BtnW, 0);
 
-        // Toggle（点整个 Item 都能选）
+        // Toggle
         var toggle = item.AddComponent<Toggle>();
         toggle.transition = Selectable.Transition.ColorTint;
         var tc = toggle.colors;
@@ -171,23 +177,23 @@ public static class CreateGameModeDropdown
         titleRt.anchorMin = new Vector2(0, 0);
         titleRt.anchorMax = new Vector2(0, 1);
         titleRt.pivot = new Vector2(0.5f, 0.5f);
-        titleRt.sizeDelta = new Vector2(btnW - 80, 0);
-        titleRt.anchoredPosition = new Vector2(btnW / 2f, 0);
+        titleRt.sizeDelta = new Vector2(BtnW - 80, 0);
+        titleRt.anchoredPosition = new Vector2(BtnW / 2f, 0);
 
-        // 描述（旁白，在按钮右侧）
+        // --- 右侧描述文字 ---
         var descGo = new GameObject("Description", typeof(TextMeshProUGUI));
         descGo.transform.SetParent(item.transform, false);
         var descTmp = descGo.GetComponent<TextMeshProUGUI>();
         descTmp.text = "";
-        descTmp.fontSize = 20;
+        descTmp.fontSize = 18;
         descTmp.alignment = TextAlignmentOptions.MidlineLeft;
-        descTmp.color = new Color(0.75f, 0.7f, 0.6f);
+        descTmp.color = new Color(0.85f, 0.8f, 0.65f);
         var descRt = descGo.GetComponent<RectTransform>();
         descRt.anchorMin = new Vector2(0, 0);
         descRt.anchorMax = new Vector2(1, 1);
         descRt.pivot = new Vector2(0, 0.5f);
-        descRt.offsetMin = new Vector2(btnW + 12, 0);
-        descRt.offsetMax = new Vector2(0, 0);
+        descRt.offsetMin = new Vector2(BtnW + 12, 4);
+        descRt.offsetMax = new Vector2(-8, -4);
 
         // ===== 连接 =====
         dropdown.captionText = null;
