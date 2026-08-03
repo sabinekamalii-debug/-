@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b2c3d4e5f60718293a4b5c6d7e8f90, type: 3}
+  m_Name: evt_death_king_palace
+  m_EditorClassIdentifier: 
+  eventId: evt_death_king_palace
+  title: "\u738B\u5BAB\u5BC6\u5BA4"
+  description: "\u4F60\u5728\u738B\u57CE\u6DF1\u5904\u53D1\u73B0\u4E86\u4E00\u95F4\u9690\u79D8\u7684\u5BC6\u5BA4\uFF0C\u7A7A\u6C14\u4E2D\u5F25\u6F2B\u7740\u53E4\u8001\u7684\u9B54\u529B\u6C14\u606F\u3002\u5899\u4E0A\u7684\u70DB\u706B\u6447\u66F3\uFF0C\u7167\u4EAE\u4E86\u6EE1\u67B6\u7684\u7EDD\u5BC6\u6587\u732E\u3002"
+  backgroundImage: {fileID: 0}
+  options:
+  - buttonText: "\u7EE7\u7EED\u63A2\u7D22"
+    previewText: 
+    resultText: 
+    outcomes: []
+    goldCost: 0
+    requiredCardId: 
+    requiredGuardianHp: 0
+    naniScriptName: 
+    naniLabel: 
+  - buttonText: "\u79BB\u5F00"
+    previewText: 
+    resultText: 
+    outcomes: []
+    goldCost: 0
+    requiredCardId: 
+    requiredGuardianHp: 0
+    naniScriptName: 
+    naniLabel: 
+  minStage: 6
+  maxStage: 18
+  weight: 3
+  oneShot: 1
+  repeatable: 0
+  playNaniOnEnter: 1
+  naniEntryScriptName: "\u6B7B\u4E4B\u9B54\u738B"
+  naniEntryLabel: "\u5BC6\u6587"

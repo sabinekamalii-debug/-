@@ -20,6 +20,11 @@ public static class LevelProgress
     static HashSet<string> _completed;
     static LevelConnectionConfig _connectionConfig;
 
+    // ===== StS 分叉路径图：节点完成追踪 =====
+    const string NodePrefsKey = "Map.CompletedNodes";
+    static HashSet<int> _completedNodes;
+    static MapGraph _mapGraph;
+
     // Domain Reload 禁用时，每次 Enter Play Mode 清空缓存。
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void ResetStaticStateOnPlaymodeEnter()
@@ -27,6 +32,75 @@ public static class LevelProgress
         _levelOrder = null;
         _completed = null;
         _connectionConfig = null;
+        _completedNodes = null;
+        _mapGraph = null;
+    }
+
+    // ===== StS 分叉路径图 API =====
+
+    public static void SetMapGraph(MapGraph graph)
+    {
+        _mapGraph = graph;
+    }
+
+    public static void MarkNodeCompleted(int nodeId)
+    {
+        var set = GetCompletedNodes();
+        set.Add(nodeId);
+        SaveNodes(set);
+    }
+
+    public static bool IsNodeCompleted(int nodeId)
+    {
+        return GetCompletedNodes().Contains(nodeId);
+    }
+
+    public static bool IsNodeUnlocked(int nodeId)
+    {
+        if (_mapGraph == null) return false;
+        var node = _mapGraph.GetNode(nodeId);
+        if (node == null) return false;
+
+        // Start node always unlocked
+        if (node.nodeType == LevelType.Start) return true;
+
+        // Already completed → unlocked (for re-entry in testing)
+        if (IsNodeCompleted(nodeId)) return true;
+
+        // Unlocked if any predecessor is completed
+        foreach (var predId in _mapGraph.GetPredecessors(nodeId))
+        {
+            if (IsNodeCompleted(predId)) return true;
+        }
+        return false;
+    }
+
+    public static void ClearNodeProgress()
+    {
+        _completedNodes = new HashSet<int>();
+        PlayerPrefs.DeleteKey(NodePrefsKey);
+        PrefsSaver.Save();
+    }
+
+    static HashSet<int> GetCompletedNodes()
+    {
+        if (_completedNodes != null) return _completedNodes;
+        _completedNodes = new HashSet<int>();
+        string raw = PlayerPrefs.GetString(NodePrefsKey, "");
+        if (string.IsNullOrEmpty(raw)) return _completedNodes;
+        foreach (var s in raw.Split(','))
+        {
+            if (int.TryParse(s.Trim(), out int id))
+                _completedNodes.Add(id);
+        }
+        return _completedNodes;
+    }
+
+    static void SaveNodes(HashSet<int> set)
+    {
+        _completedNodes = set;
+        PlayerPrefs.SetString(NodePrefsKey, string.Join(",", set));
+        PrefsSaver.Save();
     }
 
     /// <summary> 由 LevelMapController 在 Awake 时设置连线配置。 </summary>

@@ -353,6 +353,9 @@ MonoBehaviour:
     - name: "\u65E7\u65E5\u4E66\u4FE1"
       pathPrefix: Scripts
       guid: 42548a26a3064b54acc0adde481d6c72
+    - name: "\u6B7B\u4E4B\u9B54\u738B"
+      pathPrefix: Scripts
+      guid: a3f7c2e891b4d6053718af2c5e9d0b17
   - Id: Backgrounds/MainBackground
     Resources:
     - name: beijing01

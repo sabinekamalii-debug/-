@@ -52,6 +52,10 @@ public static class RogueRuntimeState
     private static RunModifierConfig _modifierConfig;
     public static RunModifierConfig ModifierConfig => _modifierConfig;
 
+    /// <summary> 当前 StS 分叉路径地图图。 </summary>
+    private static MapGraph _currentMapGraph;
+    public static MapGraph CurrentMapGraph => _currentMapGraph;
+
     /// <summary> 按关卡类型分组的打乱 LevelConfig ID 池。 </summary>
     private static Dictionary<LevelType, int[]> _typeShuffledPools;
     private const int ShufflePoolScanRange = 50;
@@ -83,6 +87,12 @@ public static class RogueRuntimeState
     public static void SetRunModifierConfig(RunModifierConfig config)
     {
         _modifierConfig = config;
+    }
+
+    /// <summary> 设置当前地图图（由 LevelMapController 生成后调用）。 </summary>
+    public static void SetMapGraph(MapGraph graph)
+    {
+        _currentMapGraph = graph;
     }
 
     public static int GetFixedCutoff()
@@ -634,12 +644,12 @@ public static class RogueRuntimeState
     public static void ForceResetRun()
     {
         InitIfNeeded();
-        // 如果没有选择大局，自动选择第一个可用的
+        // 如果没有选择大局，自动选择默认大局
         if (CurrentActId <= 0)
         {
-            var firstAct = ActRegistry.GetFirstAct();
-            if (firstAct != null)
-                CurrentActId = firstAct.actId;
+            var defaultAct = ActRegistry.GetActConfig(2) ?? ActRegistry.GetFirstAct();
+            if (defaultAct != null)
+                CurrentActId = defaultAct.actId;
         }
         RunGold = 0;
         CardDrawCount = 0;
@@ -653,6 +663,8 @@ public static class RogueRuntimeState
         CurseManager.ClearCurses();
         ClearGuardianHp();
         ClearShuffledOrder();
+        _currentMapGraph = null;
+        LevelProgress.ClearNodeProgress();
         SavePersistent();
     }
 
@@ -670,6 +682,14 @@ public static class RogueRuntimeState
         RunSeed = System.Environment.TickCount ^ (int)System.DateTime.Now.Ticks;
         _runRng = new RunRng(RunSeed);
         GenerateShuffledOrder();
+
+        // 生成 StS 分叉路径地图
+        _currentMapGraph = StSMapGenerator.Generate(RunSeed, CurrentActConfig);
+        LevelProgress.SetMapGraph(_currentMapGraph);
+        LevelProgress.ClearNodeProgress();
+        var startNode = _currentMapGraph?.GetStartNode();
+        if (startNode != null)
+            LevelProgress.MarkNodeCompleted(startNode.nodeId);
 
         // V2 剧情碎片：累计局数 +1，并检查 TotalRuns 条件碎片
         StoryCardUnlockState.IncrementRunAndCheck();
@@ -712,6 +732,7 @@ public static class RogueRuntimeState
         CurseManager.ClearCurses();
         ClearGuardianHp();
         ClearShuffledOrder();
+        _currentMapGraph = null;
         SavePersistent();
         return talentGain;
     }
@@ -737,6 +758,7 @@ public static class RogueRuntimeState
         CurseManager.ClearCurses();
         ClearGuardianHp();
         ClearShuffledOrder();
+        _currentMapGraph = null;
         SavePersistent();
         return consolation;
     }

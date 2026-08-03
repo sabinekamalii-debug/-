@@ -12,7 +12,8 @@ public enum LevelType
     Elite,
     Boss,
     RandomEvent,
-    Rest
+    Rest,
+    Start
 }
 
 /// <summary>
@@ -64,13 +65,23 @@ public class LevelNodeButton : MonoBehaviour
 
     Button _button;
 
+    /// <summary> StS 分叉路径图的节点数据（动态创建时通过 Init 设置）。 </summary>
+    private MapNodeData _nodeData;
+
+    /// <summary> 初始化为图节点（由 LevelMapController 动态创建后调用）。 </summary>
+    public void Init(MapNodeData node)
+    {
+        _nodeData = node;
+        if (_button != null)
+            SetupFromNodeData();
+    }
+
     void Awake()
     {
         _button = GetComponent<Button>();
         if (_button != null)
         {
             _button.onClick.AddListener(OnClick);
-            // Button 在 interactable=false 时会用 disabledColor 染 Target Graphic，默认 alpha 约 0.5 会发虚，改为完全不透明
             var colors = _button.colors;
             colors.disabledColor = new Color(colors.disabledColor.r, colors.disabledColor.g, colors.disabledColor.b, 1f);
             _button.colors = colors;
@@ -81,16 +92,25 @@ public class LevelNodeButton : MonoBehaviour
         if (iconImage == null) iconImage = GetComponentInChildren<Image>(true);
         if (iconImage != null) _normalSprite = iconImage.sprite;
 
-        // 根据物体名决定显示数字和关卡：按钮5 / LevelNode_5 → 显示 "5"，跳转 "level 5"
+        if (_nodeData != null)
+        {
+            SetupFromNodeData();
+        }
+        else
+        {
+            SetupFromName();
+        }
+    }
+
+    private void SetupFromName()
+    {
         string num = GetNumberFromGameObjectName(gameObject.name);
         if (!string.IsNullOrEmpty(num))
         {
             _displayName = num;
             _sceneName = "level " + num;
             if (int.TryParse(num, out int n))
-            {
                 _levelNumber = n;
-            }
         }
         else
         {
@@ -98,9 +118,27 @@ public class LevelNodeButton : MonoBehaviour
             _sceneName = "";
             _levelNumber = 0;
         }
-
-        // 尝试加载新架构的关卡配置
         TryLoadLevelConfig();
+    }
+
+    private void SetupFromNodeData()
+    {
+        _levelNumber = _nodeData.floor;
+        _displayName = _nodeData.floor.ToString();
+        _sceneName = $"level{_nodeData.nodeId}";
+
+        // Load LevelConfig for battle nodes
+        if (_nodeData.nodeType == LevelType.NormalBattle ||
+            _nodeData.nodeType == LevelType.Elite ||
+            _nodeData.nodeType == LevelType.Boss)
+        {
+            _cachedLevelConfig = LoadLevelConfigById(_nodeData.levelConfigId);
+            if (_cachedLevelConfig != null && !IsPlayableLevelConfig(_cachedLevelConfig))
+            {
+                _cachedLevelConfig = GetPlayableFallbackLevelConfig(_nodeData.nodeType);
+                _loadedInvalidConfig = true;
+            }
+        }
     }
 
     /// <summary>
@@ -256,11 +294,23 @@ public class LevelNodeButton : MonoBehaviour
 
     void RefreshLockState()
     {
-        bool unlocked = LevelProgress.IsUnlocked(_sceneName);
-        bool completed = LevelProgress.IsCompleted(_sceneName);
+        bool unlocked, completed;
 
-        // 测试阶段：已通关的关卡仍可重复进入（仅变暗标记）
-        bool canEnter = unlocked;
+        if (_nodeData != null)
+        {
+            completed = LevelProgress.IsNodeCompleted(_nodeData.nodeId);
+            unlocked = _nodeData.nodeType == LevelType.Start
+                ? true
+                : LevelProgress.IsNodeUnlocked(_nodeData.nodeId);
+        }
+        else
+        {
+            unlocked = LevelProgress.IsUnlocked(_sceneName);
+            completed = LevelProgress.IsCompleted(_sceneName);
+        }
+
+        // Start node is always non-interactable
+        bool canEnter = unlocked && (_nodeData == null || _nodeData.nodeType != LevelType.Start);
         if (_button != null)
             _button.interactable = canEnter;
 
@@ -294,6 +344,9 @@ public class LevelNodeButton : MonoBehaviour
 
     void LateUpdate()
     {
+        // Graph-based buttons: icon managed by RefreshLockState, skip
+        if (_nodeData != null) return;
+
         if (iconImage != null && levelTypeConfig != null)
         {
             bool unlocked = LevelProgress.IsUnlocked(_sceneName);
@@ -339,6 +392,8 @@ public class LevelNodeButton : MonoBehaviour
             case LevelType.NormalBattle:
             default:
                 return levelTypeConfig.normalBattleIcon;
+            case LevelType.Start:
+                return levelTypeConfig.startIcon;
         }
     }
 
@@ -368,14 +423,24 @@ public class LevelNodeButton : MonoBehaviour
 
     void OnClick()
     {
-        if (!LevelProgress.IsUnlocked(_sceneName)) return;
-        // 测试阶段：已通关的关卡仍可重复进入
+        // Graph-based: check node unlock
+        if (_nodeData != null)
+        {
+            if (_nodeData.nodeType == LevelType.Start) return;
+            if (!LevelProgress.IsNodeUnlocked(_nodeData.nodeId)) return;
+        }
+        else
+        {
+            if (!LevelProgress.IsUnlocked(_sceneName)) return;
+        }
+
         if (string.IsNullOrEmpty(_sceneName)) return;
-        LevelProgress.OnEnterLevel(_sceneName);
+        if (_nodeData == null) LevelProgress.OnEnterLevel(_sceneName);
         LevelSceneLoadContext.SetFromSelection();
 
-        // 商店节点 → 加载 GoldShop 场景
-        LevelType levelType = GetLevelType(_levelNumber);
+        LevelType levelType = _nodeData != null
+            ? _nodeData.nodeType
+            : GetLevelType(_levelNumber);
 
         // spc_skip / 事件免费跳过：可跳过 1 场普通战斗
         if (levelType == LevelType.NormalBattle)
@@ -383,18 +448,28 @@ public class LevelNodeButton : MonoBehaviour
             if (RogueRuntimeState.HasFreeSkip)
             {
                 RogueRuntimeState.TryConsumeFreeSkip();
-                string levelKey = _cachedLevelConfig != null
-                    ? $"level{_levelNumber}" : _sceneName;
-                LevelProgress.MarkCompleted(levelKey);
+                if (_nodeData != null)
+                    LevelProgress.MarkNodeCompleted(_nodeData.nodeId);
+                else
+                {
+                    string levelKey = _cachedLevelConfig != null
+                        ? $"level{_levelNumber}" : _sceneName;
+                    LevelProgress.MarkCompleted(levelKey);
+                }
                 VideoSceneLoader.LoadScene(SceneNames.Plot);
                 return;
             }
             if (RogueRuntimeState.CanSkipBattle)
             {
                 RogueRuntimeState.ConsumeSkipBattle();
-                string levelKey = _cachedLevelConfig != null
-                    ? $"level{_levelNumber}" : _sceneName;
-                LevelProgress.MarkCompleted(levelKey);
+                if (_nodeData != null)
+                    LevelProgress.MarkNodeCompleted(_nodeData.nodeId);
+                else
+                {
+                    string levelKey = _cachedLevelConfig != null
+                        ? $"level{_levelNumber}" : _sceneName;
+                    LevelProgress.MarkCompleted(levelKey);
+                }
                 VideoSceneLoader.LoadScene(SceneNames.Plot);
                 return;
             }
@@ -403,27 +478,31 @@ public class LevelNodeButton : MonoBehaviour
         if (levelType == LevelType.Shop)
         {
             ShopReturnContext.SetShopLevel(_levelNumber);
-            // 非战斗节点自动标记完成，解锁下一关；可反复进入
-            LevelProgress.MarkCompleted(_sceneName);
+            if (_nodeData != null)
+                LevelProgress.MarkNodeCompleted(_nodeData.nodeId);
+            else
+                LevelProgress.MarkCompleted(_sceneName);
             VideoSceneLoader.LoadScene(SceneNames.GoldShop);
             return;
         }
 
-        // 随机事件节点 → 统一加载 RandomEvent 场景（背景图由 RandomEventData.backgroundImage 驱动）
         if (levelType == LevelType.RandomEvent)
         {
-            // 非战斗节点自动标记完成，解锁下一关；可反复进入
-            LevelProgress.MarkCompleted(_sceneName);
+            if (_nodeData != null)
+                LevelProgress.MarkNodeCompleted(_nodeData.nodeId);
+            else
+                LevelProgress.MarkCompleted(_sceneName);
             VideoSceneLoader.LoadScene("RandomEvent");
             return;
         }
 
-        // 休息节点 → 加载 Rest 场景
         if (levelType == LevelType.Rest)
         {
             RestReturnContext.SetRestLevel(_levelNumber);
-            // 非战斗节点自动标记完成，解锁下一关；可反复进入
-            LevelProgress.MarkCompleted(_sceneName);
+            if (_nodeData != null)
+                LevelProgress.MarkNodeCompleted(_nodeData.nodeId);
+            else
+                LevelProgress.MarkCompleted(_sceneName);
             VideoSceneLoader.LoadScene(SceneNames.Rest);
             return;
         }
@@ -437,7 +516,8 @@ public class LevelNodeButton : MonoBehaviour
 
         if (_cachedLevelConfig != null)
         {
-            LevelSceneLoadContext.SetLevelConfig(_cachedLevelConfig, _levelNumber, _sceneName);
+            int nodeId = _nodeData != null ? _nodeData.nodeId : -1;
+            LevelSceneLoadContext.SetLevelConfig(_cachedLevelConfig, _levelNumber, _sceneName, nodeId);
 
             // 检查是否有战前对话
             ActConfig actConfig = RogueRuntimeState.CurrentActConfig;

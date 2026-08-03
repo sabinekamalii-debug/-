@@ -20,4 +20,7 @@ public class LevelTypeConfig : ScriptableObject
 
     [Header("休息点")]
     public Sprite restIcon;
+
+    [Header("起点")]
+    public Sprite startIcon;
 }

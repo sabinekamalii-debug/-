@@ -48,6 +48,9 @@ public class LevelSceneLoadContext
     /// <summary> 当前大局 ID（跨场景传递）。 </summary>
     private static int _currentActId;
 
+    /// <summary> 当前地图节点 ID（StS分叉路径图，用于通关后标记节点完成）。 </summary>
+    private static int _currentNodeId = -1;
+
     /// <summary> 战前场景内对话内容（跨场景传递给 BattleScene 的 NewbieTutorialController）。 </summary>
     private static string[] _preBattleDialogueLines;
 
@@ -55,13 +58,20 @@ public class LevelSceneLoadContext
     /// 设置即将进入的关卡配置（新架构入口）。
     /// 调用后 BattleScene 会读取此配置来构建地图和波次。
     /// </summary>
-    public static void SetLevelConfig(LevelConfig config, int levelId, string sceneName = null)
+    public static void SetLevelConfig(LevelConfig config, int levelId, string sceneName = null, int nodeId = -1)
     {
         _currentLevelConfig = config;
         _currentLevelId = levelId;
         _currentLevelSceneName = sceneName ?? $"level{levelId}";
+        _currentNodeId = nodeId;
         _currentActId = RogueRuntimeState.CurrentActId;
         SetFromSelection();
+    }
+
+    /// <summary> 获取当前地图节点 ID（StS分叉路径图）。 </summary>
+    public static int GetCurrentNodeId()
+    {
+        return _currentNodeId;
     }
 
     /// <summary> 获取当前关卡配置（不清空，由 BattleSceneBootstrap 消费后调用 ClearLevelConfig）。 </summary>
@@ -95,6 +105,7 @@ public class LevelSceneLoadContext
         _currentLevelId = 0;
         _currentLevelSceneName = null;
         _currentActId = 0;
+        _currentNodeId = -1;
     }
 
     /// <summary> 设置战前场景内对话内容（进入 BattleScene 前调用）。 </summary>

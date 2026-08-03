@@ -254,6 +254,11 @@ public class LevelEndMenu : MonoBehaviour
                 if (!_isLose)
                 {
                     LevelProgress.MarkCompleted(levelKey);
+
+                    // StS 分叉路径图：标记节点完成
+                    int nodeId = LevelSceneLoadContext.GetCurrentNodeId();
+                    if (nodeId >= 0)
+                        LevelProgress.MarkNodeCompleted(nodeId);
                     
                     // 标记关卡为首次通关（用于卡片显示控制）
                     TryMarkLevelAsFirstCleared(levelKey);

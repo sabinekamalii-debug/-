@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b77700b59217ea4f86b1187cd8918fd, type: 3}
+  m_Name: act2_main_07
+  m_EditorClassIdentifier: 
+  cardId: act2_main_07
+  displayName: "\u8BFB\u5FC3\u672F"
+  description: "\u795E\u660E\u7ED9\u4E88\u54C0\u4E4B\u52C7\u8005\u7684\u795D\u798F\u7A76\u7ADF\u662F\u4EC0\u4E48\uFF1F\u6B7B\u4E4B\u9B54\u738B\u6F5C\u4F0F\u4E86\u51E0\u5341\u5E74\u4E5F\u672A\u80FD\u53D1\u73B0\u7684\u771F\u76F8\u3002"
+  icon: {fileID: 0}
+  scriptName: "\u6B7B\u4E4B\u9B54\u738B"
+  labelName: "\u8BFB\u5FC3\u672F"
+  unlockConditionType: 3
+  unlockParam: 2
+  rewardTalentPoint: 1

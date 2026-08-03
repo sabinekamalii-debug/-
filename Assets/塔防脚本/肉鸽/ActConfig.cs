@@ -107,6 +107,20 @@ public class ActConfig : ScriptableObject
 
     #endregion
 
+    #region StS地图配置
+
+    [Header("StS地图配置")]
+    [Tooltip("地图楼层数（不含Boss层）。Boss在 floorCount 层。")]
+    public int mapFloorCount = 15;
+
+    [Tooltip("地图最大列数（路径分叉宽度）")]
+    public int mapMaxColumns = 5;
+
+    [Tooltip("从起点到Boss的路径数量")]
+    public int mapPathCount = 6;
+
+    #endregion
+
     #region 主线碎片
 
     [Header("主线碎片解锁节点")]
