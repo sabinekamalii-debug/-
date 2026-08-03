@@ -284,6 +284,8 @@ public class LevelNodeButton : MonoBehaviour
 
     LevelType GetLevelType(int levelNum)
     {
+        if (_nodeData != null)
+            return _nodeData.nodeType;
         return LevelRandomizer.GetLevelType(levelNum);
     }
 
@@ -319,23 +321,20 @@ public class LevelNodeButton : MonoBehaviour
 
         // 获取关卡类型对应的图标
         Sprite typeSprite = GetTypeSprite();
+        Sprite finalSprite = typeSprite != null ? typeSprite : _normalSprite;
 
         if (iconImage != null)
         {
-            if (completed)
+            if (finalSprite != null)
             {
-                iconImage.sprite = typeSprite != null ? typeSprite : _normalSprite;
-                iconImage.color = Opaque(completedDimColor);
-            }
-            else if (unlocked)
-            {
-                iconImage.sprite = typeSprite != null ? typeSprite : _normalSprite;
-                iconImage.color = Color.white;
+                iconImage.enabled = true;
+                iconImage.sprite = finalSprite;
+                iconImage.color = completed ? Opaque(completedDimColor)
+                    : (unlocked ? Color.white : Opaque(lockedColor));
             }
             else
             {
-                iconImage.sprite = typeSprite != null ? typeSprite : _normalSprite;
-                iconImage.color = Opaque(lockedColor);
+                iconImage.enabled = false;
             }
         }
 
@@ -393,7 +392,7 @@ public class LevelNodeButton : MonoBehaviour
             default:
                 return levelTypeConfig.normalBattleIcon;
             case LevelType.Start:
-                return levelTypeConfig.startIcon;
+                return levelTypeConfig.startIcon != null ? levelTypeConfig.startIcon : levelTypeConfig.normalBattleIcon;
         }
     }
 

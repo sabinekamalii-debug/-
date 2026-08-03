@@ -7,7 +7,6 @@ public static class LevelRandomizer
     private static bool _initialized = false;
     private static LevelRandomConfig _config;
     private static SimpleLevelRandomConfig _simpleConfig;
-    private static ActConfig _actConfig;
 
     public static void SetConfig(LevelRandomConfig config)
     {
@@ -19,12 +18,6 @@ public static class LevelRandomizer
     {
         _simpleConfig = config;
         _config = null;
-        _initialized = false;
-    }
-
-    public static void SetActConfig(ActConfig config)
-    {
-        _actConfig = config;
         _initialized = false;
     }
 
@@ -54,16 +47,6 @@ public static class LevelRandomizer
         else
         {
             ProcessDefault();
-        }
-
-        // 应用 ActConfig 的固定节点类型（覆盖随机结果）
-        if (_actConfig != null && _actConfig.fixedNodeTypes != null)
-        {
-            foreach (var fixedType in _actConfig.fixedNodeTypes)
-            {
-                if (fixedType != null && fixedType.nodeIndex > 0)
-                    _levelTypes[fixedType.nodeIndex] = fixedType.levelType;
-            }
         }
 
         _initialized = true;

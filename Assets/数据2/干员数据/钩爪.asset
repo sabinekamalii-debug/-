@@ -1,5 +1,5 @@
 %YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
+%TAG !u! tag:yousandi.cn,2023:
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90254a1f11d277949976c63d44b0ee65, type: 3}
-  m_Name: "\u94a9\u722a"
+  m_Name: "\u94A9\u722A"
   m_EditorClassIdentifier: 
-  operatorName: "\u94a9\u722a"
+  operatorName: "\u94A9\u722A"
   cost: 15
   maxHealth: 150
   defense: 1000
@@ -22,7 +22,7 @@ MonoBehaviour:
   opType: 6
   deployRadius: 5
   unitPrefab: {fileID: 1041217250878132668, guid: aaa00000000000000000000000000008, type: 3}
-  icon: {fileID: 21300000, guid: 104b7c9a5c65c994a930917d9aaaba39, type: 3}
+  icon: {fileID: 21300000, guid: 2fd0ec76289cc6045afd93ddb1da0342, type: 3}
   purchaseCooldown: 20
   canStandOnGroundAndHighGround: 0
   isAoEAttacker: 0

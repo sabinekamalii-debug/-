@@ -109,24 +109,6 @@ public static class StSMapGenerator
                 node.nodeType = LevelType.NormalBattle;
         }
 
-        // Apply fixed node types from ActConfig (by floor number)
-        if (actConfig != null && actConfig.fixedNodeTypes != null)
-        {
-            foreach (var fixedType in actConfig.fixedNodeTypes)
-            {
-                if (fixedType == null || fixedType.nodeIndex <= 0) continue;
-                var floorNodes = graph.GetFloor(fixedType.nodeIndex);
-                foreach (var node in floorNodes)
-                {
-                    if (node.nodeType != LevelType.Start && node.nodeType != LevelType.Boss)
-                    {
-                        node.nodeType = fixedType.levelType;
-                        break; // Only first node on that floor
-                    }
-                }
-            }
-        }
-
         // Assign remaining nodes with weighted random + constraints
         for (int floor = 2; floor < graph.floorCount; floor++)
         {

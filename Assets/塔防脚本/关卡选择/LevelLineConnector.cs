@@ -95,8 +95,24 @@ public class LevelLineConnector : MonoBehaviour
         _rt.anchoredPosition = Vector2.zero;
 
         var pairs = new List<(int from, int to)>();
+        bool useGraph = false;
 
-        if (connectionConfig != null && connectionConfig.connections.Count > 0)
+        // 优先使用 StS MapGraph
+        var graph = RogueRuntimeState.CurrentMapGraph;
+        if (graph != null)
+        {
+            useGraph = true;
+            int maxFloor = 0;
+            foreach (var node in graph.allNodes)
+                maxFloor = Mathf.Max(maxFloor, node.floor);
+
+            foreach (var node in graph.allNodes)
+            {
+                foreach (var targetId in node.nextNodeIds)
+                    pairs.Add((node.nodeId, targetId));
+            }
+        }
+        else if (connectionConfig != null && connectionConfig.connections.Count > 0)
         {
             foreach (var conn in connectionConfig.connections)
                 pairs.Add((conn.from, conn.to));
@@ -109,12 +125,19 @@ public class LevelLineConnector : MonoBehaviour
 
         foreach (var (from, to) in pairs)
         {
-            var b1 = parent.Find("按钮" + from);
-            var b2 = parent.Find("按钮" + to);
-            if (b1 == null || b2 == null) continue;
-
-            var r1 = b1.GetComponent<RectTransform>();
-            var r2 = b2.GetComponent<RectTransform>();
+            RectTransform r1, r2;
+            if (useGraph)
+            {
+                r1 = FindNodeRect(parent, from);
+                r2 = FindNodeRect(parent, to);
+            }
+            else
+            {
+                var b1 = parent.Find("按钮" + from);
+                var b2 = parent.Find("按钮" + to);
+                r1 = b1?.GetComponent<RectTransform>();
+                r2 = b2?.GetComponent<RectTransform>();
+            }
             if (r1 == null || r2 == null) continue;
 
             CreateStyledLine(r1, r2, from, to);
@@ -124,9 +147,24 @@ public class LevelLineConnector : MonoBehaviour
         UpdateAllLines();
     }
 
+    /// <summary> 按 nodeId 查找 StS 节点的 RectTransform（节点名为 Node_{id}_{type}）。 </summary>
+    static RectTransform FindNodeRect(Transform parent, int nodeId)
+    {
+        for (int i = 0; i < parent.childCount; i++)
+        {
+            var child = parent.GetChild(i);
+            if (child.name.StartsWith($"Node_{nodeId}_"))
+                return child as RectTransform;
+        }
+        return null;
+    }
+
     Color GetGradientColor(int from, int to)
     {
-        float t = (from + to) / 2f / 16f;
+        // 按节点 ID 比例计算渐变（StS 图节点 ID 从 0 开始递增）
+        float maxId = Mathf.Max(from, to, 1);
+        float t = maxId / 50f; // 假设最大 ID 约 50
+        t = Mathf.Clamp01(t);
         if (t < 0.5f)
             return Color.Lerp(earlyColor, midColor, t * 2f);
         else

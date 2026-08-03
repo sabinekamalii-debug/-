@@ -95,6 +95,10 @@ public class LevelMapController : MonoBehaviour
         if (_graph != null)
         {
             LevelProgress.SetMapGraph(_graph);
+            // 确保起点节点标记完成（解锁第一层）
+            var startNode = _graph.GetStartNode();
+            if (startNode != null && !LevelProgress.IsNodeCompleted(startNode.nodeId))
+                LevelProgress.MarkNodeCompleted(startNode.nodeId);
             BuildMapUI();
         }
 
@@ -122,9 +126,21 @@ public class LevelMapController : MonoBehaviour
         }
 
         // 设置 Content 高度（保持现有 pivot 和宽度不变）
-        float contentHeight = (_graph.floorCount + 1) * floorSpacing + 200f;
+        float contentHeight = _graph.floorCount * floorSpacing + 200f;
         var contentRect = content.GetComponent<RectTransform>();
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, contentHeight);
+
+        // 同步 MapBackground 尺寸匹配 Content（左右拉伸匹配宽度，高度手动设）
+        var bg = content.Find("MapBackground");
+        if (bg != null)
+        {
+            var bgRect = bg.GetComponent<RectTransform>();
+            bgRect.anchorMin = new Vector2(0f, 1f);
+            bgRect.anchorMax = new Vector2(1f, 1f);
+            bgRect.pivot = new Vector2(0.5f, 0.5f);
+            bgRect.anchoredPosition = new Vector2(0f, -contentHeight / 2f);
+            bgRect.sizeDelta = new Vector2(0f, contentHeight);
+        }
 
         // 确保有 Lines 容器
         var linesObj = content.Find("Lines");
@@ -148,29 +164,28 @@ public class LevelMapController : MonoBehaviour
         for (int i = linesObj.childCount - 1; i >= 0; i--)
             DestroyImmediate(linesObj.GetChild(i).gameObject);
 
-        // 禁用旧的 LevelLineConnector（它会清除我们生成的图节点连线）
-        var oldConnector = linesObj.GetComponent<LevelLineConnector>();
-        if (oldConnector != null)
-            oldConnector.enabled = false;
-
         // 创建所有节点按钮
         foreach (var node in _graph.allNodes)
         {
             CreateNodeButton(node, content);
         }
 
-        // 绘制连线
-        if (linesObj != null && _graph != null)
+        // 使用 LevelLineConnector 生成优美连线（渐变色+辉光+箭头+流动光点）
+        var lineConnector = linesObj.GetComponent<LevelLineConnector>();
+        if (lineConnector != null)
         {
+            lineConnector.enabled = true;
+            lineConnector.GenerateLines();
+        }
+        else
+        {
+            // 没有 LevelLineConnector 时用简陋连线回退
             DrawConnections(_graph, linesObj);
-            // Lines 放在 MapBackground 之后、节点按钮之前
-            var bg = content.Find("MapBackground");
-            int bgIndex = bg != null ? bg.GetSiblingIndex() : 0;
-            linesObj.SetSiblingIndex(bgIndex + 1);
         }
 
-        // 确保 Lines 在按钮后面
-        linesObj.SetSiblingIndex(0);
+        // Lines 放在 MapBackground 之后
+        int bgIndex = bg != null ? bg.GetSiblingIndex() : 0;
+        linesObj.SetSiblingIndex(bgIndex + 1);
     }
 
     /// <summary> 创建单个节点按钮。 </summary>
@@ -190,6 +205,11 @@ public class LevelMapController : MonoBehaviour
 
         var image = go.AddComponent<Image>();
         image.raycastTarget = true;
+
+        // 先设置 sprite，再添加 LevelNodeButton（Awake 中会读取 iconImage.sprite）
+        Sprite typeSprite = GetNodeSprite(node.nodeType);
+        if (typeSprite != null)
+            image.sprite = typeSprite;
 
         var button = go.AddComponent<Button>();
         var colors = button.colors;
@@ -219,6 +239,21 @@ public class LevelMapController : MonoBehaviour
     }
 
     /// <summary> 计算节点的 UI 坐标（适配 Content pivot=(0.5,1.0) 顶部中心，Y 向下为负）。 </summary>
+    Sprite GetNodeSprite(LevelType type)
+    {
+        if (levelTypeConfig == null) return null;
+        switch (type)
+        {
+            case LevelType.Shop: return levelTypeConfig.shopIcon;
+            case LevelType.Elite: return levelTypeConfig.eliteIcon;
+            case LevelType.Boss: return levelTypeConfig.bossIcon;
+            case LevelType.RandomEvent: return levelTypeConfig.randomEventIcon;
+            case LevelType.Rest: return levelTypeConfig.restIcon;
+            case LevelType.Start: return levelTypeConfig.startIcon != null ? levelTypeConfig.startIcon : levelTypeConfig.normalBattleIcon;
+            default: return levelTypeConfig.normalBattleIcon;
+        }
+    }
+
     Vector2 GetNodePosition(MapNodeData node)
     {
         float x = (node.column - (_graph.maxColumns - 1) / 2f) * columnSpacing;
@@ -364,14 +399,20 @@ public class LevelMapController : MonoBehaviour
             var linesObj = scrollRect.content.Find("Lines");
             if (linesObj != null)
             {
-                for (int i = linesObj.childCount - 1; i >= 0; i--)
-                    DestroyImmediate(linesObj.GetChild(i).gameObject);
-                DrawConnections(_graph, linesObj);
-                var bg = scrollRect.content.Find("MapBackground");
-                int bgIndex = bg != null ? bg.GetSiblingIndex() : 0;
-                linesObj.SetSiblingIndex(bgIndex + 1);
+                var connector = linesObj.GetComponent<LevelLineConnector>();
+                if (connector != null && connector.enabled)
+                {
+                    connector.GenerateLines();
+                    var bg = scrollRect.content.Find("MapBackground");
+                    int bgIndex = bg != null ? bg.GetSiblingIndex() : 0;
+                    linesObj.SetSiblingIndex(bgIndex + 1);
+                }
             }
         }
+
+        // 滚动到底部（起点视野）
+        if (scrollRect != null)
+            scrollRect.normalizedPosition = new Vector2(0.5f, 0f);
 
         ForceInputModuleActive();
         RefreshAllLevelButtons();

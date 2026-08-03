@@ -57,6 +57,10 @@ public static class LevelProgress
 
     public static bool IsNodeUnlocked(int nodeId)
     {
+        // 开发阶段：编辑器下默认全部解锁
+        if (ShouldUnlockAllForTesting())
+            return true;
+
         if (_mapGraph == null) return false;
         var node = _mapGraph.GetNode(nodeId);
         if (node == null) return false;

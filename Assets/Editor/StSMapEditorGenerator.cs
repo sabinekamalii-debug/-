@@ -72,9 +72,21 @@ public static class StSMapEditorGenerator
         float floorSpacing = (float)typeof(LevelMapController).GetField("floorSpacing").GetValue(lmc);
         float columnSpacing = (float)typeof(LevelMapController).GetField("columnSpacing").GetValue(lmc);
         var buttonSize = (Vector2)typeof(LevelMapController).GetField("buttonSize").GetValue(lmc);
-        float contentHeight = (graph.floorCount + 1) * floorSpacing + 200f;
+        float contentHeight = graph.floorCount * floorSpacing + 200f;
         var contentRect = content.GetComponent<RectTransform>();
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, contentHeight);
+
+        // 同步 MapBackground 尺寸匹配 Content（左右拉伸匹配宽度，高度手动设）
+        var bg = content.Find("MapBackground");
+        if (bg != null)
+        {
+            var bgRect = bg.GetComponent<RectTransform>();
+            bgRect.anchorMin = new Vector2(0f, 1f);
+            bgRect.anchorMax = new Vector2(1f, 1f);
+            bgRect.pivot = new Vector2(0.5f, 0.5f);
+            bgRect.anchoredPosition = new Vector2(0f, -contentHeight / 2f);
+            bgRect.sizeDelta = new Vector2(0f, contentHeight);
+        }
 
         // 确保有 Lines 容器
         // 确保有 Lines 容器
@@ -99,24 +111,34 @@ public static class StSMapEditorGenerator
         for (int i = linesObj.childCount - 1; i >= 0; i--)
             Object.DestroyImmediate(linesObj.GetChild(i).gameObject);
 
-        // 禁用旧的 LevelLineConnector
-        var oldConnector = linesObj.GetComponent<LevelLineConnector>();
-        if (oldConnector != null)
-            oldConnector.enabled = false;
-
         // 创建所有节点按钮
         foreach (var node in graph.allNodes)
         {
             CreateNodeButton(node, content, typeConfig, lmc, floorSpacing, columnSpacing, buttonSize, graph);
         }
 
-        // 绘制连线
-        DrawConnections(graph, linesObj, lmc, floorSpacing, columnSpacing, graph);
+        // 使用 LevelLineConnector 生成优美连线
+        var lineConnector = linesObj.GetComponent<LevelLineConnector>();
+        if (lineConnector != null)
+        {
+            lineConnector.enabled = true;
+            lineConnector.GenerateLines();
+        }
+        else
+        {
+            DrawConnections(graph, linesObj, lmc, floorSpacing, columnSpacing, graph);
+        }
 
         // Lines 放在 MapBackground 之后
-        var bg = content.Find("MapBackground");
         int bgIndex = bg != null ? bg.GetSiblingIndex() : 0;
         linesObj.SetSiblingIndex(bgIndex + 1);
+
+        // 编辑模式下滚动到底部（起点视野）
+        if (sr != null)
+        {
+            sr.normalizedPosition = new Vector2(0.5f, 0f);
+            UnityEditor.EditorUtility.SetDirty(sr);
+        }
 
         // 保存场景
         var scene = UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene();

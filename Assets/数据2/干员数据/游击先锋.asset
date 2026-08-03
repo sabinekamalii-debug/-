@@ -22,8 +22,9 @@ MonoBehaviour:
   opType: 0
   deployRadius: 6
   unitPrefab: {fileID: 2381657845863745342, guid: 492e8926c9b35dc428f3a57cd5646417, type: 3}
-  icon: {fileID: 21300000, guid: 4e1b81213dfe6c044a9c7c19490659b9, type: 3}
+  icon: {fileID: 21300000, guid: 850ee57264395dc4187b658246c27ec0, type: 3}
   purchaseCooldown: 15
   canStandOnGroundAndHighGround: 0
   isAoEAttacker: 0
   isHealer: 0
+  baseCritChance: 0

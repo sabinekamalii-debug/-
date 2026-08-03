@@ -23,19 +23,6 @@ public class PreBattleDialogue
 }
 
 /// <summary>
-/// 固定节点类型：强制指定某个节点的类型，不参与随机。
-/// </summary>
-[Serializable]
-public class FixedNodeType
-{
-    [Tooltip("节点序号（1-based）")]
-    public int nodeIndex = 1;
-
-    [Tooltip("固定类型")]
-    public LevelType levelType = LevelType.NormalBattle;
-}
-
-/// <summary>
 /// 大局配置（ScriptableObject）。
 /// 每个大局定义一条独立的剧情线 + 关卡池 + Boss + Naninovel 脚本。
 /// 一个 ActConfig.asset = 一个大局。
@@ -100,10 +87,6 @@ public class ActConfig : ScriptableObject
 
     [Tooltip("Boss 在第几个节点（默认为最后一个）")]
     public int bossNodeIndex = 21;
-
-    [Header("固定节点类型（不参与随机）")]
-    [Tooltip("强制指定某些节点的类型，如测试大局前5关固定")]
-    public FixedNodeType[] fixedNodeTypes = new FixedNodeType[0];
 
     #endregion
 
