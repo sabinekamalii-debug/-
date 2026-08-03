@@ -70,4 +70,16 @@ public class OperatorData : ScriptableObject
     [Header("暴击（狙击职业专属）")]
     [Tooltip("基础暴击率（%），仅狙击职业有意义，与天赋卡暴击加算。狙击建议 20~30%。")]
     public int baseCritChance = 0;
+
+    [Header("星级")]
+    [Tooltip("星级上限：1~5。所有干员初始为1星，可强化到此上限")]
+    public int maxStarRating = 1;
+
+    [Header("台词")]
+    [Tooltip("干员选择台词（RogueEntry 界面展示）")]
+    [TextArea(2, 3)]
+    public string selectQuote = "";
+
+    [Tooltip("是否为初始可用干员（开局即可选）")]
+    public bool isInitialAvailable = false;
 }

@@ -71,6 +71,9 @@
 干员,万录朵,isAoEAttacker,false,bool
 干员,万录朵,isHealer,false,bool
 干员,万录朵,baseCritChance,0,int
+干员,万录朵,maxStarRating,5,int
+干员,万录朵,selectQuote,...你看起来很有趣。就陪你走一程吧。,string
+干员,万录朵,isInitialAvailable,false,bool
 干员,先锋测试,operatorName,先锋测试,string
 干员,先锋测试,cost,6,int
 干员,先锋测试,maxHealth,120.00,float
@@ -85,6 +88,9 @@
 干员,先锋测试,isAoEAttacker,false,bool
 干员,先锋测试,isHealer,false,bool
 干员,先锋测试,baseCritChance,0,int
+干员,先锋测试,maxStarRating,1,int
+干员,先锋测试,selectQuote,,string
+干员,先锋测试,isInitialAvailable,false,bool
 干员,光波,operatorName,光波,string
 干员,光波,cost,26,int
 干员,光波,maxHealth,1.00,float
@@ -99,6 +105,9 @@
 干员,光波,isAoEAttacker,true,bool
 干员,光波,isHealer,false,bool
 干员,光波,baseCritChance,0,int
+干员,光波,maxStarRating,1,int
+干员,光波,selectQuote,,string
+干员,光波,isInitialAvailable,false,bool
 干员,净化,operatorName,净化,string
 干员,净化,cost,20,int
 干员,净化,maxHealth,40.00,float
@@ -113,6 +122,9 @@
 干员,净化,isAoEAttacker,false,bool
 干员,净化,isHealer,true,bool
 干员,净化,baseCritChance,0,int
+干员,净化,maxStarRating,2,int
+干员,净化,selectQuote,伤员交给我，你们只管往前冲。,string
+干员,净化,isInitialAvailable,true,bool
 干员,圣光,operatorName,圣光,string
 干员,圣光,cost,18,int
 干员,圣光,maxHealth,50.00,float
@@ -127,6 +139,9 @@
 干员,圣光,isAoEAttacker,false,bool
 干员,圣光,isHealer,true,bool
 干员,圣光,baseCritChance,0,int
+干员,圣光,maxStarRating,3,int
+干员,圣光,selectQuote,,string
+干员,圣光,isInitialAvailable,false,bool
 干员,地面射手,operatorName,地面射手,string
 干员,地面射手,cost,20,int
 干员,地面射手,maxHealth,20.00,float
@@ -141,6 +156,9 @@
 干员,地面射手,isAoEAttacker,false,bool
 干员,地面射手,isHealer,false,bool
 干员,地面射手,baseCritChance,0,int
+干员,地面射手,maxStarRating,1,int
+干员,地面射手,selectQuote,,string
+干员,地面射手,isInitialAvailable,false,bool
 干员,坚守先锋,operatorName,坚守先锋,string
 干员,坚守先锋,cost,9,int
 干员,坚守先锋,maxHealth,210.00,float
@@ -155,6 +173,9 @@
 干员,坚守先锋,isAoEAttacker,false,bool
 干员,坚守先锋,isHealer,false,bool
 干员,坚守先锋,baseCritChance,0,int
+干员,坚守先锋,maxStarRating,2,int
+干员,坚守先锋,selectQuote,,string
+干员,坚守先锋,isInitialAvailable,false,bool
 干员,奥术,operatorName,奥术,string
 干员,奥术,cost,35,int
 干员,奥术,maxHealth,22.00,float
@@ -169,6 +190,9 @@
 干员,奥术,isAoEAttacker,false,bool
 干员,奥术,isHealer,false,bool
 干员,奥术,baseCritChance,0,int
+干员,奥术,maxStarRating,4,int
+干员,奥术,selectQuote,,string
+干员,奥术,isInitialAvailable,false,bool
 干员,女战士,operatorName,女战士,string
 干员,女战士,cost,21,int
 干员,女战士,maxHealth,250.00,float
@@ -183,6 +207,9 @@
 干员,女战士,isAoEAttacker,false,bool
 干员,女战士,isHealer,false,bool
 干员,女战士,baseCritChance,0,int
+干员,女战士,maxStarRating,2,int
+干员,女战士,selectQuote,,string
+干员,女战士,isInitialAvailable,false,bool
 干员,战术先锋,operatorName,战术先锋,string
 干员,战术先锋,cost,7,int
 干员,战术先锋,maxHealth,130.00,float
@@ -197,6 +224,9 @@
 干员,战术先锋,isAoEAttacker,false,bool
 干员,战术先锋,isHealer,false,bool
 干员,战术先锋,baseCritChance,0,int
+干员,战术先锋,maxStarRating,3,int
+干员,战术先锋,selectQuote,和我同行吗？可别拖后腿。,string
+干员,战术先锋,isInitialAvailable,true,bool
 干员,拳师,operatorName,拳师,string
 干员,拳师,cost,14,int
 干员,拳师,maxHealth,20.00,float
@@ -211,6 +241,9 @@
 干员,拳师,isAoEAttacker,false,bool
 干员,拳师,isHealer,false,bool
 干员,拳师,baseCritChance,0,int
+干员,拳师,maxStarRating,1,int
+干员,拳师,selectQuote,,string
+干员,拳师,isInitialAvailable,false,bool
 干员,斥候先锋,operatorName,斥候先锋,string
 干员,斥候先锋,cost,4,int
 干员,斥候先锋,maxHealth,85.00,float
@@ -225,6 +258,9 @@
 干员,斥候先锋,isAoEAttacker,false,bool
 干员,斥候先锋,isHealer,false,bool
 干员,斥候先锋,baseCritChance,0,int
+干员,斥候先锋,maxStarRating,2,int
+干员,斥候先锋,selectQuote,侦察就交给我吧，保证不会漏掉任何敌人。,string
+干员,斥候先锋,isInitialAvailable,true,bool
 干员,晶,operatorName,晶,string
 干员,晶,cost,15,int
 干员,晶,maxHealth,200.00,float
@@ -239,6 +275,9 @@
 干员,晶,isAoEAttacker,false,bool
 干员,晶,isHealer,false,bool
 干员,晶,baseCritChance,0,int
+干员,晶,maxStarRating,2,int
+干员,晶,selectQuote,,string
+干员,晶,isInitialAvailable,false,bool
 干员,武士,operatorName,武士,string
 干员,武士,cost,16,int
 干员,武士,maxHealth,200.00,float
@@ -253,6 +292,9 @@
 干员,武士,isAoEAttacker,false,bool
 干员,武士,isHealer,false,bool
 干员,武士,baseCritChance,0,int
+干员,武士,maxStarRating,3,int
+干员,武士,selectQuote,,string
+干员,武士,isInitialAvailable,false,bool
 干员,法师,operatorName,法师,string
 干员,法师,cost,45,int
 干员,法师,maxHealth,30.00,float
@@ -267,6 +309,9 @@
 干员,法师,isAoEAttacker,false,bool
 干员,法师,isHealer,false,bool
 干员,法师,baseCritChance,0,int
+干员,法师,maxStarRating,4,int
+干员,法师,selectQuote,,string
+干员,法师,isInitialAvailable,false,bool
 干员,游击先锋,operatorName,游击先锋,string
 干员,游击先锋,cost,5,int
 干员,游击先锋,maxHealth,95.00,float
@@ -281,6 +326,9 @@
 干员,游击先锋,isAoEAttacker,false,bool
 干员,游击先锋,isHealer,false,bool
 干员,游击先锋,baseCritChance,0,int
+干员,游击先锋,maxStarRating,1,int
+干员,游击先锋,selectQuote,,string
+干员,游击先锋,isInitialAvailable,true,bool
 干员,牧师,operatorName,牧师,string
 干员,牧师,cost,16,int
 干员,牧师,maxHealth,60.00,float
@@ -295,6 +343,9 @@
 干员,牧师,isAoEAttacker,false,bool
 干员,牧师,isHealer,true,bool
 干员,牧师,baseCritChance,0,int
+干员,牧师,maxStarRating,3,int
+干员,牧师,selectQuote,,string
+干员,牧师,isInitialAvailable,false,bool
 干员,猎手先锋,operatorName,猎手先锋,string
 干员,猎手先锋,cost,6,int
 干员,猎手先锋,maxHealth,110.00,float
@@ -309,6 +360,9 @@
 干员,猎手先锋,isAoEAttacker,false,bool
 干员,猎手先锋,isHealer,false,bool
 干员,猎手先锋,baseCritChance,0,int
+干员,猎手先锋,maxStarRating,2,int
+干员,猎手先锋,selectQuote,,string
+干员,猎手先锋,isInitialAvailable,false,bool
 干员,珑,operatorName,珑,string
 干员,珑,cost,20,int
 干员,珑,maxHealth,280.00,float
@@ -323,6 +377,9 @@
 干员,珑,isAoEAttacker,false,bool
 干员,珑,isHealer,false,bool
 干员,珑,baseCritChance,0,int
+干员,珑,maxStarRating,4,int
+干员,珑,selectQuote,,string
+干员,珑,isInitialAvailable,false,bool
 干员,突击先锋,operatorName,突击先锋,string
 干员,突击先锋,cost,3,int
 干员,突击先锋,maxHealth,70.00,float
@@ -337,6 +394,9 @@
 干员,突击先锋,isAoEAttacker,false,bool
 干员,突击先锋,isHealer,false,bool
 干员,突击先锋,baseCritChance,0,int
+干员,突击先锋,maxStarRating,1,int
+干员,突击先锋,selectQuote,,string
+干员,突击先锋,isInitialAvailable,true,bool
 干员,荆棘,operatorName,荆棘,string
 干员,荆棘,cost,22,int
 干员,荆棘,maxHealth,1800.00,float
@@ -351,6 +411,9 @@
 干员,荆棘,isAoEAttacker,false,bool
 干员,荆棘,isHealer,false,bool
 干员,荆棘,baseCritChance,0,int
+干员,荆棘,maxStarRating,3,int
+干员,荆棘,selectQuote,,string
+干员,荆棘,isInitialAvailable,false,bool
 干员,近卫,operatorName,近卫,string
 干员,近卫,cost,9,int
 干员,近卫,maxHealth,1200.00,float
@@ -365,6 +428,9 @@
 干员,近卫,isAoEAttacker,false,bool
 干员,近卫,isHealer,false,bool
 干员,近卫,baseCritChance,0,int
+干员,近卫,maxStarRating,5,int
+干员,近卫,selectQuote,吾之剑，为正义而挥。,string
+干员,近卫,isInitialAvailable,false,bool
 干员,连弩,operatorName,连弩,string
 干员,连弩,cost,14,int
 干员,连弩,maxHealth,20.00,float
@@ -379,6 +445,9 @@
 干员,连弩,isAoEAttacker,false,bool
 干员,连弩,isHealer,false,bool
 干员,连弩,baseCritChance,20,int
+干员,连弩,maxStarRating,2,int
+干员,连弩,selectQuote,弓弦已上好，只等你一声令下。,string
+干员,连弩,isInitialAvailable,true,bool
 干员,醒,operatorName,醒,string
 干员,醒,cost,0,int
 干员,醒,maxHealth,20000.00,float
@@ -393,6 +462,9 @@
 干员,醒,isAoEAttacker,false,bool
 干员,醒,isHealer,false,bool
 干员,醒,baseCritChance,0,int
+干员,醒,maxStarRating,1,int
+干员,醒,selectQuote,,string
+干员,醒,isInitialAvailable,false,bool
 干员,钩爪,operatorName,钩爪,string
 干员,钩爪,cost,15,int
 干员,钩爪,maxHealth,150.00,float
@@ -407,6 +479,9 @@
 干员,钩爪,isAoEAttacker,false,bool
 干员,钩爪,isHealer,false,bool
 干员,钩爪,baseCritChance,0,int
+干员,钩爪,maxStarRating,2,int
+干员,钩爪,selectQuote,,string
+干员,钩爪,isInitialAvailable,false,bool
 干员,铁壁,operatorName,铁壁,string
 干员,铁壁,cost,18,int
 干员,铁壁,maxHealth,2500.00,float
@@ -421,6 +496,9 @@
 干员,铁壁,isAoEAttacker,false,bool
 干员,铁壁,isHealer,false,bool
 干员,铁壁,baseCritChance,0,int
+干员,铁壁,maxStarRating,3,int
+干员,铁壁,selectQuote,,string
+干员,铁壁,isInitialAvailable,false,bool
 干员,风暴先锋,operatorName,风暴先锋,string
 干员,风暴先锋,cost,7,int
 干员,风暴先锋,maxHealth,135.00,float
@@ -435,6 +513,9 @@
 干员,风暴先锋,isAoEAttacker,false,bool
 干员,风暴先锋,isHealer,false,bool
 干员,风暴先锋,baseCritChance,0,int
+干员,风暴先锋,maxStarRating,2,int
+干员,风暴先锋,selectQuote,,string
+干员,风暴先锋,isInitialAvailable,false,bool
 干员,驻防先锋,operatorName,驻防先锋,string
 干员,驻防先锋,cost,8,int
 干员,驻防先锋,maxHealth,175.00,float
@@ -449,6 +530,9 @@
 干员,驻防先锋,isAoEAttacker,false,bool
 干员,驻防先锋,isHealer,false,bool
 干员,驻防先锋,baseCritChance,0,int
+干员,驻防先锋,maxStarRating,2,int
+干员,驻防先锋,selectQuote,,string
+干员,驻防先锋,isInitialAvailable,false,bool
 干员,鹰眼,operatorName,鹰眼,string
 干员,鹰眼,cost,16,int
 干员,鹰眼,maxHealth,25.00,float
@@ -463,6 +547,9 @@
 干员,鹰眼,isAoEAttacker,false,bool
 干员,鹰眼,isHealer,false,bool
 干员,鹰眼,baseCritChance,25,int
+干员,鹰眼,maxStarRating,3,int
+干员,鹰眼,selectQuote,远处的东西，在我眼中和近处没什么两样。,string
+干员,鹰眼,isInitialAvailable,false,bool
 敌人,big boss,lives,1700,int
 敌人,big boss,defense,0,int
 敌人,big boss,damage,20,int

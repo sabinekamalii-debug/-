@@ -28,3 +28,6 @@ MonoBehaviour:
   isAoEAttacker: 0
   isHealer: 1
   baseCritChance: 0
+  maxStarRating: 3
+  selectQuote: 
+  isInitialAvailable: 0

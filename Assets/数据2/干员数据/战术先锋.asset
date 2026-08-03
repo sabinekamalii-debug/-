@@ -28,3 +28,6 @@ MonoBehaviour:
   isAoEAttacker: 0
   isHealer: 0
   baseCritChance: 0
+  maxStarRating: 3
+  selectQuote: "\u548C\u6211\u540C\u884C\u5417\uFF1F\u53EF\u522B\u62D6\u540E\u817F\u3002"
+  isInitialAvailable: 1
