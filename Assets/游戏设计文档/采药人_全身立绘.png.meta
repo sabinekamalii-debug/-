@@ -1,12 +1,15 @@
 fileFormatVersion: 2
-guid: BnIZ4SuvUy+riTmJ3g8ms4cEt9+SNMdkJbDOB4Hj1PbTkP3V1omlWfs=
+guid: DXpN5H/4BSk78TAB2+TUpyWZTgI/kDv+NwyO3aeAPJkqt/M4XpQbkyg=
+labels:
+- Session_a2932a95-f1ce-4224-9f22-0d2bd2ee87b7
+- TuanjieAI
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 14
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 0
+    enableMipMap: 1
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -57,7 +60,7 @@ TextureImporter:
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 8
+  textureType: 0
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -75,8 +78,8 @@ TextureImporter:
     maxTextureSize: 2048
     maxPlaceholderSize: 32
     resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
+    textureFormat: 4
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -89,12 +92,12 @@ TextureImporter:
     maxTextureSize: 2048
     maxPlaceholderSize: 32
     resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
+    textureFormat: 4
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 0
+    overridden: 1
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
