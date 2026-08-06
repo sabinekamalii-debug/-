@@ -127,10 +127,11 @@ public class LevelNodeButton : MonoBehaviour
         _displayName = _nodeData.floor.ToString();
         _sceneName = $"level{_nodeData.nodeId}";
 
-        // Load LevelConfig for battle nodes
+        // Load LevelConfig for battle nodes (including Start, which acts as first battle)
         if (_nodeData.nodeType == LevelType.NormalBattle ||
             _nodeData.nodeType == LevelType.Elite ||
-            _nodeData.nodeType == LevelType.Boss)
+            _nodeData.nodeType == LevelType.Boss ||
+            _nodeData.nodeType == LevelType.Start)
         {
             _cachedLevelConfig = LoadLevelConfigById(_nodeData.levelConfigId);
             if (_cachedLevelConfig != null && !IsPlayableLevelConfig(_cachedLevelConfig))
@@ -425,7 +426,6 @@ public class LevelNodeButton : MonoBehaviour
         // Graph-based: check node unlock
         if (_nodeData != null)
         {
-            if (_nodeData.nodeType == LevelType.Start) return;
             if (!LevelProgress.IsNodeUnlocked(_nodeData.nodeId)) return;
         }
         else
@@ -507,9 +507,9 @@ public class LevelNodeButton : MonoBehaviour
         }
 
         // ===== 新架构：使用 LevelConfig 加载 BattleScene =====
-        if (_cachedLevelConfig == null && (levelType == LevelType.NormalBattle || levelType == LevelType.Elite || levelType == LevelType.Boss))
+        if (_cachedLevelConfig == null && (levelType == LevelType.NormalBattle || levelType == LevelType.Elite || levelType == LevelType.Boss || levelType == LevelType.Start))
         {
-            _cachedLevelConfig = GetPlayableFallbackLevelConfig(levelType);
+            _cachedLevelConfig = GetPlayableFallbackLevelConfig(levelType == LevelType.Start ? LevelType.NormalBattle : levelType);
             _loadedInvalidConfig = true;
         }
 
