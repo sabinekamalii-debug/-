@@ -32,6 +32,8 @@
 - [2026-08-03 18:23:25] [2026-08-03] 用户决定右侧干员面板保持现状（可滚动+卡片缩小方案），不改到底部。原因：地图按上下填满设计，移到底部需要改全部30个LevelConfig的gridData+路径+守护点位置，工作量过大。**Why:** 地图20×12网格在摄像机orthoSize=5下已填满垂直方向，底部无余量。**How to apply:** 干员面板布局改动限于右侧区域内优化（滚动+缩小），不涉及地图数据。
 - [2026-08-03 18:24:12] [2026-08-03] 干员卡片设计方向：用户确认用方案C（AI生成头像），但AI生成服务当前401无权限，临时用已有素材分配。用户选择商店招募入口为Tab切换（天赋卡/干员招募两个Tab），卡片展示为极简风格（头像+名字+星级+费用），OperatorData.icon已有sprite可直接使用。干员卡牌头像生成提示词文档在Assets/游戏设计文档/干员卡牌头像生成提示词.md。
 - [2026-08-05 19:22:08] [feedback] 生成角色立绘图片时必须使用透明背景（is_segmentation: true），不要纯白背景。提示词文档中写的"白色背景"不用管，一律生成透明背景。**Why:** 用户明确要求立绘需要透明背景以便直接用于游戏。**How to apply:** 所有 generate_image / generate_sprite 调用都设 is_segmentation=true。
+- [2026-08-06 21:56:23] [feedback] AI生成工具（sprite_sequence序列帧、即梦图生图、seedance视频抽帧）全部无法生成走路/跑步动画——帧之间腿位置几乎不变。AI图片模型不理解3D空间运动序列，即梦图生图受参考图束缚无法改变姿态，视频模型也只生成站立微动。**Why:** 奶妈角色尝试了全部3种AI方案均失败（sprite_sequence 25帧几乎相同、即梦4帧腿位置完全相同、视频抽24帧全是站立）。**How to apply:** 需要走路/跑步动画时不要用AI生成，改用：①伪跑步（Transform曲线：Y轴颠簸+Z轴晃动+scaleY挤压，已在奶妈上实现）；②2D骨骼动画（需手动切图+Unity Skinning Editor绑骨骼）；③即梦逐帧单独生成攻击动画（攻击帧可以，走路不行）。
+- [2026-08-06 21:56:25] [feedback] AI序列帧(sprite_sequence)的.anim文件在Tuanjie引擎Animation窗口中只显示2个蓝点（PPtr曲线显示问题），但实际25帧关键帧都在，播放正常。不要被Dopesheet显示的2个关键帧误导。**Why:** Tuanjie 1.9.1的Animation窗口对PPtr（精灵换帧）曲线显示不完整。**How to apply:** 检查序列帧动画是否正确时，直接播放看效果，不要看Dopesheet关键帧数量。
 
 ### Project
 - [2026-07-26 07:50:20] Project convention: UI controllers (RandomEventController, GoldShopController, etc.) use `GameObject.Find("name")` runtime lookup instead of serialized field references for UI binding. When creating scenes for these controllers, GameObject names MUST match exactly: EventTitle, EventDescription, GoldCount, Btn_Leave, EventBackground, OptionsList.
