@@ -113,9 +113,7 @@
 - [2026-08-05 13:57:08] [2026-08-03] 角色生成提示词大全文件：Assets/游戏设计文档/角色生成提示词大全.md，含50个角色提示词（王室/战士/法师/宗教/弓箭手/刺客/商人/魔物/植物/特殊职业）。每条内嵌画风关键词（明日方舟风格+软cel shading+masterpiece）+全身立绘要求+参考图声明。负面提示词在文件顶部统一列出。画风统一方案：用即梦图生图模式上传空之魔王立绘做参考图（参考强度70-80%），提示词只写角色描述不写画风。豆包下载图片在 C:\Users\ZhuanZ（无密码）\Documents\Downloads\。
 - [2026-08-05 18:30:52] 空之魔王（孔心）的哥哥是孔雷——在地球继承了时之魔王权能并成为勇者，打破时空回来找妹妹。孔雷设定为人类，正常耳朵（无角无精灵耳）。Characters2/时之勇者/ 下的图片不是孔雷，是旧设计角色与孔雷暂时重名，用户已弃用。用户正重新设计孔雷形象：银白短发、淡紫瞳孔（与妹妹呼应）、黑银哥特风、腰间佩剑鞘。
 - [2026-08-05 19:36:37] [updated 2026-08-05] 角色生成提示词大全文件：Assets/游戏设计文档/角色生成提示词大全.md。当前共195条提示词（#1-15干员，#16-25普通NPC，#26-50剧情角色+王室护卫+服务NPC，#51-75非人型怪物，#76-115第一批NPC，#116-155第二批NPC，#156-175美女角色含战斗/贵族/奇幻种族/平民NPC各5个，#176-185萝莉少女角色10个，#186-195成熟女性角色10个）。每条提示词是完整代码块，包含画风前缀+角色描述+负面提示词，直接复制粘贴到即梦即可使用。即梦参数：2048×2048勾2K批量1（立绘）或1:1标清批量2（Q版）。画风前缀已强化全身约束（"必须画完整全身立绘从头顶到脚底完整可见"），负面提示词已加中英双语防裁切词。注意：提示词中写的"白色背景"实际生成时应忽略，一律用透明背景（is_segmentation=true）。#176-195新增角色弱化了职业属性，侧重外貌和性格描述，方便用户后续灵活分配身份。
-
-
-
+- [2026-08-06 14:30:01] [2026-08-06] 测试阶段关卡通关后可重复进入：RogueRuntimeState.ForceResetRun() 和 StartRunIfNeeded() 中的 LevelProgress.ClearNodeProgress() 在编辑器测试模式下（IsTestUnlockEnabled()==true）不再执行，保留已通关节点记录。正式发布时正常清除。**Why:** 用户测试时通关后重开新局，节点进度被清空导致已通关关卡无法再进。**How to apply:** 仅影响测试流程，发布版本行为不变。
 
 ### Reference
 - [2026-07-30 18:36:18] Tuanjie engine .meta GUIDs are Base64, but Naninovel Assets.json expects 32-hex-char GUIDs. When creating new .nani scripts, the regenerated .meta Base64 GUID must be replaced with a hex GUID (e.g. System.Guid.NewGuid().ToString("N").ToLower()), and an entry with the hex GUID + "prefix": "Scripts" must be added to Assets/NaninovelData/Resources/Naninovel/Assets.json under the Scripts section. **Why:** previous AI created 奇遇测试 1.nani but didn't register it in Assets.json, and the auto-generated Base64 GUID was incompatible with hex format. **How to apply:** after creating a new .nani file, always: (1) ensure_has_meta, (2) replace Base64 guid with hex guid in .meta, (3) add {"guid": hexGuid, "prefix": "Scripts", "path": scriptName, "group": ""} to Assets.json.

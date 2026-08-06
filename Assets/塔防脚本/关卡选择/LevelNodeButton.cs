@@ -311,8 +311,8 @@ public class LevelNodeButton : MonoBehaviour
             completed = LevelProgress.IsCompleted(_sceneName);
         }
 
-        // Start node is always non-interactable
-        bool canEnter = unlocked && (_nodeData == null || _nodeData.nodeType != LevelType.Start);
+        // Start node is always interactable (acts as first battle)
+        bool canEnter = unlocked;
         if (_button != null)
             _button.interactable = canEnter;
 

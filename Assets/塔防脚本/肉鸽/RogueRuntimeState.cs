@@ -664,7 +664,9 @@ public static class RogueRuntimeState
         ClearGuardianHp();
         ClearShuffledOrder();
         _currentMapGraph = null;
-        LevelProgress.ClearNodeProgress();
+        // 测试阶段：不清除节点进度，保留已通关记录方便反复测试
+        if (!LevelProgress.IsTestUnlockEnabled())
+            LevelProgress.ClearNodeProgress();
         SavePersistent();
     }
 
@@ -686,7 +688,9 @@ public static class RogueRuntimeState
         // 生成 StS 分叉路径地图
         _currentMapGraph = StSMapGenerator.Generate(RunSeed, CurrentActConfig);
         LevelProgress.SetMapGraph(_currentMapGraph);
-        LevelProgress.ClearNodeProgress();
+        // 测试阶段：不清除节点进度，保留已通关记录方便反复测试
+        if (!LevelProgress.IsTestUnlockEnabled())
+            LevelProgress.ClearNodeProgress();
         var startNode = _currentMapGraph?.GetStartNode();
         if (startNode != null)
             LevelProgress.MarkNodeCompleted(startNode.nodeId);

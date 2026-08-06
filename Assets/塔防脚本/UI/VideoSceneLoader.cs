@@ -368,7 +368,7 @@ public class VideoSceneLoader : MonoBehaviour
             // 导致下次显示又要重新 Prepare() 解码（0.5~2s）。暂停可保留已解码帧，
             // 下次显示直接 Play() 复用，避免切场景重复解码。
             LogStep("VideoPlayer.Pause()");
-            if (videoPlayer.enabled) videoPlayer.Pause();
+            if (videoPlayer.isActiveAndEnabled) videoPlayer.Pause();
         }
     }
 

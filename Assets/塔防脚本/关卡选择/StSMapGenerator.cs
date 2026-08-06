@@ -35,7 +35,7 @@ public static class StSMapGenerator
             allNodes = new List<MapNodeData>()
         };
 
-        // Floor 0: Start node (center column)
+        // Floor 0: Start node (center column) — acts as first battle node
         int startCol = maxColumns / 2;
         var startNode = new MapNodeData(0, 0, startCol, LevelType.Start);
         graph.allNodes.Add(startNode);
@@ -352,6 +352,11 @@ public static class StSMapGenerator
                         node.levelConfigId = shuffledElite != null && shuffledElite.Length > 0
                             ? shuffledElite[shEliteIdx++ % shuffledElite.Length] : floor;
                     }
+                }
+                else if (node.nodeType == LevelType.Start)
+                {
+                    node.levelConfigId = normalPool.Length > 0
+                        ? normalPool[0] : 1;
                 }
             }
         }
