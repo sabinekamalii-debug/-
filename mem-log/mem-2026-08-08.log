@@ -1,0 +1,16 @@
+[2026-08-08T00:09:35.634Z] MemoryForge: attached 5 listener(s)
+[2026-08-08T00:09:35.635Z] InitialReadForge: armed one-shot BeforeSend after NewSessionStart
+[2026-08-08T00:09:35.635Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T00:09:37.836Z] MemoryForge: attached 5 listener(s)
+[2026-08-08T00:09:37.836Z] InitialReadForge: armed one-shot BeforeSend after NewSessionStart
+[2026-08-08T00:09:37.836Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T00:11:05.207Z] MemoryForge: attached 5 listener(s)
+[2026-08-08T00:11:05.208Z] InitialReadForge: armed one-shot BeforeSend after NewSessionStart
+[2026-08-08T00:11:05.208Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T00:11:06.398Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T00:11:06.419Z] ResumeDiffForge: running checkResumeConsistency
+[2026-08-08T00:11:06.420Z] checkResumeConsistency: forgedTimestamps=[]
+[2026-08-08T00:11:06.426Z] checkResumeConsistency: no changes detected
+[2026-08-08T00:11:06.427Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T00:11:06.427Z] NudgeForge: ResumeComplete — restoring count from history
+[2026-08-08T00:11:06.427Z] restoreNudgeCountFromHistory: found last write at idx=515 count=6
