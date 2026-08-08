@@ -14,3 +14,623 @@
 [2026-08-08T00:11:06.427Z] LiveUpdateForge: session reset, allowLiveUpdate = false
 [2026-08-08T00:11:06.427Z] NudgeForge: ResumeComplete — restoring count from history
 [2026-08-08T00:11:06.427Z] restoreNudgeCountFromHistory: found last write at idx=515 count=6
+[2026-08-08T00:13:13.076Z] MemoryForge: attached 5 listener(s)
+[2026-08-08T00:13:13.076Z] InitialReadForge: armed one-shot BeforeSend after NewSessionStart
+[2026-08-08T00:13:13.077Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T00:13:14.186Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T00:13:14.212Z] ResumeDiffForge: running checkResumeConsistency
+[2026-08-08T00:13:14.213Z] checkResumeConsistency: forgedTimestamps=[]
+[2026-08-08T00:13:14.219Z] checkResumeConsistency: no changes detected
+[2026-08-08T00:13:14.219Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T00:13:14.219Z] NudgeForge: ResumeComplete — restoring count from history
+[2026-08-08T00:13:14.220Z] restoreNudgeCountFromHistory: found last write at idx=515 count=6
+[2026-08-08T00:13:14.547Z] ResumeDiffForge: running checkResumeConsistency
+[2026-08-08T00:13:14.547Z] checkResumeConsistency: forgedTimestamps=[]
+[2026-08-08T00:13:14.554Z] checkResumeConsistency: no changes detected
+[2026-08-08T00:13:14.554Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T00:13:14.555Z] NudgeForge: ResumeComplete — restoring count from history
+[2026-08-08T00:13:14.555Z] restoreNudgeCountFromHistory: found last write at idx=515 count=6
+[2026-08-08T00:13:14.647Z] ResumeDiffForge: running checkResumeConsistency
+[2026-08-08T00:13:14.648Z] checkResumeConsistency: forgedTimestamps=[]
+[2026-08-08T00:13:14.654Z] checkResumeConsistency: no changes detected
+[2026-08-08T00:13:14.655Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T00:13:14.655Z] NudgeForge: ResumeComplete — restoring count from history
+[2026-08-08T00:13:14.655Z] restoreNudgeCountFromHistory: found last write at idx=515 count=6
+[2026-08-08T00:13:14.949Z] MemoryForge: attached 5 listener(s)
+[2026-08-08T00:13:14.949Z] InitialReadForge: armed one-shot BeforeSend after NewSessionStart
+[2026-08-08T00:13:14.950Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T00:13:14.957Z] MemoryForge: detached all listeners
+[2026-08-08T00:13:14.957Z] ResumeDiffForge: running checkResumeConsistency
+[2026-08-08T00:13:14.958Z] checkResumeConsistency: forgedTimestamps=[]
+[2026-08-08T00:13:15.010Z] checkResumeConsistency: no changes detected
+[2026-08-08T00:13:15.010Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T00:13:15.010Z] NudgeForge: ResumeComplete — restoring count from history
+[2026-08-08T00:13:15.010Z] restoreNudgeCountFromHistory: found last write at idx=515 count=6
+[2026-08-08T00:13:15.043Z] LiveUpdateForge: allowLiveUpdate = true (first real BeforeSend)
+[2026-08-08T00:13:15.044Z] InitialReadForge.onBeforeSend: SKIP (fr=false syn=false hasRead=true)
+[2026-08-08T00:13:25.035Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:13:25.036Z] onEndTurn: naturalStop=undefined toolCalls=6 nudgeMsg=no
+[2026-08-08T00:13:25.043Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:13:25.043Z] onEndTurn: naturalStop=false toolCalls=6 nudgeMsg=no
+[2026-08-08T00:13:31.324Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:13:31.356Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:13:35.442Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:13:35.443Z] onEndTurn: naturalStop=undefined toolCalls=7 nudgeMsg=no
+[2026-08-08T00:13:35.443Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:13:35.443Z] onEndTurn: naturalStop=false toolCalls=7 nudgeMsg=no
+[2026-08-08T00:13:43.342Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:13:43.383Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:13:47.403Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:13:47.403Z] onEndTurn: naturalStop=undefined toolCalls=8 nudgeMsg=no
+[2026-08-08T00:13:47.404Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:13:47.404Z] onEndTurn: naturalStop=false toolCalls=8 nudgeMsg=no
+[2026-08-08T00:13:57.112Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:13:57.178Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:14:01.186Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:14:01.186Z] onEndTurn: naturalStop=undefined toolCalls=9 nudgeMsg=no
+[2026-08-08T00:14:01.187Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:14:01.187Z] onEndTurn: naturalStop=false toolCalls=9 nudgeMsg=no
+[2026-08-08T00:14:18.181Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:14:18.218Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:14:21.623Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:14:21.623Z] onEndTurn: naturalStop=undefined toolCalls=10 nudgeMsg=no
+[2026-08-08T00:14:21.624Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:14:21.624Z] onEndTurn: naturalStop=false toolCalls=10 nudgeMsg=no
+[2026-08-08T00:14:21.631Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:14:21.679Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:14:25.189Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:14:25.190Z] onEndTurn: naturalStop=undefined toolCalls=11 nudgeMsg=no
+[2026-08-08T00:14:25.190Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:14:25.190Z] onEndTurn: naturalStop=false toolCalls=11 nudgeMsg=no
+[2026-08-08T00:14:25.710Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:14:25.739Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:14:28.775Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:14:28.776Z] onEndTurn: naturalStop=undefined toolCalls=12 nudgeMsg=no
+[2026-08-08T00:14:28.776Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:14:28.776Z] onEndTurn: naturalStop=false toolCalls=12 nudgeMsg=no
+[2026-08-08T00:14:37.671Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:14:37.716Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:14:41.465Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:14:41.465Z] onEndTurn: naturalStop=undefined toolCalls=13 nudgeMsg=no
+[2026-08-08T00:14:41.466Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:14:41.466Z] onEndTurn: naturalStop=false toolCalls=13 nudgeMsg=no
+[2026-08-08T00:14:41.483Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:14:41.523Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:14:46.277Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:14:46.277Z] onEndTurn: naturalStop=undefined toolCalls=14 nudgeMsg=no
+[2026-08-08T00:14:46.278Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:14:46.278Z] onEndTurn: naturalStop=false toolCalls=14 nudgeMsg=no
+[2026-08-08T00:15:02.385Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:15:02.779Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:15:08.991Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:15:09.028Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:15:12.420Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:15:12.420Z] onEndTurn: naturalStop=undefined toolCalls=17 nudgeMsg=no
+[2026-08-08T00:15:12.420Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:15:12.421Z] onEndTurn: naturalStop=false toolCalls=17 nudgeMsg=no
+[2026-08-08T00:15:13.110Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:15:13.146Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:15:16.192Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:15:16.192Z] onEndTurn: naturalStop=undefined toolCalls=18 nudgeMsg=no
+[2026-08-08T00:15:16.193Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:15:16.193Z] onEndTurn: naturalStop=false toolCalls=18 nudgeMsg=no
+[2026-08-08T00:15:16.765Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:15:16.801Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:15:20.269Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:15:20.269Z] onEndTurn: naturalStop=undefined toolCalls=19 nudgeMsg=no
+[2026-08-08T00:15:20.269Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:15:20.270Z] onEndTurn: naturalStop=false toolCalls=19 nudgeMsg=no
+[2026-08-08T00:15:20.794Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:15:20.829Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:15:23.804Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:15:23.804Z] onEndTurn: naturalStop=undefined toolCalls=20 nudgeMsg=no
+[2026-08-08T00:15:23.805Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:15:23.805Z] onEndTurn: naturalStop=false toolCalls=20 nudgeMsg=no
+[2026-08-08T00:15:29.681Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:15:29.719Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:15:33.595Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:15:33.595Z] onEndTurn: naturalStop=undefined toolCalls=21 nudgeMsg=no
+[2026-08-08T00:15:33.595Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:15:33.596Z] onEndTurn: naturalStop=false toolCalls=21 nudgeMsg=no
+[2026-08-08T00:15:33.605Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:15:33.643Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:15:37.453Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:15:37.453Z] onEndTurn: naturalStop=undefined toolCalls=22 nudgeMsg=no
+[2026-08-08T00:15:37.454Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:15:37.454Z] onEndTurn: naturalStop=false toolCalls=22 nudgeMsg=no
+[2026-08-08T00:17:38.283Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:17:52.405Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:17:52.448Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:17:57.605Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:17:57.605Z] onEndTurn: naturalStop=undefined toolCalls=24 nudgeMsg=no
+[2026-08-08T00:17:57.606Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:17:57.606Z] onEndTurn: naturalStop=false toolCalls=24 nudgeMsg=no
+[2026-08-08T00:17:57.616Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:19:39.210Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:19:39.253Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:19:43.675Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:19:43.675Z] onEndTurn: naturalStop=undefined toolCalls=26 nudgeMsg=no
+[2026-08-08T00:19:43.675Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:19:43.676Z] onEndTurn: naturalStop=false toolCalls=26 nudgeMsg=no
+[2026-08-08T00:19:48.673Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:19:48.708Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:19:52.653Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:19:52.654Z] onEndTurn: naturalStop=undefined toolCalls=27 nudgeMsg=no
+[2026-08-08T00:19:52.654Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:19:52.654Z] onEndTurn: naturalStop=false toolCalls=27 nudgeMsg=no
+[2026-08-08T00:20:16.958Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:20:17.001Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:20:20.193Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:20:20.194Z] onEndTurn: naturalStop=undefined toolCalls=28 nudgeMsg=no
+[2026-08-08T00:20:20.194Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:20:20.195Z] onEndTurn: naturalStop=false toolCalls=28 nudgeMsg=no
+[2026-08-08T00:20:22.336Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:20:22.375Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:20:25.388Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:20:25.389Z] onEndTurn: naturalStop=undefined toolCalls=29 nudgeMsg=no
+[2026-08-08T00:20:25.389Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:20:25.389Z] onEndTurn: naturalStop=false toolCalls=29 nudgeMsg=no
+[2026-08-08T00:20:27.316Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:20:27.349Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:20:30.998Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:20:30.998Z] onEndTurn: naturalStop=undefined toolCalls=30 nudgeMsg=no
+[2026-08-08T00:20:30.998Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:20:30.998Z] onEndTurn: naturalStop=false toolCalls=30 nudgeMsg=no
+[2026-08-08T00:20:34.745Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:20:34.790Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:20:37.732Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:20:37.732Z] onEndTurn: naturalStop=undefined toolCalls=31 nudgeMsg=no
+[2026-08-08T00:20:37.732Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:20:37.733Z] onEndTurn: naturalStop=true toolCalls=31 nudgeMsg=no
+[2026-08-08T00:25:36.474Z] ResumeDiffForge: running checkResumeConsistency
+[2026-08-08T00:25:36.476Z] checkResumeConsistency: forgedTimestamps=[]
+[2026-08-08T00:25:36.502Z] checkResumeConsistency: no changes detected
+[2026-08-08T00:25:36.503Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T00:25:36.503Z] NudgeForge: ResumeComplete — restoring count from history
+[2026-08-08T00:25:36.503Z] restoreNudgeCountFromHistory: found last write at idx=515 count=31
+[2026-08-08T00:25:36.555Z] LiveUpdateForge: allowLiveUpdate = true (first real BeforeSend)
+[2026-08-08T00:25:36.556Z] InitialReadForge.onBeforeSend: SKIP (fr=false syn=false hasRead=true)
+[2026-08-08T00:25:40.712Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:25:40.713Z] onEndTurn: naturalStop=undefined toolCalls=31 nudgeMsg=no
+[2026-08-08T00:25:40.713Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:25:40.713Z] onEndTurn: naturalStop=false toolCalls=31 nudgeMsg=no
+[2026-08-08T00:25:46.846Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:25:46.879Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:25:49.778Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:25:49.778Z] onEndTurn: naturalStop=undefined toolCalls=32 nudgeMsg=no
+[2026-08-08T00:25:49.778Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:25:49.779Z] onEndTurn: naturalStop=false toolCalls=32 nudgeMsg=no
+[2026-08-08T00:25:53.933Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:25:53.971Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:25:57.189Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:25:57.190Z] onEndTurn: naturalStop=undefined toolCalls=33 nudgeMsg=no
+[2026-08-08T00:25:57.190Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:25:57.190Z] onEndTurn: naturalStop=false toolCalls=33 nudgeMsg=no
+[2026-08-08T00:26:22.494Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:26:53.294Z] MemoryForge: attached 5 listener(s)
+[2026-08-08T00:26:53.294Z] InitialReadForge: armed one-shot BeforeSend after NewSessionStart
+[2026-08-08T00:26:53.295Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T00:27:00.949Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:27:21.021Z] MemoryForge: attached 5 listener(s)
+[2026-08-08T00:27:21.022Z] InitialReadForge: armed one-shot BeforeSend after NewSessionStart
+[2026-08-08T00:27:21.022Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T00:27:21.023Z] MemoryForge: detached all listeners
+[2026-08-08T00:27:21.023Z] ResumeDiffForge: no read_memory in history, backfilling forge
+[2026-08-08T00:27:21.251Z] recordForgedToolExchange: toolName=read_memory callId=resume-forge-read-memory-backfill
+[2026-08-08T00:27:21.296Z] recordForgedToolExchange: recordMessage + recordToolCalls persisted
+[2026-08-08T00:27:21.297Z] injectForgedHistory: role=user preview=""
+[2026-08-08T00:27:21.315Z] injectForgedHistory: recordMessage persisted
+[2026-08-08T00:27:21.321Z] ResumeDiffForge: backfilled read_memory and baseline for 2 raw + 3 provider file(s)
+[2026-08-08T00:27:21.321Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T00:27:21.322Z] NudgeForge: ResumeComplete — restoring count from history
+[2026-08-08T00:27:21.322Z] restoreNudgeCountFromHistory: no reset point found, count=0
+[2026-08-08T00:27:21.346Z] LiveUpdateForge: allowLiveUpdate = true (first real BeforeSend)
+[2026-08-08T00:27:21.347Z] InitialReadForge.onBeforeSend: SKIP (fr=false syn=false hasRead=true)
+[2026-08-08T00:27:33.101Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:27:33.101Z] onEndTurn: naturalStop=undefined toolCalls=0 nudgeMsg=no
+[2026-08-08T00:27:33.102Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:27:33.103Z] onEndTurn: naturalStop=false toolCalls=0 nudgeMsg=no
+[2026-08-08T00:27:33.566Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:27:37.910Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:27:41.436Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:27:46.385Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:27:46.434Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:27:49.573Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:27:49.573Z] onEndTurn: naturalStop=undefined toolCalls=38 nudgeMsg=no
+[2026-08-08T00:27:49.573Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:27:49.574Z] onEndTurn: naturalStop=false toolCalls=38 nudgeMsg=no
+[2026-08-08T00:27:54.005Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:27:54.029Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:27:55.945Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:27:55.945Z] onEndTurn: naturalStop=undefined toolCalls=2 nudgeMsg=no
+[2026-08-08T00:27:55.946Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:27:55.946Z] onEndTurn: naturalStop=false toolCalls=2 nudgeMsg=no
+[2026-08-08T00:27:56.322Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:28:11.028Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:28:11.050Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:28:14.660Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:28:14.661Z] onEndTurn: naturalStop=undefined toolCalls=4 nudgeMsg=no
+[2026-08-08T00:28:14.661Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:28:14.661Z] onEndTurn: naturalStop=false toolCalls=4 nudgeMsg=no
+[2026-08-08T00:28:18.047Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:28:18.068Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:28:20.610Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:28:20.610Z] onEndTurn: naturalStop=undefined toolCalls=5 nudgeMsg=no
+[2026-08-08T00:28:20.611Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:28:20.611Z] onEndTurn: naturalStop=false toolCalls=5 nudgeMsg=no
+[2026-08-08T00:28:23.438Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:28:23.459Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:28:25.136Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:28:25.136Z] onEndTurn: naturalStop=undefined toolCalls=6 nudgeMsg=no
+[2026-08-08T00:28:25.136Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:28:25.136Z] onEndTurn: naturalStop=false toolCalls=6 nudgeMsg=no
+[2026-08-08T00:28:38.977Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:28:39.011Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:28:39.105Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:28:39.147Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:28:43.187Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:28:43.187Z] onEndTurn: naturalStop=undefined toolCalls=39 nudgeMsg=no
+[2026-08-08T00:28:43.188Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:28:43.189Z] onEndTurn: naturalStop=false toolCalls=39 nudgeMsg=no
+[2026-08-08T00:28:45.855Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:28:45.856Z] onEndTurn: naturalStop=undefined toolCalls=7 nudgeMsg=no
+[2026-08-08T00:28:45.856Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:28:45.856Z] onEndTurn: naturalStop=false toolCalls=7 nudgeMsg=no
+[2026-08-08T00:28:45.863Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:28:45.885Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:28:59.374Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:29:00.984Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:29:00.985Z] onEndTurn: naturalStop=undefined toolCalls=8 nudgeMsg=no
+[2026-08-08T00:29:00.985Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:29:00.985Z] onEndTurn: naturalStop=false toolCalls=8 nudgeMsg=no
+[2026-08-08T00:29:00.995Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:29:01.020Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:29:02.550Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:29:10.262Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:29:10.263Z] onEndTurn: naturalStop=undefined toolCalls=9 nudgeMsg=no
+[2026-08-08T00:29:10.263Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:29:10.263Z] onEndTurn: naturalStop=false toolCalls=9 nudgeMsg=no
+[2026-08-08T00:29:10.771Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:29:10.796Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:29:13.601Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:29:13.601Z] onEndTurn: naturalStop=undefined toolCalls=10 nudgeMsg=no
+[2026-08-08T00:29:13.602Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:29:13.602Z] onEndTurn: naturalStop=false toolCalls=10 nudgeMsg=no
+[2026-08-08T00:29:15.033Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:29:15.059Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:29:16.142Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:29:16.190Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:29:16.862Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:29:16.862Z] onEndTurn: naturalStop=undefined toolCalls=11 nudgeMsg=no
+[2026-08-08T00:29:16.863Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:29:16.863Z] onEndTurn: naturalStop=false toolCalls=11 nudgeMsg=no
+[2026-08-08T00:29:17.733Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:29:17.757Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:29:20.454Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:29:20.455Z] onEndTurn: naturalStop=undefined toolCalls=12 nudgeMsg=no
+[2026-08-08T00:29:20.455Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:29:20.455Z] onEndTurn: naturalStop=true toolCalls=12 nudgeMsg=no
+[2026-08-08T00:29:20.763Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:29:20.764Z] onEndTurn: naturalStop=undefined toolCalls=42 nudgeMsg=no
+[2026-08-08T00:29:20.764Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:29:20.765Z] onEndTurn: naturalStop=false toolCalls=42 nudgeMsg=no
+[2026-08-08T00:29:52.984Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:30:04.959Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:30:38.845Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:30:38.895Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:30:43.683Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:30:43.683Z] onEndTurn: naturalStop=undefined toolCalls=45 nudgeMsg=no
+[2026-08-08T00:30:43.684Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:30:43.684Z] onEndTurn: naturalStop=false toolCalls=45 nudgeMsg=no
+[2026-08-08T00:30:59.322Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:30:59.571Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:31:20.534Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:33:03.673Z] InitialReadForge.onBeforeSend: SKIP (fr=false syn=false hasRead=true)
+[2026-08-08T00:33:07.107Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:33:07.107Z] onEndTurn: naturalStop=undefined toolCalls=12 nudgeMsg=no
+[2026-08-08T00:33:07.108Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:33:07.108Z] onEndTurn: naturalStop=true toolCalls=12 nudgeMsg=no
+[2026-08-08T00:33:13.380Z] InitialReadForge.onBeforeSend: SKIP (fr=false syn=false hasRead=true)
+[2026-08-08T00:33:17.111Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:33:17.112Z] onEndTurn: naturalStop=undefined toolCalls=12 nudgeMsg=no
+[2026-08-08T00:33:17.112Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:33:17.112Z] onEndTurn: naturalStop=false toolCalls=12 nudgeMsg=no
+[2026-08-08T00:33:22.766Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:33:22.788Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:33:22.816Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:33:26.477Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:33:26.477Z] onEndTurn: naturalStop=undefined toolCalls=14 nudgeMsg=no
+[2026-08-08T00:33:26.477Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:33:26.478Z] onEndTurn: naturalStop=false toolCalls=14 nudgeMsg=no
+[2026-08-08T00:33:34.543Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:33:34.575Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:33:36.615Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:33:36.615Z] onEndTurn: naturalStop=undefined toolCalls=15 nudgeMsg=no
+[2026-08-08T00:33:36.616Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:33:36.616Z] onEndTurn: naturalStop=false toolCalls=15 nudgeMsg=no
+[2026-08-08T00:33:52.076Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:33:55.324Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:33:55.353Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:33:58.296Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:33:58.296Z] onEndTurn: naturalStop=undefined toolCalls=17 nudgeMsg=no
+[2026-08-08T00:33:58.296Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:33:58.296Z] onEndTurn: naturalStop=true toolCalls=17 nudgeMsg=no
+[2026-08-08T00:35:36.698Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:35:36.739Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:35:42.547Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:35:42.547Z] onEndTurn: naturalStop=undefined toolCalls=49 nudgeMsg=no
+[2026-08-08T00:35:42.548Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:35:42.548Z] onEndTurn: naturalStop=false toolCalls=49 nudgeMsg=no
+[2026-08-08T00:35:45.580Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:35:45.612Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:35:48.819Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:35:48.819Z] onEndTurn: naturalStop=undefined toolCalls=50 nudgeMsg=no
+[2026-08-08T00:35:48.820Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:35:48.820Z] onEndTurn: naturalStop=false toolCalls=50 nudgeMsg=no
+[2026-08-08T00:35:48.890Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:35:48.928Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:35:51.362Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:35:51.362Z] onEndTurn: naturalStop=undefined toolCalls=51 nudgeMsg=no
+[2026-08-08T00:35:51.362Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:35:51.363Z] onEndTurn: naturalStop=false toolCalls=51 nudgeMsg=no
+[2026-08-08T00:35:51.401Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:35:51.444Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:35:56.269Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:35:56.269Z] onEndTurn: naturalStop=undefined toolCalls=52 nudgeMsg=no
+[2026-08-08T00:35:56.269Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:35:56.270Z] onEndTurn: naturalStop=false toolCalls=52 nudgeMsg=no
+[2026-08-08T00:36:11.756Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:36:30.524Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:36:58.467Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:36:58.531Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:37:03.053Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:37:03.053Z] onEndTurn: naturalStop=undefined toolCalls=55 nudgeMsg=no
+[2026-08-08T00:37:03.054Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:37:03.054Z] onEndTurn: naturalStop=false toolCalls=55 nudgeMsg=no
+[2026-08-08T00:37:06.527Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:37:10.785Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:37:13.909Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:37:15.734Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:37:18.606Z] MemoryForge: attached 5 listener(s)
+[2026-08-08T00:37:18.607Z] InitialReadForge: armed one-shot BeforeSend after NewSessionStart
+[2026-08-08T00:37:18.607Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T00:37:18.684Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T00:37:18.689Z] ResumeDiffForge: running checkResumeConsistency
+[2026-08-08T00:37:18.690Z] checkResumeConsistency: forgedTimestamps=[]
+[2026-08-08T00:37:18.699Z] checkResumeConsistency: no changes detected
+[2026-08-08T00:37:18.699Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T00:37:18.699Z] NudgeForge: ResumeComplete — restoring count from history
+[2026-08-08T00:37:18.700Z] restoreNudgeCountFromHistory: no reset point found, count=17
+[2026-08-08T00:37:19.014Z] ResumeDiffForge: running checkResumeConsistency
+[2026-08-08T00:37:19.015Z] checkResumeConsistency: forgedTimestamps=[]
+[2026-08-08T00:37:19.022Z] checkResumeConsistency: no changes detected
+[2026-08-08T00:37:19.023Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T00:37:19.023Z] NudgeForge: ResumeComplete — restoring count from history
+[2026-08-08T00:37:19.023Z] restoreNudgeCountFromHistory: no reset point found, count=17
+[2026-08-08T00:37:19.067Z] ResumeDiffForge: running checkResumeConsistency
+[2026-08-08T00:37:19.067Z] checkResumeConsistency: forgedTimestamps=[]
+[2026-08-08T00:37:19.074Z] checkResumeConsistency: no changes detected
+[2026-08-08T00:37:19.074Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T00:37:19.074Z] NudgeForge: ResumeComplete — restoring count from history
+[2026-08-08T00:37:19.075Z] restoreNudgeCountFromHistory: no reset point found, count=17
+[2026-08-08T00:37:19.290Z] MemoryForge: attached 5 listener(s)
+[2026-08-08T00:37:19.291Z] InitialReadForge: armed one-shot BeforeSend after NewSessionStart
+[2026-08-08T00:37:19.291Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T00:37:19.292Z] MemoryForge: detached all listeners
+[2026-08-08T00:37:19.293Z] ResumeDiffForge: running checkResumeConsistency
+[2026-08-08T00:37:19.293Z] checkResumeConsistency: forgedTimestamps=[]
+[2026-08-08T00:37:19.320Z] checkResumeConsistency: no changes detected
+[2026-08-08T00:37:19.321Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T00:37:19.321Z] NudgeForge: ResumeComplete — restoring count from history
+[2026-08-08T00:37:19.321Z] restoreNudgeCountFromHistory: no reset point found, count=17
+[2026-08-08T00:37:19.343Z] LiveUpdateForge: allowLiveUpdate = true (first real BeforeSend)
+[2026-08-08T00:37:19.344Z] InitialReadForge.onBeforeSend: SKIP (fr=false syn=false hasRead=true)
+[2026-08-08T00:37:23.795Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:37:23.796Z] onEndTurn: naturalStop=undefined toolCalls=17 nudgeMsg=no
+[2026-08-08T00:37:23.796Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:37:23.796Z] onEndTurn: naturalStop=false toolCalls=17 nudgeMsg=no
+[2026-08-08T00:37:28.436Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:37:28.463Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:37:30.778Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:37:30.779Z] onEndTurn: naturalStop=undefined toolCalls=18 nudgeMsg=no
+[2026-08-08T00:37:30.779Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:37:30.779Z] onEndTurn: naturalStop=false toolCalls=18 nudgeMsg=no
+[2026-08-08T00:37:33.781Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:37:33.806Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:37:37.285Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:37:37.286Z] onEndTurn: naturalStop=undefined toolCalls=19 nudgeMsg=no
+[2026-08-08T00:37:37.286Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:37:37.286Z] onEndTurn: naturalStop=false toolCalls=19 nudgeMsg=no
+[2026-08-08T00:37:39.432Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:37:39.458Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:37:41.013Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:37:41.013Z] onEndTurn: naturalStop=undefined toolCalls=20 nudgeMsg=no
+[2026-08-08T00:37:41.013Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:37:41.014Z] onEndTurn: naturalStop=true toolCalls=20 nudgeMsg=no
+[2026-08-08T00:38:04.153Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:38:04.190Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:38:09.313Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:38:09.313Z] onEndTurn: naturalStop=undefined toolCalls=60 nudgeMsg=no
+[2026-08-08T00:38:09.313Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:38:09.314Z] onEndTurn: naturalStop=false toolCalls=60 nudgeMsg=no
+[2026-08-08T00:38:18.225Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:38:18.269Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:38:42.145Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:38:42.145Z] onEndTurn: naturalStop=undefined toolCalls=61 nudgeMsg=no
+[2026-08-08T00:38:42.146Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:38:42.146Z] onEndTurn: naturalStop=false toolCalls=61 nudgeMsg=no
+[2026-08-08T00:38:50.238Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:38:50.279Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:38:59.996Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:38:59.996Z] onEndTurn: naturalStop=undefined toolCalls=62 nudgeMsg=no
+[2026-08-08T00:38:59.996Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:38:59.997Z] onEndTurn: naturalStop=false toolCalls=62 nudgeMsg=no
+[2026-08-08T00:39:32.175Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:39:46.415Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:39:54.042Z] ResumeDiffForge: running checkResumeConsistency
+[2026-08-08T00:39:54.043Z] checkResumeConsistency: forgedTimestamps=[]
+[2026-08-08T00:39:54.053Z] checkResumeConsistency: no changes detected
+[2026-08-08T00:39:54.053Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T00:39:54.053Z] NudgeForge: ResumeComplete — restoring count from history
+[2026-08-08T00:39:54.054Z] restoreNudgeCountFromHistory: no reset point found, count=20
+[2026-08-08T00:39:54.063Z] LiveUpdateForge: allowLiveUpdate = true (first real BeforeSend)
+[2026-08-08T00:39:54.063Z] InitialReadForge.onBeforeSend: SKIP (fr=false syn=false hasRead=true)
+[2026-08-08T00:40:04.665Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:40:04.665Z] onEndTurn: naturalStop=undefined toolCalls=20 nudgeMsg=no
+[2026-08-08T00:40:04.665Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:40:04.665Z] onEndTurn: naturalStop=false toolCalls=20 nudgeMsg=no
+[2026-08-08T00:40:04.689Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:40:04.718Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:40:11.557Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:40:11.557Z] onEndTurn: naturalStop=undefined toolCalls=21 nudgeMsg=no
+[2026-08-08T00:40:11.558Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:40:11.558Z] onEndTurn: naturalStop=false toolCalls=21 nudgeMsg=no
+[2026-08-08T00:40:11.564Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:40:11.587Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:40:22.356Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:40:22.398Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:40:22.632Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:40:22.632Z] onEndTurn: naturalStop=undefined toolCalls=22 nudgeMsg=no
+[2026-08-08T00:40:22.633Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:40:22.633Z] onEndTurn: naturalStop=false toolCalls=22 nudgeMsg=no
+[2026-08-08T00:40:24.122Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:40:24.146Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:40:26.502Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:40:26.502Z] onEndTurn: naturalStop=undefined toolCalls=23 nudgeMsg=no
+[2026-08-08T00:40:26.502Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:40:26.502Z] onEndTurn: naturalStop=false toolCalls=23 nudgeMsg=no
+[2026-08-08T00:40:27.095Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:40:27.118Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:40:27.819Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:40:27.819Z] onEndTurn: naturalStop=undefined toolCalls=65 nudgeMsg=no
+[2026-08-08T00:40:27.819Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:40:27.820Z] onEndTurn: naturalStop=false toolCalls=65 nudgeMsg=no
+[2026-08-08T00:40:30.317Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:40:30.317Z] onEndTurn: naturalStop=undefined toolCalls=24 nudgeMsg=no
+[2026-08-08T00:40:30.318Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:40:30.318Z] onEndTurn: naturalStop=true toolCalls=24 nudgeMsg=no
+[2026-08-08T00:40:36.796Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:40:36.831Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:40:40.957Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:40:40.958Z] onEndTurn: naturalStop=undefined toolCalls=66 nudgeMsg=no
+[2026-08-08T00:40:40.958Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:40:40.958Z] onEndTurn: naturalStop=false toolCalls=66 nudgeMsg=no
+[2026-08-08T00:40:40.975Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:40:41.014Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:40:45.259Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:40:45.259Z] onEndTurn: naturalStop=undefined toolCalls=67 nudgeMsg=no
+[2026-08-08T00:40:45.260Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:40:45.260Z] onEndTurn: naturalStop=false toolCalls=67 nudgeMsg=no
+[2026-08-08T00:41:01.640Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:41:11.488Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:41:21.394Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:41:21.600Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:41:27.641Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:41:27.642Z] onEndTurn: naturalStop=undefined toolCalls=70 nudgeMsg=no
+[2026-08-08T00:41:27.642Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:41:27.643Z] onEndTurn: naturalStop=false toolCalls=70 nudgeMsg=no
+[2026-08-08T00:41:27.658Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:42:13.122Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:42:24.489Z] InitialReadForge.onBeforeSend: SKIP (fr=false syn=false hasRead=true)
+[2026-08-08T00:42:27.262Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:42:27.263Z] onEndTurn: naturalStop=undefined toolCalls=24 nudgeMsg=no
+[2026-08-08T00:42:27.263Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:42:27.263Z] onEndTurn: naturalStop=true toolCalls=24 nudgeMsg=no
+[2026-08-08T00:42:35.911Z] InitialReadForge.onBeforeSend: SKIP (fr=false syn=false hasRead=true)
+[2026-08-08T00:42:41.219Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:42:41.219Z] onEndTurn: naturalStop=undefined toolCalls=24 nudgeMsg=no
+[2026-08-08T00:42:41.219Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:42:41.219Z] onEndTurn: naturalStop=false toolCalls=24 nudgeMsg=no
+[2026-08-08T00:42:46.101Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:42:46.130Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:42:50.276Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:42:50.276Z] onEndTurn: naturalStop=undefined toolCalls=25 nudgeMsg=no
+[2026-08-08T00:42:50.277Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:42:50.277Z] onEndTurn: naturalStop=false toolCalls=25 nudgeMsg=no
+[2026-08-08T00:43:05.308Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:43:05.356Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:43:08.718Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:43:08.718Z] onEndTurn: naturalStop=undefined toolCalls=73 nudgeMsg=no
+[2026-08-08T00:43:08.718Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:43:08.719Z] onEndTurn: naturalStop=false toolCalls=73 nudgeMsg=no
+[2026-08-08T00:43:31.690Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:43:31.720Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:43:34.095Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:43:34.096Z] onEndTurn: naturalStop=undefined toolCalls=26 nudgeMsg=no
+[2026-08-08T00:43:34.096Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:43:34.097Z] onEndTurn: naturalStop=false toolCalls=26 nudgeMsg=no
+[2026-08-08T00:43:37.018Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:43:37.046Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:43:41.794Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:43:41.795Z] onEndTurn: naturalStop=undefined toolCalls=27 nudgeMsg=no
+[2026-08-08T00:43:41.795Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:43:41.796Z] onEndTurn: naturalStop=false toolCalls=27 nudgeMsg=no
+[2026-08-08T00:43:41.892Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:43:41.922Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:43:43.623Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:43:43.623Z] onEndTurn: naturalStop=undefined toolCalls=28 nudgeMsg=no
+[2026-08-08T00:43:43.623Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:43:43.624Z] onEndTurn: naturalStop=false toolCalls=28 nudgeMsg=no
+[2026-08-08T00:43:51.618Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:43:51.662Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:44:12.518Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:44:12.521Z] onEndTurn: naturalStop=undefined toolCalls=74 nudgeMsg=no
+[2026-08-08T00:44:12.522Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:44:12.522Z] onEndTurn: naturalStop=false toolCalls=74 nudgeMsg=no
+[2026-08-08T00:44:14.059Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:44:14.127Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:44:18.455Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:44:18.458Z] onEndTurn: naturalStop=undefined toolCalls=75 nudgeMsg=no
+[2026-08-08T00:44:18.458Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:44:18.458Z] onEndTurn: naturalStop=false toolCalls=75 nudgeMsg=no
+[2026-08-08T00:44:32.698Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:44:32.943Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:44:36.945Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:44:36.945Z] onEndTurn: naturalStop=undefined toolCalls=76 nudgeMsg=no
+[2026-08-08T00:44:36.946Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:44:36.950Z] onEndTurn: naturalStop=false toolCalls=76 nudgeMsg=no
+[2026-08-08T00:44:37.061Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:44:54.685Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:45:26.181Z] InitialReadForge.onBeforeSend: SKIP (fr=false syn=false hasRead=true)
+[2026-08-08T00:45:26.709Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:45:31.049Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:45:31.049Z] onEndTurn: naturalStop=undefined toolCalls=29 nudgeMsg=no
+[2026-08-08T00:45:31.050Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:45:31.050Z] onEndTurn: naturalStop=false toolCalls=29 nudgeMsg=no
+[2026-08-08T00:45:35.103Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:45:35.133Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:45:37.737Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:45:37.737Z] onEndTurn: naturalStop=undefined toolCalls=30 nudgeMsg=no
+[2026-08-08T00:45:37.738Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:45:37.738Z] onEndTurn: naturalStop=false toolCalls=30 nudgeMsg=no
+[2026-08-08T00:45:37.785Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:45:37.785Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:45:37.786Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:45:37.823Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:45:39.465Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:45:39.465Z] onEndTurn: naturalStop=undefined toolCalls=33 nudgeMsg=no
+[2026-08-08T00:45:39.465Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:45:39.466Z] onEndTurn: naturalStop=false toolCalls=33 nudgeMsg=no
+[2026-08-08T00:45:40.657Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:45:40.705Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:45:42.498Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:45:42.529Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:45:45.115Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:45:45.115Z] onEndTurn: naturalStop=undefined toolCalls=34 nudgeMsg=no
+[2026-08-08T00:45:45.115Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:45:45.115Z] onEndTurn: naturalStop=false toolCalls=34 nudgeMsg=no
+[2026-08-08T00:45:46.556Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:45:46.557Z] onEndTurn: naturalStop=undefined toolCalls=79 nudgeMsg=no
+[2026-08-08T00:45:46.558Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:45:46.558Z] onEndTurn: naturalStop=false toolCalls=79 nudgeMsg=no
+[2026-08-08T00:45:51.451Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:45:51.482Z] InitialReadForge.onBeforeSend: SKIP (fr=true syn=false hasRead=true)
+[2026-08-08T00:45:53.813Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:45:53.813Z] onEndTurn: naturalStop=undefined toolCalls=35 nudgeMsg=no
+[2026-08-08T00:45:53.813Z] LiveUpdateForge: EndTurn fallback flush
+[2026-08-08T00:45:53.814Z] onEndTurn: naturalStop=false toolCalls=35 nudgeMsg=no
+[2026-08-08T00:46:05.072Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:46:06.497Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:46:23.776Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:46:28.026Z] LiveUpdateForge: AfterToolExec flush
+[2026-08-08T00:46:31.525Z] LiveUpdateForge: AfterToolExec flush
