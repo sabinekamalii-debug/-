@@ -1992,3 +1992,19 @@
 [2026-08-08T08:09:58.829Z] onEndTurn: naturalStop=undefined toolCalls=35 nudgeMsg=no
 [2026-08-08T08:09:58.829Z] LiveUpdateForge: EndTurn fallback flush
 [2026-08-08T08:09:58.829Z] onEndTurn: naturalStop=true toolCalls=35 nudgeMsg=no
+[2026-08-08T22:41:49.796Z] MemoryForge: attached 5 listener(s)
+[2026-08-08T22:41:49.797Z] InitialReadForge: armed one-shot BeforeSend after NewSessionStart
+[2026-08-08T22:41:49.797Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T22:41:51.604Z] MemoryForge: attached 5 listener(s)
+[2026-08-08T22:41:51.605Z] InitialReadForge: armed one-shot BeforeSend after NewSessionStart
+[2026-08-08T22:41:51.605Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T22:48:46.612Z] MemoryForge: attached 5 listener(s)
+[2026-08-08T22:48:46.613Z] InitialReadForge: armed one-shot BeforeSend after NewSessionStart
+[2026-08-08T22:48:46.614Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T22:48:46.929Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T22:48:46.933Z] ResumeDiffForge: running checkResumeConsistency
+[2026-08-08T22:48:46.933Z] checkResumeConsistency: forgedTimestamps=[]
+[2026-08-08T22:48:46.940Z] checkResumeConsistency: no changes detected
+[2026-08-08T22:48:46.940Z] LiveUpdateForge: session reset, allowLiveUpdate = false
+[2026-08-08T22:48:46.940Z] NudgeForge: ResumeComplete — restoring count from history
+[2026-08-08T22:48:46.940Z] restoreNudgeCountFromHistory: no reset point found, count=11
