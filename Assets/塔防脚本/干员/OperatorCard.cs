@@ -21,6 +21,13 @@ public class OperatorCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     private bool isValidDrag = false;
     private Image _runtimeOverlay;  // 无素材时自动创建的遮罩
 
+    // --- 方向路由：竖直拖拽→滚动列表，水平拖拽→部署到地图 ---
+    private OperatorShopScroll _shopScroll;
+    private bool _directionPending = false;   // 等待判定方向
+    private bool _isScrolling = false;         // 本次拖拽已判定为滚动
+    private Vector2 _dragStartScreenPos;
+    private const float DirectionThreshold = 8f; // 判定方向的屏幕像素阈值
+
     // --- 费用与冷却相关 ---
     private bool isOnCooldown = false;  // 是否处于购买冷却中
 
@@ -140,6 +147,20 @@ public class OperatorCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        // 如果在可滚动商店面板内，直接进入方向待定模式（不检查部署条件）
+        if (_shopScroll == null)
+            _shopScroll = GetComponentInParent<OperatorShopScroll>();
+
+        if (_shopScroll != null)
+        {
+            isValidDrag = true;
+            _directionPending = true;
+            _isScrolling = false;
+            _dragStartScreenPos = eventData.position;
+            return;
+        }
+
+        // 无面板时，保持原行为：检查部署条件后立即部署
         if (DeploymentManager.Instance == null) return;
         if (Time.timeScale == 0f) 
         {
@@ -147,19 +168,16 @@ public class OperatorCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             return;
         }
 
-        // 处于冷却中不能购买
         if (isOnCooldown)
         {
             isValidDrag = false;
             if (SystemMessageUI.Instance != null)
             {
-                // 使用“新手教程”文本框（SystemMessageUI）提示冷却信息
                 SystemMessageUI.Instance.ShowMessage("此干员购买冷却中", Color.yellow);
             }
             return;
         }
 
-        // 确保已经初始化过冷却信息
         if (!initialized)
         {
             initialized = true;
@@ -167,7 +185,6 @@ public class OperatorCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             originalColor = characterIcon != null ? characterIcon.color : Color.white;
         }
 
-        // 如果在 UI 上判断不够钱，直接不让起飞拖拽（用实际部署费用）
         if (DeploymentManager.Instance.currentDP < GetDeployCost())
         {
             isValidDrag = false;
@@ -179,28 +196,114 @@ public class OperatorCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         }
 
         isValidDrag = true;
+        _dragStartScreenPos = eventData.position;
 
+        // 如果在可滚动商店面板内，先不立即部署，等待方向判定
+        if (_shopScroll == null)
+            _shopScroll = GetComponentInParent<OperatorShopScroll>();
+
+        if (_shopScroll != null)
+        {
+            _directionPending = true;
+            _isScrolling = false;
+            return;
+        }
+
+        // 无面板时，保持原行为：立即开始部署
+        StartDeploy();
+    }
+
+    private void StartDeploy()
+    {
         if (operatorData != null && operatorPrefab != null)
         {
-            // 只传基础费用，由 DeploymentManager 按 OperatorData.cost 扣费
             DeploymentManager.Instance.StartDrag(operatorPrefab, operatorData, this);
-
             if (DeployLightController.Instance != null)
-            {
                 DeployLightController.Instance.ShowRange(operatorData);
-            }
         }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (!isValidDrag || DeploymentManager.Instance == null) return;
+        if (!isValidDrag) return;
+
+        // 方向待定：判断是竖直滚动还是水平部署
+        if (_directionPending)
+        {
+            float dx = Mathf.Abs(eventData.position.x - _dragStartScreenPos.x);
+            float dy = Mathf.Abs(eventData.position.y - _dragStartScreenPos.y);
+
+            if (dx > DirectionThreshold || dy > DirectionThreshold)
+            {
+                if (dy > dx)
+                {
+                    // 竖直拖拽 → 滚动列表
+                    _isScrolling = true;
+                    _directionPending = false;
+                    if (_shopScroll != null)
+                        _shopScroll.BeginScroll(eventData.position);
+                }
+                else
+                {
+                    // 水平拖拽 → 检查部署条件后开始部署
+                    _directionPending = false;
+                    if (DeploymentManager.Instance == null) { isValidDrag = false; return; }
+                    if (Time.timeScale == 0f) { isValidDrag = false; return; }
+                    if (isOnCooldown)
+                    {
+                        isValidDrag = false;
+                        if (SystemMessageUI.Instance != null)
+                            SystemMessageUI.Instance.ShowMessage("此干员购买冷却中", Color.yellow);
+                        return;
+                    }
+                    if (DeploymentManager.Instance.currentDP < GetDeployCost())
+                    {
+                        isValidDrag = false;
+                        if (SystemMessageUI.Instance != null)
+                            SystemMessageUI.Instance.ShowMessage("部署费用不足！", Color.red);
+                        return;
+                    }
+                    StartDeploy();
+                }
+            }
+            return;
+        }
+
+        if (_isScrolling)
+        {
+            if (_shopScroll != null)
+                _shopScroll.UpdateScroll(eventData.position);
+            return;
+        }
+
+        if (DeploymentManager.Instance == null) return;
         DeploymentManager.Instance.OnDragging();
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         if (!isValidDrag) return;
+
+        // 滚动结束
+        if (_isScrolling)
+        {
+            _isScrolling = false;
+            _directionPending = false;
+            if (_shopScroll != null)
+                _shopScroll.EndScroll();
+            isValidDrag = false;
+            return;
+        }
+
+        // 待定状态结束（未判定方向就松手，什么都不做）
+        if (_directionPending)
+        {
+            _directionPending = false;
+            isValidDrag = false;
+            return;
+        }
+
+        // 部署结束
         if (DeploymentManager.Instance != null)
             DeploymentManager.Instance.EndDrag(operatorPrefab);
         isValidDrag = false;
