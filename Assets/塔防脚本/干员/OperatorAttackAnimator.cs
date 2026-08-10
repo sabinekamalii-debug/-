@@ -282,6 +282,8 @@ public class OperatorAttackAnimator : MonoBehaviour
 
         if (hasIsFight)
         {
+            if (isFight && ownerUnit != null)
+                ownerUnit.EnableAnimator();
             animator.SetBool(isFightParam, isFight);
         }
 
@@ -290,6 +292,12 @@ public class OperatorAttackAnimator : MonoBehaviour
             // 离开战斗时清空左右状态，回到待机
             if (hasRight) animator.SetBool(rightParam, false);
             if (hasLeft) animator.SetBool(leftParam, false);
+        }
+
+        // 退出战斗且不在移动中时，禁用 Animator 恢复预制体默认 sprite
+        if (!isFight && hasIsFight && ownerUnit != null && !ownerUnit.isMoving)
+        {
+            ownerUnit.DisableAnimator();
         }
     }
 

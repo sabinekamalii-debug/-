@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90254a1f11d277949976c63d44b0ee65, type: 3}
+  m_Name: "\u706B\u7130\u6218\u58EB"
+  m_EditorClassIdentifier: 
+  operatorName: "\u706B\u7130\u6218\u58EB"
+  cost: 11
+  maxHealth: 400
+  defense: 150
+  attackDamage: 55
+  attackInterval: 1
+  attackRange: 0
+  opType: 1
+  deployRadius: 6
+  unitPrefab: {fileID: 8696399864952002332, guid: ec326a3d7b36d124d96913a8e0c3330f, type: 3}
+  icon: {fileID: 21300000, guid: e487edb01c3c5ba4b95cf30a434f9926, type: 3}
+  purchaseCooldown: 18
+  canStandOnGroundAndHighGround: 0
+  isAoEAttacker: 0
+  isHealer: 0
+  baseCritChance: 0
+  maxStarRating: 3
+  selectQuote: "\u70C8\u7130\u711A\u5C3D\u4E00\u5207\u3002"
+  isInitialAvailable: 0

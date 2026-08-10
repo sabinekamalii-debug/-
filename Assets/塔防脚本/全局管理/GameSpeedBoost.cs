@@ -39,6 +39,10 @@ public class GameSpeedBoost : MonoBehaviour
         if (TeleportController.Instance != null && TeleportController.Instance.IsInTeleportMode)
             return;
 
+        // 遭遇战菜单弹出时：保持暂停，不干预
+        if (EncounterManager.Instance != null && EncounterManager.Instance.IsEncounterActive)
+            return;
+
         // 第一关抽卡流程中：保持 0，不干预
         if (RogueResultController.IsMidGameDrop || RogueResultController.IsFirstStageDrop)
             return;

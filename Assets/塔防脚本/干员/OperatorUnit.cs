@@ -21,12 +21,29 @@ public class OperatorUnit : MonoBehaviour
 
     [HideInInspector] public int deployCost = 0;
 
+    private bool isEncountering = false;
+    private bool chooseToFight = false;
+    private bool _suppressEncounterUntilExit = false;
+    private bool _pendingEvadeContactDamage = false;
+
     // 移动中的干员不阻挡敌人（部署/换位途中），供 UnitBlocker 判断
-    public bool IsEvading() => isMoving;
+    public bool IsEvading() => !chooseToFight && isMoving;
+
+    /// <summary>启用 Animator 播放走路/攻击动画，由 OperatorAttackAnimator 和 MoveRoutine 调用。</summary>
+    public void EnableAnimator()
+    {
+        if (animator != null) animator.enabled = true;
+    }
+
+    /// <summary>禁用 Animator 并恢复预制体默认 sprite，用于待机状态。</summary>
+    public void DisableAnimator()
+    {
+        if (animator != null) animator.enabled = false;
+        if (spriteRenderer != null && originalSprite != null) spriteRenderer.sprite = originalSprite;
+    }
 
     private SpriteRenderer spriteRenderer;
     private int originalSortingOrder;
-
     private UnitStatusUI statusUI;
     [HideInInspector] public int currentHealth;
     [HideInInspector] public int runtimeMaxHealth;
@@ -52,6 +69,8 @@ public class OperatorUnit : MonoBehaviour
     private bool hasOccupied = false;
 
     private OperatorBrain brain;
+    private Animator animator;
+    private Sprite originalSprite;
 
     void Awake()
     {
@@ -66,6 +85,9 @@ public class OperatorUnit : MonoBehaviour
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         statusUI = GetComponentInChildren<UnitStatusUI>();
         brain = GetComponent<OperatorBrain>();
+        animator = GetComponentInChildren<Animator>();
+        if (spriteRenderer != null) originalSprite = spriteRenderer.sprite;
+        if (animator != null) animator.enabled = false;
 
         if (blocker != null) currentBlockCount = blocker.maxBlockCount;
         else currentBlockCount = 1;
@@ -281,6 +303,22 @@ public class OperatorUnit : MonoBehaviour
         return !isMoving || isBlocking;
     }
 
+    public void SetHighlight(bool isHighlighted)
+    {
+        if (spriteRenderer != null)
+        {
+            if (isHighlighted)
+            {
+                originalSortingOrder = spriteRenderer.sortingOrder;
+                spriteRenderer.sortingOrder = 999;
+            }
+            else
+            {
+                spriteRenderer.sortingOrder = originalSortingOrder;
+            }
+        }
+    }
+
     public void TeleportTo(Vector3 newWorldPos)
     {
         if (GridSystem.Instance == null) return;
@@ -339,6 +377,9 @@ public class OperatorUnit : MonoBehaviour
     {
         if (GridSystem.Instance == null) return;
 
+        isEncountering = false;
+        chooseToFight = false;
+
         if (blocker != null) currentBlockCount = blocker.maxBlockCount;
         else currentBlockCount = 1;
 
@@ -371,9 +412,22 @@ public class OperatorUnit : MonoBehaviour
     {
         isMoving = true;
         int targetIndex = 0;
+        EnableAnimator();
 
         while (targetIndex < path.Count)
         {
+            if (isEncountering)
+            {
+                yield return null;
+                continue;
+            }
+
+            if (chooseToFight && blocker != null && blocker.blockedEnemies.Count > 0)
+            {
+                yield return null;
+                continue;
+            }
+
             Vector3 currentWaypoint = path[targetIndex];
             float moveSpeed = ((brain != null) ? brain.moveSpeed : 1f) * TalentEffectApplier.GetMoveSpeedMultiplier(data);
             transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, moveSpeed * Time.deltaTime);
@@ -386,11 +440,13 @@ public class OperatorUnit : MonoBehaviour
         }
 
         isMoving = false;
+        DisableAnimator();
         OnArriveDestination();
     }
 
     void OnArriveDestination()
     {
+        _suppressEncounterUntilExit = false;
         if (GridSystem.Instance == null) return;
 
         if (isTargetingHighGround)
@@ -404,6 +460,77 @@ public class OperatorUnit : MonoBehaviour
         {
             if (blocker != null) currentBlockCount = blocker.maxBlockCount;
             else currentBlockCount = 1;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        TryStartEncounter(other);
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        TryStartEncounter(other);
+    }
+
+    private void TryStartEncounter(Collider2D other)
+    {
+        if (!isMoving) return;
+        if (isEncountering) return;
+        if (_suppressEncounterUntilExit) return;
+        if (!other.CompareTag("Enemy")) return;
+
+        Enemy2 enemy = other.GetComponent<Enemy2>();
+        if (enemy == null) return;
+        if (IsCellOccupiedByStandingOperator(transform.position, this))
+            return;
+
+        isEncountering = true;
+        if (EncounterManager.Instance != null)
+            EncounterManager.Instance.TriggerEncounter(this);
+        else
+            isEncountering = false;
+    }
+
+    public void ResolveEncounter(bool fight)
+    {
+        chooseToFight = fight;
+        if (fight)
+        {
+            if (blocker != null) currentBlockCount = blocker.maxBlockCount;
+            else currentBlockCount = 1;
+            _pendingEvadeContactDamage = false;
+        }
+        else
+        {
+            if (blocker != null) blocker.ReleaseAllEnemies();
+            currentBlockCount = 0;
+            _pendingEvadeContactDamage = true;
+        }
+
+        _suppressEncounterUntilExit = true;
+        isEncountering = false;
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            if (_pendingEvadeContactDamage)
+            {
+                Enemy2 enemy = other.GetComponentInParent<Enemy2>();
+                if (enemy != null)
+                {
+                    int contactDamage = enemy.GetContactDamage();
+                    if (contactDamage > 0)
+                    {
+                        bool ignoreDef = enemy.GetComponent<IgnoreDefenseAttacker>() != null;
+                        TakeDamage(contactDamage, ignoreDef);
+                    }
+                }
+                _pendingEvadeContactDamage = false;
+            }
+            _suppressEncounterUntilExit = false;
         }
     }
 
