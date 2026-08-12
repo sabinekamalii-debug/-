@@ -26,10 +26,13 @@ public class OperatorSelectionPanel : MonoBehaviour
     [SerializeField] private Transform _headListContent;
     [SerializeField] private Button _selectButton;
     [SerializeField] private TMP_Text _selectButtonText;
+    [SerializeField] private Button _upgradeStarButton;     // 升星按钮（花局内 RunGold）
+    [SerializeField] private TMP_Text _upgradeStarButtonText;
     [SerializeField] private ScrollRect _headScroll;
 
     private List<OperatorData> _allOperators;
     private List<OperatorData> _selectedOperators = new List<OperatorData>();
+    private Dictionary<string, int> _rosterStars = new Dictionary<string, int>(); // 选中干员的当前星级（局内养成）
     private OperatorData _previewing;
 
     private static readonly Color[] StarColors =
@@ -100,6 +103,10 @@ public class OperatorSelectionPanel : MonoBehaviour
 
         if (_selectButton != null)
             _selectButton.onClick.AddListener(OnSelectButtonClicked);
+        if (_upgradeStarButton == null)
+            _upgradeStarButton = t.Find("PortraitArea/UpgradeStarButton")?.GetComponent<Button>();
+        if (_upgradeStarButton != null)
+            _upgradeStarButton.onClick.AddListener(OnUpgradeStarClicked);
     }
 
     private void LoadAllOperators()
@@ -242,19 +249,43 @@ public class OperatorSelectionPanel : MonoBehaviour
         if (_starText != null)
         {
             string maxStars = new string('★', op.maxStarRating);
-            _starText.text = op.isInitialAvailable ? $"当前: ★1  上限: {maxStars}" : "";
+            if (op.isInitialAvailable)
+            {
+                int cur = GetRosterStar(op);
+                _starText.text = $"当前: ★{cur}  上限: {maxStars}";
+                if (cur >= op.maxStarRating)
+                    _starText.text += "  (满星·被动已激活)";
+            }
+            else
+                _starText.text = "";
         }
         if (_statsText != null)
         {
             if (op.isInitialAvailable)
             {
-                float mult = BaseStatMultiplier[Mathf.Clamp(op.maxStarRating, 1, 5)] * StarGrowth[1];
-                _statsText.text = $"HP:{Mathf.RoundToInt(op.maxHealth * mult)}  ATK:{Mathf.RoundToInt(op.attackDamage * mult)}  费用:{op.cost}";
+                int cur = GetRosterStar(op);
+                float baseMul = BaseStatMultiplier[Mathf.Clamp(op.maxStarRating, 1, BaseStatMultiplier.Length - 1)];
+                float grow = StarGrowth[Mathf.Clamp(cur, 1, StarGrowth.Length - 1)];
+                float mult = baseMul * grow;
+                var sb = new System.Text.StringBuilder();
+                sb.Append($"HP:{Mathf.RoundToInt(op.maxHealth * mult)}  ATK:{Mathf.RoundToInt(op.attackDamage * mult)}  费用:{op.cost}");
+                if (cur >= op.maxStarRating && !string.IsNullOrEmpty(op.starPassiveDesc))
+                    sb.Append($"\n[满星被动] {op.starPassiveDesc}");
+                _statsText.text = sb.ToString();
             }
             else
                 _statsText.text = "";
         }
         UpdateSelectButtonText();
+        UpdateUpgradeStarButton();
+    }
+
+    /// <summary> 获取某干员当前预览星级（选中时为养成星级，未选中默认 1）。 </summary>
+    private int GetRosterStar(OperatorData op)
+    {
+        if (op == null) return 1;
+        if (_rosterStars.TryGetValue(op.RegistryKey, out int s)) return s;
+        return 1;
     }
 
     private void UpdateSelectButtonText()
@@ -298,16 +329,79 @@ public class OperatorSelectionPanel : MonoBehaviour
         if (_previewing == null || !_previewing.isInitialAvailable) return;
 
         if (_selectedOperators.Contains(_previewing))
+        {
             _selectedOperators.Remove(_previewing);
+            _rosterStars.Remove(_previewing.RegistryKey);
+        }
         else
         {
             if (GetUsedStars() >= StarBudget) return;
             _selectedOperators.Add(_previewing);
+            if (!_rosterStars.ContainsKey(_previewing.RegistryKey))
+                _rosterStars[_previewing.RegistryKey] = 1;
         }
 
         UpdateSelectButtonText();
         RefreshBudgetDisplay();
         UpdateHeadListCheckmarks();
+        UpdateUpgradeStarButton();
+    }
+
+    /// <summary>
+    /// 升星按钮：花局内 RunGold 把当前预览干员升 1 星（仅当选中且未达上限）。
+    /// 升星消耗写入 RogueRuntimeState.OperatorStarRegistry，局内实时生效。
+    /// </summary>
+    private void OnUpgradeStarClicked()
+    {
+        if (_previewing == null || !_previewing.isInitialAvailable) return;
+        if (!_selectedOperators.Contains(_previewing)) return; // 只有选中（进阵容）的干员才能升星
+
+        int cost;
+        bool ok = RogueRuntimeState.TryUpgradeOperatorStar(_previewing.RegistryKey, _allOperators, out cost);
+        if (ok)
+        {
+            _rosterStars[_previewing.RegistryKey] = OperatorStarRegistry.GetStar(_previewing.RegistryKey);
+            RefreshBudgetDisplay();
+            PreviewOperator(_previewing);
+        }
+        else
+        {
+            // 金币不足或已满星：短暂提示
+            if (_upgradeStarButtonText != null)
+                StartCoroutine(FlashUpgradeButton(cost));
+        }
+    }
+
+    private IEnumerator FlashUpgradeButton(int neededCost)
+    {
+        if (_upgradeStarButtonText == null) yield break;
+        string old = _upgradeStarButtonText.text;
+        _upgradeStarButtonText.text = neededCost >= int.MaxValue ? "已满星" : $"金币不足(需{neededCost})";
+        yield return new WaitForSeconds(1f);
+        UpdateUpgradeStarButton();
+    }
+
+    /// <summary> 刷新升星按钮文案与可交互状态。 </summary>
+    private void UpdateUpgradeStarButton()
+    {
+        if (_upgradeStarButton == null) return;
+        if (_upgradeStarButtonText == null)
+            _upgradeStarButtonText = _upgradeStarButton.transform.Find("BtnText")?.GetComponent<TMP_Text>();
+
+        bool selected = _previewing != null && _selectedOperators.Contains(_previewing);
+        _upgradeStarButton.interactable = selected;
+
+        if (_upgradeStarButtonText == null) return;
+        if (!selected)
+        {
+            _upgradeStarButtonText.text = "先选中再升星";
+            return;
+        }
+        int cost = RogueRuntimeState.PreviewStarUpgradeCost(_previewing.RegistryKey, _allOperators);
+        if (cost >= int.MaxValue)
+            _upgradeStarButtonText.text = "已满星";
+        else
+            _upgradeStarButtonText.text = $"升星 (需{cost}金)";
     }
 
     private void RefreshBudgetDisplay()
@@ -348,6 +442,22 @@ public class OperatorSelectionPanel : MonoBehaviour
 
     public List<OperatorData> GetSelectedOperators() => _selectedOperators;
     public bool IsBudgetFull() => GetUsedStars() >= StarBudget;
+
+    /// <summary>
+    /// 确认阵容并开始本局：把选中的干员 + 各自养成星级写入 RogueRuntimeState，
+    /// 供战斗部署时按星级应用属性与满星被动。由 RogueEntryController 在开战前调用。
+    /// </summary>
+    public void ConfirmRoster()
+    {
+        var keys = _selectedOperators.Select(o => o.RegistryKey).ToList();
+        RogueRuntimeState.SetSelectedRoster(keys, _allOperators);
+        // 把选人阶段预升的星级写入养成状态
+        foreach (var op in _selectedOperators)
+        {
+            if (_rosterStars.TryGetValue(op.RegistryKey, out int s))
+                OperatorStarRegistry.SetStar(op.RegistryKey, s);
+        }
+    }
 
     private IEnumerator ResetScrollNextFrame()
     {

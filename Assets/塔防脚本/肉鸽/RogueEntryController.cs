@@ -71,6 +71,10 @@ public class RogueEntryController : MonoBehaviour
 
     public void StartRun()
     {
+        // 先把选人面板选中的阵容 + 各自升星等级写入本局养成状态
+        var panel = FindFirstObjectByType<OperatorSelectionPanel>();
+        if (panel != null) panel.ConfirmRoster();
+
         EnsureRunModifierConfig();
         RogueRuntimeState.StartRunIfNeeded();
         RefreshTexts();

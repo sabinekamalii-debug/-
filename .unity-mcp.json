@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "unity-mcp": {
+      "command": "uvx",
+      "args": ["unity-mcp"],
+      "env": {
+        "UNITY_PROJECT_PATH": "d:\\unity\\mowang"
+      }
+    }
+  }
+}

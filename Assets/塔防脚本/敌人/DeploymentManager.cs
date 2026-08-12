@@ -417,6 +417,10 @@ public class DeploymentManager : MonoBehaviour
                 Time.timeScale = 1f; 
                 isGamePaused = false;
                 pendingOperator = null;
+
+                // 满星触发型被动：先锋部署即返还部署费用
+                unit.OnDeployed();
+
                 if (_pendingDeployCard != null)
                 {
                     _pendingDeployCard.OnDeployedSuccessfully(unit.deployCost);
@@ -479,6 +483,9 @@ public class DeploymentManager : MonoBehaviour
         {
             // 撤退时返还本次部署所花费用（若没有记录则退回基础费用）
             int refund = unit.deployCost > 0 ? unit.deployCost : unit.data.cost;
+            // ⑦ 特种满星被动：再部署成本 -50%（此处以撤退返还 150% 等效体现）
+            if (unit.StarPassiveSpecialistRedeployReduction > 0f)
+                refund = Mathf.RoundToInt(refund * 1.5f);
             int dpBeforeRefund = currentDP;
             currentDP += refund;
             

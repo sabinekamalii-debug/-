@@ -10,6 +10,8 @@ public class EncounterManager : MonoBehaviour
     public GameObject panelRoot;
     public Button fightButton;
     public Button avoidButton;
+    [Tooltip("先锋专属「返回」按钮（仅先锋干员遭遇时显示），可不拖：自动按名称匹配")]
+    public Button returnButton;
 
     [Header("超时（防软锁死）")]
     [Tooltip("秒数内未选择则自动视为避让并关闭菜单，0 表示不超时")]
@@ -40,6 +42,12 @@ public class EncounterManager : MonoBehaviour
             avoidButton.onClick.RemoveListener(OnAvoidClicked);
             avoidButton.onClick.AddListener(OnAvoidClicked);
         }
+
+        if (returnButton != null)
+        {
+            returnButton.onClick.RemoveListener(OnReturnClicked);
+            returnButton.onClick.AddListener(OnReturnClicked);
+        }
     }
 
     void AutoBindUIIfNeeded()
@@ -47,7 +55,7 @@ public class EncounterManager : MonoBehaviour
         if (panelRoot == null)
             panelRoot = gameObject;
 
-        if (fightButton != null && avoidButton != null) return;
+        if (fightButton != null && avoidButton != null && returnButton != null) return;
 
         var searchRoot = panelRoot != null ? panelRoot.transform : transform;
         var buttons = searchRoot.GetComponentsInChildren<Button>(true);
@@ -80,7 +88,20 @@ public class EncounterManager : MonoBehaviour
             }
         }
 
-        if ((fightButton == null || avoidButton == null) && buttons != null && buttons.Length == 2)
+        if (returnButton == null)
+        {
+            foreach (var b in buttons)
+            {
+                var n = b.name.ToLowerInvariant();
+                if (n.Contains("return") || n.Contains("fanhui") || n.Contains("返回") || n.Contains("撤退"))
+                {
+                    returnButton = b;
+                    break;
+                }
+            }
+        }
+
+        if ((fightButton == null || avoidButton == null || returnButton == null) && buttons != null && buttons.Length == 2)
         {
             if (fightButton == null) fightButton = buttons[0];
             if (avoidButton == null) avoidButton = buttons[1];
@@ -98,6 +119,12 @@ public class EncounterManager : MonoBehaviour
 
         if (panelRoot != null) panelRoot.SetActive(true);
 
+        // 先锋专属：显示「返回」按钮；非先锋则隐藏
+        bool isVanguard = currentOperator != null && currentOperator.data != null
+            && currentOperator.data.opType == OperatorData.OperatorType.Vanguard;
+        if (returnButton != null)
+            returnButton.gameObject.SetActive(isVanguard);
+
         if (currentOperator != null)
             currentOperator.SetHighlight(true);
 
@@ -114,6 +141,12 @@ public class EncounterManager : MonoBehaviour
     void OnAvoidClicked()
     {
         if (currentOperator != null) currentOperator.ResolveEncounter(false);
+        CloseMenu();
+    }
+
+    void OnReturnClicked()
+    {
+        if (currentOperator != null) currentOperator.VanguardReturn();
         CloseMenu();
     }
 

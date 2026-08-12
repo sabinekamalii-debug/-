@@ -15,6 +15,16 @@ public class OperatorUnit : MonoBehaviour
     public bool isMoving = false;
     public int currentBlockCount = 1;
 
+    // ── 升星养成（局内）──
+    /// <summary>是否处于满星（=data.maxStarRating）并因此激活职业被动。</summary>
+    public bool starPassiveActive { get; private set; }
+    /// <summary>满星数值型被动提供的额外攻击百分比（近卫专注强化等）。</summary>
+    private int _starPassiveAtkPercent = 0;
+    /// <summary>满星数值型被动提供的额外防御百分比（重装额外减伤等）。</summary>
+    private int _starPassiveDefPercent = 0;
+    /// <summary>重装满星「致命伤保 1 血」本实例是否已触发过（每场限一次）。</summary>
+    private bool _defenderLastStandUsed = false;
+
     [HideInInspector] public bool skillPreventAttack = false;
 
     [HideInInspector] public bool skillAttackAllBlocked = false;
@@ -25,6 +35,7 @@ public class OperatorUnit : MonoBehaviour
     private bool chooseToFight = false;
     private bool _suppressEncounterUntilExit = false;
     private bool _pendingEvadeContactDamage = false;
+    private bool _isVanguardReturning = false; // 先锋专属「返回」：正在返回守护点途中
 
     // 移动中的干员不阻挡敌人（部署/换位途中），供 UnitBlocker 判断
     public bool IsEvading() => !chooseToFight && isMoving;
@@ -94,11 +105,12 @@ public class OperatorUnit : MonoBehaviour
 
         if (data != null)
         {
-            runtimeMaxHealth = (int)data.maxHealth;
+            float starMul = StarStatMultiplier();
+            runtimeMaxHealth = Mathf.RoundToInt(data.maxHealth * starMul);
             currentHealth = runtimeMaxHealth;
-            runtimeAttackDamage = (int)data.attackDamage;
-            runtimeAttackInterval = data.attackInterval;
-            runtimeDefense = data.defense;
+            runtimeAttackDamage = Mathf.RoundToInt(data.attackDamage * starMul);
+            runtimeAttackInterval = data.attackInterval * starMul;
+            runtimeDefense = Mathf.RoundToInt(data.defense * starMul);
 
             runtimeAttackDamage += TalentEffectApplier.GetAttackBonus(data);
             runtimeDefense += TalentEffectApplier.GetDefenseBonus(data);
@@ -108,10 +120,7 @@ public class OperatorUnit : MonoBehaviour
             runtimeAttackInterval /= TalentEffectApplier.GetAttackSpeedMultiplier(data);
             currentHealth = runtimeMaxHealth;
 
-            string opId = data != null ? data.operatorName : name;
-            
-            
-            
+            ApplyStarPassive();
         }
         else
             runtimeDefense = 0;
@@ -144,6 +153,71 @@ public class OperatorUnit : MonoBehaviour
 
         currentSkill = (OperatorSkill)gameObject.AddComponent(skillType);
         ApplyDefaultSkillConfig(currentSkill, data.opType);
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    //  升星养成：星级属性倍率 + 满星职业被动
+    // ═══════════════════════════════════════════════════════════
+
+    /// <summary>当前干员星级（从 OperatorStarRegistry 查询，未登记返回 1）。</summary>
+    public int CurrentStar =>
+        (data != null && OperatorStarRegistry.IsRunActive) ? OperatorStarRegistry.GetStar(data.RegistryKey) : 1;
+
+    /// <summary>是否满星（=data.maxStarRating）。满星解锁职业专属被动。</summary>
+    public bool IsAtMaxStar()
+    {
+        if (data == null) return false;
+        int star = CurrentStar;
+        return star >= data.maxStarRating && data.maxStarRating > 0;
+    }
+
+    /// <summary>
+    /// 星级属性倍率 = BaseStatMultiplier[maxStar] × StarGrowth[star]（对齐 03-干员玩法设计 §6.2）。
+    /// 例：近卫 maxStar=5, ★5 → 1.6 × 3.0 = 4.8（相对自身★1=1.6×1.0，翻 3 倍）。
+    /// 1 星时倍率=BaseStatMultiplier[maxStar]×1.0（与未接入养成的历史数值同级，不破坏平衡）。
+    /// </summary>
+    private float StarStatMultiplier()
+    {
+        if (data == null) return 1f;
+        int star = CurrentStar;
+        int maxStar = data.maxStarRating > 0 ? data.maxStarRating : 1;
+        int idxMax = Mathf.Clamp(maxStar, 1, BalanceConfig.BaseStatMultiplier.Length - 1);
+        int idxStar = Mathf.Clamp(star, 1, BalanceConfig.StarGrowth.Length - 1);
+        return BalanceConfig.BaseStatMultiplier[idxMax] * BalanceConfig.StarGrowth[idxStar];
+    }
+
+    /// <summary>
+    /// 部署时调用：根据是否满星激活职业专属被动（7 个）。
+    /// 触发型被动（先锋回费 / 重装致命伤保 1 血 / 狙击暴击等）在对应逻辑点读取对应标志位生效；
+    /// 数值型被动（近卫专注强化 / 重装额外减伤）在此写入 _starPassiveAtkPercent/_starPassiveDefPercent，
+    /// 由 SyncRuntimeFromData/ResetStats 在属性重算时叠加。
+    /// </summary>
+    private void ApplyStarPassive()
+    {
+        _starPassiveAtkPercent = 0;
+        _starPassiveDefPercent = 0;
+        starPassiveActive = IsAtMaxStar();
+        if (!starPassiveActive || data == null) return;
+
+        switch (data.opType)
+        {
+            case OperatorData.OperatorType.Vanguard:    // ① 先锋：部署即返还部署费用，并提升技力回复
+            case OperatorData.OperatorType.Guard:       // ② 近卫：专注强化（攻击+30%）
+                _starPassiveAtkPercent += 30;
+                break;
+            case OperatorData.OperatorType.Defender:    // ③ 重装：额外减伤（防御+40%）+ 致命伤保 1 血（触发型）
+                _starPassiveDefPercent += 40;
+                break;
+            case OperatorData.OperatorType.Sniper:     // ④ 狙击：暴击率+25%（触发型，CalculateDamage 读取）
+                break;
+            case OperatorData.OperatorType.Caster:      // ⑤ 术师：法术穿透（攻击+20%）
+                _starPassiveAtkPercent += 20;
+                break;
+            case OperatorData.OperatorType.Medic:      // ⑥ 医疗：治疗量+30%（触发型，Heal 读取）
+                break;
+            case OperatorData.OperatorType.Specialist: // ⑦ 特种：再部署时间-50%（触发型，撤退读取）
+                break;
+        }
     }
 
     private static System.Type GetDefaultSkillType(OperatorData.OperatorType opType)
@@ -249,11 +323,12 @@ public class OperatorUnit : MonoBehaviour
     public void SyncRuntimeFromData()
     {
         if (data == null) return;
-        runtimeMaxHealth = (int)data.maxHealth;
+        float starMul = StarStatMultiplier();
+        runtimeMaxHealth = Mathf.RoundToInt(data.maxHealth * starMul);
         currentHealth = runtimeMaxHealth;
-        runtimeAttackDamage = (int)data.attackDamage;
-        runtimeAttackInterval = data.attackInterval;
-        runtimeDefense = data.defense;
+        runtimeAttackDamage = Mathf.RoundToInt(data.attackDamage * starMul);
+        runtimeAttackInterval = data.attackInterval * starMul;
+        runtimeDefense = Mathf.RoundToInt(data.defense * starMul);
 
         runtimeAttackDamage += TalentEffectApplier.GetAttackBonus(data);
         runtimeDefense += TalentEffectApplier.GetDefenseBonus(data);
@@ -261,6 +336,14 @@ public class OperatorUnit : MonoBehaviour
         runtimeDefense += Mathf.RoundToInt(runtimeDefense * TalentEffectApplier.GetDefensePercent(data) / 100f);
         runtimeMaxHealth += Mathf.RoundToInt(runtimeMaxHealth * TalentEffectApplier.GetMaxHpPercentBonus(data) / 100f);
         runtimeAttackInterval /= TalentEffectApplier.GetAttackSpeedMultiplier(data);
+
+        // 满星数值型被动（如近卫专注强化、重装额外减伤）在属性重算时叠加
+        if (IsAtMaxStar())
+        {
+            runtimeAttackDamage += Mathf.RoundToInt(runtimeAttackDamage * _starPassiveAtkPercent / 100f);
+            runtimeDefense += Mathf.RoundToInt(runtimeDefense * _starPassiveDefPercent / 100f);
+        }
+
         currentHealth = runtimeMaxHealth;
 
         if (statusUI != null) statusUI.UpdateHP(currentHealth, runtimeMaxHealth);
@@ -447,6 +530,18 @@ public class OperatorUnit : MonoBehaviour
     void OnArriveDestination()
     {
         _suppressEncounterUntilExit = false;
+
+        // 先锋「返回」：到达守护点，发放大量部署点奖励
+        if (_isVanguardReturning)
+        {
+            if (DeploymentManager.Instance != null)
+                DeploymentManager.Instance.AddDP(VanguardReturnDPBonus);
+            // 释放阻挡 + 撤退（销毁）
+            if (blocker != null) blocker.ReleaseAllEnemies();
+            Destroy(gameObject);
+            return;
+        }
+
         if (GridSystem.Instance == null) return;
 
         if (isTargetingHighGround)
@@ -478,6 +573,8 @@ public class OperatorUnit : MonoBehaviour
         if (!isMoving) return;
         if (isEncountering) return;
         if (_suppressEncounterUntilExit) return;
+        if (chooseToFight) return; // 已选「战斗」：后续敌人自动战斗，不再弹窗
+        if (_isVanguardReturning) return; // 先锋正在返回守护点，不再触发遭遇
         if (!other.CompareTag("Enemy")) return;
 
         Enemy2 enemy = other.GetComponent<Enemy2>();
@@ -511,6 +608,44 @@ public class OperatorUnit : MonoBehaviour
         _suppressEncounterUntilExit = true;
         isEncountering = false;
     }
+
+    /// <summary>
+    /// 先锋专属遭遇选项「返回」：先锋开始返回守护点，到达后获得大量部署点。
+    /// 返回途中不阻挡/攻击敌人、不再触发遭遇菜单。
+    /// </summary>
+    public void VanguardReturn()
+    {
+        _isVanguardReturning = true;
+        chooseToFight = false;
+        isEncountering = false;
+        _suppressEncounterUntilExit = true;
+
+        // 释放当前阻挡的敌人，返回途中不阻挡
+        if (blocker != null)
+        {
+            blocker.ReleaseAllEnemies();
+            currentBlockCount = 0;
+        }
+
+        // 开始向守护点移动
+        if (DeploymentManager.Instance != null && DeploymentManager.Instance.basePoint != null)
+        {
+            MoveToDestination(DeploymentManager.Instance.basePoint.position);
+        }
+        else
+        {
+            // 找不到守护点则直接撤退（兜底）
+            if (DeploymentManager.Instance != null)
+                DeploymentManager.Instance.AddDP(VanguardReturnDPBonus);
+            Destroy(gameObject);
+        }
+    }
+
+    /// <summary>先锋「返回」到达守护点后奖励的部署点数量</summary>
+    private const int VanguardReturnDPBonus = 30;
+
+    /// <summary>当前是否正在执行先锋返回（供外部查询）</summary>
+    public bool IsVanguardReturning => _isVanguardReturning;
 
     private void OnTriggerExit2D(Collider2D other)
     {
@@ -604,11 +739,12 @@ public class OperatorUnit : MonoBehaviour
     }
 
     public void ResetStats() {
-        int oldAtk = runtimeAttackDamage, oldDef = runtimeDefense, oldMaxHp = runtimeMaxHealth;
-        runtimeAttackDamage = (int)data.attackDamage;
-        runtimeAttackInterval = data.attackInterval;
-        runtimeMaxHealth = (int)data.maxHealth;
-        runtimeDefense = data != null ? data.defense : 0;
+        if (data == null) return;
+        float starMul = StarStatMultiplier();
+        runtimeAttackDamage = Mathf.RoundToInt(data.attackDamage * starMul);
+        runtimeAttackInterval = data.attackInterval * starMul;
+        runtimeMaxHealth = Mathf.RoundToInt(data.maxHealth * starMul);
+        runtimeDefense = Mathf.RoundToInt(data.defense * starMul);
 
         runtimeAttackDamage += TalentEffectApplier.GetAttackBonus(data);
         runtimeDefense += TalentEffectApplier.GetDefenseBonus(data);
@@ -616,6 +752,13 @@ public class OperatorUnit : MonoBehaviour
         runtimeDefense += Mathf.RoundToInt(runtimeDefense * TalentEffectApplier.GetDefensePercent(data) / 100f);
         runtimeMaxHealth += Mathf.RoundToInt(runtimeMaxHealth * TalentEffectApplier.GetMaxHpPercentBonus(data) / 100f);
         runtimeAttackInterval /= TalentEffectApplier.GetAttackSpeedMultiplier(data);
+
+        // 满星数值型被动叠加
+        if (IsAtMaxStar())
+        {
+            runtimeAttackDamage += Mathf.RoundToInt(runtimeAttackDamage * _starPassiveAtkPercent / 100f);
+            runtimeDefense += Mathf.RoundToInt(runtimeDefense * _starPassiveDefPercent / 100f);
+        }
 
         var bonus = GetComponent<OperatorStatBonus>();
         if (bonus != null)
@@ -627,12 +770,7 @@ public class OperatorUnit : MonoBehaviour
             if (currentHealth > runtimeMaxHealth) currentHealth = runtimeMaxHealth;
         }
         if (currentHealth > runtimeMaxHealth) currentHealth = runtimeMaxHealth;
-        
-        string opId = data != null ? data.operatorName : name;
-        
-        
-        
-        
+
         UpdateUIState();
     }
 
@@ -642,6 +780,25 @@ public class OperatorUnit : MonoBehaviour
         var bonus = GetComponent<OperatorStatBonus>();
         if (bonus != null) cost += bonus.GetDeployCostBonus();
         return cost < 0 ? 0 : cost;
+    }
+
+    // ── 满星触发型被动的外部接口（供 DeploymentManager 等调用）──
+
+    /// <summary>⑦ 特种满星被动：再部署时间减免比例（0.5 表示 -50%）。非特种满星返回 0。</summary>
+    public float StarPassiveSpecialistRedeployReduction =>
+        (starPassiveActive && data != null && data.opType == OperatorData.OperatorType.Specialist) ? 0.5f : 0f;
+
+    /// <summary>
+    /// 部署到战场时由 DeploymentManager 调用。处理满星触发型被动：
+    /// ① 先锋满星「部署即返还部署费用」（鼓励高频轮换先锋）。
+    /// </summary>
+    public void OnDeployed()
+    {
+        if (!starPassiveActive || data == null) return;
+        if (data.opType == OperatorData.OperatorType.Vanguard && DeploymentManager.Instance != null)
+        {
+            DeploymentManager.Instance.AddDP(deployCost > 0 ? deployCost : data.cost);
+        }
     }
     
     void UpdateSkillState() {
@@ -748,6 +905,10 @@ public class OperatorUnit : MonoBehaviour
         bool isCrit = false;
         int critChance = TalentEffectApplier.GetCritChancePercent(data);
         if (data != null) critChance += data.baseCritChance;
+        // ④ 狙击满星被动：暴击率 +25%
+        if (starPassiveActive && data != null &&
+            data.opType == OperatorData.OperatorType.Sniper)
+            critChance += 25;
         if (critChance > 0 && Random.Range(0, 100) < critChance)
         {
             isCrit = true;
@@ -784,13 +945,23 @@ public class OperatorUnit : MonoBehaviour
         int finalDamage = ignoreDefense ? damage : ApplyDefense(damage, runtimeDefense);
         int oldHealth = currentHealth;
         currentHealth -= finalDamage;
-        
-        
+
+        // ③ 重装满星被动「致命伤保 1 血」：本实例每场仅触发一次，避免无限续命破坏平衡。
+        if (currentHealth <= 0 && starPassiveActive && data != null &&
+            data.opType == OperatorData.OperatorType.Defender && !_defenderLastStandUsed)
+        {
+            _defenderLastStandUsed = true;
+            currentHealth = 1;
+        }
+
         UpdateUIState();
         if (currentHealth <= 0) Die();
     }
     
     public void Heal(int amount) {
+        // ⑥ 医疗满星被动：治疗量 +30%
+        if (starPassiveActive && data != null && data.opType == OperatorData.OperatorType.Medic)
+            amount = Mathf.RoundToInt(amount * 1.3f);
         int oldHealth = currentHealth;
         currentHealth += amount;
         if (currentHealth > runtimeMaxHealth) currentHealth = runtimeMaxHealth;

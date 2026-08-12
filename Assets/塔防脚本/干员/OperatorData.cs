@@ -75,6 +75,16 @@ public class OperatorData : ScriptableObject
     [Tooltip("星级上限：1~5。所有干员初始为1星，可强化到此上限")]
     public int maxStarRating = 1;
 
+    [Tooltip("满星(=maxStarRating)解锁的职业被动说明文案，用于 RogueEntry 升星界面展示")]
+    [TextArea(2, 3)]
+    public string starPassiveDesc = "";
+
+    /// <summary>
+    /// 干员在养成名册中的唯一 key（用 operatorName）。
+    /// 养成状态（星级）以 operatorName 为索引，跨部署实例共享。
+    /// </summary>
+    public string RegistryKey => string.IsNullOrEmpty(operatorName) ? name : operatorName;
+
     [Header("台词")]
     [Tooltip("干员选择台词（RogueEntry 界面展示）")]
     [TextArea(2, 3)]

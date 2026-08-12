@@ -92,6 +92,48 @@ public static class BalanceConfig
     public const int RerollCost = 10;
 
     // ─────────────────────────────────────────────
+    //  五·五、干员升星养成（局内金币体系）
+    //  ── 干员 ★1 起步，花局内 RunGold 升到 ★5 ──
+    //  ── 5 星属性 = 1 星 × 3（见 03-干员玩法设计 升星养成）──
+    //  满星(=maxStarRating)解锁职业专属被动。
+    // ─────────────────────────────────────────────
+    /// 升星档位所需局内金币（索引=目标星级-1，即升到★2/★3/★4/★5的花费）。
+    /// 文档 §6.1：★1→★2:20, ★2→★3:50, ★3→★4:100, ★4→★5:200（满星共需 370 局内金币）。
+    public static readonly int[] StarUpgradeCost = { 20, 50, 100, 200 };
+
+    // ─────────────────────────────────────────────
+    //  升星属性倍率（修订版见下方 §6.2 对齐定义）
+    // ─────────────────────────────────────────────
+    /// 单局允许的最高星级（养成上限，也是解锁职业被动的阈值）。
+    public const int MaxStarLimit = 5;
+    /// 选人阵容最低人数（RogueEntry 必须至少选这么多干员才能开战）。
+    public const int RosterMinCount = 4;
+    /// 选人阵容最高人数（RogueEntry 最多可选这么多干员进局）。
+    public const int RosterMaxCount = 8;
+
+    /// <summary>
+    /// 升到"目标星级"所需的局内金币（目标星级需 ∈ [2, maxStar]）。
+    /// 返回 <see cref="StarUpgradeCost"/> 中对应档位的花费。
+    /// </summary>
+    public static int GetStarUpgradeCost(int targetStar)
+    {
+        int idx = targetStar - 2; // ★2 → 索引0
+        if (idx < 0 || idx >= StarUpgradeCost.Length) return int.MaxValue;
+        return StarUpgradeCost[idx];
+    }
+
+    // ─────────────────────────────────────────────
+    //  升星属性倍率（与 03-干员玩法设计 §6.2 对齐）
+    //  最终属性 = 原始值 × BaseStatMultiplier[maxStar] × StarGrowth[star]
+    //  ── 满星(=maxStar=5)时 = 1.6 × 3.0 = 4.8 倍于"未乘base的1星"，
+    //     相对自身★1(=1.6×1.0=1.6倍基准) 翻 3 倍 ──
+    // ─────────────────────────────────────────────
+    /// 按干员星级上限(maxStar)的基础倍率基数（索引 = maxStar，0 占位，1~5 对应 1~5 星上限）。
+    public static readonly float[] BaseStatMultiplier = { 0f, 0.6f, 0.8f, 1.0f, 1.3f, 1.6f };
+    /// 按当前星级(star)的成长倍率（索引 = star，0 占位，1~5 对应 ★1~★5；★5 = 3.0）。
+    public static readonly float[] StarGrowth = { 0f, 1.0f, 1.3f, 1.7f, 2.2f, 3.0f };
+
+    // ─────────────────────────────────────────────
     //  六、商店（局内金币体系）
     // ─────────────────────────────────────────────
     /// 商店各稀有度价格。

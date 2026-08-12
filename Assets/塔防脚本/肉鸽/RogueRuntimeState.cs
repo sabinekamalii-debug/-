@@ -637,6 +637,42 @@ public static class RogueRuntimeState
     }
 
     // ─────────────────────────────────────────────
+    //  选人阵容 + 升星养成（局内）
+    // ─────────────────────────────────────────────
+
+    /// <summary> 本局选中的干员 key（operatorName）列表，开战由 RogueEntry 写入。 </summary>
+    private static List<string> _selectedRoster = new List<string>();
+    public static IReadOnlyList<string> SelectedRoster => _selectedRoster;
+
+    /// <summary> 写入本局选人阵容，并据此初始化升星养成状态（全员 ★1）。需在 StartRunIfNeeded 之后、进战斗前调用。 </summary>
+    public static void SetSelectedRoster(List<string> keys, IEnumerable<OperatorData> allData)
+    {
+        InitIfNeeded();
+        _selectedRoster = new List<string>(keys ?? new List<string>());
+        OperatorStarRegistry.BeginRun(_selectedRoster, allData);
+    }
+
+    /// <summary> 清空选人阵容与升星养成状态（结束本局时调用）。 </summary>
+    public static void ClearSelectedRoster()
+    {
+        _selectedRoster.Clear();
+        OperatorStarRegistry.EndRun();
+    }
+
+    /// <summary> 尝试为阵容中某干员升 1 星（消耗局内 RunGold）。成功返回 true。 </summary>
+    public static bool TryUpgradeOperatorStar(string key, IEnumerable<OperatorData> allData, out int cost)
+    {
+        InitIfNeeded();
+        return OperatorStarRegistry.TryUpgradeStar(key, allData, out cost);
+    }
+
+    /// <summary> 升某干员到下一星所需金币（UI 预览）。已满星/未开战返回 int.MaxValue。 </summary>
+    public static int PreviewStarUpgradeCost(string key, IEnumerable<OperatorData> allData)
+    {
+        return OperatorStarRegistry.PreviewUpgradeCost(key, allData);
+    }
+
+    // ─────────────────────────────────────────────
     //  Run 生命周期
     // ─────────────────────────────────────────────
 
