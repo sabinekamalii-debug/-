@@ -105,22 +105,9 @@ public class OperatorUnit : MonoBehaviour
 
         if (data != null)
         {
-            float starMul = StarStatMultiplier();
-            runtimeMaxHealth = Mathf.RoundToInt(data.maxHealth * starMul);
-            currentHealth = runtimeMaxHealth;
-            runtimeAttackDamage = Mathf.RoundToInt(data.attackDamage * starMul);
-            runtimeAttackInterval = data.attackInterval * starMul;
-            runtimeDefense = Mathf.RoundToInt(data.defense * starMul);
-
-            runtimeAttackDamage += TalentEffectApplier.GetAttackBonus(data);
-            runtimeDefense += TalentEffectApplier.GetDefenseBonus(data);
-            runtimeAttackDamage += Mathf.RoundToInt(runtimeAttackDamage * TalentEffectApplier.GetAttackPercent(data) / 100f);
-            runtimeDefense += Mathf.RoundToInt(runtimeDefense * TalentEffectApplier.GetDefensePercent(data) / 100f);
-            runtimeMaxHealth += Mathf.RoundToInt(runtimeMaxHealth * TalentEffectApplier.GetMaxHpPercentBonus(data) / 100f);
-            runtimeAttackInterval /= TalentEffectApplier.GetAttackSpeedMultiplier(data);
-            currentHealth = runtimeMaxHealth;
-
             ApplyStarPassive();
+            ResetStats();
+            currentHealth = runtimeMaxHealth;
         }
         else
             runtimeDefense = 0;
@@ -172,6 +159,31 @@ public class OperatorUnit : MonoBehaviour
     }
 
     /// <summary>
+    /// 局内升星后调用：重算属性并按新星级刷新满星被动。
+    /// 已部署在场上的干员即时变强（最大生命提升时按比例补当前血量，
+    /// 避免升星瞬间「血条变长但血量没跟上」的观感落差）。
+    /// </summary>
+    public void RefreshStarState()
+    {
+        if (data == null) return;
+        int oldMax = runtimeMaxHealth;
+        int oldCur = currentHealth;
+
+        ApplyStarPassive();
+        ResetStats();
+
+        if (runtimeMaxHealth > oldMax && oldMax > 0)
+        {
+            // 按原血量比例放大，保持「受伤程度」不变
+            float ratio = Mathf.Clamp01((float)oldCur / oldMax);
+            currentHealth = Mathf.Max(1, Mathf.RoundToInt(runtimeMaxHealth * ratio));
+        }
+        if (currentHealth > runtimeMaxHealth) currentHealth = runtimeMaxHealth;
+
+        UpdateUIState();
+    }
+
+    /// <summary>
     /// 星级属性倍率 = BaseStatMultiplier[maxStar] × StarGrowth[star]（对齐 03-干员玩法设计 §6.2）。
     /// 例：近卫 maxStar=5, ★5 → 1.6 × 3.0 = 4.8（相对自身★1=1.6×1.0，翻 3 倍）。
     /// 1 星时倍率=BaseStatMultiplier[maxStar]×1.0（与未接入养成的历史数值同级，不破坏平衡）。
@@ -201,7 +213,8 @@ public class OperatorUnit : MonoBehaviour
 
         switch (data.opType)
         {
-            case OperatorData.OperatorType.Vanguard:    // ① 先锋：部署即返还部署费用，并提升技力回复
+            case OperatorData.OperatorType.Vanguard:    // ① 先锋：部署即返还部署费用 + 技力回复加速（均为触发型）
+                break;                                  // 见 OnDeployed() 与 StarPassiveVanguardSPRate
             case OperatorData.OperatorType.Guard:       // ② 近卫：专注强化（攻击+30%）
                 _starPassiveAtkPercent += 30;
                 break;
@@ -210,7 +223,7 @@ public class OperatorUnit : MonoBehaviour
                 break;
             case OperatorData.OperatorType.Sniper:     // ④ 狙击：暴击率+25%（触发型，CalculateDamage 读取）
                 break;
-            case OperatorData.OperatorType.Caster:      // ⑤ 术师：法术穿透（攻击+20%）
+            case OperatorData.OperatorType.Caster:      // ⑤ 术师：法术穿透（无视 50% 防御，见 GetPenetrationPercent）+ 攻击+20%
                 _starPassiveAtkPercent += 20;
                 break;
             case OperatorData.OperatorType.Medic:      // ⑥ 医疗：治疗量+30%（触发型，Heal 读取）
@@ -327,7 +340,9 @@ public class OperatorUnit : MonoBehaviour
         runtimeMaxHealth = Mathf.RoundToInt(data.maxHealth * starMul);
         currentHealth = runtimeMaxHealth;
         runtimeAttackDamage = Mathf.RoundToInt(data.attackDamage * starMul);
-        runtimeAttackInterval = data.attackInterval * starMul;
+        // 攻击间隔不随星级缩放：星级成长体现在攻击力/生命/防御上。
+        // （若乘 starMul 会让升星后攻击变慢，与「越养越强」相悖）
+        runtimeAttackInterval = data.attackInterval;
         runtimeDefense = Mathf.RoundToInt(data.defense * starMul);
 
         runtimeAttackDamage += TalentEffectApplier.GetAttackBonus(data);
@@ -742,7 +757,8 @@ public class OperatorUnit : MonoBehaviour
         if (data == null) return;
         float starMul = StarStatMultiplier();
         runtimeAttackDamage = Mathf.RoundToInt(data.attackDamage * starMul);
-        runtimeAttackInterval = data.attackInterval * starMul;
+        // 攻击间隔不随星级缩放（见 SyncRuntimeFromData 说明）
+        runtimeAttackInterval = data.attackInterval;
         runtimeMaxHealth = Mathf.RoundToInt(data.maxHealth * starMul);
         runtimeDefense = Mathf.RoundToInt(data.defense * starMul);
 
@@ -789,6 +805,13 @@ public class OperatorUnit : MonoBehaviour
         (starPassiveActive && data != null && data.opType == OperatorData.OperatorType.Specialist) ? 0.5f : 0f;
 
     /// <summary>
+    /// ① 先锋满星被动（后半）：技力回复速率倍率（1.3 表示技力回复 +30%）。
+    /// 非先锋满星返回 1（不影响原速率）。由 UpdateSkillState 的技力累积读取。
+    /// </summary>
+    public float StarPassiveVanguardSPRate =>
+        (starPassiveActive && data != null && data.opType == OperatorData.OperatorType.Vanguard) ? 1.3f : 1f;
+
+    /// <summary>
     /// 部署到战场时由 DeploymentManager 调用。处理满星触发型被动：
     /// ① 先锋满星「部署即返还部署费用」（鼓励高频轮换先锋）。
     /// </summary>
@@ -814,7 +837,8 @@ public class OperatorUnit : MonoBehaviour
         } else {
             if (currentSP < currentSkill.maxSP) {
                 float oldSP = currentSP;
-                currentSP += Time.deltaTime;
+                // 先锋满星被动：技力回复 +30%
+                currentSP += Time.deltaTime * StarPassiveVanguardSPRate;
                 
                 isSkillReady = false;
                 if (statusUI != null) {
@@ -937,7 +961,15 @@ public class OperatorUnit : MonoBehaviour
     /// <summary> 获取当前穿透百分比。 </summary>
     public int GetPenetrationPercent()
     {
-        return TalentEffectApplier.GetDefensePenetrationPercent(data);
+        int pen = TalentEffectApplier.GetDefensePenetrationPercent(data);
+
+        // ⑤ 术师满星被动「法术穿透」：无视目标 50% 防御。
+        // 所有出手路径（近战/远程/AoE/接触）都经由本方法取穿透值，故只需在此叠加。
+        if (starPassiveActive && data != null &&
+            data.opType == OperatorData.OperatorType.Caster)
+            pen += 50;
+
+        return Mathf.Clamp(pen, 0, 100);
     }
 
     public void TakeDamage(int damage, bool ignoreDefense = false)

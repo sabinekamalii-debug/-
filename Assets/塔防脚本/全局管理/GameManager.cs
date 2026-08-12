@@ -71,7 +71,9 @@ public class GameManager : MonoBehaviour
     public void Start()
     {
         int guardianBonus = TalentEffectApplier.GetGuardianHpBonus();
-        maxPlayerHealth = 5 + guardianBonus;
+        // 基础血量优先用关卡配置（BattleSceneBootstrap 已设为 config.maxLifePoint），兜底 5
+        int baseHp = maxPlayerHealth > 0 ? maxPlayerHealth : 5;
+        maxPlayerHealth = baseHp + guardianBonus;
 
         // 跨场血量：首战满血，后续战斗承接上场残余血量
         if (RogueRuntimeState.GuardianMaxHp > 0)

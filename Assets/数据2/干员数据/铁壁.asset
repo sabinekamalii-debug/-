@@ -18,8 +18,8 @@ MonoBehaviour:
   defense: 8000
   attackDamage: 12
   attackInterval: 1.5
-  attackRange: 1
   opType: 2
+  attackRange: 1
   deployRadius: 6
   unitPrefab: {fileID: 1041217250878132668, guid: aaa00000000000000000000000000001, type: 3}
   icon: {fileID: 21300000, guid: 2319ab4adcb76524894e4923dc56cca9, type: 3}
@@ -28,6 +28,7 @@ MonoBehaviour:
   isAoEAttacker: 0
   isHealer: 0
   baseCritChance: 0
+  starPassiveDesc: "防御 +40%，且致命伤时保留 1 点生命（每场 1 次）"
   maxStarRating: 3
-  selectQuote: 
-  isInitialAvailable: 0
+  selectQuote: "想过去？先踏过我的身躯。"
+  isInitialAvailable: 1

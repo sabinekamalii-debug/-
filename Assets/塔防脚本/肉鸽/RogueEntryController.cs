@@ -73,7 +73,16 @@ public class RogueEntryController : MonoBehaviour
     {
         // 先把选人面板选中的阵容 + 各自升星等级写入本局养成状态
         var panel = FindFirstObjectByType<OperatorSelectionPanel>();
-        if (panel != null) panel.ConfirmRoster();
+        if (panel != null)
+        {
+            if (!panel.CanStart())
+            {
+                // 阵容不合法（人数/星数预算不满足）：不进入战斗，等待玩家调整
+                RefreshTexts();
+                return;
+            }
+            panel.ConfirmRoster();
+        }
 
         EnsureRunModifierConfig();
         RogueRuntimeState.StartRunIfNeeded();

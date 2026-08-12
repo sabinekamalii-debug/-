@@ -352,9 +352,9 @@ public class LevelEndMenu : MonoBehaviour
 
         RogueRuntimeState.ClearBattleOnlyEffects();
 
-        // 跨场血量持久化：spc_repair 战后回满；否则承接本场残余血量
-        if (isWin && RogueRuntimeState.RepairAfterBattle)
-            guardianHpEnd = guardianHpMax;
+        // 跨场血量持久化：spc_repair 战后回复固定量；否则承接本场残余血量
+        if (isWin)
+            guardianHpEnd = Mathf.Min(guardianHpEnd + RogueRuntimeState.RepairAfterBattleAmount, guardianHpMax);
         RogueRuntimeState.SetGuardianHp(guardianHpEnd, guardianHpMax);
 
         var result = new RogueBattleResult

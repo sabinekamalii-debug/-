@@ -14,6 +14,9 @@ public static class SceneNames
     public const string BattleScene = "BattleScene";
     public const string StoryCardCollection = "StoryCardCollection";
 
+    /// <summary> 第一关战斗场景（首战强制进入，避免误导向 plot 剧情/收藏场景）。 </summary>
+    public const string FirstLevel = "level 1";
+
     // 随机事件场景（统一单场景）
     public const string RandomEvent = "RandomEvent";
 }

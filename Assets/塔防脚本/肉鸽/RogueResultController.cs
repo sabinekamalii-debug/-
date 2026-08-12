@@ -879,6 +879,8 @@ public class RogueResultController : MonoBehaviour
             {
                 if (c == null || string.IsNullOrEmpty(c.cardId)) continue;
                 if (selected.Contains(c.cardId)) continue;
+                // 赌博卡（spc_gamble）仅通过随机事件/商店获得，不进常规节点选卡池
+                if (c.cardId == "spc_gamble") continue;
                 available.Add(c);
             }
         }

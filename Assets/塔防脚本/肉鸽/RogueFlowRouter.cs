@@ -10,7 +10,7 @@ public class RogueFlowRouter : MonoBehaviour
 {
     [Header("固定场景名（需与 Build Settings 一致）")]
     [SerializeField] private string entryScene = SceneNames.RogueEntry;
-    [SerializeField] private string battleScene = SceneNames.Plot;
+    [SerializeField] private string firstLevelScene = SceneNames.FirstLevel;
     [SerializeField] private string resultScene = SceneNames.RogueResult;
     [SerializeField] private string collectionScene = SceneNames.StoryCardCollection;
 
@@ -60,9 +60,12 @@ public class RogueFlowRouter : MonoBehaviour
 
     private void Awake()
     {
-        // 兼容旧场景：若曾保存为已删除的 RogueBattle_Template，强制改为 plot
-        if (string.Equals(battleScene, "RogueBattle_Template", System.StringComparison.OrdinalIgnoreCase))
-            battleScene = "plot";
+        // 兼容旧场景：若曾保存为已删除的 RogueBattle_Template，强制改为第一关战斗场景
+        if (string.Equals(firstLevelScene, "RogueBattle_Template", System.StringComparison.OrdinalIgnoreCase))
+            firstLevelScene = SceneNames.FirstLevel;
+        // 首战强制进入第一关战斗场景（level 1），不允许误导向 plot 剧情/收藏场景
+        if (string.IsNullOrEmpty(firstLevelScene))
+            firstLevelScene = SceneNames.FirstLevel;
 
         // 监听第一关抽卡完成事件
         RogueResultController.OnMidGameDropCompleted += OnFirstStagePickCompleted;
@@ -81,12 +84,52 @@ public class RogueFlowRouter : MonoBehaviour
 
     public void EnterBattleFromEntry()
     {
-        TryRoute(entryScene, battleScene);
+        // 首战走「新架构」：和地图节点（LevelType.Start）完全一致的路径——
+        // 由 ActConfig.normalLevelPool[0] 决定首战 LevelConfig，加载空壳 BattleScene，
+        // 运行时由 BattleSceneBootstrap 从 LevelSceneLoadContext 注入关卡内容。
+        // 不再写死旧的 level 1 场景（旧场景把关卡数据写死在场景里，与新架构冲突）。
+        LevelConfig firstConfig = GetFirstStageLevelConfig();
+        if (firstConfig != null)
+        {
+            int levelId = firstConfig.levelId;
+            LevelSceneLoadContext.SetLevelConfig(firstConfig, levelId, SceneNames.BattleScene, -1);
+            Time.timeScale = 1f;
+            VideoSceneLoader.LoadScene(SceneNames.BattleScene);
+            return;
+        }
+
+        // 兜底（无 ActConfig / 无 LevelConfig 的旧数据）：退回旧架构直接进 level 1
+        TryRoute(entryScene, firstLevelScene);
+    }
+
+    /// <summary>
+    /// 取得首战（Start 节点）对应的 LevelConfig，与 StSMapGenerator 给 Start 节点
+    /// 分配 normalPool[0] 的逻辑保持一致。找不到返回 null（调用方走旧架构兜底）。
+    /// </summary>
+    private LevelConfig GetFirstStageLevelConfig()
+    {
+        var actConfig = RogueRuntimeState.CurrentActConfig;
+        if (actConfig == null || actConfig.normalLevelPool == null || actConfig.normalLevelPool.Length == 0)
+            return null;
+
+        int firstId = actConfig.normalLevelPool[0];
+        string[] names = {
+            $"Level_{firstId:D2}_Battle",
+            $"Level_{firstId}_Battle",
+            $"LevelConfig_{firstId}",
+        };
+        foreach (var name in names)
+        {
+            var config = Resources.Load<LevelConfig>($"LevelConfigs/{name}");
+            if (config != null) return config;
+        }
+        return null;
     }
 
     public void EnterResultFromBattle()
     {
-        TryRoute(battleScene, resultScene);
+        // 任何 level 战斗场景结束都可回结果页（不要求精确等于某个场景名）
+        TryRouteAnyLevel(resultScene);
     }
 
     public void ReturnEntryFromResult()
@@ -129,6 +172,20 @@ public class RogueFlowRouter : MonoBehaviour
     {
         string current = SceneManager.GetActiveScene().name;
         if (strictCheckCurrentScene && !string.Equals(current, expectedCurrent))
+            return;
+
+        if (string.Equals(next, collectionScene))
+            _returnSceneFromCollection = current;
+
+        Time.timeScale = 1f;
+        VideoSceneLoader.LoadScene(next);
+    }
+
+    /// <summary> 从任意 level 战斗场景离开（进入结果页）：只要当前是 level 场景即放行。 </summary>
+    private void TryRouteAnyLevel(string next)
+    {
+        string current = SceneManager.GetActiveScene().name;
+        if (strictCheckCurrentScene && !IsLevelSceneName(current))
             return;
 
         if (string.Equals(next, collectionScene))

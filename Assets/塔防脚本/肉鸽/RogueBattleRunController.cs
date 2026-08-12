@@ -81,9 +81,9 @@ public class RogueBattleRunController : MonoBehaviour
             realGuardianMaxHp = GameManager.Instance.maxPlayerHealth;
         }
 
-        // 写回跨场血量：spc_repair 在此时生效（战后回满，对下一场可见）
-        if (isWin && RogueRuntimeState.RepairAfterBattle)
-            realGuardianHp = realGuardianMaxHp;
+        // 写回跨场血量：spc_repair 在此时生效（战后回复固定量，对下一场可见）
+        if (isWin)
+            realGuardianHp = Mathf.Min(realGuardianHp + RogueRuntimeState.RepairAfterBattleAmount, realGuardianMaxHp);
         RogueRuntimeState.SetGuardianHp(realGuardianHp, realGuardianMaxHp);
 
         int stage = Mathf.Max(1, RogueRuntimeState.CurrentStage);

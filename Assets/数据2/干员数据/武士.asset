@@ -18,8 +18,8 @@ MonoBehaviour:
   defense: 4000
   attackDamage: 35
   attackInterval: 1
+  opType: 1
   attackRange: 3.5
-  opType: 0
   deployRadius: 4
   unitPrefab: {fileID: 300892180398978159, guid: ac9669809c1ddc241ad2b58793254211, type: 3}
   icon: {fileID: 21300000, guid: a5176df4776512f4595fbd7116d14bb0, type: 3}
@@ -28,6 +28,7 @@ MonoBehaviour:
   isAoEAttacker: 0
   isHealer: 0
   baseCritChance: 0
+  starPassiveDesc: "专注强化，攻击力 +30%"
   maxStarRating: 3
-  selectQuote: 
-  isInitialAvailable: 0
+  selectQuote: "心静，则刀快。"
+  isInitialAvailable: 1

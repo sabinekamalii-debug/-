@@ -18,8 +18,8 @@ MonoBehaviour:
   defense: 6000
   attackDamage: 12
   attackInterval: 1.5
-  attackRange: 0
   opType: 2
+  attackRange: 0
   deployRadius: 6
   unitPrefab: {fileID: 3180324422481862035, guid: 38fcd52a861f73540b349ebacc519d59, type: 3}
   icon: {fileID: 21300000, guid: 59860375c8c08f5449239393c2fc51e2, type: 3}
@@ -28,6 +28,6 @@ MonoBehaviour:
   isAoEAttacker: 0
   isHealer: 0
   baseCritChance: 0
+  starPassiveDesc: "防御 +40%，且致命伤时保留 1 点生命（每场 1 次）"
   maxStarRating: 3
-  selectQuote: "\u8346\u68D8\u4E3A\u7532\uFF0C\u5BF8\u571F\u4E0D\u8BA9\u3002"
-  isInitialAvailable: 0
+  isInitialAvailable: 1

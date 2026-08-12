@@ -18,8 +18,8 @@ MonoBehaviour:
   defense: 1000
   attackDamage: 25
   attackInterval: 1.2
-  attackRange: 0
   opType: 6
+  attackRange: 0
   deployRadius: 6
   unitPrefab: {fileID: 3075764891234023344, guid: b58d4ac07c17d564bac68018e0edb456, type: 3}
   icon: {fileID: 21300000, guid: dcd2bfbaeb4f42d498cb447cbcfbbdf9, type: 3}
@@ -28,6 +28,6 @@ MonoBehaviour:
   isAoEAttacker: 0
   isHealer: 0
   baseCritChance: 0
+  starPassiveDesc: "再部署更划算（撤退返还 +50%）"
   maxStarRating: 3
-  selectQuote: "\u541E\u566C\uFF0C\u6D88\u5316\uFF0C\u518D\u541E\u566C\u3002"
-  isInitialAvailable: 0
+  isInitialAvailable: 1

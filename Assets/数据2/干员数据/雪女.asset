@@ -18,8 +18,8 @@ MonoBehaviour:
   defense: 0
   attackDamage: 120
   attackInterval: 2.5
-  attackRange: 4.5
   opType: 4
+  attackRange: 4.5
   deployRadius: 8
   unitPrefab: {fileID: 6652647494746454150, guid: 0758c9b8ebd6b7e4cb994b3a5053f3df, type: 3}
   icon: {fileID: 21300000, guid: 3223b688454a18a468f39292c6efafef, type: 3}
@@ -28,6 +28,6 @@ MonoBehaviour:
   isAoEAttacker: 0
   isHealer: 0
   baseCritChance: 0
+  starPassiveDesc: "法术穿透：无视 50% 防御，攻击力 +20%"
   maxStarRating: 5
-  selectQuote: "\u51B0\u5C01\u5343\u91CC\uFF0C\u96EA\u821E\u957F\u7A7A\u3002"
-  isInitialAvailable: 0
+  isInitialAvailable: 1

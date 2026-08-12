@@ -18,8 +18,8 @@ MonoBehaviour:
   defense: 80
   attackDamage: 23
   attackInterval: 0.8
-  attackRange: 3.5
   opType: 0
+  attackRange: 3.5
   deployRadius: 6
   unitPrefab: {fileID: 2381657845863745342, guid: d2e3f4a5b6c70819293a4b5c6d7e8f9a, type: 3}
   icon: {fileID: 21300000, guid: 5c0ca94b133d7bc48aa82b9a3db041ca, type: 3}
@@ -28,3 +28,7 @@ MonoBehaviour:
   isAoEAttacker: 0
   isHealer: 0
   baseCritChance: 0
+  starPassiveDesc: "部署即返还部署费用，技力回复 +30%"
+  maxStarRating: 1
+  selectQuote: "（测试单位）这只是个占位，别当真。"
+  isInitialAvailable: 1

@@ -11,7 +11,6 @@
 
 | 字段名 | 类型 | 值 |
 |--------|------|-----|
-| `FullGuardianHpForPerfectVictory` | int | 10 |
 | `DeathConsolationBase` | int | 1 |
 | `DeathConsolationPerStage` | int | 1 |
 | `LossGoldGain` | int | 0 |
@@ -20,21 +19,12 @@
 | `NormalWinGold` | int | 30 |
 | `NormalWinCardDraw` | int | 1 |
 | `NormalWinTalentPoint` | int | 2 |
-| `NormalPerfectGold` | int | 50 |
-| `NormalPerfectCardDraw` | int | 1 |
-| `NormalPerfectTalentPoint` | int | 2 |
 | `EliteWinGold` | int | 45 |
 | `EliteWinCardDraw` | int | 2 |
 | `EliteWinTalentPoint` | int | 3 |
-| `ElitePerfectGold` | int | 75 |
-| `ElitePerfectCardDraw` | int | 2 |
-| `ElitePerfectTalentPoint` | int | 3 |
 | `BossWinGold` | int | 70 |
 | `BossWinCardDraw` | int | 3 |
 | `BossWinTalentPoint` | int | 4 |
-| `BossPerfectGold` | int | 115 |
-| `BossPerfectCardDraw` | int | 3 |
-| `BossPerfectTalentPoint` | int | 4 |
 | `FirstClearBonusGold` | int | 20 |
 | `BetNoHitReturnBonusChance` | float | 0.50f |
 | `BetNoHitReturnOnlyChance` | float | 0.95f |

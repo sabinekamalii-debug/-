@@ -45,6 +45,67 @@ public class OperatorCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         }
         return cost < 0 ? 0 : cost;
     }
+
+    /// <summary>
+    /// 将本卡片重新绑定到 roster 中的某个干员（开局自选阵容消费端使用）。
+    /// 会把卡片指向的干员数据、部署预制体、立绘一并替换为目标干员，
+    /// 这样战斗里拖出的就是你选的人，而不是场景里原本静态摆放的干员。
+    /// </summary>
+    public void ApplyRosterOperator(OperatorData data)
+    {
+        if (data == null) return;
+        operatorData = data;
+        operatorPrefab = data.unitPrefab;
+        if (characterIcon != null && data.icon != null)
+            characterIcon.sprite = data.icon;
+        RefreshStarBadge();
+    }
+
+    // --- 星级角标：让玩家在部署卡上直接看到该干员当前养到几星 ---
+    private TMPro.TMP_Text _starBadge;
+
+    void OnEnable()
+    {
+        OperatorStarRegistry.OnStarChanged += OnStarChanged;
+        RefreshStarBadge();
+    }
+
+    void OnDisable()
+    {
+        OperatorStarRegistry.OnStarChanged -= OnStarChanged;
+    }
+
+    private void OnStarChanged(string key) => RefreshStarBadge();
+
+    /// <summary> 在卡片左上角显示 ★n（无美术资源，纯代码生成）。 </summary>
+    public void RefreshStarBadge()
+    {
+        if (operatorData == null) return;
+        if (!OperatorStarRegistry.IsRunActive) return;
+        if (!OperatorStarRegistry.IsInRoster(operatorData.RegistryKey)) return;
+
+        if (_starBadge == null)
+        {
+            var go = new GameObject("StarBadge");
+            go.transform.SetParent(transform, false);
+            var rect = go.AddComponent<RectTransform>();
+            rect.anchorMin = new Vector2(0f, 1f);
+            rect.anchorMax = new Vector2(1f, 1f);
+            rect.pivot = new Vector2(0.5f, 1f);
+            rect.sizeDelta = new Vector2(0f, 22f);
+            rect.anchoredPosition = new Vector2(0f, -2f);
+
+            _starBadge = go.AddComponent<TMPro.TextMeshProUGUI>();
+            _starBadge.fontSize = 18f;
+            _starBadge.alignment = TMPro.TextAlignmentOptions.Center;
+            _starBadge.color = new Color(1f, 0.85f, 0.25f);
+            _starBadge.raycastTarget = false;
+            _starBadge.enableWordWrapping = false;
+        }
+
+        int star = OperatorStarRegistry.GetStar(operatorData.RegistryKey);
+        _starBadge.text = new string('★', Mathf.Clamp(star, 1, 5));
+    }
     private float cooldownTimer = 0f;   // 冷却剩余时间
     private float cooldownDuration = 0f;// 冷却总时长（从 OperatorData 读取）
 

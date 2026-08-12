@@ -15,8 +15,10 @@ public static class BalanceConfig
     //  金币          RunGold           局内    局内重抽消费，通关后清零
     //  抽卡次数      CardDrawCount     局内    抽取天赋卡（免费选卡，战斗奖励获得）
 
-    /// 完美胜利判定：守护点剩余血量 >= 此值且无伤 → 完美胜利。
-    public const int FullGuardianHpForPerfectVictory = 10;
+    /// 战场维修卡（spc_repair）每场胜利后守护点回复量。
+    /// 设计：跨场血量继承是基础机制（上一场剩几血，这一场就几血开打），
+    /// 战场维修提供定量恢复而非回满，保留资源管理紧张感。
+    public const int GuardianRepairAmount = 3;
 
     // ─────────────────────────────────────────────
     //  二、死亡安慰天赋点
@@ -27,20 +29,15 @@ public static class BalanceConfig
 
     //     ─────────────────────────────────────────────
     //  三、战斗奖励表（固定奖励）
-    //  ── 每种战斗类型 × 胜利等级的固定奖励 ──
-    //  完美通关不增加抽卡次数（与普通胜利一致）。
+    //  ── 每场战斗只有「通关」与「失败」两种结果，再做细分 ──
     //  精英/Boss 的奖励重点在抽卡质量（更高稀有度），而非数量。
-    //  天赋点：完美比普通多1点，Boss比精英比普通多1点。
     //
-    //  战斗类型  胜利等级   金币  抽卡  天赋点
-    //  普通      普通       30    1    2
-    //  普通      完美       50    1    3
-    //  精英      普通       45    2    3
-    //  精英      完美       75    2    4
-    //  Boss      普通       70    3    4
-    //  Boss      完美      115    3    5
-    //  任意      失败        0    0    0
-    //  首通加成  胜利      +20    0    0
+    //  战斗类型   金币  抽卡  天赋点
+    //  普通       30    1    2
+    //  精英       45    2    3
+    //  Boss       70    3    4
+    //  任意      失败   0    0    0
+    //  首通加成  胜利  +20    0    0
     // ─────────────────────────────────────────────
 
     /// 失败时金币。
@@ -54,25 +51,16 @@ public static class BalanceConfig
     public const int NormalWinGold = 30;
     public const int NormalWinCardDraw = 1;
     public const int NormalWinTalentPoint = 2;
-    public const int NormalPerfectGold = 50;
-    public const int NormalPerfectCardDraw = 1;
-    public const int NormalPerfectTalentPoint = 2;
 
     // — 精英战斗 —
     public const int EliteWinGold = 45;
     public const int EliteWinCardDraw = 2;
     public const int EliteWinTalentPoint = 3;
-    public const int ElitePerfectGold = 75;
-    public const int ElitePerfectCardDraw = 2;
-    public const int ElitePerfectTalentPoint = 3;
 
     // — Boss 战斗 —
     public const int BossWinGold = 70;
     public const int BossWinCardDraw = 3;
     public const int BossWinTalentPoint = 4;
-    public const int BossPerfectGold = 115;
-    public const int BossPerfectCardDraw = 3;
-    public const int BossPerfectTalentPoint = 4;
 
     // — 首通加成 —
     public const int FirstClearBonusGold = 20;
@@ -107,9 +95,16 @@ public static class BalanceConfig
     /// 单局允许的最高星级（养成上限，也是解锁职业被动的阈值）。
     public const int MaxStarLimit = 5;
     /// 选人阵容最低人数（RogueEntry 必须至少选这么多干员才能开战）。
-    public const int RosterMinCount = 4;
+    /// 设为 3 以支持「1 个 ★5 核心 + 2 个 ★1 辅助」这类小阵容，配合 7 点星数预算更灵活。
+    public const int RosterMinCount = 3;
     /// 选人阵容最高人数（RogueEntry 最多可选这么多干员进局）。
     public const int RosterMaxCount = 8;
+    /// <summary>
+    /// 开局自选干员的「星数预算」。每个进阵容的干员按其当前星级消耗预算：
+    /// 带 7 个 ★1 炮灰 = 7 点，带 1 个 ★5 核心 + 2 个 ★1 辅助 = 7 点（刚好满），
+    /// 带 1 个 ★5 + 3 个 ★1 = 8 点则超预算。选人阶段升星也会占用预算。
+    /// </summary>
+    public const int StarBudget = 7;
 
     /// <summary>
     /// 升到"目标星级"所需的局内金币（目标星级需 ∈ [2, maxStar]）。
@@ -212,21 +207,12 @@ public static class BalanceConfig
         if (grade == VictoryGrade.Loss)
             return (LossGoldGain, LossCardDrawGain, LossTalentPointGain);
 
-        bool perfect = grade == VictoryGrade.Perfect;
         return battleType switch
         {
-            BattleType.Normal => perfect
-                ? (NormalPerfectGold, NormalPerfectCardDraw, NormalPerfectTalentPoint)
-                : (NormalWinGold, NormalWinCardDraw, NormalWinTalentPoint),
-            BattleType.Elite => perfect
-                ? (ElitePerfectGold, ElitePerfectCardDraw, ElitePerfectTalentPoint)
-                : (EliteWinGold, EliteWinCardDraw, EliteWinTalentPoint),
-            BattleType.Boss => perfect
-                ? (BossPerfectGold, BossPerfectCardDraw, BossPerfectTalentPoint)
-                : (BossWinGold, BossWinCardDraw, BossWinTalentPoint),
-            _ => perfect
-                ? (NormalPerfectGold, NormalPerfectCardDraw, NormalPerfectTalentPoint)
-                : (NormalWinGold, NormalWinCardDraw, NormalWinTalentPoint),
+            BattleType.Normal => (NormalWinGold, NormalWinCardDraw, NormalWinTalentPoint),
+            BattleType.Elite => (EliteWinGold, EliteWinCardDraw, EliteWinTalentPoint),
+            BattleType.Boss => (BossWinGold, BossWinCardDraw, BossWinTalentPoint),
+            _ => (NormalWinGold, NormalWinCardDraw, NormalWinTalentPoint),
         };
     }
 

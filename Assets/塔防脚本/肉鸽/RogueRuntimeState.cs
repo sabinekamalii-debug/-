@@ -20,6 +20,7 @@ public static class RogueRuntimeState
     private const string KeyGuardianCurrentHp = "Rogue.Guardian.CurrentHp";
     private const string KeyGuardianMaxHp = "Rogue.Guardian.MaxHp";
     private const string KeySelectedTalentIds = "Rogue.SelectedTalentIds";
+    private const string KeySelectedRoster = "Rogue.SelectedRoster";
     private const string KeyGameMode = "Rogue.GameMode";
     private const string KeyRunSeed = "Rogue.RunSeed";
     private const string KeyCurrentActId = "Rogue.CurrentActId";
@@ -384,6 +385,12 @@ public static class RogueRuntimeState
         if (!string.IsNullOrEmpty(savedIds))
             _selectedTalentIds = new List<string>(savedIds.Split(KeyTalentIdSep, System.StringSplitOptions.RemoveEmptyEntries));
 
+        // 恢复本局选人阵容（升星养成与阵容部署都依赖它跨场景存在）
+        string savedRoster = PlayerPrefs.GetString(KeySelectedRoster, "");
+        _selectedRoster = string.IsNullOrEmpty(savedRoster)
+            ? new List<string>()
+            : new List<string>(savedRoster.Split(KeyTalentIdSep, System.StringSplitOptions.RemoveEmptyEntries));
+
         if (PlayerPrefs.GetInt(KeyHasActiveRun, 0) != 0)
         {
             HasActiveRun = true;
@@ -467,8 +474,8 @@ public static class RogueRuntimeState
     /// <summary> 选卡时多 1 个选项（spc_draw）：3 → 4。 </summary>
     public static int CardPickSlotCount => IsCardOwned("spc_draw") ? 4 : 3;
 
-    /// <summary> 战后回满守护点（spc_repair）。 </summary>
-    public static bool RepairAfterBattle => IsCardOwned("spc_repair");
+    /// <summary> 战后守护点回复量（spc_repair）：每场胜利后回复固定量，不再回满。0 表示无此卡。 </summary>
+    public static int RepairAfterBattleAmount => IsCardOwned("spc_repair") ? BalanceConfig.GuardianRepairAmount : 0;
 
     /// <summary> 可把已拥有天赋卡转化为金币（spc_convert）。 </summary>
     public static bool CanConvertCard => IsCardOwned("spc_convert");
@@ -649,6 +656,7 @@ public static class RogueRuntimeState
     {
         InitIfNeeded();
         _selectedRoster = new List<string>(keys ?? new List<string>());
+        SaveSelectedRoster();
         OperatorStarRegistry.BeginRun(_selectedRoster, allData);
     }
 
@@ -656,7 +664,19 @@ public static class RogueRuntimeState
     public static void ClearSelectedRoster()
     {
         _selectedRoster.Clear();
+        PlayerPrefs.DeleteKey(KeySelectedRoster);
+        PrefsSaver.Save();
         OperatorStarRegistry.EndRun();
+    }
+
+    /// <summary>
+    /// 持久化选人阵容。肉鸽每场战斗/商店都是独立场景，静态字段会随场景切换丢失，
+    /// 不落盘会导致「第二场开始阵容为空 → 升星面板与阵容部署全部失效」。
+    /// </summary>
+    private static void SaveSelectedRoster()
+    {
+        PlayerPrefs.SetString(KeySelectedRoster, string.Join(KeyTalentIdSep.ToString(), _selectedRoster));
+        PrefsSaver.Save();
     }
 
     /// <summary> 尝试为阵容中某干员升 1 星（消耗局内 RunGold）。成功返回 true。 </summary>
@@ -699,6 +719,7 @@ public static class RogueRuntimeState
         CurseManager.ClearCurses();
         ClearGuardianHp();
         ClearShuffledOrder();
+        ClearSelectedRoster();   // 新局重新选人，清掉上一局的阵容与星级
         _currentMapGraph = null;
         // 测试阶段：不清除节点进度，保留已通关记录方便反复测试
         if (!LevelProgress.IsTestUnlockEnabled())
@@ -772,6 +793,7 @@ public static class RogueRuntimeState
         CurseManager.ClearCurses();
         ClearGuardianHp();
         ClearShuffledOrder();
+        ClearSelectedRoster();   // 升星养成是局内成长，回入口即清零
         _currentMapGraph = null;
         SavePersistent();
         return talentGain;
@@ -798,6 +820,7 @@ public static class RogueRuntimeState
         CurseManager.ClearCurses();
         ClearGuardianHp();
         ClearShuffledOrder();
+        ClearSelectedRoster();   // 升星养成是局内成长，失败即清零
         _currentMapGraph = null;
         SavePersistent();
         return consolation;
@@ -933,23 +956,6 @@ public static class RogueRuntimeState
             goldGain += BalanceConfig.GetFirstClearBonus();
         }
 
-        bool isComebackVictory = result.isWin && result.usedEmergencyProtocol;
-        bool isFlawlessVictory = result.isWin && result.guardianHpMax > 0 && result.guardianHpEnd >= result.guardianHpMax;
-
-        if (isComebackVictory)
-        {
-            int comebackGoldBonus = 30;
-            goldGain += comebackGoldBonus;
-            PlayerPrefs.SetInt("Achievement.ComebackVictory", 1);
-        }
-
-        if (isFlawlessVictory && result.noHit)
-        {
-            int flawlessGoldBonus = 20;
-            goldGain += flawlessGoldBonus;
-            PlayerPrefs.SetInt("Achievement.FlawlessVictory", 1);
-        }
-
         // 休息点"打劫路人"：战斗胜利后追加赏金
         if (_ambushModePending && result.isWin && TryConsumeAmbushBonus(out int ambushBonus))
         {
@@ -960,6 +966,24 @@ public static class RogueRuntimeState
         int goldPercent = TalentTreeState.GetGoldGainPercent();
         if (goldPercent > 0)
             goldGain = Mathf.RoundToInt(goldGain * (1f + goldPercent / 100f));
+
+        // 赌博卡（spc_gamble）：按本关掷骰结果调整奖励与抽卡机会
+        string gambleOutcome = "无押注";
+        if (IsCardOwned("spc_gamble") && LevelRunModifiers.GambleResult != GambleMode.None)
+        {
+            if (LevelRunModifiers.GambleResult == GambleMode.Buff)
+            {
+                goldGain = Mathf.RoundToInt(goldGain * 1.5f);
+                cardDrawGain += 1;
+                gambleOutcome = "赌博·强化：金币×1.5，+1抽卡";
+            }
+            else // Debuff
+            {
+                goldGain = Mathf.RoundToInt(goldGain * 0.5f);
+                cardDrawGain -= 1; // 允许降到 0（本关无抽卡）
+                gambleOutcome = "赌博·削弱：金币×0.5，-1抽卡";
+            }
+        }
 
         // 付天赋点（测试模式不永久提交，仅用于界面显示）
         if (talentPointGain > 0 && !TestMode)
@@ -980,9 +1004,6 @@ public static class RogueRuntimeState
                 case BattleType.Normal:
                     StoryCardUnlockState.CheckAndUnlockByEvent(
                         StoryCardUnlockState.GameEvent.LevelCleared, stageStr);
-                    if (isFlawlessVictory && result.noHit)
-                        StoryCardUnlockState.CheckAndUnlockByEvent(
-                            StoryCardUnlockState.GameEvent.NoHitCleared, stageStr);
                     break;
                 case BattleType.Elite:
                     StoryCardUnlockState.CheckAndUnlockByEvent(
@@ -1000,21 +1021,16 @@ public static class RogueRuntimeState
 
         return new RogueSettlementSummary
         {
-            victoryGrade = grade,
             goldGain = goldGain,
             cardDrawGain = cardDrawGain,
             talentPointGain = talentPointGain,
-            betOutcome = "无押注",
-            isComebackVictory = isComebackVictory,
-            isFlawlessVictory = isFlawlessVictory
+            betOutcome = gambleOutcome
         };
     }
 
     public static VictoryGrade EvaluateVictoryGrade(RogueBattleResult result)
     {
-        if (!result.isWin) return VictoryGrade.Loss;
-        bool isPerfect = result.noHit && result.guardianHpEnd >= BalanceConfig.FullGuardianHpForPerfectVictory;
-        return isPerfect ? VictoryGrade.Perfect : VictoryGrade.Normal;
+        return result.isWin ? VictoryGrade.Normal : VictoryGrade.Loss;
     }
 
     private static void SavePersistent()
@@ -1265,13 +1281,10 @@ public struct RogueBattleResult
 
 public struct RogueSettlementSummary
 {
-    public VictoryGrade victoryGrade;
     public int goldGain;
     public int cardDrawGain;
     public int talentPointGain;
     public string betOutcome;
-    public bool isComebackVictory;
-    public bool isFlawlessVictory;
 }
 
 public enum BattleType
@@ -1285,5 +1298,4 @@ public enum VictoryGrade
 {
     Loss = 0,
     Normal,
-    Perfect,
 }

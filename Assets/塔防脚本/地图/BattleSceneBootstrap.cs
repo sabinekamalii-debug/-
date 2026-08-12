@@ -133,11 +133,11 @@ public class BattleSceneBootstrap : MonoBehaviour
     /// </summary>
     void ApplyLevelRestrictions(LevelConfig config)
     {
-        // 守护点血量
+        // 守护点最大血量：由关卡配置决定。当前血量不在此设置——
+        // 由 GameManager.Start() 根据跨场血量决定（首战满血 / 后续战斗承接上场残余血量）。
         if (gameManager != null && config.maxLifePoint > 0)
         {
             gameManager.maxPlayerHealth = config.maxLifePoint;
-            gameManager.playerHealth = config.maxLifePoint;
         }
 
         // 初始 DP
@@ -154,6 +154,9 @@ public class BattleSceneBootstrap : MonoBehaviour
 
         // 混合模式：应用敌人倍率修饰到全局运行时状态
         LevelRunModifiers.Apply(config);
+
+        // 赌博卡（spc_gamble）：每场战斗前独立 50%/50% 掷骰，覆盖本关敌人血量倍率
+        LevelRunModifiers.RollGambleIfActive(RogueRuntimeState.IsCardOwned("spc_gamble"));
     }
 
     /// <summary>

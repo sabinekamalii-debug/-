@@ -596,7 +596,7 @@ public class TalentCardBatchGenerator
             TalentEffectType.GuardianHpBonus, 3, 0,
             TalentEffectType.MaxHpPercent, 10, 0,
             0, OperatorData.OperatorType.Guard, -1,
-            "守护点 HP +3\n全体 HP +10%\n每场战斗守护点回满");
+            "守护点 HP +3\n全体 HP +10%\n每场胜利后守护点回复3点");
 
         // ── 节奏方向（3张） ──
         CreateCard(p, "spc_skip", "速通模式", TalentCardType.Special, CardEffectTarget.Global,

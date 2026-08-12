@@ -18,8 +18,8 @@ MonoBehaviour:
   defense: 0
   attackDamage: 12
   attackInterval: 0.35
-  attackRange: 5
   opType: 3
+  attackRange: 5
   deployRadius: 8
   unitPrefab: {fileID: 4447685772666175583, guid: aaa00000000000000000000000000004, type: 3}
   icon: {fileID: 21300000, guid: adb8a993cb53284459b1b3342c71546d, type: 3}
@@ -28,6 +28,6 @@ MonoBehaviour:
   isAoEAttacker: 0
   isHealer: 0
   baseCritChance: 20
+  starPassiveDesc: "暴击率 +25%"
   maxStarRating: 2
-  selectQuote: "\u5F13\u5F26\u5DF2\u4E0A\u597D\uFF0C\u53EA\u7B49\u4F60\u4E00\u58F0\u4EE4\u4E0B\u3002"
   isInitialAvailable: 1

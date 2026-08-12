@@ -18,8 +18,8 @@ MonoBehaviour:
   defense: 6000
   attackDamage: 25
   attackInterval: 1.2
-  attackRange: 1
   opType: 2
+  attackRange: 1
   deployRadius: 6
   unitPrefab: {fileID: 1041217250878132668, guid: aaa00000000000000000000000000002, type: 3}
   icon: {fileID: 21300000, guid: 104a1b4f06fe4244b9b91d1cec90bfcb, type: 3}
@@ -28,6 +28,7 @@ MonoBehaviour:
   isAoEAttacker: 0
   isHealer: 0
   baseCritChance: 0
+  starPassiveDesc: "防御 +40%，且致命伤时保留 1 点生命（每场 1 次）"
   maxStarRating: 3
-  selectQuote: 
-  isInitialAvailable: 0
+  selectQuote: "刺痛，是靠近我的代价。"
+  isInitialAvailable: 1

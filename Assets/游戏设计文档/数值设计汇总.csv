@@ -1,5 +1,4 @@
 ﻿分类,名称,字段,数值,类型
-平衡配置,FullGuardianHpForPerfectVictory,FullGuardianHpForPerfectVictory,10,int
 平衡配置,DeathConsolationBase,DeathConsolationBase,1,int
 平衡配置,DeathConsolationPerStage,DeathConsolationPerStage,1,int
 平衡配置,LossGoldGain,LossGoldGain,0,int
@@ -8,21 +7,12 @@
 平衡配置,NormalWinGold,NormalWinGold,30,int
 平衡配置,NormalWinCardDraw,NormalWinCardDraw,1,int
 平衡配置,NormalWinTalentPoint,NormalWinTalentPoint,2,int
-平衡配置,NormalPerfectGold,NormalPerfectGold,50,int
-平衡配置,NormalPerfectCardDraw,NormalPerfectCardDraw,1,int
-平衡配置,NormalPerfectTalentPoint,NormalPerfectTalentPoint,2,int
 平衡配置,EliteWinGold,EliteWinGold,45,int
 平衡配置,EliteWinCardDraw,EliteWinCardDraw,2,int
 平衡配置,EliteWinTalentPoint,EliteWinTalentPoint,3,int
-平衡配置,ElitePerfectGold,ElitePerfectGold,75,int
-平衡配置,ElitePerfectCardDraw,ElitePerfectCardDraw,2,int
-平衡配置,ElitePerfectTalentPoint,ElitePerfectTalentPoint,3,int
 平衡配置,BossWinGold,BossWinGold,70,int
 平衡配置,BossWinCardDraw,BossWinCardDraw,3,int
 平衡配置,BossWinTalentPoint,BossWinTalentPoint,4,int
-平衡配置,BossPerfectGold,BossPerfectGold,115,int
-平衡配置,BossPerfectCardDraw,BossPerfectCardDraw,3,int
-平衡配置,BossPerfectTalentPoint,BossPerfectTalentPoint,4,int
 平衡配置,FirstClearBonusGold,FirstClearBonusGold,20,int
 平衡配置,BetNoHitReturnBonusChance,BetNoHitReturnBonusChance,0.50,float
 平衡配置,BetNoHitReturnOnlyChance,BetNoHitReturnOnlyChance,0.95,float

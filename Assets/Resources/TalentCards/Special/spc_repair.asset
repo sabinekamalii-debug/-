@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardId: spc_repair
   displayName: "\u6218\u573A\u7EF4\u4FEE"
-  description: "\u5B88\u62A4\u70B9 HP +3\n\u5168\u4F53 HP +10%\n\u6BCF\u573A\u80DC\u5229\u540E\u5B88\u62A4\u70B9\u56DE\u6EE1"
+  description: "\u5B88\u62A4\u70B9 HP +3\n\u5168\u4F53 HP +10%\n\u6BCF\u573A\u80DC\u5229\u540E\u5B88\u62A4\u70B9\u56DE\u590D3\u70B9"
   cardType: 0
   rarity: 0
   icon: {fileID: -9058169057758494445, guid: 7e9e6b141e4e3884fbb4c70dcabc2be7, type: 3}
