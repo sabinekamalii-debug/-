@@ -1,0 +1,1 @@
+{"jsonrpc": "2.0", "id": 48018, "method": "tools/call", "params": {"name": "find_gameobjects", "arguments": {"search_term": "Battle"}}}

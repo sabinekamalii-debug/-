@@ -54,8 +54,8 @@ public class OperatorData : ScriptableObject
     public Sprite icon;
 
     [Header("购买/冷却")]
-    [Tooltip("购买后冷却时间（秒），0 表示无冷却")]
-    public float purchaseCooldown = 0f;
+    [Tooltip("购买后冷却时间（秒）。再部署该干员需同时满足：①场上同名干员已消失 ②冷却已结束。0 表示无冷却（不建议，将无法限制重复部署）。")]
+    public float purchaseCooldown = 30f;
 
     [Header("站位/地形")]
     [Tooltip("是否可同时站在地面（Ground）与高台（HighGround）")]

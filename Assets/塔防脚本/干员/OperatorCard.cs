@@ -47,6 +47,23 @@ public class OperatorCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     }
 
     /// <summary>
+    /// 战场上是否已有同名干员存活（每个干员场上同时只能存在一个）。
+    /// 依据 OperatorUnit.AllOperators（死亡/撤退销毁时自动移除）。
+    /// </summary>
+    public bool IsOperatorOnField()
+    {
+        if (operatorData == null) return false;
+        string name = operatorData.operatorName;
+        for (int i = 0; i < OperatorUnit.AllOperators.Count; i++)
+        {
+            var op = OperatorUnit.AllOperators[i];
+            if (op != null && op.data != null && op.data.operatorName == name)
+                return true;
+        }
+        return false;
+    }
+
+    /// <summary>
     /// 将本卡片重新绑定到 roster 中的某个干员（开局自选阵容消费端使用）。
     /// 会把卡片指向的干员数据、部署预制体、立绘一并替换为目标干员，
     /// 这样战斗里拖出的就是你选的人，而不是场景里原本静态摆放的干员。
@@ -229,6 +246,16 @@ public class OperatorCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             return;
         }
 
+        if (IsOperatorOnField())
+        {
+            isValidDrag = false;
+            if (SystemMessageUI.Instance != null)
+            {
+                SystemMessageUI.Instance.ShowMessage("该干员仍在场上，需等待其消失后才能再次部署", Color.red);
+            }
+            return;
+        }
+
         if (isOnCooldown)
         {
             isValidDrag = false;
@@ -310,6 +337,13 @@ public class OperatorCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
                     _directionPending = false;
                     if (DeploymentManager.Instance == null) { isValidDrag = false; return; }
                     if (Time.timeScale == 0f) { isValidDrag = false; return; }
+                    if (IsOperatorOnField())
+                    {
+                        isValidDrag = false;
+                        if (SystemMessageUI.Instance != null)
+                            SystemMessageUI.Instance.ShowMessage("该干员仍在场上，需等待其消失后才能再次部署", Color.red);
+                        return;
+                    }
                     if (isOnCooldown)
                     {
                         isValidDrag = false;

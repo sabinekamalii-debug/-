@@ -283,13 +283,33 @@ public class CardSelectUIController : MonoBehaviour
             return;
         }
 
-        // 卡池不足3张时允许重复抽取，保证三槽都有卡显示
+        // 加权随机抽 3 张（稀有度权重 × 流派倾向类型权重，见 GoldShopConfig.GetCardWeight）。
+        // 卡池不足3张时允许重复抽取，保证三槽都有卡显示。
         for (int i = 0; i < 3; i++)
         {
-            int idx = UnityEngine.Random.Range(0, available.Count);
-            _currentOffers[i] = available[idx];
+            float totalW = 0f;
+            var weighted = new System.Collections.Generic.List<(TalentCardData card, float w)>();
+            foreach (var c in available)
+            {
+                float w = GoldShopConfig.GetCardWeight(c);
+                weighted.Add((c, w));
+                totalW += w;
+            }
+            if (weighted.Count == 0 || totalW <= 0f) break;
+
+            float roll = UnityEngine.Random.Range(0f, totalW);
+            float cum = 0f;
+            TalentCardData picked = null;
+            foreach (var (card, w) in weighted)
+            {
+                cum += w;
+                if (roll <= cum) { picked = card; break; }
+            }
+            if (picked == null) picked = weighted[weighted.Count - 1].card;
+
+            _currentOffers[i] = picked;
             if (available.Count >= 3)
-                available.RemoveAt(idx);
+                available.Remove(picked);
         }
 
         RefreshCardSlotVisuals();

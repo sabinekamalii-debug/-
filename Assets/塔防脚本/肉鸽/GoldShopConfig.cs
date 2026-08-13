@@ -74,7 +74,7 @@ public static class GoldShopConfig
             foreach (var card in pool)
             {
                 if (used.Contains(card.cardId)) continue;
-                float w = GetRarityWeight(card.rarity);
+                float w = GetRarityWeight(card);
                 candidates.Add((card, w));
                 totalWeight += w;
             }
@@ -120,17 +120,28 @@ public static class GoldShopConfig
         return result;
     }
 
-    /// <summary> 获取稀有度权重（spc_fortune 提升稀有度）。 </summary>
-    private static float GetRarityWeight(TalentCardRarity rarity)
+    /// <summary> 获取稀有度权重（spc_fortune 提升稀有度，流派倾向调整类型权重）。 </summary>
+    private static float GetRarityWeight(TalentCardData card)
     {
-        if (!RarityWeights.TryGetValue(rarity, out float w)) w = 1f;
+        if (!RarityWeights.TryGetValue(card.rarity, out float w)) w = 1f;
         if (RogueRuntimeState.RareRateUpActive)
         {
             // spc_fortune：稀有/传奇权重翻倍
-            if (rarity == TalentCardRarity.Rare || rarity == TalentCardRarity.Legendary)
+            if (card.rarity == TalentCardRarity.Rare || card.rarity == TalentCardRarity.Legendary)
                 w *= 2f;
         }
+        // 流派倾向：按天赋卡类型叠加权重乘子（盛怒攻 / 苟道防+守护）。
+        w *= RogueRuntimeState.GetCardTypeWeightMultiplier(card.cardType);
         return w;
+    }
+
+    /// <summary>
+    /// 公开：某张卡的抽卡综合权重（稀有度权重 × 流派倾向类型权重）。
+    /// 供奖励选卡 / 事件选卡等所有随机抽卡入口复用，保证「盛怒/苟道」倾向在全游戏统一生效。
+    /// </summary>
+    public static float GetCardWeight(TalentCardData card)
+    {
+        return GetRarityWeight(card);
     }
 
     /// <summary> 获取稀有度显示名。 </summary>

@@ -159,21 +159,14 @@ public class OperatorStarUpgradePanel : MonoBehaviour
     private void OnUpgradeClicked(RowRefs row)
     {
         if (row == null || row.data == null) return;
-
-        int cost;
-        if (!OperatorStarRegistry.TryUpgradeStar(row.key, _allOperators, out cost))
-        {
-            // 失败原因给出明确提示，避免玩家点了没反应
-            int preview = OperatorStarRegistry.PreviewUpgradeCost(row.key, _allOperators);
-            if (preview == int.MaxValue)
-                ShowHint($"{row.data.operatorName} 已满星");
-            else
-                ShowHint($"金币不足：升星需 {preview}，当前 {RogueRuntimeState.RunGold}");
-            return;
-        }
-
-        ShowHint($"{row.data.operatorName} 升至 ★{OperatorStarRegistry.GetStar(row.key)}（花费 {cost} 金币）");
-        RefreshDeployedUnits(row.key);
+        // 升星改为纯「获得」驱动：战斗胜利重复获得同名干员才会自动升星，
+        // 面板不再支持主动金币升星。点击仅给出说明。
+        int star = OperatorStarRegistry.GetStar(row.key);
+        int max = OperatorStarRegistry.GetMaxStarCached(row.key);
+        if (star >= max)
+            ShowHint($"{row.data.operatorName} 已满星（★{star}）");
+        else
+            ShowHint($"{row.data.operatorName} 当前 ★{star}：升星需战斗胜利重复获得该干员");
         RefreshAll();
     }
 
@@ -213,8 +206,6 @@ public class OperatorStarUpgradePanel : MonoBehaviour
         int star = OperatorStarRegistry.GetStar(row.key);
         int maxStar = OperatorStarRegistry.GetMaxStar(row.key, _allOperators);
         bool isMax = star >= maxStar;
-        int cost = OperatorStarRegistry.PreviewUpgradeCost(row.key, _allOperators);
-        bool affordable = cost != int.MaxValue && RogueRuntimeState.RunGold >= cost;
 
         if (row.background != null)
             row.background.color = StarColors[Mathf.Clamp(star - 1, 0, StarColors.Length - 1)] * new Color(1f, 1f, 1f, 0.55f);
@@ -262,19 +253,18 @@ public class OperatorStarUpgradePanel : MonoBehaviour
 
         if (row.upgradeButton != null)
         {
-            row.upgradeButton.interactable = !isMax && affordable;
+            // 升星改为纯「获得」驱动，面板不再提供主动升星按钮
+            row.upgradeButton.interactable = false;
             var img = row.upgradeButton.GetComponent<Image>();
             if (img != null)
             {
                 img.color = isMax ? new Color(0.35f, 0.30f, 0.10f)
-                          : affordable ? new Color(0.20f, 0.45f, 0.20f)
-                                       : new Color(0.30f, 0.30f, 0.30f);
+                                  : new Color(0.30f, 0.30f, 0.30f);
             }
         }
         if (row.upgradeButtonText != null)
         {
-            row.upgradeButtonText.text = isMax ? "已满星"
-                : (cost == int.MaxValue ? "—" : $"升星\n{cost} 金");
+            row.upgradeButtonText.text = isMax ? "已满星" : "升星靠获得";
         }
     }
 

@@ -1,0 +1,31 @@
+============================================================
+【废弃旧场景 · 请勿在此文件上做新设计】
+============================================================
+
+文件名：Assets/Scenes/level/level 1.unity
+
+【状态】OLD / DEPRECATED / 已淘汰的旧架构关卡场景
+
+【说明】
+- 这是"旧架构"时期把关卡数据（敌人、路线、波次等）直接写死在
+  Unity 场景里的关卡场景。
+- 当前游戏已切换到"新架构"：运行时加载空壳场景
+  Assets/Scenes/level/BattleScene.unity，并由
+  BattleSceneBootstrap 从 Resources/LevelConfigs/LevelConfig_XX
+  （由 ActConfig.normalLevelPool 指定）注入关卡内容。
+- 真正生效的"第一关" = ActConfig_1.normalLevelPool[0]（即 Level_01）
+  + BattleScene.unity，而不是本文件。
+
+【保留原因】
+- 作为 RogueFlowRouter 的兜底（当 ActConfig / LevelConfig 缺失时
+  退回旧架构直接 LoadScene("level 1")）。
+- 作为旧设计的参考样本。
+
+【⚠️ 给后续维护者 / AI 的警告】
+- 不要在本场景上新增 / 修改任何游戏性设计（敌人、波次、路线等），
+  改了也不会在新架构流程里生效。
+- 所有新关卡设计请走：LevelConfig ScriptableObject + BattleScene。
+- 本文件夹下 level 2~11 / boss / elite 同理，均为旧架构遗留，勿改。
+
+最后更新：2026-08-13
+============================================================

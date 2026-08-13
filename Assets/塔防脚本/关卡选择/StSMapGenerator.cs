@@ -295,27 +295,19 @@ public static class StSMapGenerator
     {
         if (actConfig == null) return;
 
-        var gameMode = RogueRuntimeState.CurrentGameMode;
         var normalPool = actConfig.normalLevelPool ?? new int[0];
         var elitePool = actConfig.eliteLevelPool ?? new int[0];
 
-        // Prepare shuffled pools for Random/Hybrid modes
-        int[] shuffledNormal = null;
-        int[] shuffledElite = null;
-        if (gameMode != GameMode.Fixed)
+        // 全游戏统一混乱：始终洗牌普通/精英池，关卡顺序完全随机（流派倾向只影响抽卡分布）。
+        int[] shuffledNormal = (int[])normalPool.Clone();
+        int[] shuffledElite = (int[])elitePool.Clone();
+        var rng = RogueRuntimeState.RunRng;
+        if (rng != null)
         {
-            shuffledNormal = (int[])normalPool.Clone();
-            shuffledElite = (int[])elitePool.Clone();
-            var rng = RogueRuntimeState.RunRng;
-            if (rng != null)
-            {
-                rng.Shuffle(shuffledNormal);
-                rng.Shuffle(shuffledElite);
-            }
+            rng.Shuffle(shuffledNormal);
+            rng.Shuffle(shuffledElite);
         }
 
-        int fixedCutoff = RogueRuntimeState.GetFixedCutoff();
-        int normalIdx = 0, eliteIdx = 0;
         int shNormalIdx = 0, shEliteIdx = 0;
 
         for (int floor = 1; floor <= graph.floorCount; floor++)
@@ -329,29 +321,13 @@ public static class StSMapGenerator
                 }
                 else if (node.nodeType == LevelType.NormalBattle)
                 {
-                    if (gameMode == GameMode.Fixed || (gameMode == GameMode.Hybrid && floor <= fixedCutoff))
-                    {
-                        node.levelConfigId = normalPool.Length > 0
-                            ? normalPool[normalIdx++ % normalPool.Length] : floor;
-                    }
-                    else
-                    {
-                        node.levelConfigId = shuffledNormal != null && shuffledNormal.Length > 0
-                            ? shuffledNormal[shNormalIdx++ % shuffledNormal.Length] : floor;
-                    }
+                    node.levelConfigId = shuffledNormal != null && shuffledNormal.Length > 0
+                        ? shuffledNormal[shNormalIdx++ % shuffledNormal.Length] : floor;
                 }
                 else if (node.nodeType == LevelType.Elite)
                 {
-                    if (gameMode == GameMode.Fixed || (gameMode == GameMode.Hybrid && floor <= fixedCutoff))
-                    {
-                        node.levelConfigId = elitePool.Length > 0
-                            ? elitePool[eliteIdx++ % elitePool.Length] : floor;
-                    }
-                    else
-                    {
-                        node.levelConfigId = shuffledElite != null && shuffledElite.Length > 0
-                            ? shuffledElite[shEliteIdx++ % shuffledElite.Length] : floor;
-                    }
+                    node.levelConfigId = shuffledElite != null && shuffledElite.Length > 0
+                        ? shuffledElite[shEliteIdx++ % shuffledElite.Length] : floor;
                 }
                 else if (node.nodeType == LevelType.Start)
                 {

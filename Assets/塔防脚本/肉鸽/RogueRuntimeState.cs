@@ -40,7 +40,7 @@ public static class RogueRuntimeState
     public static int GuardianMaxHp { get; private set; }
     public static bool AutoStartBattleOnEntry { get; set; }
 
-    public static GameMode CurrentGameMode { get; private set; } = GameMode.Hybrid;
+    public static GameMode CurrentGameMode { get; private set; } = GameMode.Normal;
     public static int RunSeed { get; private set; }
 
     /// <summary> 当前大局 ID（0=未选择大局）。 </summary>
@@ -98,20 +98,52 @@ public static class RogueRuntimeState
 
     public static int GetFixedCutoff()
     {
-        if (_modifierConfig != null)
-            return _modifierConfig.GetFixedCutoff(CurrentGameMode);
-        return CurrentGameMode == GameMode.Fixed ? int.MaxValue : 5;
+        // 全游戏统一混乱：无前段固定，返回 0 表示没有任何关卡走按序。
+        return 0;
     }
 
     public static bool ShouldApplyModifiers(int levelNumber)
     {
-        // 随机/混合模式不再修改战斗数值，只打乱关卡顺序。
+        // 流派倾向不修改任何战斗数值，只影响抽卡分布。地图也只打乱顺序。
         return false;
     }
 
     /// <summary>
+    /// 流派倾向对「天赋卡类型」的抽取权重乘子。
+    /// 普通模式所有类型乘 1（均衡）；盛怒放大攻击卡；苟道放大防御卡与守护卡。
+    /// 返回的值会作为额外乘子叠加到原有稀有度权重上（见 GoldShopConfig.GetRarityWeight）。
+    /// </summary>
+    public static float GetCardTypeWeightMultiplier(TalentCardType type)
+    {
+        switch (CurrentGameMode)
+        {
+            case GameMode.Fury:
+                // 盛怒模式：攻击卡明显更易出，其它类型略降，保证分布仍健康。
+                return type switch
+                {
+                    TalentCardType.Attack => 2.2f,
+                    TalentCardType.Defense => 0.7f,
+                    TalentCardType.Guardian => 0.7f,
+                    _ => 1f,
+                };
+            case GameMode.Turtle:
+                // 苟道模式：防御卡与守护卡明显更易出，攻击卡略降。
+                return type switch
+                {
+                    TalentCardType.Defense => 2.0f,
+                    TalentCardType.Guardian => 2.0f,
+                    TalentCardType.Attack => 0.7f,
+                    _ => 1f,
+                };
+            default: // Normal
+                return 1f;
+        }
+    }
+
+    /// <summary>
     /// 根据当前模式返回第 stageNumber 关实际应加载的 LevelConfig ID。
-    /// 有 ActConfig 时：Fixed=池内按序，Hybrid=前cutoff按序+后续打乱，Random=全打乱。Boss固定。
+    /// 全游戏统一混乱：所有战斗关卡都从池中打乱抽取（Boss 固定）。流派倾向（GameMode）只影响抽卡，
+    /// 不影响关卡顺序，因此这里不再按 Fixed/Hybrid/Random 分支。
     /// 无 ActConfig 时：回退旧逻辑（stageNumber 直接作为 ID）。
     /// </summary>
     public static int GetLevelConfigIdForStage(int stageNumber, LevelType levelType = LevelType.NormalBattle)
@@ -128,18 +160,7 @@ public static class RogueRuntimeState
         // 无 ActConfig 时回退旧逻辑
         if (actConfig == null)
         {
-            switch (CurrentGameMode)
-            {
-                case GameMode.Fixed:
-                    return stageNumber;
-                case GameMode.Hybrid:
-                    if (stageNumber <= GetFixedCutoff()) return stageNumber;
-                    return GetShuffledLevelIdForType(stageNumber, levelType);
-                case GameMode.Random:
-                    return GetShuffledLevelIdForType(stageNumber, levelType);
-                default:
-                    return stageNumber;
-            }
+            return stageNumber;
         }
 
         // 有 ActConfig：Boss 固定
@@ -150,19 +171,7 @@ public static class RogueRuntimeState
         if (pool == null || pool.Length == 0)
             return stageNumber;
 
-        switch (CurrentGameMode)
-        {
-            case GameMode.Fixed:
-                return pool[(stageNumber - 1) % pool.Length];
-            case GameMode.Hybrid:
-                if (stageNumber <= GetFixedCutoff())
-                    return pool[(stageNumber - 1) % pool.Length];
-                return GetShuffledLevelIdForType(stageNumber, levelType);
-            case GameMode.Random:
-                return GetShuffledLevelIdForType(stageNumber, levelType);
-            default:
-                return stageNumber;
-        }
+        return GetShuffledLevelIdForType(stageNumber, levelType);
     }
 
     private static int GetShuffledLevelIdForType(int stageNumber, LevelType levelType)
@@ -398,7 +407,7 @@ public static class RogueRuntimeState
             RunGold = Mathf.Max(0, PlayerPrefs.GetInt(KeyRunGold, 0));
             GuardianCurrentHp = PlayerPrefs.GetInt(KeyGuardianCurrentHp, 0);
             GuardianMaxHp     = PlayerPrefs.GetInt(KeyGuardianMaxHp, 0);
-            CurrentGameMode = (GameMode)PlayerPrefs.GetInt(KeyGameMode, (int)GameMode.Hybrid);
+            CurrentGameMode = (GameMode)PlayerPrefs.GetInt(KeyGameMode, (int)GameMode.Normal);
             RunSeed = PlayerPrefs.GetInt(KeyRunSeed, 0);
             CurrentActId = PlayerPrefs.GetInt(KeyCurrentActId, 0);
             if (RunSeed != 0)
@@ -651,13 +660,82 @@ public static class RogueRuntimeState
     private static List<string> _selectedRoster = new List<string>();
     public static IReadOnlyList<string> SelectedRoster => _selectedRoster;
 
-    /// <summary> 写入本局选人阵容，并据此初始化升星养成状态（全员 ★1）。需在 StartRunIfNeeded 之后、进战斗前调用。 </summary>
+    /// <summary> 写入本局选人阵容，并据此初始化升星养成状态（全员强制 ★1）。
+    /// 选人阶段不允许预升星，星级只能靠局内「获得」解锁。需在 StartRunIfNeeded 之后、进战斗前调用。 </summary>
     public static void SetSelectedRoster(List<string> keys, IEnumerable<OperatorData> allData)
     {
         InitIfNeeded();
         _selectedRoster = new List<string>(keys ?? new List<string>());
         SaveSelectedRoster();
-        OperatorStarRegistry.BeginRun(_selectedRoster, allData);
+        OperatorStarRegistry.BeginRun(_selectedRoster, allData, forceReset: true);
+    }
+
+    /// <summary> 加载全量干员数据（用于局内招募随机池）。编辑器下用 AssetDatabase，运行时用 Resources，与选人面板一致。 </summary>
+    public static List<OperatorData> LoadAllOperatorData()
+    {
+        var result = new List<OperatorData>();
+#if UNITY_EDITOR
+        string[] guids = UnityEditor.AssetDatabase.FindAssets("t:OperatorData");
+        foreach (string guid in guids)
+        {
+            string path = UnityEditor.AssetDatabase.GUIDToAssetPath(guid);
+            var data = UnityEditor.AssetDatabase.LoadAssetAtPath<OperatorData>(path);
+            if (data != null && !string.IsNullOrEmpty(data.operatorName))
+                result.Add(data);
+        }
+#else
+        var list = Resources.LoadAll<OperatorData>("");
+        foreach (var d in list)
+            if (d != null && !string.IsNullOrEmpty(d.operatorName))
+                result.Add(d);
+#endif
+        return result;
+    }
+
+    /// <summary> 把某干员加入本局阵容名单（招募新干员时调用），并同步升星养成状态。 </summary>
+    public static void AddOperatorToRoster(string key, IEnumerable<OperatorData> allData)
+    {
+        if (string.IsNullOrEmpty(key)) return;
+        if (!_selectedRoster.Contains(key))
+        {
+            _selectedRoster.Add(key);
+            SaveSelectedRoster();
+        }
+        OperatorStarRegistry.Recruit(key, allData);
+    }
+
+    /// <summary>
+    /// 战斗胜利「获得干员」：从全量干员池随机招募一个。
+    /// - 已在阵容 → 重复获得，自动升 1 星；
+    /// - 不在阵容 → 新干员加入阵容（★1）。
+    /// 返回招募结果的友好文案；测试模式不进行（避免反复测试累积）。
+    /// </summary>
+    public static bool RecruitOperatorOnVictory(out string label)
+    {
+        label = "";
+        InitIfNeeded();
+        if (TestMode) return false;
+        if (!HasActiveRun) return false;
+
+        var pool = LoadAllOperatorData();
+        if (pool == null || pool.Count == 0) return false;
+
+        var data = pool[UnityEngine.Random.Range(0, pool.Count)];
+        if (data == null || string.IsNullOrEmpty(data.RegistryKey)) return false;
+
+        string key = data.RegistryKey;
+        bool alreadyInRoster = _selectedRoster.Contains(key);
+
+        if (alreadyInRoster)
+            OperatorStarRegistry.Recruit(key, pool);
+        else
+            AddOperatorToRoster(key, pool);
+
+        int star = OperatorStarRegistry.GetStar(key);
+        label = alreadyInRoster
+            ? $"获得重复干员 · {data.operatorName} → ★{star}"
+            : $"招募新干员 · {data.operatorName} ★{star}";
+        return true;
     }
 
     /// <summary> 清空选人阵容与升星养成状态（结束本局时调用）。 </summary>
@@ -677,19 +755,6 @@ public static class RogueRuntimeState
     {
         PlayerPrefs.SetString(KeySelectedRoster, string.Join(KeyTalentIdSep.ToString(), _selectedRoster));
         PrefsSaver.Save();
-    }
-
-    /// <summary> 尝试为阵容中某干员升 1 星（消耗局内 RunGold）。成功返回 true。 </summary>
-    public static bool TryUpgradeOperatorStar(string key, IEnumerable<OperatorData> allData, out int cost)
-    {
-        InitIfNeeded();
-        return OperatorStarRegistry.TryUpgradeStar(key, allData, out cost);
-    }
-
-    /// <summary> 升某干员到下一星所需金币（UI 预览）。已满星/未开战返回 int.MaxValue。 </summary>
-    public static int PreviewStarUpgradeCost(string key, IEnumerable<OperatorData> allData)
-    {
-        return OperatorStarRegistry.PreviewUpgradeCost(key, allData);
     }
 
     // ─────────────────────────────────────────────
@@ -1014,6 +1079,8 @@ public static class RogueRuntimeState
                         StoryCardUnlockState.GameEvent.BossDefeated, stageStr);
                     break;
             }
+            // 战斗胜利「获得干员」：重复获得自动升 1 星，新干员加入阵容（★1）
+            RecruitOperatorOnVictory(out _);
         }
         // 金币达标检查（无论输赢）
         StoryCardUnlockState.CheckAndUnlockByEvent(

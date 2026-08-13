@@ -77,7 +77,11 @@ public class RogueEntryController : MonoBehaviour
         {
             if (!panel.CanStart())
             {
-                // 阵容不合法（人数/星数预算不满足）：不进入战斗，等待玩家调整
+                // 阵容不合法（未选/人数/星数预算不满足）：不进入战斗，
+                // 给出明确提示让玩家知道为什么被拦截，而不是静默无反应。
+                string reason = panel.GetStartBlockedReason();
+                panel.FlashStartBlockedHint(reason ?? "阵容不合法，请调整干员选择");
+                Debug.LogWarning($"[RogueEntry] 开始本局被拦截：{reason}");
                 RefreshTexts();
                 return;
             }
@@ -166,13 +170,13 @@ public class RogueEntryController : MonoBehaviour
             return;
         }
 
-        // 设置选项
+        // 设置选项：开局流派倾向（取代原地图模式）
         _gameModeDropdown.ClearOptions();
         var options = new System.Collections.Generic.List<TMP_Dropdown.OptionData>
         {
-            new TMP_Dropdown.OptionData("固定模式", null),
-            new TMP_Dropdown.OptionData("混合模式", null),
-            new TMP_Dropdown.OptionData("随机模式", null),
+            new TMP_Dropdown.OptionData("守心模式", null),
+            new TMP_Dropdown.OptionData("盛怒模式", null),
+            new TMP_Dropdown.OptionData("苟道模式", null),
         };
         _gameModeDropdown.AddOptions(options);
 
@@ -192,9 +196,9 @@ public class RogueEntryController : MonoBehaviour
         // 更新按钮上的文字
         string modeName = mode switch
         {
-            GameMode.Fixed => "固定模式",
-            GameMode.Hybrid => "混合模式",
-            GameMode.Random => "随机模式",
+            GameMode.Normal => "守心模式",
+            GameMode.Fury => "盛怒模式",
+            GameMode.Turtle => "苟道模式",
             _ => "未知"
         };
         var captionTr = _gameModeDropdown.transform.Find("Caption");
@@ -202,7 +206,7 @@ public class RogueEntryController : MonoBehaviour
         {
             var caption = captionTr.GetComponent<TMPro.TextMeshProUGUI>();
             if (caption != null)
-                caption.text = "模式选择：" + modeName;
+                caption.text = "流派倾向：" + modeName;
         }
 
     }

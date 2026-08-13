@@ -43,10 +43,21 @@ public static class OperatorStarRegistry
     public static event System.Action<string> OnStarChanged;
 
     /// <summary>
-    /// 开战前登记本局阵容：将所有选中干员的星级初始化为 1（或数据允许的下限）。
-    /// 已在本局登记过且有进度的干员会保留其星级，避免重进场景把养成清零。
+    /// 招募结果：用于战斗胜利/事件「获得干员」反馈。
+    /// NewRecruit = 新干员加入阵容（★1）；
+    /// Upgraded  = 已在阵容，重复获得自动升 1 星；
+    /// Maxed     = 已在阵容且已满星，无法再升；
+    /// Failed    = 未开战等异常。
     /// </summary>
-    public static void BeginRun(IEnumerable<string> selectedKeys, IEnumerable<OperatorData> allData)
+    public enum RecruitOutcome { NewRecruit, Upgraded, Maxed, Failed }
+
+    /// <summary>
+    /// 开战前登记本局阵容。
+    /// forceReset=true（选人阶段确认）时，所有选中干员强制初始化为 ★1，
+    /// 不保留任何历史养成——选人阶段不允许预升星，星级只能靠局内「获得」解锁。
+    /// forceReset=false（兼容旧调用）时，新加入阵容的干员补 ★1，已登记的保留星级。
+    /// </summary>
+    public static void BeginRun(IEnumerable<string> selectedKeys, IEnumerable<OperatorData> allData, bool forceReset = false)
     {
         LoadIfNeeded();
 
@@ -58,7 +69,7 @@ public static class OperatorStarRegistry
                     _maxStarByKey[d.RegistryKey] = Mathf.Max(1, d.maxStarRating);
         }
 
-        // 保留已有星级：只为新加入阵容的干员补 ★1
+        // 保留已有星级：只为新加入阵容的干员补 ★1（forceReset 时跳过此逻辑，强制全 1★）
         var keep = new Dictionary<string, int>();
         if (selectedKeys != null)
         {
@@ -66,8 +77,13 @@ public static class OperatorStarRegistry
             {
                 if (string.IsNullOrEmpty(key) || keep.ContainsKey(key)) continue;
                 int maxStar = GetMaxStarCached(key);
-                int prev = _starByKey.TryGetValue(key, out var s) ? s : 1;
-                keep[key] = Mathf.Clamp(prev, 1, Mathf.Max(1, maxStar));
+                int star = 1;
+                if (!forceReset)
+                {
+                    int prev = _starByKey.TryGetValue(key, out var s) ? s : 1;
+                    star = Mathf.Clamp(prev, 1, Mathf.Max(1, maxStar));
+                }
+                keep[key] = star;
             }
         }
 
@@ -77,6 +93,47 @@ public static class OperatorStarRegistry
         _isRunActive = true;
         Save();
         OnStarChanged?.Invoke(null);
+    }
+
+    /// <summary>
+    /// 「获得干员」：集成战略式——重复获得同名干员自动升 1 星。
+    /// - 已在阵容：未满星则升 1 星（Upgraded），已满星则 Maxed；
+    /// - 不在阵容：作为新干员加入并设 ★1（NewRecruit）。
+    /// 仅登记星级，阵容名单的增删由调用方（RogueRuntimeState）负责。
+    /// </summary>
+    public static RecruitOutcome Recruit(string key, IEnumerable<OperatorData> allData)
+    {
+        LoadIfNeeded();
+        if (!_isRunActive) return RecruitOutcome.Failed;
+        if (string.IsNullOrEmpty(key)) return RecruitOutcome.Failed;
+
+        // 补登记满星上限（新招募的干员可能未在 BeginRun 覆盖到）
+        if (allData != null)
+        {
+            foreach (var d in allData)
+            {
+                if (d != null && d.RegistryKey == key)
+                    _maxStarByKey[key] = Mathf.Max(1, d.maxStarRating);
+            }
+        }
+
+        int maxStar = GetMaxStarCached(key);
+        if (IsInRoster(key))
+        {
+            int cur = GetStar(key);
+            if (cur >= maxStar) return RecruitOutcome.Maxed;
+            _starByKey[key] = cur + 1;
+            Save();
+            OnStarChanged?.Invoke(key);
+            return RecruitOutcome.Upgraded;
+        }
+        else
+        {
+            _starByKey[key] = 1;
+            Save();
+            OnStarChanged?.Invoke(key);
+            return RecruitOutcome.NewRecruit;
+        }
     }
 
     /// <summary> 结束一局时清空养成状态。 </summary>
@@ -170,44 +227,6 @@ public static class OperatorStarRegistry
         _starByKey[key] = Mathf.Clamp(star, 1, Mathf.Max(1, maxStar));
         Save();
         OnStarChanged?.Invoke(key);
-    }
-
-    /// <summary>
-    /// 尝试为某干员升 1 星，消耗局内 RunGold（通过 RogueRuntimeState）。
-    /// 成功返回 true；金币不足 / 已满星 / 未开战 则返回 false。
-    /// </summary>
-    public static bool TryUpgradeStar(string key, IEnumerable<OperatorData> allData, out int cost)
-    {
-        LoadIfNeeded();
-        cost = 0;
-        if (!_isRunActive) return false;
-        if (string.IsNullOrEmpty(key) || !_starByKey.ContainsKey(key)) return false;
-
-        int cur = GetStar(key);
-        int maxStar = GetMaxStar(key, allData);
-        if (cur >= maxStar) return false;
-
-        int target = cur + 1;
-        cost = BalanceConfig.GetStarUpgradeCost(target);
-        if (cost == int.MaxValue) return false;
-        if (!RogueRuntimeState.TryConsumeRunGold(cost)) return false;
-
-        _starByKey[key] = target;
-        Save();
-        OnStarChanged?.Invoke(key);
-        return true;
-    }
-
-    /// <summary> 升星到目标星级所需金币（用于 UI 预览）。已满星/异常返回 int.MaxValue。 </summary>
-    public static int PreviewUpgradeCost(string key, IEnumerable<OperatorData> allData)
-    {
-        LoadIfNeeded();
-        if (!_isRunActive) return int.MaxValue;
-        if (string.IsNullOrEmpty(key) || !_starByKey.ContainsKey(key)) return int.MaxValue;
-        int cur = GetStar(key);
-        int maxStar = GetMaxStar(key, allData);
-        if (cur >= maxStar) return int.MaxValue;
-        return BalanceConfig.GetStarUpgradeCost(cur + 1);
     }
 
     // ─────────────────────────────────────────────

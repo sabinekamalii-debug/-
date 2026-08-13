@@ -14,7 +14,14 @@ public static class SceneNames
     public const string BattleScene = "BattleScene";
     public const string StoryCardCollection = "StoryCardCollection";
 
-    /// <summary> 第一关战斗场景（首战强制进入，避免误导向 plot 剧情/收藏场景）。 </summary>
+    /// <summary>
+    /// 第一关战斗场景（旧架构兜底用）。
+    /// ⚠️ 注意：Assets/Scenes/level/level 1.unity 是【已淘汰的旧架构场景】，
+    /// 把关卡数据写死在场景里，新架构不再用它做新设计。
+    /// 真正生效的首战 = BattleScene + ActConfig.normalLevelPool[0] 指向的 LevelConfig。
+    /// FirstLevel 仅在 RogueFlowRouter 找不到 ActConfig/LevelConfig 时作为兜底加载，
+    /// 见 RogueFlowRouter.EnterBattleFromEntry 的兜底分支。
+    /// </summary>
     public const string FirstLevel = "level 1";
 
     // 随机事件场景（统一单场景）

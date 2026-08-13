@@ -98,7 +98,9 @@ public class RogueFlowRouter : MonoBehaviour
             return;
         }
 
-        // 兜底（无 ActConfig / 无 LevelConfig 的旧数据）：退回旧架构直接进 level 1
+        // 兜底（无 ActConfig / 无 LevelConfig 的旧数据）：退回旧架构直接进 level 1。
+        // 注意：level 1.unity 是【已淘汰的旧架构场景】，仅作兜底/参考，不要在其上做新设计
+        // （见 Assets/Scenes/level/DEPRECATED_旧场景请勿修改.txt）。新关卡一律走 BattleScene + LevelConfig。
         TryRoute(entryScene, firstLevelScene);
     }
 

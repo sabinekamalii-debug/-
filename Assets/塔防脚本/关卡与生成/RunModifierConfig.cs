@@ -59,15 +59,4 @@ public class RunModifierConfig : ScriptableObject
     {
         return enemySpeedMax + Mathf.Max(0, stage - 1) * speedGrowthPerStage;
     }
-
-    public int GetFixedCutoff(GameMode mode)
-    {
-        return mode switch
-        {
-            GameMode.Fixed => int.MaxValue,
-            GameMode.Hybrid => fixedCutoff,
-            GameMode.Random => randomModeFixedCutoff,
-            _ => fixedCutoff,
-        };
-    }
 }

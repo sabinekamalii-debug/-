@@ -26,14 +26,13 @@ public class OperatorSelectionPanel : MonoBehaviour
     [SerializeField] private Transform _headListContent;
     [SerializeField] private Button _selectButton;
     [SerializeField] private TMP_Text _selectButtonText;
-    [SerializeField] private Button _upgradeStarButton;     // 升星按钮（花局内 RunGold）
-    [SerializeField] private TMP_Text _upgradeStarButtonText;
     [SerializeField] private ScrollRect _headScroll;
 
     private List<OperatorData> _allOperators;
     private List<OperatorData> _selectedOperators = new List<OperatorData>();
     private Dictionary<string, int> _rosterStars = new Dictionary<string, int>(); // 选中干员的当前星级（局内养成）
     private OperatorData _previewing;
+    private Coroutine _blockedHintCo; // 「开始本局被拦截」提示的恢复协程
 
     private static readonly Color[] StarColors =
     {
@@ -43,6 +42,11 @@ public class OperatorSelectionPanel : MonoBehaviour
         new Color(0.7f, 0.5f, 0.1f),
         new Color(0.9f, 0.75f, 0.15f),
     };
+
+    /// <summary> 预览中（未选中）的头像边框色：柔和白色 </summary>
+    private static readonly Color PreviewFrameColor = new Color(1f, 1f, 1f, 0.55f);
+    /// <summary> 已选中（进入阵容）的头像边框色：金色 </summary>
+    private static readonly Color SelectedFrameColor = new Color(1f, 0.84f, 0.25f, 1f);
 
     private static readonly float[] BaseStatMultiplier = { 0f, 0.6f, 0.8f, 1.0f, 1.3f, 1.6f };
     private static readonly float[] StarGrowth = { 0f, 1.0f, 1.3f, 1.7f, 2.2f, 3.0f };
@@ -103,10 +107,6 @@ public class OperatorSelectionPanel : MonoBehaviour
 
         if (_selectButton != null)
             _selectButton.onClick.AddListener(OnSelectButtonClicked);
-        if (_upgradeStarButton == null)
-            _upgradeStarButton = t.Find("PortraitArea/UpgradeStarButton")?.GetComponent<Button>();
-        if (_upgradeStarButton != null)
-            _upgradeStarButton.onClick.AddListener(OnUpgradeStarClicked);
     }
 
     private void LoadAllOperators()
@@ -133,9 +133,14 @@ public class OperatorSelectionPanel : MonoBehaviour
     {
         if (_headListContent == null) return;
 
-        // 清除编辑器占位项
+        // 清除编辑器占位项（编辑态下 Destroy 报错，改用 DestroyImmediate 以免误删静态占位节点）
+        bool playing = Application.isPlaying;
         for (int i = _headListContent.childCount - 1; i >= 0; i--)
-            Destroy(_headListContent.GetChild(i).gameObject);
+        {
+            var childGo = _headListContent.GetChild(i).gameObject;
+            if (playing) Destroy(childGo);
+            else DestroyImmediate(childGo);
+        }
 
         var unlocked = _allOperators.Where(o => o.isInitialAvailable)
             .OrderByDescending(o => o.maxStarRating).ToList();
@@ -181,6 +186,18 @@ public class OperatorSelectionPanel : MonoBehaviour
 
         var btn = itemGo.AddComponent<Button>();
         btn.onClick.AddListener(() => PreviewOperator(op));
+
+        // 选中/预览高亮框（比条目略大，形成描边效果，画在头像之下）
+        var frameGo = new GameObject("Highlight");
+        frameGo.transform.SetParent(itemGo.transform, false);
+        var fRect = frameGo.AddComponent<RectTransform>();
+        fRect.anchorMin = Vector2.zero;
+        fRect.anchorMax = Vector2.one;
+        fRect.offsetMin = new Vector2(-3, -3);
+        fRect.offsetMax = new Vector2(3, 3);
+        var frameImg = frameGo.AddComponent<Image>();
+        frameImg.color = Color.clear;
+        frameImg.raycastTarget = false;
 
         // Icon
         var iconGo = new GameObject("Icon");
@@ -277,7 +294,7 @@ public class OperatorSelectionPanel : MonoBehaviour
                 _statsText.text = "";
         }
         UpdateSelectButtonText();
-        UpdateUpgradeStarButton();
+        UpdateHeadListVisualState();
     }
 
     /// <summary> 获取某干员当前预览星级（选中时为养成星级，未选中默认 1）。 </summary>
@@ -310,7 +327,7 @@ public class OperatorSelectionPanel : MonoBehaviour
         else
         {
             int used = GetUsedStars();
-            if (used + 1 > StarBudget)
+            if (used + Mathf.Clamp(_previewing.maxStarRating, 1, 5) > StarBudget)
             {
                 _selectButtonText.text = "星数已满";
                 _selectButtonText.color = new Color(0.5f, 0.5f, 0.3f);
@@ -335,8 +352,8 @@ public class OperatorSelectionPanel : MonoBehaviour
         }
         else
         {
-            // 新加入的干员默认占 1 星，加入后总星数不得超过预算
-            if (GetUsedStars() + 1 > StarBudget) return;
+            // 新加入的干员按其星级上限占用预算，加入后总上限之和不得超过预算
+            if (GetUsedStars() + Mathf.Clamp(_previewing.maxStarRating, 1, 5) > StarBudget) return;
             _selectedOperators.Add(_previewing);
             if (!_rosterStars.ContainsKey(_previewing.RegistryKey))
                 _rosterStars[_previewing.RegistryKey] = 1;
@@ -348,8 +365,7 @@ public class OperatorSelectionPanel : MonoBehaviour
 
         UpdateSelectButtonText();
         RefreshBudgetDisplay();
-        UpdateHeadListCheckmarks();
-        UpdateUpgradeStarButton();
+        UpdateHeadListVisualState();
     }
 
     /// <summary>
@@ -359,78 +375,8 @@ public class OperatorSelectionPanel : MonoBehaviour
     private void SyncRosterToRegistry()
     {
         var keys = _selectedOperators.Select(o => o.RegistryKey).ToList();
-        OperatorStarRegistry.BeginRun(keys, _allOperators);
-        foreach (var op in _selectedOperators)
-        {
-            if (_rosterStars.TryGetValue(op.RegistryKey, out int s))
-                OperatorStarRegistry.SetStar(op.RegistryKey, s);
-        }
-    }
-
-    /// <summary>
-    /// 升星按钮：花局内 RunGold 把当前预览干员升 1 星（仅当选中且未达上限）。
-    /// 升星消耗写入 RogueRuntimeState.OperatorStarRegistry，局内实时生效。
-    /// </summary>
-    private void OnUpgradeStarClicked()
-    {
-        if (_previewing == null || !_previewing.isInitialAvailable) return;
-        if (!_selectedOperators.Contains(_previewing)) return; // 只有选中（进阵容）的干员才能升星
-
-        // 升星会占用星数预算：升后总星数 +1 不得超过预算（除非该干员已预升到更高星，预算本就够）
-        int projectedUsed = GetUsedStars() - _rosterStars.GetValueOrDefault(_previewing.RegistryKey, 1) + (_rosterStars.GetValueOrDefault(_previewing.RegistryKey, 1) + 1);
-        if (projectedUsed > StarBudget)
-        {
-            if (_upgradeStarButtonText != null)
-                _upgradeStarButtonText.text = $"星数预算不足(剩{StarBudget - GetUsedStars()})";
-            return;
-        }
-
-        int cost;
-        bool ok = RogueRuntimeState.TryUpgradeOperatorStar(_previewing.RegistryKey, _allOperators, out cost);
-        if (ok)
-        {
-            _rosterStars[_previewing.RegistryKey] = OperatorStarRegistry.GetStar(_previewing.RegistryKey);
-            RefreshBudgetDisplay();
-            PreviewOperator(_previewing);
-        }
-        else
-        {
-            // 金币不足或已满星：短暂提示
-            if (_upgradeStarButtonText != null)
-                StartCoroutine(FlashUpgradeButton(cost));
-        }
-    }
-
-    private IEnumerator FlashUpgradeButton(int neededCost)
-    {
-        if (_upgradeStarButtonText == null) yield break;
-        string old = _upgradeStarButtonText.text;
-        _upgradeStarButtonText.text = neededCost >= int.MaxValue ? "已满星" : $"金币不足(需{neededCost})";
-        yield return new WaitForSeconds(1f);
-        UpdateUpgradeStarButton();
-    }
-
-    /// <summary> 刷新升星按钮文案与可交互状态。 </summary>
-    private void UpdateUpgradeStarButton()
-    {
-        if (_upgradeStarButton == null) return;
-        if (_upgradeStarButtonText == null)
-            _upgradeStarButtonText = _upgradeStarButton.transform.Find("BtnText")?.GetComponent<TMP_Text>();
-
-        bool selected = _previewing != null && _selectedOperators.Contains(_previewing);
-        _upgradeStarButton.interactable = selected;
-
-        if (_upgradeStarButtonText == null) return;
-        if (!selected)
-        {
-            _upgradeStarButtonText.text = "先选中再升星";
-            return;
-        }
-        int cost = RogueRuntimeState.PreviewStarUpgradeCost(_previewing.RegistryKey, _allOperators);
-        if (cost >= int.MaxValue)
-            _upgradeStarButtonText.text = "已满星";
-        else
-            _upgradeStarButtonText.text = $"升星 (需{cost}金)";
+        // 选人阶段不允许预升星：阵容登记后全员强制 ★1（由 SetSelectedRoster 的 forceReset 保证）。
+        OperatorStarRegistry.BeginRun(keys, _allOperators, forceReset: true);
     }
 
     private void RefreshBudgetDisplay()
@@ -439,7 +385,7 @@ public class OperatorSelectionPanel : MonoBehaviour
         if (_budgetText != null)
         {
             int remain = StarBudget - used;
-            _budgetText.text = $"星数预算: {used}/{StarBudget}（剩 {remain}）  已选: {_selectedOperators.Count}人";
+            _budgetText.text = $"强度上限预算: {used}/{StarBudget}（剩 {remain}）  已选: {_selectedOperators.Count}人";
             _budgetText.color = remain < 0 ? new Color(0.9f, 0.3f, 0.25f)
                 : remain == 0 ? new Color(0.4f, 0.85f, 0.4f)
                 : new Color(0.9f, 0.75f, 0.15f);
@@ -447,18 +393,57 @@ public class OperatorSelectionPanel : MonoBehaviour
         UpdateSelectButtonText();
     }
 
-    private void UpdateHeadListCheckmarks()
+    /// <summary>
+    /// 在预算文本处闪红显示无法开战的原因，约 2.5 秒后自动恢复为预算信息。
+    /// 供「开始本局」按钮被阵容校验拦截时给出明确反馈。
+    /// </summary>
+    public void FlashStartBlockedHint(string reason)
+    {
+        if (_budgetText == null) return;
+        _budgetText.text = reason;
+        _budgetText.color = new Color(0.95f, 0.25f, 0.2f);
+        if (_blockedHintCo != null) StopCoroutine(_blockedHintCo);
+        _blockedHintCo = StartCoroutine(RecoverBudgetText());
+    }
+
+    private IEnumerator RecoverBudgetText()
+    {
+        yield return new WaitForSecondsRealtime(2.5f);
+        _blockedHintCo = null;
+        RefreshBudgetDisplay();
+    }
+
+    /// <summary>
+    /// 刷新头像列表的完整视觉状态：选中条目显示金色边框+顺序角标，
+    /// 正在预览的条目显示白色边框，其余恢复默认（无色框、无角标）。
+    /// </summary>
+    private void UpdateHeadListVisualState()
     {
         if (_headListContent == null) return;
         for (int i = 0; i < _headListContent.childCount; i++)
         {
             var child = _headListContent.GetChild(i);
             var checkmark = child.Find("Checkmark");
-            if (checkmark == null) continue;
+            var highlight = child.Find("Highlight");
+            if (checkmark == null && highlight == null) continue; // Section 标签
 
             var opName = child.name.Replace("Head_", "");
             var op = _allOperators.Find(o => o.operatorName == opName);
-            if (op != null && _selectedOperators.Contains(op))
+
+            bool isSelected = op != null && _selectedOperators.Contains(op);
+            bool isPreviewing = op != null && _previewing == op;
+
+            if (highlight != null)
+            {
+                var hlImg = highlight.GetComponent<Image>();
+                if (hlImg != null)
+                    hlImg.color = isSelected ? SelectedFrameColor
+                        : isPreviewing ? PreviewFrameColor
+                        : Color.clear;
+            }
+
+            if (checkmark == null) continue;
+            if (isSelected)
             {
                 checkmark.gameObject.SetActive(true);
                 var idx = _selectedOperators.IndexOf(op) + 1;
@@ -471,23 +456,42 @@ public class OperatorSelectionPanel : MonoBehaviour
     }
 
     /// <summary>
-    /// 已占用星数 = 阵容中每个干员的【当前星级】之和。
-    /// 这才是真正的「星数预算」策略：带 7 个 ★1 = 7 点，带 1 个 ★5 + 2 个 ★1 = 7 点，
-    /// 带 1 个 ★5 + 3 个 ★1 = 8 点则超预算。升星会直接占用预算。
+    /// 已占用星数预算 = 阵容中每个干员的【星级上限 maxStarRating】之和。
+    /// 「7 星预算」的本意是：预算锁的是你带的干员本身的强度档位，
+    /// 例如 1 个 ★5 + 1 个 ★2 = 7（占满），而非按养成进度累加。
+    /// 选人阶段预升星只改变局内初始星级，不再额外占用预算。
     /// </summary>
     private int GetUsedStars()
     {
         int total = 0;
         foreach (var op in _selectedOperators)
-        {
-            int star = _rosterStars.TryGetValue(op.name, out int s) ? s : 1;
-            total += star;
-        }
+            total += Mathf.Clamp(op.maxStarRating, 1, 5);
         return total;
     }
 
     public List<OperatorData> GetSelectedOperators() => _selectedOperators;
     public bool IsBudgetFull() => GetUsedStars() >= StarBudget;
+
+    /// <summary>
+    /// 返回无法开战的具体原因（中文提示），阵容合法返回 null。
+    /// 供 RogueEntryController 在玩家点击「开始本局」被拦截时展示明确反馈。
+    /// </summary>
+    public string GetStartBlockedReason()
+    {
+        int used = GetUsedStars();
+        int count = _selectedOperators.Count;
+        if (count == 0)
+            return "请先在右侧选中至少 1 名干员（建议选满 3 人）再开始本局";
+        if (used < 1)
+            return "阵容强度预算需至少占用 1 点才能开战";
+        if (count < BalanceConfig.RosterMinCount)
+            return $"阵容人数不足：至少需要 {BalanceConfig.RosterMinCount} 名干员（当前 {count} 人）";
+        if (count > BalanceConfig.RosterMaxCount)
+            return $"阵容人数过多：最多 {BalanceConfig.RosterMaxCount} 名干员（当前 {count} 人）";
+        if (used > StarBudget)
+            return $"强度预算超限：{used}/{StarBudget}（请移除高星干员）";
+        return null;
+    }
 
     /// <summary>
     /// 是否允许开战：星数预算不超（且至少占满 1 点）、人数在 [RosterMinCount, RosterMaxCount] 区间内。
