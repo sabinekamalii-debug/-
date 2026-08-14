@@ -1,7 +1,7 @@
 {
   "mcpServers": {
     "unity-mcp": {
-      "command": "uvx",
+      "command": "C:\\Users\\ZhuanZ（无密码）\\.local\\bin\\uvx.exe",
       "args": ["unity-mcp"],
       "env": {
         "UNITY_PROJECT_PATH": "d:\\unity\\mowang"

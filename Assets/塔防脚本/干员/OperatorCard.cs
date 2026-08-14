@@ -10,6 +10,10 @@ public class OperatorCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     public GameObject operatorPrefab;   // 卡片对应的干员预制体
     public Image characterIcon;         // 干员立绘/头像
 
+    [Header("显示（可空，按子物体名兜底查找）")]
+    public TMPro.TMP_Text nameText;     // 干员名字文本
+    public TMPro.TMP_Text costText;     // 部署费用文本
+
     [Header("冷却表现（二选一或同时用）")]
     [Tooltip("冷却时立绘保持的固定灰色，结束瞬间恢复原色，方便分清谁在冷却。不渐变。")]
     public Color cooldownColor = new Color(0.35f, 0.35f, 0.35f, 1f);
@@ -20,6 +24,11 @@ public class OperatorCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     private bool isValidDrag = false;
     private Image _runtimeOverlay;  // 无素材时自动创建的遮罩
+
+    /// <summary> 显式绑定所在滚动面板（RosterDeployInitializer 动态建卡时使用），
+    /// 避免运行期 GetComponentInParent 找不到 OperatorShopScroll 导致 _shopScroll 为 null、
+    /// OnBeginDrag 误入「无面板」分支被 Time.timeScale==0 拦截而完全无法拖拽。 </summary>
+    public void BindShopScroll(OperatorShopScroll scroll) => _shopScroll = scroll;
 
     // --- 方向路由：竖直拖拽→滚动列表，水平拖拽→部署到地图 ---
     private OperatorShopScroll _shopScroll;
@@ -75,7 +84,26 @@ public class OperatorCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         operatorPrefab = data.unitPrefab;
         if (characterIcon != null && data.icon != null)
             characterIcon.sprite = data.icon;
+        RefreshNameAndCost();
         RefreshStarBadge();
+    }
+
+    /// <summary> 把卡片上显示的名字/费用文本同步为当前 operatorData 的值。
+    /// 名字与费用文本通过 Inspector 字段或子物体名兜底查找，
+    /// 这样动态重建的卡也能正确显示干员名与费用，而不是场景里写死的旧文本。 </summary>
+    public void RefreshNameAndCost()
+    {
+        if (operatorData == null) return;
+
+        if (nameText == null)
+            nameText = transform.Find("名字")?.GetComponent<TMPro.TMP_Text>();
+        if (nameText != null)
+            nameText.text = operatorData.operatorName;
+
+        if (costText == null)
+            costText = transform.Find("费用文字")?.GetComponent<TMPro.TMP_Text>();
+        if (costText != null)
+            costText.text = GetDeployCost().ToString();
     }
 
     // --- 星级角标：让玩家在部署卡上直接看到该干员当前养到几星 ---
@@ -225,6 +253,7 @@ public class OperatorCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        Debug.Log($"[OperatorCard-DIAG] OnBeginDrag 被调用 name={operatorData?.operatorName} _shopScroll={( _shopScroll != null ? _shopScroll.name : "null")} timeScale={Time.timeScale}");
         // 如果在可滚动商店面板内，直接进入方向待定模式（不检查部署条件）
         if (_shopScroll == null)
             _shopScroll = GetComponentInParent<OperatorShopScroll>();

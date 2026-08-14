@@ -410,6 +410,22 @@ public static class RogueRuntimeState
             CurrentGameMode = (GameMode)PlayerPrefs.GetInt(KeyGameMode, (int)GameMode.Normal);
             RunSeed = PlayerPrefs.GetInt(KeyRunSeed, 0);
             CurrentActId = PlayerPrefs.GetInt(KeyCurrentActId, 0);
+
+            // 迁移：持久化的 CurrentActId 可能残留旧测试写入的非法/未解锁值
+            // （如 Act2 在未通关 Act1 前被写入）。若该大局不存在或未解锁，
+            // 回退到第一个大局，否则首战会取到该大局 normalLevelPool[0]
+            // （Act2 池 [0]=23），玩家点击「开始本局」会进入莫名奇妙的关卡。
+            if (CurrentActId > 0)
+            {
+                var actCfg = ActRegistry.GetActConfig(CurrentActId);
+                if (actCfg == null || !actCfg.IsUnlocked())
+                {
+                    var firstAct = ActRegistry.GetFirstAct();
+                    if (firstAct != null)
+                        CurrentActId = firstAct.actId;
+                }
+            }
+
             if (RunSeed != 0)
             {
                 _runRng = new RunRng(RunSeed);
@@ -670,6 +686,18 @@ public static class RogueRuntimeState
         OperatorStarRegistry.BeginRun(_selectedRoster, allData, forceReset: true);
     }
 
+    /// <summary>
+    /// 选人阶段实时写入「预览阵容」：每次勾选/取消后立即把当前选择落盘到 SelectedRoster。
+    /// 这样中途重进 RogueEntry 场景（或编辑器重跑）已选干员不会丢——
+    /// 面板 Start() 会从这里恢复，SelectedRoster 成为选人唯一真相源。
+    /// 不触发 StarRegistry.BeginRun（那是点「开始本局」时的正式确认动作）。
+    /// </summary>
+    public static void SetPreviewRoster(List<string> keys)
+    {
+        _selectedRoster = new List<string>(keys ?? new List<string>());
+        SaveSelectedRoster();
+    }
+
     /// <summary> 加载全量干员数据（用于局内招募随机池）。编辑器下用 AssetDatabase，运行时用 Resources，与选人面板一致。 </summary>
     public static List<OperatorData> LoadAllOperatorData()
     {
@@ -765,13 +793,13 @@ public static class RogueRuntimeState
     public static void ForceResetRun()
     {
         InitIfNeeded();
-        // 如果没有选择大局，自动选择默认大局
-        if (CurrentActId <= 0)
-        {
-            var defaultAct = ActRegistry.GetActConfig(2) ?? ActRegistry.GetFirstAct();
-            if (defaultAct != null)
-                CurrentActId = defaultAct.actId;
-        }
+        // 「开始全新一局」：无论存档残留的 CurrentActId 是多少，一律回到第一个大局
+        // （actId 最小 = ActConfig_1 魔王的试炼）。目前没有大局选择 UI，新局固定从 Act1 开始。
+        // 之前写死 GetActConfig(2) / 仅当 CurrentActId<=0 才重置，会让首战取到
+        // Act2 的 normalLevelPool[0]=23（第 23 关），玩家点击「开始本局」进入莫名奇妙的关卡。
+        var defaultAct = ActRegistry.GetFirstAct();
+        if (defaultAct != null)
+            CurrentActId = defaultAct.actId;
         RunGold = 0;
         CardDrawCount = 0;
         HasActiveRun = false;
@@ -796,6 +824,16 @@ public static class RogueRuntimeState
     {
         InitIfNeeded();
         if (HasActiveRun) return;
+
+        // 新局必须有一个有效大局：无存档残留时 CurrentActId 可能为 0，
+        // 直接回第一个大局，保证首战走 Act1 的 normalLevelPool[0]=1，
+        // 而不是退化成 null ActConfig 的扫描兜底或旧 level 1 场景。
+        if (CurrentActId <= 0)
+        {
+            var defaultAct = ActRegistry.GetFirstAct();
+            if (defaultAct != null)
+                CurrentActId = defaultAct.actId;
+        }
 
         HasActiveRun = true;
         CurrentStage = 1;

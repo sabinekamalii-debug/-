@@ -29,6 +29,9 @@ public class Enemy2 : MonoBehaviour
     [HideInInspector] public bool isMarked = false;   // 是否被先锋侦察标记
     private float _markTimer = 0f;                     // 剩余标记时间
     private GameObject _reconRing;                     // 青色侦察环子物体
+    private Color _markTint = new Color(0.3f, 0.9f, 1f, 1f); // 被标记全身染色（青色）
+    private SpriteRenderer[] _cachedBodySR;            // 标记前缓存的本体 SpriteRenderer
+    private Color[] _cachedBodyColors;                 // 各 SpriteRenderer 原始颜色（解除时还原）
     [Tooltip("被标记时受到的伤害倍率（1.3 = +30% 增伤）")]
     public float markedDamageMultiplier = 1.3f;
 
@@ -107,6 +110,8 @@ public class Enemy2 : MonoBehaviour
         isMarked = false;
         _markTimer = 0f;
         if (_reconRing != null) _reconRing.SetActive(false);
+        _cachedBodySR = null;
+        _cachedBodyColors = null;
         isPurpleTalentEnemy = false;
         isElite = false;
         _eliteDefenseBonus = 0;
@@ -314,6 +319,47 @@ public class Enemy2 : MonoBehaviour
         isMarked = true;
         _markTimer = Mathf.Max(_markTimer, duration); // 再次路过刷新（取较大值，避免缩短）
         ShowReconRing(true);
+        ApplyMarkTint(true);
+    }
+
+    /// <summary> 被标记时对本体的所有 SpriteRenderer 染色（全身变色），解除时还原原始颜色。 </summary>
+    private void ApplyMarkTint(bool tinted)
+    {
+        if (tinted)
+        {
+            if (_cachedBodySR == null)
+            {
+                // 首次标记：缓存所有本体 SpriteRenderer 及其原始颜色（排除侦察环子物体）
+                var all = GetComponentsInChildren<SpriteRenderer>(true);
+                var list = new System.Collections.Generic.List<SpriteRenderer>();
+                var colors = new System.Collections.Generic.List<Color>();
+                foreach (var sr in all)
+                {
+                    if (_reconRing != null && sr.transform.IsChildOf(_reconRing.transform)) continue;
+                    list.Add(sr);
+                    colors.Add(sr.color);
+                }
+                _cachedBodySR = list.ToArray();
+                _cachedBodyColors = colors.ToArray();
+            }
+            for (int i = 0; i < _cachedBodySR.Length; i++)
+            {
+                if (_cachedBodySR[i] != null) _cachedBodySR[i].color = _markTint;
+            }
+        }
+        else
+        {
+            // 解除标记：还原原始颜色
+            if (_cachedBodySR != null && _cachedBodyColors != null)
+            {
+                for (int i = 0; i < _cachedBodySR.Length; i++)
+                {
+                    if (_cachedBodySR[i] != null) _cachedBodySR[i].color = _cachedBodyColors[i];
+                }
+            }
+            _cachedBodySR = null;
+            _cachedBodyColors = null;
+        }
     }
 
     private void UpdateReconMark()
@@ -332,6 +378,7 @@ public class Enemy2 : MonoBehaviour
         {
             isMarked = false;
             ShowReconRing(false);
+            ApplyMarkTint(false);
         }
     }
 

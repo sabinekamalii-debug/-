@@ -17,7 +17,6 @@ public static class OperatorSelectionPanelEditor
         var old = canvas.transform.Find("OperatorSelectionPanel");
         if (old != null)
         {
-            Debug.Log("Removing old OperatorSelectionPanel...");
             Object.DestroyImmediate(old.gameObject);
         }
 
@@ -33,7 +32,6 @@ public static class OperatorSelectionPanelEditor
 
         UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
             UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene());
-        Debug.Log("OperatorSelectionPanel created. Enter Play mode to see the UI.");
     }
 
     [MenuItem("Tools/干员选择面板/设置干员星级")]
@@ -104,6 +102,6 @@ public static class OperatorSelectionPanelEditor
         }
 
         AssetDatabase.SaveAssets();
-        Debug.Log($"Set star ratings for {modified} operators.");
+
     }
 }

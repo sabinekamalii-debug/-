@@ -75,6 +75,39 @@ public class OperatorSelectionPanel : MonoBehaviour
             PreviewOperator(firstUnlocked ?? _allOperators[0]);
         }
         RefreshBudgetDisplay();
+
+        // 场景（重）加载后从 RogueRuntimeState.SelectedRoster 预恢复已选阵容，
+        // 避免中途重进 RogueEntry / 编辑器重跑导致选好的干员丢失（选人唯一真相源）。
+        RestoreSelectionFromRuntimeState();
+    }
+
+    /// <summary>
+    /// 从 RogueRuntimeState.SelectedRoster 恢复已选干员与其 ★1 初始星级状态，
+    /// 重建勾选视觉。仅恢复仍处于「已解锁」的干员（防止旧存档指向已失效 key）。
+    /// 新局（ForceResetRun 已清空 SelectedRoster）恢复结果为空，符合「重新开始选人」设计。
+    /// </summary>
+    private void RestoreSelectionFromRuntimeState()
+    {
+        var saved = RogueRuntimeState.SelectedRoster;
+        if (saved == null || saved.Count == 0) return;
+
+        foreach (var key in saved)
+        {
+            if (string.IsNullOrEmpty(key)) continue;
+            var op = _allOperators.Find(o => o.RegistryKey == key);
+            if (op == null || !op.isInitialAvailable) continue;
+            if (!_selectedOperators.Contains(op))
+                _selectedOperators.Add(op);
+            if (!_rosterStars.ContainsKey(key))
+                _rosterStars[key] = 1;
+        }
+
+        if (_selectedOperators.Count > 0)
+        {
+            SyncRosterToRegistry();
+            RefreshBudgetDisplay();
+            UpdateHeadListVisualState();
+        }
     }
 
     private void BindReferences()
@@ -126,7 +159,6 @@ public class OperatorSelectionPanel : MonoBehaviour
         _allOperators = _allOperators.FindAll(o => !string.IsNullOrEmpty(o.operatorName));
 #endif
         _allOperators.Sort((a, b) => b.maxStarRating.CompareTo(a.maxStarRating));
-        Debug.Log($"[OperatorSelectionPanel] Loaded {_allOperators.Count} operators");
     }
 
     private void PopulateHeadList()
@@ -362,6 +394,10 @@ public class OperatorSelectionPanel : MonoBehaviour
         // 同步阵容到养成状态：升星接口要求干员已在 roster 内登记，
         // 否则选人阶段点「升星」会因「不在阵容」而静默失败。
         SyncRosterToRegistry();
+
+        // 实时把当前选择落盘到 RogueRuntimeState.SelectedRoster，
+        // 使中途重进场景也能恢复（选人唯一真相源）。
+        RogueRuntimeState.SetPreviewRoster(_selectedOperators.Select(o => o.RegistryKey).ToList());
 
         UpdateSelectButtonText();
         RefreshBudgetDisplay();

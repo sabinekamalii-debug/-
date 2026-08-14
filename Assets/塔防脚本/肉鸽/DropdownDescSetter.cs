@@ -7,11 +7,11 @@ using TMPro;
 /// </summary>
 public class DropdownDescSetter : MonoBehaviour
 {
-    private static readonly string[] Titles = { "固定模式", "混合模式", "随机模式" };
+    private static readonly string[] Titles = { "守心模式", "盛怒模式", "苟道模式" };
     private static readonly string[] Descs = {
-        "固定关卡",
-        "前期固定，后期随机",
-        "随机关卡"
+        "攻防均衡（模式影响剧情）",
+        "攻击类卡更多",
+        "防御守护类卡更多"
     };
 
     private void LateUpdate()

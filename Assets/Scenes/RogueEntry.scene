@@ -1633,7 +1633,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u6A21\u5F0F\u9009\u62E9\uFF1A\u6DF7\u5408\u6A21\u5F0F"
+  m_text: "\u6A21\u5F0F\u9009\u62E9\uFF1A\u5B88\u5FC3\u6A21\u5F0F"
   m_enableAdvanceTextProcess: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 541aeafb36a831948b6de3ec0831bd5b, type: 2}
@@ -3892,7 +3892,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entryScene: RogueEntry
-  battleScene: RogueBattle_Template
+  firstLevelScene: level 1
   resultScene: RogueResult
   collectionScene: StoryCardCollection
   strictCheckCurrentScene: 1

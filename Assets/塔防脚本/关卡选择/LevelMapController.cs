@@ -67,10 +67,11 @@ public class LevelMapController : MonoBehaviour
         }
 #endif
 
-        // 直接运行 plot 场景测试时，CurrentActId 可能为 0，自动选默认大局
+        // 直接运行 plot 场景测试时，CurrentActId 可能为 0，自动选第一个大局（Act1 魔王的试炼）。
+        // 之前写死 GetActConfig(2) 会让首战取到 Act2 的 normalLevelPool[0]=23（第 23 关）。
         if (RogueRuntimeState.CurrentActId <= 0)
         {
-            var defaultAct = ActRegistry.GetActConfig(2) ?? ActRegistry.GetFirstAct();
+            var defaultAct = ActRegistry.GetFirstAct();
             if (defaultAct != null)
                 RogueRuntimeState.StartAct(defaultAct.actId);
         }

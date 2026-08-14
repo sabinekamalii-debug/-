@@ -43,7 +43,7 @@ public static class StSMapEditorGenerator
         {
             if (RogueRuntimeState.CurrentActId <= 0)
             {
-                var defaultAct = ActRegistry.GetActConfig(2) ?? ActRegistry.GetFirstAct();
+                var defaultAct = ActRegistry.GetFirstAct();
                 if (defaultAct != null)
                     RogueRuntimeState.StartAct(defaultAct.actId);
             }
