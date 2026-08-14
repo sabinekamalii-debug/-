@@ -36,6 +36,7 @@ public class OperatorUnit : MonoBehaviour
     private bool _suppressEncounterUntilExit = false;
     private bool _pendingEvadeContactDamage = false;
     private bool _isVanguardReturning = false; // 先锋专属「返回」：正在返回守护点途中
+    private bool _avoidAllEncounters = false;  // 「一路避让」：后续遇到敌人直接避让，不再弹菜单/不暂停
 
     // 移动中的干员不阻挡敌人（部署/换位途中），供 UnitBlocker 判断
     public bool IsEvading() => !chooseToFight && isMoving;
@@ -551,6 +552,8 @@ public class OperatorUnit : MonoBehaviour
         {
             if (DeploymentManager.Instance != null)
                 DeploymentManager.Instance.AddDP(VanguardReturnDPBonus);
+            // 先锋「收集完情报就走」：返回后，当前已标记的敌人受到额外 +10% 增伤（全局叠加，可多先锋累计）
+            Enemy2.AddVanguardReturnReconBonus();
             // 释放阻挡 + 撤退（销毁）
             if (blocker != null) blocker.ReleaseAllEnemies();
             Destroy(gameObject);
@@ -597,6 +600,13 @@ public class OperatorUnit : MonoBehaviour
         if (IsCellOccupiedByStandingOperator(transform.position, this))
             return;
 
+        // 「一路避让」：直接默认避让，不弹遭遇菜单、不暂停游戏，干员继续移动不停下
+        if (_avoidAllEncounters)
+        {
+            ResolveEncounter(false);
+            return;
+        }
+
         isEncountering = true;
         if (EncounterManager.Instance != null)
             EncounterManager.Instance.TriggerEncounter(this);
@@ -625,10 +635,19 @@ public class OperatorUnit : MonoBehaviour
     }
 
     /// <summary>
-    /// 先锋专属遭遇选项「返回」：先锋开始返回守护点，到达后获得大量部署点。
-    /// 返回途中不阻挡/攻击敌人、不再触发遭遇菜单。
+    /// 开启「一路避让」：后续遇到敌人直接默认避让，不再弹出遭遇战菜单、不暂停游戏。
+    /// 生效到干员撤退/阵亡（重新部署新实例时自然重置）。
     /// </summary>
-    public void VanguardReturn()
+    public void EnableAvoidAllEncounters()
+    {
+        _avoidAllEncounters = true;
+    }
+
+    /// <summary>
+    /// 通用遭遇选项「返回守护点」：干员开始返回守护点，到达后获得部署点奖励。
+    /// 返回途中不阻挡/攻击敌人、不再触发遭遇菜单。此前为先锋专属，现对所有干员开放。
+    /// </summary>
+    public void ReturnToGuardPoint()
     {
         _isVanguardReturning = true;
         chooseToFight = false;

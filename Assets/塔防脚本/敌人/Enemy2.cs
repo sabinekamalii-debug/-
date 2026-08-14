@@ -26,14 +26,72 @@ public class Enemy2 : MonoBehaviour
     private float _runtimeMoveSpeedMultiplier = 1f;
 
     // ===== 先锋侦察标记 =====
-    [HideInInspector] public bool isMarked = false;   // 是否被先锋侦察标记
-    private float _markTimer = 0f;                     // 剩余标记时间
+    [HideInInspector] public bool isMarked = false;   // 是否正在被侦察标记（进度>0 或完全标记保留中）
+    private float _reconExposure = 0f;                 // 在侦察范围内累计的暴露时间（秒）
+    private float _reconProgress = 0f;                 // 标记进度 0~1（1 = 完全标记）
+    private float _markTimer = 0f;                     // 完全标记后脱离范围仍保留的剩余时间
+    private float _lastReconObservedTime = -999f;      // 最近一次被侦察观察到的时间
     private GameObject _reconRing;                     // 青色侦察环子物体
-    private Color _markTint = new Color(0.3f, 0.9f, 1f, 1f); // 被标记全身染色（青色）
     private SpriteRenderer[] _cachedBodySR;            // 标记前缓存的本体 SpriteRenderer
     private Color[] _cachedBodyColors;                 // 各 SpriteRenderer 原始颜色（解除时还原）
-    [Tooltip("被标记时受到的伤害倍率（1.3 = +30% 增伤）")]
+    private const float reconObserveGrace = 0.3f;      // 超过该秒数未被观察视为「已脱离侦察范围」
+    [Header("先锋侦察标记")]
+    [Tooltip("敌人在侦察范围内累计待满该秒数即「完全标记」（增伤按进度线性增长）")]
+    public float fullMarkTime = 2f;
+    [Tooltip("完全标记时受到的伤害倍率（1.3 = +30% 增伤），不含先锋返回的额外叠加")]
     public float markedDamageMultiplier = 1.3f;
+    [Tooltip("完全标记后，脱离侦察范围仍保留标记的时长（秒）")]
+    public float markDuration = 10f;
+    [Tooltip("未完全标记时，脱离侦察范围的暴露进度衰减速度（每秒损失多少秒暴露时间）")]
+    public float exposureDecayPerSecond = 2f;
+
+    /// <summary>先锋「返回守护点」叠加的被标记敌人额外增伤层数，每层 +10%。全局持久，可多先锋累计。</summary>
+    public static int VanguardReturnReconBonusStacks { get; private set; } = 0;
+    /// <summary>先锋返回的额外增伤比例（每层 10%）</summary>
+    public const float VanguardReturnReconBonusPerStack = 0.1f;
+
+    /// <summary>
+    /// 先锋返回守护点后调用：叠加一层「被标记敌人额外增伤」，并立即对当前所有已标记敌人刷新颜色。
+    /// 每层使被标记敌人受伤额外 +10%（在 markedDamageMultiplier 基础上相乘）。
+    /// </summary>
+    public static void AddVanguardReturnReconBonus()
+    {
+        VanguardReturnReconBonusStacks++;
+        // 立即刷新当前已标记敌人的颜色（颜色随层数变化，体现「再次变色」）
+        var marked = FindObjectsOfType<Enemy2>();
+        foreach (var e in marked)
+        {
+            if (e != null && e.isMarked)
+                e.ApplyMarkTint(e.ReconProgress);
+        }
+    }
+
+    /// <summary>当前标记进度（0~1）：0=未标记，1=完全标记。增伤随进度线性增长。</summary>
+    public float ReconProgress => _reconProgress;
+
+    /// <summary>当前被标记敌人实际生效的伤害倍率（标记进度增伤 × 先锋返回叠加）。</summary>
+    public float EffectiveMarkedDamageMultiplier
+    {
+        get
+        {
+            if (_reconProgress <= 0f) return 1f;
+            // 基础标记增伤按进度插值：1 → markedDamageMultiplier
+            float baseMult = 1f + (markedDamageMultiplier - 1f) * _reconProgress;
+            float bonus = 1f + VanguardReturnReconBonusStacks * VanguardReturnReconBonusPerStack;
+            return baseMult * bonus;
+        }
+    }
+
+    /// <summary>根据先锋返回叠加层数返回标记染色颜色：0层青色，1层金橙，2层及以上品红。</summary>
+    private Color GetMarkTintColor()
+    {
+        switch (VanguardReturnReconBonusStacks)
+        {
+            case 0:  return new Color(0.3f, 0.9f, 1f, 1f);   // 青色（仅先锋侦察标记）
+            case 1:  return new Color(1f, 0.75f, 0.2f, 1f);  // 金橙（返回叠加1层）
+            default: return new Color(1f, 0.3f, 0.8f, 1f);   // 品红（返回叠加2层+）
+        }
+    }
 
     public static int ActiveEnemyCount { get; private set; }
 
@@ -108,7 +166,10 @@ public class Enemy2 : MonoBehaviour
         _isDead = false;
         // 重置先锋侦察标记（对象池复用时）
         isMarked = false;
+        _reconExposure = 0f;
+        _reconProgress = 0f;
         _markTimer = 0f;
+        _lastReconObservedTime = -999f;
         if (_reconRing != null) _reconRing.SetActive(false);
         _cachedBodySR = null;
         _cachedBodyColors = null;
@@ -273,9 +334,9 @@ public class Enemy2 : MonoBehaviour
         {
             defense = Mathf.RoundToInt(defense * (1f - Mathf.Min(penetrationPercent, 100) / 100f));
         }
-        // 先锋侦察标记：被标记的敌人受到所有来源的额外增伤（先算增伤，再走防御计算）
-        if (isMarked && markedDamageMultiplier > 1f)
-            damage = Mathf.RoundToInt(damage * markedDamageMultiplier);
+        // 先锋侦察标记：标记进度越高增伤越高（完全标记时达到最大），先算增伤再走防御计算
+        if (_reconProgress > 0f && markedDamageMultiplier > 1f)
+            damage = Mathf.RoundToInt(damage * EffectiveMarkedDamageMultiplier);
 
         int finalDamage = ignoreDefense ? damage : OperatorUnit.ApplyDefense(damage, defense);
         int oldHealth = currentHealth;
@@ -311,43 +372,19 @@ public class Enemy2 : MonoBehaviour
 
     // ===== 先锋侦察标记 =====
     /// <summary>
-    /// 被先锋侦察标记（或刷新标记时长）。被标记的敌人显示青色侦察环，并在标记期间受到额外增伤。
+    /// 被先锋侦察范围持续观察到：通知敌人本帧仍在侦察范围内，用于累计「暴露时间」。
+    /// 由 VanguardRecon 按 scanInterval 节流对范围内敌人调用。
     /// </summary>
-    public void MarkForRecon(float duration)
+    public void NotifyReconObserved()
     {
         if (_isDead) return;
-        isMarked = true;
-        _markTimer = Mathf.Max(_markTimer, duration); // 再次路过刷新（取较大值，避免缩短）
-        ShowReconRing(true);
-        ApplyMarkTint(true);
+        _lastReconObservedTime = Time.time;
     }
 
-    /// <summary> 被标记时对本体的所有 SpriteRenderer 染色（全身变色），解除时还原原始颜色。 </summary>
-    private void ApplyMarkTint(bool tinted)
+    /// <summary> 按标记进度对本体的所有 SpriteRenderer 染色：0=原始色，1=完全标记色，中间线性插值。 </summary>
+    private void ApplyMarkTint(float progress)
     {
-        if (tinted)
-        {
-            if (_cachedBodySR == null)
-            {
-                // 首次标记：缓存所有本体 SpriteRenderer 及其原始颜色（排除侦察环子物体）
-                var all = GetComponentsInChildren<SpriteRenderer>(true);
-                var list = new System.Collections.Generic.List<SpriteRenderer>();
-                var colors = new System.Collections.Generic.List<Color>();
-                foreach (var sr in all)
-                {
-                    if (_reconRing != null && sr.transform.IsChildOf(_reconRing.transform)) continue;
-                    list.Add(sr);
-                    colors.Add(sr.color);
-                }
-                _cachedBodySR = list.ToArray();
-                _cachedBodyColors = colors.ToArray();
-            }
-            for (int i = 0; i < _cachedBodySR.Length; i++)
-            {
-                if (_cachedBodySR[i] != null) _cachedBodySR[i].color = _markTint;
-            }
-        }
-        else
+        if (progress <= 0f)
         {
             // 解除标记：还原原始颜色
             if (_cachedBodySR != null && _cachedBodyColors != null)
@@ -359,27 +396,118 @@ public class Enemy2 : MonoBehaviour
             }
             _cachedBodySR = null;
             _cachedBodyColors = null;
+            return;
+        }
+
+        if (_cachedBodySR == null)
+        {
+            // 首次标记：缓存所有本体 SpriteRenderer 及其原始颜色（排除侦察环子物体）
+            var all = GetComponentsInChildren<SpriteRenderer>(true);
+            var list = new System.Collections.Generic.List<SpriteRenderer>();
+            var colors = new System.Collections.Generic.List<Color>();
+            foreach (var sr in all)
+            {
+                if (_reconRing != null && sr.transform.IsChildOf(_reconRing.transform)) continue;
+                list.Add(sr);
+                colors.Add(sr.color);
+            }
+            _cachedBodySR = list.ToArray();
+            _cachedBodyColors = colors.ToArray();
+        }
+
+        Color markColor = GetMarkTintColor();
+        for (int i = 0; i < _cachedBodySR.Length; i++)
+        {
+            if (_cachedBodySR[i] != null)
+                _cachedBodySR[i].color = Color.Lerp(_cachedBodyColors[i], markColor, progress);
         }
     }
 
     private void UpdateReconMark()
     {
-        if (!isMarked) return;
-        _markTimer -= Time.deltaTime;
+        // 最近一段时间内是否仍在侦察范围内（留出比 scanInterval 略长的容差，避免帧间闪烁）
+        bool observed = (Time.time - _lastReconObservedTime) <= reconObserveGrace;
 
-        // 青环轻微脉动，强化「被扫描/锁定」的视觉反馈
+        // 从未被观察、也无任何标记状态时直接跳过（性能）
+        if (!observed && _reconExposure <= 0f && _reconProgress <= 0f && !isMarked)
+            return;
+
+        if (observed)
+        {
+            // 在侦察范围内：累计暴露时间，直到完全标记
+            if (_reconExposure < fullMarkTime)
+            {
+                _reconExposure = Mathf.Min(_reconExposure + Time.deltaTime, fullMarkTime);
+                _reconProgress = fullMarkTime > 0f ? Mathf.Clamp01(_reconExposure / fullMarkTime) : 1f;
+            }
+            _markTimer = markDuration; // 持续观察时刷新「完全标记保留时长」
+        }
+        else
+        {
+            if (_reconProgress >= 1f)
+            {
+                // 已完全标记：脱离范围后按 markDuration 倒计时保留，过期彻底解除
+                _markTimer -= Time.deltaTime;
+                if (_markTimer <= 0f)
+                {
+                    _reconExposure = 0f;
+                    _reconProgress = 0f;
+                }
+            }
+            else
+            {
+                // 未完全标记：脱离范围后暴露进度逐渐衰减
+                _reconExposure -= exposureDecayPerSecond * Time.deltaTime;
+                if (_reconExposure <= 0f)
+                {
+                    _reconExposure = 0f;
+                    _reconProgress = 0f;
+                }
+                else
+                {
+                    _reconProgress = fullMarkTime > 0f ? Mathf.Clamp01(_reconExposure / fullMarkTime) : 1f;
+                }
+            }
+        }
+
+        bool shouldMark = _reconProgress > 0f;
+        if (shouldMark != isMarked)
+        {
+            isMarked = shouldMark;
+            if (isMarked)
+            {
+                ShowReconRing(true);
+            }
+            else
+            {
+                ShowReconRing(false);
+                ApplyMarkTint(0f);
+                return;
+            }
+        }
+
+        UpdateReconVisual();
+    }
+
+    /// <summary> 按进度刷新侦察环与本体染色的视觉表现。 </summary>
+    private void UpdateReconVisual()
+    {
+        float progress = _reconProgress;
+
         if (_reconRing != null)
         {
+            // 青环轻微脉动，且随进度增大、变亮
             float pulse = 1f + 0.12f * Mathf.Sin(Time.time * 6f);
-            _reconRing.transform.localScale = Vector3.one * pulse;
+            _reconRing.transform.localScale = Vector3.one * (Mathf.Lerp(0.7f, 1f, progress) * pulse);
+            var ringSR = _reconRing.GetComponent<SpriteRenderer>();
+            if (ringSR != null)
+            {
+                float alpha = Mathf.Lerp(0.25f, 0.9f, progress);
+                ringSR.color = new Color(0.3f, 0.9f, 1f, alpha);
+            }
         }
 
-        if (_markTimer <= 0f)
-        {
-            isMarked = false;
-            ShowReconRing(false);
-            ApplyMarkTint(false);
-        }
+        ApplyMarkTint(progress);
     }
 
     private void ShowReconRing(bool show)

@@ -32,6 +32,67 @@ public static class RosterDeployInitializer
         // - 没选人 / 选人丢失 → 用已解锁干员兜底填充，避免旧模式写死固定干员残留。
         ApplyRoster();
         EnsureStarUpgradePanel();
+        EnsureShovelTool();
+    }
+
+    /// <summary>
+    /// 在战斗场景的「干员商店面板」底部自动注入一个「铲子」工具：
+    /// 拖拽铲子到已部署的干员身上可铲除该干员（不返还费用、触发购买冷却）。
+    /// 通过运行时自动注入，96 个战斗场景都无需手动摆 UI。
+    /// </summary>
+    private static void EnsureShovelTool()
+    {
+        var scroll = Object.FindFirstObjectByType<OperatorShopScroll>();
+        if (scroll == null) return;
+        // 非战斗场景（无部署系统）不需要铲子
+        if (Object.FindFirstObjectByType<DeploymentManager>() == null) return;
+        // 已存在则不重复创建（场景重载兜底）
+        if (scroll.GetComponentInChildren<ShovelTool>(true) != null) return;
+
+        Transform panel = scroll.transform;
+
+        // 在 viewport 底部预留空间放铲子，避免与滚动的卡片重叠
+        var viewportRect = scroll.viewport != null ? scroll.viewport : scroll.GetComponentInChildren<RectMask2D>()?.rectTransform;
+        if (viewportRect != null)
+        {
+            Vector2 offsetMin = viewportRect.offsetMin;
+            // 仅当底部还没预留过（避免重复叠加）时预留
+            if (offsetMin.y < 1.0f)
+                viewportRect.offsetMin = new Vector2(offsetMin.x, 1.15f);
+        }
+
+        var go = new GameObject("ShovelTool");
+        go.transform.SetParent(panel, false);
+        var rect = go.AddComponent<RectTransform>();
+        rect.anchorMin = new Vector2(0.5f, 0f);
+        rect.anchorMax = new Vector2(0.5f, 0f);
+        rect.pivot = new Vector2(0.5f, 0f);
+        rect.sizeDelta = new Vector2(2.0f, 1.0f);
+        rect.anchoredPosition = new Vector2(0f, 0.08f);
+
+        var bg = go.AddComponent<Image>();
+        bg.color = new Color(0.18f, 0.16f, 0.12f, 0.95f);
+        bg.raycastTarget = true; // 根 Image 接收拖拽射线
+
+        // 铲子文字（与部署卡同名/费用文字一致：WorldSpace 世界单位字号、TMP）
+        var labelGo = new GameObject("文字");
+        labelGo.transform.SetParent(go.transform, false);
+        var labelRect = labelGo.AddComponent<RectTransform>();
+        labelRect.anchorMin = Vector2.zero;
+        labelRect.anchorMax = Vector2.one;
+        labelRect.offsetMin = Vector2.zero;
+        labelRect.offsetMax = Vector2.zero;
+        var labelTmp = labelGo.AddComponent<TMPro.TextMeshProUGUI>();
+        labelTmp.text = "铲除干员";
+        labelTmp.fontSize = 0.6f;
+        labelTmp.alignment = TMPro.TextAlignmentOptions.Center;
+        labelTmp.color = new Color(1f, 0.78f, 0.35f);
+        labelTmp.enableWordWrapping = false;
+        labelTmp.raycastTarget = false;
+
+        var shovel = go.AddComponent<ShovelTool>();
+        // operatorLayer 留空：ShovelTool 运行时会自动取 DeploymentManager.operatorLayer
+        // 不调用 DontDestroyOnLoad：铲子随商店面板按场景重建即可
     }
 
     /// <summary>
