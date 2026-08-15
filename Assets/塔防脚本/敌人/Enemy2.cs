@@ -13,6 +13,8 @@ public class Enemy2 : MonoBehaviour
 
     [HideInInspector] public bool isPurpleTalentEnemy = false;
     [HideInInspector] public bool isElite = false;
+    /// <summary>是否 Boss（由 BossLevelController 生成时打标）。Boss 需要更长的侦察标记时间、更低的满标记增伤上限。</summary>
+    [HideInInspector] public bool isBoss = false;
 
     private bool _isDead;
     private Vector3 _targetPosition;
@@ -36,8 +38,12 @@ public class Enemy2 : MonoBehaviour
     private Color[] _cachedBodyColors;                 // 各 SpriteRenderer 原始颜色（解除时还原）
     private const float reconObserveGrace = 0.3f;      // 超过该秒数未被观察视为「已脱离侦察范围」
     [Header("先锋侦察标记")]
-    [Tooltip("敌人在侦察范围内累计待满该秒数即「完全标记」（增伤按进度线性增长）")]
+    [Tooltip("普通敌人在侦察范围内累计待满该秒数即「完全标记」（增伤按进度线性增长）")]
     public float fullMarkTime = 2f;
+    [Tooltip("精英敌人（精英关 buff 敌人）的完全标记时间")]
+    public float eliteFullMarkTime = 3f;
+    [Tooltip("Boss（BossLevelController 生成）的完全标记时间")]
+    public float bossFullMarkTime = 5f;
     [Tooltip("完全标记时受到的伤害倍率（1.3 = +30% 增伤），不含先锋返回的额外叠加")]
     public float markedDamageMultiplier = 1.3f;
     [Tooltip("完全标记后，脱离侦察范围仍保留标记的时长（秒）")]
@@ -69,13 +75,24 @@ public class Enemy2 : MonoBehaviour
     /// <summary>当前标记进度（0~1）：0=未标记，1=完全标记。增伤随进度线性增长。</summary>
     public float ReconProgress => _reconProgress;
 
+    /// <summary>本敌人实际生效的「完全标记所需时间」：Boss &gt; 精英 &gt; 普通。</summary>
+    private float EffectiveFullMarkTime
+    {
+        get
+        {
+            if (isBoss) return bossFullMarkTime;
+            if (isElite) return eliteFullMarkTime;
+            return fullMarkTime;
+        }
+    }
+
     /// <summary>当前被标记敌人实际生效的伤害倍率（标记进度增伤 × 先锋返回叠加）。</summary>
     public float EffectiveMarkedDamageMultiplier
     {
         get
         {
             if (_reconProgress <= 0f) return 1f;
-            // 基础标记增伤按进度插值：1 → markedDamageMultiplier
+            // 基础标记增伤按进度插值：1 → markedDamageMultiplier（Boss/精英/普通一视同仁）
             float baseMult = 1f + (markedDamageMultiplier - 1f) * _reconProgress;
             float bonus = 1f + VanguardReturnReconBonusStacks * VanguardReturnReconBonusPerStack;
             return baseMult * bonus;
@@ -175,6 +192,7 @@ public class Enemy2 : MonoBehaviour
         _cachedBodyColors = null;
         isPurpleTalentEnemy = false;
         isElite = false;
+        isBoss = false;
         _eliteDefenseBonus = 0;
         _eliteBonusDP = 0;
         if (deathRewardText != null) deathRewardText.gameObject.SetActive(false);
@@ -434,11 +452,12 @@ public class Enemy2 : MonoBehaviour
 
         if (observed)
         {
-            // 在侦察范围内：累计暴露时间，直到完全标记
-            if (_reconExposure < fullMarkTime)
+            // 在侦察范围内：累计暴露时间，直到完全标记（Boss/精英所需时间更长）
+            float fullTime = EffectiveFullMarkTime;
+            if (_reconExposure < fullTime)
             {
-                _reconExposure = Mathf.Min(_reconExposure + Time.deltaTime, fullMarkTime);
-                _reconProgress = fullMarkTime > 0f ? Mathf.Clamp01(_reconExposure / fullMarkTime) : 1f;
+                _reconExposure = Mathf.Min(_reconExposure + Time.deltaTime, fullTime);
+                _reconProgress = fullTime > 0f ? Mathf.Clamp01(_reconExposure / fullTime) : 1f;
             }
             _markTimer = markDuration; // 持续观察时刷新「完全标记保留时长」
         }
@@ -465,7 +484,8 @@ public class Enemy2 : MonoBehaviour
                 }
                 else
                 {
-                    _reconProgress = fullMarkTime > 0f ? Mathf.Clamp01(_reconExposure / fullMarkTime) : 1f;
+                    float fullTime = EffectiveFullMarkTime;
+                    _reconProgress = fullTime > 0f ? Mathf.Clamp01(_reconExposure / fullTime) : 1f;
                 }
             }
         }

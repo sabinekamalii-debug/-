@@ -115,7 +115,11 @@ public class BossLevelController : MonoBehaviour
         bossObj.SetActive(true);
 
         if (_bossEnemy != null)
+        {
             _bossEnemy.ApplyEliteBuff(bossHealthMultiplier, 100, 20);
+            // 标记为 Boss：侦察需更长时间才能完全标记、满标记增伤上限更低
+            _bossEnemy.isBoss = true;
+        }
 
         _bossSpawned = true;
         _bossDefeated = false;

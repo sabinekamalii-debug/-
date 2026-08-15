@@ -4,7 +4,7 @@ using UnityEngine;
 /// 关卡场景加载上下文：记录两个不同入口间如何进入关卡。
 /// 
 /// 作用：区分以下三种情况，便于 LevelMapController/GameManager 采取不同的初始化策略
-/// 1. 从存档/选关进入（LoadScene("level 1")）→ FromSelection
+/// 1. 从存档/选关进入（LoadScene("[旧版备用] level 1")）→ FromSelection
 /// 2. 重新挑战/死亡重进（LoadScene(sceneName)）→ FromRetry
 /// 3. 通关后经过结算返回（从LevelEndMenu/RogueResult）→ FromVictory
 /// 

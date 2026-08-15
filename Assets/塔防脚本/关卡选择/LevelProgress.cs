@@ -113,7 +113,7 @@ public static class LevelProgress
         _connectionConfig = config;
     }
 
-    /// <summary> 统一关卡场景名：level 1 / Level 1 / level1 都变成 level1。 </summary>
+    /// <summary> 统一关卡场景名：[旧版备用] level 1 / Level 1 / level1 都变成 level1。 </summary>
     public static string NormalizeSceneName(string sceneName)
     {
         if (string.IsNullOrEmpty(sceneName)) return "";
@@ -295,7 +295,7 @@ public static class LevelProgress
         if (string.IsNullOrEmpty(key)) return false;
         if (_levelOrder != null && _levelOrder.Length > 0)
             return key == _levelOrder[0];
-        return key == NormalizeSceneName("level 1");
+        return key == NormalizeSceneName("[旧版备用] level 1");
     }
 
     static int GetLevelIndex(string key)

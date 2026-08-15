@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
@@ -386,7 +386,7 @@ public class RestController : MonoBehaviour
         else
         {
             // 无 LevelConfig，直接加载已知在 Build Settings 中的关卡场景
-            VideoSceneLoader.LoadScene("level 1");
+            VideoSceneLoader.LoadScene("[旧版备用] level 1");
         }
     }
 

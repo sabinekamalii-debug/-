@@ -18,7 +18,7 @@ public enum LevelType
 
 /// <summary>
 /// 地图上的关卡节点：点击进入对应关卡。根据 LevelProgress 显示已解锁/未解锁。
-/// 物体名带数字即对应关卡：按钮1→level 1，按钮2→level 2，…，按钮16→level 16（一一对应）。
+/// 物体名带数字即对应关卡：按钮1→[旧版备用] level 1，按钮2→[旧版备用] level 2，…，按钮16→[旧版备用] level 16（一一对应）。
 /// </summary>
 [RequireComponent(typeof(Button))]
 public class LevelNodeButton : MonoBehaviour
@@ -53,9 +53,9 @@ public class LevelNodeButton : MonoBehaviour
 
     private static readonly string[] FallbackBattleSceneNames = new[]
     {
-        "level 1","level 2","level 3","level 4","level 5","level 6","level 7","level 8",
-        "level 9","level 10","level 11",
-        "level elite","level boss"
+        "[旧版备用] level 1","[旧版备用] level 2","[旧版备用] level 3","[旧版备用] level 4","[旧版备用] level 5","[旧版备用] level 6","[旧版备用] level 7","[旧版备用] level 8",
+        "[旧版备用] level 9","[旧版备用] level 10","[旧版备用] level 11",
+        "[旧版备用] level elite","[旧版备用] level boss"
     };
 
     private static readonly int[] FallbackBattleConfigIds = new[]

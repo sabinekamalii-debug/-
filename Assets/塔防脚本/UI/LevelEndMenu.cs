@@ -31,7 +31,7 @@ public class LevelEndMenu : MonoBehaviour
     [Header("剧情跳转")]
     const string PlotSceneName = SceneNames.Title; // 继续剧情时加载的场景，与 Build Settings 一致
     public string scriptName = "plot1";
-    [Tooltip("留空则按当前场景名自动生成（如 level 1 → AfterLevel1，level A → AfterLevelA）；填写则使用该标签。")]
+    [Tooltip("留空则按当前场景名自动生成（如 [旧版备用] level 1 → AfterLevel1，level A → AfterLevelA）；填写则使用该标签。")]
     public string labelName = "AfterLevelA";
 
     [Header("剧情卡片（胜利时发放，左侧面板显示；不填则不发放）")]
@@ -372,7 +372,7 @@ public class LevelEndMenu : MonoBehaviour
         RogueRuntimeState.PublishBattleResult(result);
     }
 
-    /// <summary> 是否为 level 关卡场景名（如 "level 1"、"level 2"），用于自动走肉鸽结算与发布结果。 </summary>
+    /// <summary> 是否为 level 关卡场景名（如 "[旧版备用] level 1"、"[旧版备用] level 2"），用于自动走肉鸽结算与发布结果。 </summary>
     private static bool IsLevelSceneName(string sceneName)
     {
         if (string.IsNullOrEmpty(sceneName)) return false;
