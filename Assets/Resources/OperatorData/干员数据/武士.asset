@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90254a1f11d277949976c63d44b0ee65, type: 3}
-  m_Name: "\u6B66\u58EB"
+  m_Name: "\u6B66\u58EB(\u53EF\u80FD\u5E9F\u5F03)"
   m_EditorClassIdentifier: 
   operatorName: "\u6B66\u58EB"
   cost: 16
@@ -18,17 +18,19 @@ MonoBehaviour:
   defense: 4000
   attackDamage: 35
   attackInterval: 1
-  opType: 1
   attackRange: 3.5
+  opType: 1
   deployRadius: 4
-  unitPrefab: {fileID: 300892180398978159, guid: ac9669809c1ddc241ad2b58793254211, type: 3}
+  unitPrefab: {fileID: 7763957405214696547, guid: 4c83857ff1827ce49b0f646f968c81ef, type: 3}
   icon: {fileID: 21300000, guid: a5176df4776512f4595fbd7116d14bb0, type: 3}
   purchaseCooldown: 15
   canStandOnGroundAndHighGround: 0
   isAoEAttacker: 0
   isHealer: 0
   baseCritChance: 0
-  starPassiveDesc: "专注强化，攻击力 +30%"
   maxStarRating: 3
-  selectQuote: "心静，则刀快。"
+  starPassiveDesc: "\u4E13\u6CE8\u5F3A\u5316\uFF0C\u653B\u51FB\u529B +30%"
+  selectQuote: "\u5FC3\u9759\uFF0C\u5219\u5200\u5FEB\u3002"
   isInitialAvailable: 1
+  isDeprecated: 1
+  deprecatedNote: "\u53EF\u80FD\u5E9F\u5F03\uFF08\u975E\u6B63\u5F0F\u5E72\u5458\uFF09"

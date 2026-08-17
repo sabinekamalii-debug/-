@@ -1,16 +1,17 @@
 %YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
+%TAG !u! tag:yousandi.cn,2023:
 --- !u!1 &1477876202552610917
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 903368758077309722}
   - component: {fileID: 6999695141494306844}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: circle5a_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49,9 +50,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
+  m_virtualGeometry: 0
+  m_ShadingRate: 0
+  m_ForceDisableGRD: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -75,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 60
   m_Sprite: {fileID: 6067067661850703609, guid: 98357177d2f7d784ab00b05a7fd8779f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -93,7 +94,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 1564875329032105606}
   - component: {fileID: 1885733985557594380}
@@ -101,6 +102,7 @@ GameObject:
   - component: {fileID: 4023629109960407052}
   - component: {fileID: 1743240414638292593}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: HealtherCanvas (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -215,11 +217,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 4525603247436386979}
   - component: {fileID: 6034744578556786338}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: "\u84DD\u6761"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -304,10 +307,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 5548973377665510129}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -340,10 +344,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 8254918289651114194}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: "\u67AA\u53E3\u4F4D\u7F6E (1)"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -371,10 +376,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 3466212730794214498}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -407,12 +413,13 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 987463005129834169}
   - component: {fileID: 8286261733284956630}
   - component: {fileID: 8405634823226070989}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -482,12 +489,13 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 3435709594862536751}
   - component: {fileID: 5801118400692763762}
   - component: {fileID: 8793942383595261151}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -557,11 +565,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 4907890297604413436}
   - component: {fileID: 2940626906510260641}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: HP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -646,12 +655,13 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 4344718641543291471}
   - component: {fileID: 2025899879226652090}
   - component: {fileID: 4301099774070585495}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -721,12 +731,13 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 80243351697739776}
   - component: {fileID: 5291035068337062360}
   - component: {fileID: 7425880361974816233}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -796,7 +807,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 196257750604437294}
   - component: {fileID: 4853978907809324551}
@@ -812,6 +823,7 @@ GameObject:
   - component: {fileID: 8403098717316658927}
   - component: {fileID: 2227190435469357257}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: "\u4E07\u5F55\u6735"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -853,9 +865,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
+  m_virtualGeometry: 0
+  m_ShadingRate: 0
+  m_ForceDisableGRD: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -879,7 +891,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 61
   m_Sprite: {fileID: -2711454266839872532, guid: eebee2bfaf420a24a88c2cf40c77f07e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -924,7 +936,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
-  m_CompositeOrder: 0
+  m_CompositeLayer: 0
   m_Offset: {x: 0.092711926, y: -0.17648125}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -939,7 +951,7 @@ BoxCollider2D:
   m_EdgeRadius: 0
 --- !u!95 &7405595456146020781
 Animator:
-  serializedVersion: 7
+  serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -950,10 +962,11 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 98c25ee7b2a59574d9b717e1a76a4e10, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
+  m_UpdateFrequencyMode: 0
+  m_UpdateFrequency: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -983,6 +996,7 @@ MonoBehaviour:
   runtimeAttackDamage: 0
   runtimeDefense: 0
   runtimeAttackInterval: 0
+  traitAttackSpeedMultiplier: 1
   currentSkill: {fileID: 8403098717316658927}
   maxSP: 10
   currentSP: 0
@@ -1107,9 +1121,9 @@ LineRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
+  m_virtualGeometry: 0
+  m_ShadingRate: 0
+  m_ForceDisableGRD: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1211,6 +1225,7 @@ MonoBehaviour:
   skillName: "\u672A\u547D\u540D\u6280\u80FD"
   maxSP: 40
   duration: 20
+  autoActivate: 0
   damageMultiplier: 2
   skillColor: {r: 0.4, g: 0.6, b: 1, a: 1}
 --- !u!114 &2227190435469357257

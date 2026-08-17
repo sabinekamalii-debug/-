@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90254a1f11d277949976c63d44b0ee65, type: 3}
-  m_Name: "\u4E07\u5F55\u6735"
+  m_Name: "\u4E07\u5F55\u6735(\u53EF\u80FD\u5E9F\u5F03)"
   m_EditorClassIdentifier: 
   operatorName: "\u4E07\u5F55\u6735"
   cost: 50
@@ -18,16 +18,19 @@ MonoBehaviour:
   defense: 0
   attackDamage: 1300
   attackInterval: 15
-  opType: 1
   attackRange: 10
+  opType: 1
   deployRadius: 1
-  unitPrefab: {fileID: 300892180398978159, guid: ac9669809c1ddc241ad2b58793254211, type: 3}
+  unitPrefab: {fileID: 7739915680799860981, guid: 6c50bc0d3826bbe4eb1317dc7cad29b0, type: 3}
   icon: {fileID: 21300000, guid: 9dcaa06047f71494390294fb1519a1ab, type: 3}
   purchaseCooldown: 60
   canStandOnGroundAndHighGround: 0
   isAoEAttacker: 0
   isHealer: 0
   baseCritChance: 0
-  starPassiveDesc: "专注强化，攻击力 +30%"
   maxStarRating: 5
+  starPassiveDesc: "\u4E13\u6CE8\u5F3A\u5316\uFF0C\u653B\u51FB\u529B +30%"
+  selectQuote: 
   isInitialAvailable: 1
+  isDeprecated: 1
+  deprecatedNote: "\u53EF\u80FD\u5E9F\u5F03\uFF08\u975E\u6B63\u5F0F\u5E72\u5458\uFF09"

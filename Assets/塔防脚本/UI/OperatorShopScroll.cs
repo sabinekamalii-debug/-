@@ -121,8 +121,15 @@ public class OperatorShopScroll : MonoBehaviour, IScrollHandler
 
     private float GetMaxIndex()
     {
-        return Mathf.Max(0f, GetScrollableRange() / Step);
+        // 向上取整：确保能滚动到 content 底部（range），使最后一张卡的"名字/费用"
+        // 完整滚进 viewport，不被底边裁掉。若向下取整会少滚 1 格，最后一张卡卡底/名字被裁。
+        return Mathf.Max(0f, Mathf.Ceil(GetScrollableRange() / Step));
     }
+
+    [Header("底部留白")]
+    [Tooltip("滚动到底部时，最后一张卡底部与 viewport 底边之间的留白距离。\n" +
+             "用于保证最后一张卡底部「名字/费用」文字完整可见，不被 viewport 底边裁剪。")]
+    public float bottomPadding = 0.7f;
 
     private float GetContentHeight()
     {
@@ -132,7 +139,8 @@ public class OperatorShopScroll : MonoBehaviour, IScrollHandler
         {
             if (content.GetChild(i).gameObject.activeSelf) count++;
         }
-        return count * Step + cardSpacing;
+        // 底部额外留白：滚动到底时让最后一张卡的"名字/费用"区域不被 viewport 底边裁掉
+        return count * Step + cardSpacing + bottomPadding;
     }
 
     public void ScrollToCard(int index)

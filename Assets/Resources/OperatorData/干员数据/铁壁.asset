@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90254a1f11d277949976c63d44b0ee65, type: 3}
-  m_Name: "\u94C1\u58C1"
+  m_Name: "\u94C1\u58C1(\u53EF\u80FD\u5E9F\u5F03)"
   m_EditorClassIdentifier: 
   operatorName: "\u94C1\u58C1"
   cost: 18
@@ -32,3 +32,5 @@ MonoBehaviour:
   maxStarRating: 3
   selectQuote: "想过去？先踏过我的身躯。"
   isInitialAvailable: 1
+  isDeprecated: 1
+  deprecatedNote: "\u53EF\u80FD\u5E9F\u5F03\uFF08\u975E\u6B63\u5F0F\u5E72\u5458\uFF09"

@@ -343,7 +343,7 @@ GameObject:
   - component: {fileID: 3340583998485744242}
   - component: {fileID: 391573905831101364}
   - component: {fileID: -5976750995060999062}
-  m_Layer: 0
+  m_Layer: 6
   m_HasEditorInfo: 1
   m_Name: "\u85E4\u66FC\u6218\u58EB"
   m_TagString: Untagged
@@ -410,7 +410,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 60
   m_Sprite: {fileID: 21300000, guid: 81dbf277b3b6bbd49812242b0d935bc1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

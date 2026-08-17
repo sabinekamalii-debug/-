@@ -1,17 +1,18 @@
 %YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
+%TAG !u! tag:yousandi.cn,2023:
 --- !u!1 &408195736016398576
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 4315902552568958972}
   - component: {fileID: 1689932528412467992}
   - component: {fileID: 4631031887332319724}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81,10 +82,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 1765792183226690125}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: "\u67AA\u53E3\u4F4D\u7F6E (1)"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,10 +114,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 2066656317523657408}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,11 +151,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 6598358810976822887}
   - component: {fileID: 2137461015373825819}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: circle6a_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,9 +195,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
+  m_virtualGeometry: 0
+  m_ShadingRate: 0
+  m_ForceDisableGRD: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -217,7 +221,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 60
   m_Sprite: {fileID: 9012457513792366416, guid: ee55787ce2dce4e4fb35af5cede1460a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -235,7 +239,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 1146017061064302998}
   - component: {fileID: 62313351084525717}
@@ -251,6 +255,7 @@ GameObject:
   - component: {fileID: -3201770043638028111}
   - component: {fileID: -4831409857707127736}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: "\u6CD5\u5E08"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -292,9 +297,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
+  m_virtualGeometry: 0
+  m_ShadingRate: 0
+  m_ForceDisableGRD: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -318,7 +323,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 61
   m_Sprite: {fileID: 21300000, guid: 5fdf328b109c723409746abb499fbc23, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -363,7 +368,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
-  m_CompositeOrder: 0
+  m_CompositeLayer: 0
   m_Offset: {x: 0.092711926, y: -0.17648125}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -378,7 +383,7 @@ BoxCollider2D:
   m_EdgeRadius: 0
 --- !u!95 &4543554539248646483
 Animator:
-  serializedVersion: 7
+  serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -389,10 +394,11 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 1bdeaeb03c159894fa1d2dfc8d9df8d9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
+  m_UpdateFrequencyMode: 0
+  m_UpdateFrequency: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -422,6 +428,7 @@ MonoBehaviour:
   runtimeAttackDamage: 0
   runtimeDefense: 0
   runtimeAttackInterval: 0
+  traitAttackSpeedMultiplier: 1
   currentSkill: {fileID: -3201770043638028111}
   maxSP: 10
   currentSP: 0
@@ -546,9 +553,9 @@ LineRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
+  m_virtualGeometry: 0
+  m_ShadingRate: 0
+  m_ForceDisableGRD: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -650,6 +657,7 @@ MonoBehaviour:
   skillName: "\u672A\u547D\u540D\u6280\u80FD"
   maxSP: 40
   duration: 20
+  autoActivate: 0
   damageMultiplier: 2
   skillColor: {r: 0.4, g: 0.6, b: 1, a: 1}
 --- !u!114 &-4831409857707127736
@@ -670,10 +678,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 6128056237642332273}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -706,12 +715,13 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 7531369898453989972}
   - component: {fileID: 7513187427959163206}
   - component: {fileID: 8128389759822375676}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -781,12 +791,13 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 2028770448864869019}
   - component: {fileID: 4521151284219652177}
   - component: {fileID: 3328136164929568713}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -856,11 +867,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 1204625431296973618}
   - component: {fileID: 1241234692470434964}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: "\u84DD\u6761"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -945,7 +957,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 3142396281701361359}
   - component: {fileID: 373876308744763741}
@@ -953,6 +965,7 @@ GameObject:
   - component: {fileID: 4122630116035092693}
   - component: {fileID: 9036521694077166926}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: HealtherCanvas (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1067,11 +1080,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 6957042461180630728}
   - component: {fileID: 4503098608810185789}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: HP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1156,12 +1170,13 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 4349031022118477669}
   - component: {fileID: 1337864938224432796}
   - component: {fileID: 6486348422967976468}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90254a1f11d277949976c63d44b0ee65, type: 3}
-  m_Name: "\u73D1"
+  m_Name: "\u73D1(\u53EF\u80FD\u5E9F\u5F03)"
   m_EditorClassIdentifier: 
   operatorName: "\u73D1"
   cost: 20
@@ -18,17 +18,20 @@ MonoBehaviour:
   defense: 3500
   attackDamage: 15
   attackInterval: 1
-  opType: 2
   attackRange: 3.5
+  opType: 2
   deployRadius: 2
-  unitPrefab: {fileID: 300892180398978159, guid: ac9669809c1ddc241ad2b58793254211, type: 3}
+  unitPrefab: {fileID: 8651948156505006626, guid: c62b29abfa925894e80c7e553ebf623e, type: 3}
   icon: {fileID: 21300000, guid: 0acac52ec0ecd264989883b8a5c0485e, type: 3}
   purchaseCooldown: 20
   canStandOnGroundAndHighGround: 0
   isAoEAttacker: 0
   isHealer: 0
   baseCritChance: 0
-  starPassiveDesc: "防御 +40%，且致命伤时保留 1 点生命（每场 1 次）"
   maxStarRating: 4
-  selectQuote: "进可攻，退可守。"
+  starPassiveDesc: "\u9632\u5FA1 +40%\uFF0C\u4E14\u81F4\u547D\u4F24\u65F6\u4FDD\u7559
+    1 \u70B9\u751F\u547D\uFF08\u6BCF\u573A 1 \u6B21\uFF09"
+  selectQuote: "\u8FDB\u53EF\u653B\uFF0C\u9000\u53EF\u5B88\u3002"
   isInitialAvailable: 1
+  isDeprecated: 1
+  deprecatedNote: "\u53EF\u80FD\u5E9F\u5F03\uFF08\u975E\u6B63\u5F0F\u5E72\u5458\uFF09"

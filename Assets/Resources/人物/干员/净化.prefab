@@ -1,16 +1,17 @@
 %YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
+%TAG !u! tag:yousandi.cn,2023:
 --- !u!1 &2034766099681585867
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 4657657590721918172}
   - component: {fileID: 4584954400394818545}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: HP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,12 +96,13 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 1490892237746295023}
   - component: {fileID: 7653889613760462376}
   - component: {fileID: 3146736269144524868}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +172,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 644409925589765421}
   - component: {fileID: 290580405537520132}
@@ -186,6 +188,7 @@ GameObject:
   - component: {fileID: 7867614514335290393}
   - component: {fileID: 2791109991181160841}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: "\u51C0\u5316"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -226,9 +229,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
+  m_virtualGeometry: 0
+  m_ShadingRate: 0
+  m_ForceDisableGRD: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -252,7 +255,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 61
   m_Sprite: {fileID: 21300000, guid: 87057aac0e93ae74698a47be26b5d764, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -266,7 +269,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!95 &6415734022713856243
 Animator:
-  serializedVersion: 7
+  serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -277,10 +280,11 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 8436d518db1ec1e41b5827fd494c05e5, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
+  m_UpdateFrequencyMode: 0
+  m_UpdateFrequency: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -319,7 +323,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
-  m_CompositeOrder: 0
+  m_CompositeLayer: 0
   m_Offset: {x: -0.037118435, y: -0.18559909}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -356,6 +360,7 @@ MonoBehaviour:
   runtimeAttackDamage: 0
   runtimeDefense: 0
   runtimeAttackInterval: 0
+  traitAttackSpeedMultiplier: 1
   currentSkill: {fileID: 2791109991181160841}
   maxSP: 10
   currentSP: 10
@@ -451,9 +456,9 @@ LineRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
+  m_virtualGeometry: 0
+  m_ShadingRate: 0
+  m_ForceDisableGRD: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -599,6 +604,7 @@ MonoBehaviour:
   skillName: "\u672A\u547D\u540D\u6280\u80FD"
   maxSP: 30
   duration: 45
+  autoActivate: 0
   rangeMultiplier: 1.5
 --- !u!1 &4825924440173084240
 GameObject:
@@ -606,7 +612,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 7883011817230067424}
   - component: {fileID: 6756270373984500493}
@@ -614,6 +620,7 @@ GameObject:
   - component: {fileID: 3636613418013479666}
   - component: {fileID: 8061554489171286150}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: HealtherCanvas (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -728,12 +735,13 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 3523057723167500137}
   - component: {fileID: 5444371124158931057}
   - component: {fileID: 3730758376548125380}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -803,10 +811,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 4991978825256526811}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -839,12 +848,13 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 4507012498114896466}
   - component: {fileID: 6246470003101849687}
   - component: {fileID: 4443179488983829793}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -914,11 +924,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 5824414894725500080}
   - component: {fileID: 1986937450588140770}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: circle4a_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -957,9 +968,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
+  m_virtualGeometry: 0
+  m_ShadingRate: 0
+  m_ForceDisableGRD: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -983,7 +994,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 60
   m_Sprite: {fileID: 1108948285839293003, guid: e6bab5257e85c354482e0bd6c865ef1c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1001,10 +1012,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 5903687377042638010}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1037,12 +1049,13 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 1057802594938999236}
   - component: {fileID: 2771528513508664316}
   - component: {fileID: 5391403037197347216}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1112,11 +1125,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 4622283224266591551}
   - component: {fileID: 3396885157597956397}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: "\u84DD\u6761"
   m_TagString: Untagged
   m_Icon: {fileID: 0}

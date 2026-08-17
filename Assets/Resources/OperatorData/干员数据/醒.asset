@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90254a1f11d277949976c63d44b0ee65, type: 3}
-  m_Name: "\u9192"
+  m_Name: "\u9192(\u53EF\u80FD\u5E9F\u5F03)"
   m_EditorClassIdentifier: 
   operatorName: "\u9192"
   cost: 0
@@ -18,17 +18,20 @@ MonoBehaviour:
   defense: 5000
   attackDamage: 400
   attackInterval: 2
-  opType: 0
   attackRange: 3.5
+  opType: 0
   deployRadius: 5
-  unitPrefab: {fileID: 300892180398978159, guid: ac9669809c1ddc241ad2b58793254211, type: 3}
+  unitPrefab: {fileID: 3474019820703329599, guid: aa7f54f5f84225f41b4c9458263e6ae2, type: 3}
   icon: {fileID: 21300000, guid: 89d22c2c208e19c4ebcaa303fac5e0a8, type: 3}
   purchaseCooldown: 600
   canStandOnGroundAndHighGround: 0
   isAoEAttacker: 0
   isHealer: 0
   baseCritChance: 0
-  starPassiveDesc: "部署即返还部署费用，技力回复 +30%"
   maxStarRating: 1
-  selectQuote: "……（它似乎并不想说话）"
+  starPassiveDesc: "\u90E8\u7F72\u5373\u8FD4\u8FD8\u90E8\u7F72\u8D39\u7528\uFF0C\u6280\u529B\u56DE\u590D
+    +30%"
+  selectQuote: "\u2026\u2026\uFF08\u5B83\u4F3C\u4E4E\u5E76\u4E0D\u60F3\u8BF4\u8BDD\uFF09"
   isInitialAvailable: 1
+  isDeprecated: 1
+  deprecatedNote: "\u53EF\u80FD\u5E9F\u5F03\uFF08\u975E\u6B63\u5F0F\u5E72\u5458\uFF09"

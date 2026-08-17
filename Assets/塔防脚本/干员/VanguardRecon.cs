@@ -39,9 +39,19 @@ public class VanguardRecon : MonoBehaviour
     private float _scanTimer;
     private readonly Collider2D[] _hits = new Collider2D[64];
 
+    // 当前侦察范围内是否有敌人（由最近一次扫描更新，供 OperatorUnit 减速用）
+    private bool _enemyInRecon;
+    /// <summary>侦察范围内当前是否有敌人。</summary>
+    public bool HasEnemyInRecon => _enemyInRecon;
+
     // 行走方向（由实时位移推算，停止/战斗时保持上一次朝向）
     private Vector3 _facingDir = Vector3.right;
     private Vector3 _lastPosition;
+
+    // 所属干员：用于判断是否处于移动中。
+    // 到达终点时干员会先 isMoving=false 再做位置吸附（如贴高台格子中心），
+    // 若只看位移会把这次「瞬移」误当成行走方向，导致侦察范围朝向被莫名改变。
+    private OperatorUnit _operator;
 
     // 运行时范围可视化
     private LineRenderer _lr;
@@ -50,6 +60,7 @@ public class VanguardRecon : MonoBehaviour
 
     void Awake()
     {
+        _operator = GetComponentInParent<OperatorUnit>();
         _lastPosition = transform.position;
         if (!showRange) return;
         SetupRangeVisual();
@@ -113,6 +124,15 @@ public class VanguardRecon : MonoBehaviour
     /// <summary> 用位移推算行走方向；停止/战斗时保持上一次朝向。 </summary>
     private void UpdateFacingDirection()
     {
+        // 干员停止移动（到达终点/战斗/待机）后保持最后一次朝向。
+        // 若只看位移，到达终点时的位置吸附（如贴高台格子中心）会被误当成行走方向，
+        // 导致侦察范围在到达终点后朝向莫名变化。
+        if (_operator != null && !_operator.isMoving)
+        {
+            _lastPosition = transform.position;
+            return;
+        }
+
         Vector3 delta = transform.position - _lastPosition;
         _lastPosition = transform.position;
         if (delta.sqrMagnitude > 0.0001f)
@@ -128,13 +148,18 @@ public class VanguardRecon : MonoBehaviour
         var size = new Vector2(reconLength, reconWidth);
 
         int count = Physics2D.OverlapBoxNonAlloc(center, size, angle, _hits);
+        bool found = false;
         for (int i = 0; i < count; i++)
         {
             if (_hits[i] == null) continue;
             var enemy = _hits[i].GetComponentInParent<Enemy2>();
             if (enemy != null)
+            {
+                found = true;
                 enemy.NotifyReconObserved();
+            }
         }
+        _enemyInRecon = found;
     }
 
     /// <summary> 跟随先锋移动与朝向实时刷新长方形范围框。 </summary>

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90254a1f11d277949976c63d44b0ee65, type: 3}
-  m_Name: "\u5149\u6CE2"
+  m_Name: "\u5149\u6CE2(\u53EF\u80FD\u5E9F\u5F03)"
   m_EditorClassIdentifier: 
   operatorName: "\u5149\u6CE2"
   cost: 26
@@ -18,17 +18,20 @@ MonoBehaviour:
   defense: 0
   attackDamage: 13
   attackInterval: 1
-  opType: 0
   attackRange: 4.1
+  opType: 0
   deployRadius: 2
-  unitPrefab: {fileID: 300892180398978159, guid: ac9669809c1ddc241ad2b58793254211, type: 3}
+  unitPrefab: {fileID: 2183908675841770297, guid: 7c75e99a98ea1384cab0f0ef1f367882, type: 3}
   icon: {fileID: 21300000, guid: e8aab6a836774b14d8f84c685e66bcba, type: 3}
   purchaseCooldown: 30
   canStandOnGroundAndHighGround: 1
   isAoEAttacker: 1
   isHealer: 0
   baseCritChance: 0
-  starPassiveDesc: "部署即返还部署费用，技力回复 +30%"
   maxStarRating: 1
-  selectQuote: "光，无处不在。"
+  starPassiveDesc: "\u90E8\u7F72\u5373\u8FD4\u8FD8\u90E8\u7F72\u8D39\u7528\uFF0C\u6280\u529B\u56DE\u590D
+    +30%"
+  selectQuote: "\u5149\uFF0C\u65E0\u5904\u4E0D\u5728\u3002"
   isInitialAvailable: 1
+  isDeprecated: 1
+  deprecatedNote: "\u53EF\u80FD\u5E9F\u5F03\uFF08\u975E\u6B63\u5F0F\u5E72\u5458\uFF09"

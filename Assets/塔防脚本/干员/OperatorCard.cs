@@ -86,6 +86,7 @@ public class OperatorCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             characterIcon.sprite = data.icon;
         RefreshNameAndCost();
         RefreshStarBadge();
+        RefreshClassBadge();
     }
 
     /// <summary> 把卡片上显示的名字/费用文本同步为当前 operatorData 的值。
@@ -106,6 +107,126 @@ public class OperatorCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             costText.text = GetDeployCost().ToString();
     }
 
+    // --- 职业徽标：可编辑预制体（优先）+ 代码兜底 ---
+    [Header("职业徽标")]
+    [Tooltip("是否在卡片右上角显示职业徽标（默认显示「符号+职业名」，如 \"» 先锋\"）。")]
+    public bool showClassBadge = true;
+    [Tooltip("优先加载的徽标预制体路径（Resources 相对路径）。用 Tools→干员→生成职业徽标预制体 创建后，样式全在预制体里编辑。")]
+    public string classBadgePrefabPath = "UI/OperatorClassBadge";
+    [Tooltip("找不到预制体时的代码兜底尺寸（世界单位）。")]
+    public float classBadgeWidth = 0.75f;
+    [Tooltip("找不到预制体时的代码兜底尺寸（世界单位）。")]
+    public float classBadgeHeight = 0.30f;
+    private OperatorClassBadgeUI _badgeUI;
+
+    /// <summary> 生成/刷新职业徽标：卡片右上角「符号 + 职业名」徽标。
+    /// 优先复用已挂到卡片上的徽标（含编辑器里手动注入的静态徽标）；
+    /// 没有则从 Resources 加载「职业徽标」预制体实例化，再不行用代码兜底创建。
+    /// 内容固定为「符号 + 职业名」，符号不会单独出现。 </summary>
+    public void RefreshClassBadge()
+    {
+        if (operatorData == null) return;
+
+        var badge = EnsureClassBadgeInstance();
+        if (badge == null) return;
+        badge.Set(operatorData.opType);
+        badge.gameObject.SetActive(showClassBadge);
+    }
+
+    /// <summary>
+    /// 确保卡片上存在职业徽标子物体并返回其组件。
+    /// 查找顺序：已存在的 OperatorClassBadgeUI（含编辑器注入的静态徽标）→ Resources 预制体 → 代码兜底。
+    /// 供运行时与编辑器注入工具共用，避免重复创建。
+    /// </summary>
+    public OperatorClassBadgeUI EnsureClassBadgeInstance()
+    {
+        if (_badgeUI == null)
+            _badgeUI = GetComponentInChildren<OperatorClassBadgeUI>(true);
+        if (_badgeUI != null) return _badgeUI;
+
+        // 优先预制体：真实对象，编辑器里可编辑
+        var prefab = Resources.Load<GameObject>(classBadgePrefabPath);
+        if (prefab != null)
+        {
+            var inst = Instantiate(prefab, transform, false);
+            inst.name = "职业徽标";
+            var rect = inst.GetComponent<RectTransform>();
+            if (rect != null)
+            {
+                rect.anchorMin = new Vector2(1f, 1f);
+                rect.anchorMax = new Vector2(1f, 1f);
+                rect.pivot = new Vector2(1f, 1f);
+                rect.sizeDelta = new Vector2(classBadgeWidth, classBadgeHeight);
+                rect.anchoredPosition = new Vector2(-0.05f, -0.05f);
+            }
+            _badgeUI = inst.GetComponent<OperatorClassBadgeUI>();
+        }
+
+        // 兜底：无预制体时纯代码创建（保持开箱即用）
+        if (_badgeUI == null)
+            _badgeUI = CreateRuntimeBadge();
+
+        return _badgeUI;
+    }
+
+    /// <summary> 无预制体时的纯代码兜底徽标：深色不透明底 + 金色符号 + 暖白职业名，加阴影保证可读。 </summary>
+    private OperatorClassBadgeUI CreateRuntimeBadge()
+    {
+        var go = new GameObject("职业徽标");
+        go.transform.SetParent(transform, false);
+        var rect = go.AddComponent<RectTransform>();
+        rect.anchorMin = new Vector2(1f, 1f);
+        rect.anchorMax = new Vector2(1f, 1f);
+        rect.pivot = new Vector2(1f, 1f);
+        rect.sizeDelta = new Vector2(classBadgeWidth, classBadgeHeight);
+        rect.anchoredPosition = new Vector2(-0.05f, -0.05f);
+
+        var badge = go.AddComponent<OperatorClassBadgeUI>();
+
+        var bg = go.AddComponent<Image>();
+        bg.color = new Color(0.05f, 0.07f, 0.12f, 0.94f); // 深色不透明：文字永不被立绘颜色盖住
+        bg.raycastTarget = false;
+        badge.background = bg;
+
+        var symbolGo = new GameObject("符号");
+        symbolGo.transform.SetParent(go.transform, false);
+        var symbolRect = symbolGo.AddComponent<RectTransform>();
+        symbolRect.anchorMin = new Vector2(0f, 0f);
+        symbolRect.anchorMax = new Vector2(0.34f, 1f);
+        symbolRect.offsetMin = Vector2.zero;
+        symbolRect.offsetMax = Vector2.zero;
+        var symbolTmp = symbolGo.AddComponent<TMPro.TextMeshProUGUI>();
+        symbolTmp.fontSize = classBadgeHeight * 0.62f;
+        symbolTmp.alignment = TMPro.TextAlignmentOptions.Center;
+        symbolTmp.color = new Color(0.98f, 0.80f, 0.35f); // 金色符号
+        symbolTmp.enableWordWrapping = false;
+        symbolTmp.raycastTarget = false;
+        var symbolShadow = symbolGo.AddComponent<Shadow>();
+        symbolShadow.effectColor = new Color(0f, 0f, 0f, 0.8f);
+        symbolShadow.effectDistance = new Vector2(0.025f, -0.025f);
+        badge.symbolText = symbolTmp;
+
+        var nameGo = new GameObject("职业名");
+        nameGo.transform.SetParent(go.transform, false);
+        var nameRect = nameGo.AddComponent<RectTransform>();
+        nameRect.anchorMin = new Vector2(0.34f, 0f);
+        nameRect.anchorMax = new Vector2(1f, 1f);
+        nameRect.offsetMin = Vector2.zero;
+        nameRect.offsetMax = Vector2.zero;
+        var nameTmp = nameGo.AddComponent<TMPro.TextMeshProUGUI>();
+        nameTmp.fontSize = classBadgeHeight * 0.54f;
+        nameTmp.alignment = TMPro.TextAlignmentOptions.Center;
+        nameTmp.color = new Color(0.95f, 0.94f, 0.90f); // 暖白职业名
+        nameTmp.enableWordWrapping = false;
+        nameTmp.raycastTarget = false;
+        var nameShadow = nameGo.AddComponent<Shadow>();
+        nameShadow.effectColor = new Color(0f, 0f, 0f, 0.8f);
+        nameShadow.effectDistance = new Vector2(0.025f, -0.025f);
+        badge.nameText = nameTmp;
+
+        return badge;
+    }
+
     // --- 星级角标：让玩家在部署卡上直接看到该干员当前养到几星 ---
     private TMPro.TMP_Text _starBadge;
 
@@ -113,6 +234,7 @@ public class OperatorCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     {
         OperatorStarRegistry.OnStarChanged += OnStarChanged;
         RefreshStarBadge();
+        RefreshClassBadge();
     }
 
     void OnDisable()

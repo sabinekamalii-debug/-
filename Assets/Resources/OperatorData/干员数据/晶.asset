@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90254a1f11d277949976c63d44b0ee65, type: 3}
-  m_Name: "\u6676"
+  m_Name: "\u6676(\u53EF\u80FD\u5E9F\u5F03)"
   m_EditorClassIdentifier: 
   operatorName: "\u6676"
   cost: 15
@@ -18,17 +18,20 @@ MonoBehaviour:
   defense: 2000
   attackDamage: 35
   attackInterval: 1
-  opType: 2
   attackRange: 3.5
+  opType: 2
   deployRadius: 6
-  unitPrefab: {fileID: 300892180398978159, guid: ac9669809c1ddc241ad2b58793254211, type: 3}
+  unitPrefab: {fileID: 4251013249040296641, guid: a0085f8ecce98ea46b7460480bb51392, type: 3}
   icon: {fileID: 21300000, guid: b198c568ef83c5d478574ff94305f3be, type: 3}
   purchaseCooldown: 5
   canStandOnGroundAndHighGround: 0
   isAoEAttacker: 0
   isHealer: 0
   baseCritChance: 0
-  starPassiveDesc: "防御 +40%，且致命伤时保留 1 点生命（每场 1 次）"
   maxStarRating: 2
-  selectQuote: "坚如磐石，稳如山岳。"
+  starPassiveDesc: "\u9632\u5FA1 +40%\uFF0C\u4E14\u81F4\u547D\u4F24\u65F6\u4FDD\u7559
+    1 \u70B9\u751F\u547D\uFF08\u6BCF\u573A 1 \u6B21\uFF09"
+  selectQuote: "\u575A\u5982\u78D0\u77F3\uFF0C\u7A33\u5982\u5C71\u5CB3\u3002"
   isInitialAvailable: 1
+  isDeprecated: 1
+  deprecatedNote: "\u53EF\u80FD\u5E9F\u5F03\uFF08\u975E\u6B63\u5F0F\u5E72\u5458\uFF09"

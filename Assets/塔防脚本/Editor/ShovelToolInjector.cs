@@ -61,51 +61,44 @@ public static class ShovelToolInjector
         }
     }
 
-    /// <summary>在当前已打开的场景里把铲子注入到 OperatorShopScroll 下。返回 (是否修改, 是否已存在)。</summary>
+    /// <summary>
+    /// 在当前已打开的场景里把铲子注入到角色画布底部中央（独立悬浮按钮，不占用商店面板空间）。
+    /// 返回 (是否修改, 是否已存在)。
+    /// ※ 2026-08-17 改造：原本挂在 OperatorShopScroll 下会压住 viewport 底部最后一张卡的"名字"
+    ///   并占满面板底部空间。改为挂在 root canvas 底部中央作为独立悬浮按钮，与干员招募处完全分离。
+    /// </summary>
     private static bool InjectShovelIntoOpenedScene(out bool alreadyExists)
     {
         alreadyExists = false;
         var scroll = Object.FindFirstObjectByType<OperatorShopScroll>();
         if (scroll == null) return false;
 
-        Transform panel = scroll.transform;
-        if (panel.Find(ShovelName) != null)
+        // 挂到 root canvas（角色画布）下；已存在则跳过
+        var rootCanvas = scroll.GetComponentInParent<Canvas>()?.rootCanvas;
+        if (rootCanvas == null) return false;
+        if (rootCanvas.transform.Find(ShovelName) != null)
         {
             alreadyExists = true;
             return false;
         }
 
-        // --- 1) 为 viewport 底部预留 1.15 单位空间，避免滚动卡片和铲子重叠 ---
-        RectTransform viewportRect = scroll.viewport != null ? scroll.viewport :
-            scroll.GetComponentInChildren<RectMask2D>()?.rectTransform;
-        if (viewportRect != null)
-        {
-            Vector2 offsetMin = viewportRect.offsetMin;
-            if (offsetMin.y < 1.0f)
-            {
-                Undo.RecordObject(viewportRect, "Reserve Shovel Space");
-                viewportRect.offsetMin = new Vector2(offsetMin.x, 1.15f);
-                EditorUtility.SetDirty(viewportRect);
-            }
-        }
-
-        // --- 2) 创建 ShovelTool 根 GameObject（挂在 OperatorShopScroll 下，不进滚动 Content） ---
+        // --- 1) 创建 ShovelTool 根 GameObject（挂在 root canvas 下，世界坐标 y=-4.5 落在主摄像机视野内） ---
         var go = new GameObject(ShovelName, typeof(RectTransform), typeof(Image));
-        go.transform.SetParent(panel, false);
+        go.transform.SetParent(rootCanvas.transform, false);
         Undo.RegisterCreatedObjectUndo(go, "Create Shovel Tool");
 
         var rect = (RectTransform)go.transform;
-        rect.anchorMin = new Vector2(0.5f, 0f);
-        rect.anchorMax = new Vector2(0.5f, 0f);
-        rect.pivot = new Vector2(0.5f, 0f);
-        rect.sizeDelta = new Vector2(2.0f, 1.0f);
-        rect.anchoredPosition = new Vector2(0f, 0.08f);
+        rect.anchorMin = new Vector2(0.5f, 0.5f);
+        rect.anchorMax = new Vector2(0.5f, 0.5f);
+        rect.pivot = new Vector2(0.5f, 0.5f);
+        rect.sizeDelta = new Vector2(1.4f, 0.4f);
+        rect.position = new Vector3(0f, -4.5f, 90f);
 
         var bg = go.GetComponent<Image>();
         bg.color = new Color(0.18f, 0.16f, 0.12f, 0.95f);
         bg.raycastTarget = true;
 
-        // --- 3) 文字子物体（TMP，WorldSpace 单位字号与部署卡一致） ---
+        // --- 2) 文字子物体（TMP，WorldSpace 单位字号；0.22 保证 4 字不溢出 1.4 框宽） ---
         var labelGo = new GameObject("文字", typeof(RectTransform), typeof(TMPro.TextMeshProUGUI));
         labelGo.transform.SetParent(go.transform, false);
         Undo.RegisterCreatedObjectUndo(labelGo, "Create Shovel Label");
@@ -118,13 +111,14 @@ public static class ShovelToolInjector
 
         var labelTmp = labelGo.GetComponent<TMPro.TextMeshProUGUI>();
         labelTmp.text = "铲除干员";
-        labelTmp.fontSize = 0.6f;
+        labelTmp.fontSize = 0.22f;
         labelTmp.alignment = TMPro.TextAlignmentOptions.Center;
         labelTmp.color = new Color(1f, 0.78f, 0.35f);
         labelTmp.enableWordWrapping = false;
+        labelTmp.overflowMode = TMPro.TextOverflowModes.Overflow;
         labelTmp.raycastTarget = false;
 
-        // --- 4) 挂上 ShovelTool 脚本（operatorLayer 运行时会自动读 DeploymentManager.operatorLayer） ---
+        // --- 3) 挂上 ShovelTool 脚本（operatorLayer 运行时会自动读 DeploymentManager.operatorLayer） ---
         var shovel = go.AddComponent<ShovelTool>();
         EditorUtility.SetDirty(shovel);
 

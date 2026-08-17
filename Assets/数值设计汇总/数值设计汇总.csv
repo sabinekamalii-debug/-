@@ -70,6 +70,8 @@
 干员,万录朵,starPassiveDesc,专注强化，攻击力 +30%,string
 干员,万录朵,selectQuote,,string
 干员,万录朵,isInitialAvailable,true,bool
+干员,万录朵,isDeprecated,true,bool
+干员,万录朵,deprecatedNote,可能废弃（非正式干员）,string
 干员,傀儡师,operatorName,傀儡师,string
 干员,傀儡师,cost,12,int
 干员,傀儡师,maxHealth,380.00,float
@@ -88,24 +90,8 @@
 干员,傀儡师,starPassiveDesc,专注强化，攻击力 +30%,string
 干员,傀儡师,selectQuote,,string
 干员,傀儡师,isInitialAvailable,true,bool
-干员,先锋测试,operatorName,先锋测试,string
-干员,先锋测试,cost,6,int
-干员,先锋测试,maxHealth,120.00,float
-干员,先锋测试,defense,80,int
-干员,先锋测试,attackDamage,23.00,float
-干员,先锋测试,attackInterval,0.80,float
-干员,先锋测试,attackRange,3.50,float
-干员,先锋测试,opType,Vanguard,OperatorType
-干员,先锋测试,deployRadius,6.00,float
-干员,先锋测试,purchaseCooldown,15.00,float
-干员,先锋测试,canStandOnGroundAndHighGround,false,bool
-干员,先锋测试,isAoEAttacker,false,bool
-干员,先锋测试,isHealer,false,bool
-干员,先锋测试,baseCritChance,0,int
-干员,先锋测试,maxStarRating,1,int
-干员,先锋测试,starPassiveDesc,部署即返还部署费用，技力回复 +30%,string
-干员,先锋测试,selectQuote,（测试单位）这只是个占位，别当真。,string
-干员,先锋测试,isInitialAvailable,true,bool
+干员,傀儡师,isDeprecated,false,bool
+干员,傀儡师,deprecatedNote,,string
 干员,光波,operatorName,光波,string
 干员,光波,cost,26,int
 干员,光波,maxHealth,1.00,float
@@ -124,6 +110,8 @@
 干员,光波,starPassiveDesc,部署即返还部署费用，技力回复 +30%,string
 干员,光波,selectQuote,光，无处不在。,string
 干员,光波,isInitialAvailable,true,bool
+干员,光波,isDeprecated,true,bool
+干员,光波,deprecatedNote,可能废弃（非正式干员）,string
 干员,净化,operatorName,净化,string
 干员,净化,cost,20,int
 干员,净化,maxHealth,40.00,float
@@ -142,6 +130,8 @@
 干员,净化,starPassiveDesc,治疗量 +30%,string
 干员,净化,selectQuote,污秽，终将被洗净。,string
 干员,净化,isInitialAvailable,true,bool
+干员,净化,isDeprecated,true,bool
+干员,净化,deprecatedNote,可能废弃（非正式干员）,string
 干员,圣光,operatorName,圣光,string
 干员,圣光,cost,18,int
 干员,圣光,maxHealth,50.00,float
@@ -160,6 +150,8 @@
 干员,圣光,starPassiveDesc,治疗量 +30%,string
 干员,圣光,selectQuote,圣光，会庇护每一个人。,string
 干员,圣光,isInitialAvailable,true,bool
+干员,圣光,isDeprecated,true,bool
+干员,圣光,deprecatedNote,可能废弃（非正式干员）,string
 干员,地面射手,operatorName,地面射手,string
 干员,地面射手,cost,20,int
 干员,地面射手,maxHealth,20.00,float
@@ -178,24 +170,8 @@
 干员,地面射手,starPassiveDesc,部署即返还部署费用，技力回复 +30%,string
 干员,地面射手,selectQuote,地面，才是我的主场。,string
 干员,地面射手,isInitialAvailable,true,bool
-干员,坚守先锋,operatorName,坚守先锋,string
-干员,坚守先锋,cost,9,int
-干员,坚守先锋,maxHealth,210.00,float
-干员,坚守先锋,defense,500,int
-干员,坚守先锋,attackDamage,13.00,float
-干员,坚守先锋,attackInterval,1.10,float
-干员,坚守先锋,attackRange,3.50,float
-干员,坚守先锋,opType,Vanguard,OperatorType
-干员,坚守先锋,deployRadius,6.00,float
-干员,坚守先锋,purchaseCooldown,15.00,float
-干员,坚守先锋,canStandOnGroundAndHighGround,false,bool
-干员,坚守先锋,isAoEAttacker,false,bool
-干员,坚守先锋,isHealer,false,bool
-干员,坚守先锋,baseCritChance,0,int
-干员,坚守先锋,maxStarRating,2,int
-干员,坚守先锋,starPassiveDesc,部署即返还部署费用，技力回复 +30%,string
-干员,坚守先锋,selectQuote,身后是同伴，我不能退。,string
-干员,坚守先锋,isInitialAvailable,true,bool
+干员,地面射手,isDeprecated,true,bool
+干员,地面射手,deprecatedNote,可能废弃（非正式干员）,string
 干员,奥术,operatorName,奥术,string
 干员,奥术,cost,35,int
 干员,奥术,maxHealth,22.00,float
@@ -214,6 +190,8 @@
 干员,奥术,starPassiveDesc,法术穿透：无视 50% 防御，攻击力 +20%,string
 干员,奥术,selectQuote,奥秘，本就该被驾驭。,string
 干员,奥术,isInitialAvailable,true,bool
+干员,奥术,isDeprecated,true,bool
+干员,奥术,deprecatedNote,可能废弃（非正式干员）,string
 干员,女战士,operatorName,女战士,string
 干员,女战士,cost,21,int
 干员,女战士,maxHealth,250.00,float
@@ -232,6 +210,8 @@
 干员,女战士,starPassiveDesc,专注强化，攻击力 +30%,string
 干员,女战士,selectQuote,剑锋所指，无所不破。,string
 干员,女战士,isInitialAvailable,true,bool
+干员,女战士,isDeprecated,true,bool
+干员,女战士,deprecatedNote,可能废弃（非正式干员）,string
 干员,巨蟹,operatorName,巨蟹,string
 干员,巨蟹,cost,18,int
 干员,巨蟹,maxHealth,800.00,float
@@ -250,24 +230,8 @@
 干员,巨蟹,starPassiveDesc,防御 +40%，且致命伤时保留 1 点生命（每场 1 次）,string
 干员,巨蟹,selectQuote,,string
 干员,巨蟹,isInitialAvailable,true,bool
-干员,战术先锋,operatorName,战术先锋,string
-干员,战术先锋,cost,7,int
-干员,战术先锋,maxHealth,130.00,float
-干员,战术先锋,defense,100,int
-干员,战术先锋,attackDamage,21.00,float
-干员,战术先锋,attackInterval,0.90,float
-干员,战术先锋,attackRange,3.50,float
-干员,战术先锋,opType,Vanguard,OperatorType
-干员,战术先锋,deployRadius,6.00,float
-干员,战术先锋,purchaseCooldown,15.00,float
-干员,战术先锋,canStandOnGroundAndHighGround,false,bool
-干员,战术先锋,isAoEAttacker,false,bool
-干员,战术先锋,isHealer,false,bool
-干员,战术先锋,baseCritChance,0,int
-干员,战术先锋,maxStarRating,3,int
-干员,战术先锋,starPassiveDesc,部署即返还部署费用，技力回复 +30%,string
-干员,战术先锋,selectQuote,和我同行吗？可别拖后腿。,string
-干员,战术先锋,isInitialAvailable,true,bool
+干员,巨蟹,isDeprecated,false,bool
+干员,巨蟹,deprecatedNote,,string
 干员,拳师,operatorName,拳师,string
 干员,拳师,cost,14,int
 干员,拳师,maxHealth,20.00,float
@@ -286,24 +250,8 @@
 干员,拳师,starPassiveDesc,部署即返还部署费用，技力回复 +30%,string
 干员,拳师,selectQuote,一拳一个。,string
 干员,拳师,isInitialAvailable,true,bool
-干员,斥候先锋,operatorName,斥候先锋,string
-干员,斥候先锋,cost,4,int
-干员,斥候先锋,maxHealth,85.00,float
-干员,斥候先锋,defense,0,int
-干员,斥候先锋,attackDamage,19.00,float
-干员,斥候先锋,attackInterval,0.55,float
-干员,斥候先锋,attackRange,3.50,float
-干员,斥候先锋,opType,Vanguard,OperatorType
-干员,斥候先锋,deployRadius,6.00,float
-干员,斥候先锋,purchaseCooldown,15.00,float
-干员,斥候先锋,canStandOnGroundAndHighGround,false,bool
-干员,斥候先锋,isAoEAttacker,false,bool
-干员,斥候先锋,isHealer,false,bool
-干员,斥候先锋,baseCritChance,0,int
-干员,斥候先锋,maxStarRating,2,int
-干员,斥候先锋,starPassiveDesc,部署即返还部署费用，技力回复 +30%,string
-干员,斥候先锋,selectQuote,前方交给我探。,string
-干员,斥候先锋,isInitialAvailable,true,bool
+干员,拳师,isDeprecated,true,bool
+干员,拳师,deprecatedNote,可能废弃（非正式干员）,string
 干员,时之魔王,operatorName,时之魔王,string
 干员,时之魔王,cost,20,int
 干员,时之魔王,maxHealth,300.00,float
@@ -322,6 +270,8 @@
 干员,时之魔王,starPassiveDesc,再部署更划算（撤退返还 +50%）,string
 干员,时之魔王,selectQuote,,string
 干员,时之魔王,isInitialAvailable,true,bool
+干员,时之魔王,isDeprecated,false,bool
+干员,时之魔王,deprecatedNote,,string
 干员,星豹,operatorName,星豹,string
 干员,星豹,cost,6,int
 干员,星豹,maxHealth,180.00,float
@@ -329,7 +279,7 @@
 干员,星豹,attackDamage,25.00,float
 干员,星豹,attackInterval,0.50,float
 干员,星豹,attackRange,0.00,float
-干员,星豹,opType,Specialist,OperatorType
+干员,星豹,opType,Vanguard,OperatorType
 干员,星豹,deployRadius,6.00,float
 干员,星豹,purchaseCooldown,15.00,float
 干员,星豹,canStandOnGroundAndHighGround,false,bool
@@ -337,9 +287,11 @@
 干员,星豹,isHealer,false,bool
 干员,星豹,baseCritChance,0,int
 干员,星豹,maxStarRating,3,int
-干员,星豹,starPassiveDesc,再部署更划算（撤退返还 +50%）,string
+干员,星豹,starPassiveDesc,部署即返还部署费用，技力回复 +30%,string
 干员,星豹,selectQuote,快，是你抓不住我的理由。,string
 干员,星豹,isInitialAvailable,true,bool
+干员,星豹,isDeprecated,false,bool
+干员,星豹,deprecatedNote,,string
 干员,晶,operatorName,晶,string
 干员,晶,cost,15,int
 干员,晶,maxHealth,200.00,float
@@ -358,6 +310,8 @@
 干员,晶,starPassiveDesc,防御 +40%，且致命伤时保留 1 点生命（每场 1 次）,string
 干员,晶,selectQuote,坚如磐石，稳如山岳。,string
 干员,晶,isInitialAvailable,true,bool
+干员,晶,isDeprecated,true,bool
+干员,晶,deprecatedNote,可能废弃（非正式干员）,string
 干员,武士,operatorName,武士,string
 干员,武士,cost,16,int
 干员,武士,maxHealth,200.00,float
@@ -376,6 +330,8 @@
 干员,武士,starPassiveDesc,专注强化，攻击力 +30%,string
 干员,武士,selectQuote,心静，则刀快。,string
 干员,武士,isInitialAvailable,true,bool
+干员,武士,isDeprecated,true,bool
+干员,武士,deprecatedNote,可能废弃（非正式干员）,string
 干员,死亡剑士,operatorName,死亡剑士,string
 干员,死亡剑士,cost,5,int
 干员,死亡剑士,maxHealth,200.00,float
@@ -394,6 +350,8 @@
 干员,死亡剑士,starPassiveDesc,专注强化，攻击力 +30%,string
 干员,死亡剑士,selectQuote,死亡，只是我的起点。,string
 干员,死亡剑士,isInitialAvailable,true,bool
+干员,死亡剑士,isDeprecated,false,bool
+干员,死亡剑士,deprecatedNote,,string
 干员,死囚,operatorName,死囚,string
 干员,死囚,cost,20,int
 干员,死囚,maxHealth,700.00,float
@@ -412,6 +370,8 @@
 干员,死囚,starPassiveDesc,防御 +40%，且致命伤时保留 1 点生命（每场 1 次）,string
 干员,死囚,selectQuote,,string
 干员,死囚,isInitialAvailable,true,bool
+干员,死囚,isDeprecated,false,bool
+干员,死囚,deprecatedNote,,string
 干员,法师,operatorName,法师,string
 干员,法师,cost,45,int
 干员,法师,maxHealth,30.00,float
@@ -430,24 +390,8 @@
 干员,法师,starPassiveDesc,法术穿透：无视 50% 防御，攻击力 +20%,string
 干员,法师,selectQuote,见识一下真正的法术。,string
 干员,法师,isInitialAvailable,true,bool
-干员,游击先锋,operatorName,游击先锋,string
-干员,游击先锋,cost,5,int
-干员,游击先锋,maxHealth,95.00,float
-干员,游击先锋,defense,20,int
-干员,游击先锋,attackDamage,22.00,float
-干员,游击先锋,attackInterval,0.65,float
-干员,游击先锋,attackRange,3.50,float
-干员,游击先锋,opType,Vanguard,OperatorType
-干员,游击先锋,deployRadius,6.00,float
-干员,游击先锋,purchaseCooldown,15.00,float
-干员,游击先锋,canStandOnGroundAndHighGround,false,bool
-干员,游击先锋,isAoEAttacker,false,bool
-干员,游击先锋,isHealer,false,bool
-干员,游击先锋,baseCritChance,0,int
-干员,游击先锋,maxStarRating,1,int
-干员,游击先锋,starPassiveDesc,部署即返还部署费用，技力回复 +30%,string
-干员,游击先锋,selectQuote,打了就跑，才是艺术。,string
-干员,游击先锋,isInitialAvailable,true,bool
+干员,法师,isDeprecated,true,bool
+干员,法师,deprecatedNote,可能废弃（非正式干员）,string
 干员,火焰战士,operatorName,火焰战士,string
 干员,火焰战士,cost,11,int
 干员,火焰战士,maxHealth,400.00,float
@@ -466,6 +410,8 @@
 干员,火焰战士,starPassiveDesc,专注强化，攻击力 +30%,string
 干员,火焰战士,selectQuote,,string
 干员,火焰战士,isInitialAvailable,true,bool
+干员,火焰战士,isDeprecated,false,bool
+干员,火焰战士,deprecatedNote,,string
 干员,熔岩虫,operatorName,熔岩虫,string
 干员,熔岩虫,cost,16,int
 干员,熔岩虫,maxHealth,400.00,float
@@ -484,6 +430,8 @@
 干员,熔岩虫,starPassiveDesc,再部署更划算（撤退返还 +50%）,string
 干员,熔岩虫,selectQuote,,string
 干员,熔岩虫,isInitialAvailable,true,bool
+干员,熔岩虫,isDeprecated,false,bool
+干员,熔岩虫,deprecatedNote,,string
 干员,牧师,operatorName,牧师,string
 干员,牧师,cost,16,int
 干员,牧师,maxHealth,60.00,float
@@ -502,6 +450,8 @@
 干员,牧师,starPassiveDesc,部署即返还部署费用，技力回复 +30%,string
 干员,牧师,selectQuote,,string
 干员,牧师,isInitialAvailable,true,bool
+干员,牧师,isDeprecated,true,bool
+干员,牧师,deprecatedNote,可能废弃（非正式干员）,string
 干员,狂兽战士,operatorName,狂兽战士,string
 干员,狂兽战士,cost,14,int
 干员,狂兽战士,maxHealth,500.00,float
@@ -520,24 +470,8 @@
 干员,狂兽战士,starPassiveDesc,专注强化，攻击力 +30%,string
 干员,狂兽战士,selectQuote,,string
 干员,狂兽战士,isInitialAvailable,true,bool
-干员,猎手先锋,operatorName,猎手先锋,string
-干员,猎手先锋,cost,6,int
-干员,猎手先锋,maxHealth,110.00,float
-干员,猎手先锋,defense,40,int
-干员,猎手先锋,attackDamage,27.00,float
-干员,猎手先锋,attackInterval,0.85,float
-干员,猎手先锋,attackRange,3.50,float
-干员,猎手先锋,opType,Vanguard,OperatorType
-干员,猎手先锋,deployRadius,6.00,float
-干员,猎手先锋,purchaseCooldown,15.00,float
-干员,猎手先锋,canStandOnGroundAndHighGround,false,bool
-干员,猎手先锋,isAoEAttacker,false,bool
-干员,猎手先锋,isHealer,false,bool
-干员,猎手先锋,baseCritChance,0,int
-干员,猎手先锋,maxStarRating,2,int
-干员,猎手先锋,starPassiveDesc,部署即返还部署费用，技力回复 +30%,string
-干员,猎手先锋,selectQuote,猎物，跑不掉的。,string
-干员,猎手先锋,isInitialAvailable,true,bool
+干员,狂兽战士,isDeprecated,false,bool
+干员,狂兽战士,deprecatedNote,,string
 干员,珑,operatorName,珑,string
 干员,珑,cost,20,int
 干员,珑,maxHealth,280.00,float
@@ -556,6 +490,8 @@
 干员,珑,starPassiveDesc,防御 +40%，且致命伤时保留 1 点生命（每场 1 次）,string
 干员,珑,selectQuote,进可攻，退可守。,string
 干员,珑,isInitialAvailable,true,bool
+干员,珑,isDeprecated,true,bool
+干员,珑,deprecatedNote,可能废弃（非正式干员）,string
 干员,空之魔王,operatorName,空之魔王,string
 干员,空之魔王,cost,22,int
 干员,空之魔王,maxHealth,120.00,float
@@ -574,24 +510,8 @@
 干员,空之魔王,starPassiveDesc,暴击率 +25%,string
 干员,空之魔王,selectQuote,,string
 干员,空之魔王,isInitialAvailable,true,bool
-干员,突击先锋,operatorName,突击先锋,string
-干员,突击先锋,cost,3,int
-干员,突击先锋,maxHealth,70.00,float
-干员,突击先锋,defense,0,int
-干员,突击先锋,attackDamage,21.00,float
-干员,突击先锋,attackInterval,0.60,float
-干员,突击先锋,attackRange,3.50,float
-干员,突击先锋,opType,Vanguard,OperatorType
-干员,突击先锋,deployRadius,6.00,float
-干员,突击先锋,purchaseCooldown,15.00,float
-干员,突击先锋,canStandOnGroundAndHighGround,false,bool
-干员,突击先锋,isAoEAttacker,false,bool
-干员,突击先锋,isHealer,false,bool
-干员,突击先锋,baseCritChance,0,int
-干员,突击先锋,maxStarRating,1,int
-干员,突击先锋,starPassiveDesc,部署即返还部署费用，技力回复 +30%,string
-干员,突击先锋,selectQuote,跟我冲！,string
-干员,突击先锋,isInitialAvailable,true,bool
+干员,空之魔王,isDeprecated,false,bool
+干员,空之魔王,deprecatedNote,,string
 干员,紫雷狼,operatorName,紫雷狼,string
 干员,紫雷狼,cost,7,int
 干员,紫雷狼,maxHealth,160.00,float
@@ -610,6 +530,8 @@
 干员,紫雷狼,starPassiveDesc,再部署更划算（撤退返还 +50%）,string
 干员,紫雷狼,selectQuote,雷霆之下，皆是猎物。,string
 干员,紫雷狼,isInitialAvailable,true,bool
+干员,紫雷狼,isDeprecated,false,bool
+干员,紫雷狼,deprecatedNote,,string
 干员,荆棘,operatorName,荆棘,string
 干员,荆棘,cost,22,int
 干员,荆棘,maxHealth,1800.00,float
@@ -628,6 +550,8 @@
 干员,荆棘,starPassiveDesc,防御 +40%，且致命伤时保留 1 点生命（每场 1 次）,string
 干员,荆棘,selectQuote,刺痛，是靠近我的代价。,string
 干员,荆棘,isInitialAvailable,true,bool
+干员,荆棘,isDeprecated,true,bool
+干员,荆棘,deprecatedNote,可能废弃（非正式干员）,string
 干员,藤曼战士,operatorName,藤曼战士,string
 干员,藤曼战士,cost,16,int
 干员,藤曼战士,maxHealth,900.00,float
@@ -646,6 +570,8 @@
 干员,藤曼战士,starPassiveDesc,防御 +40%，且致命伤时保留 1 点生命（每场 1 次）,string
 干员,藤曼战士,selectQuote,,string
 干员,藤曼战士,isInitialAvailable,true,bool
+干员,藤曼战士,isDeprecated,false,bool
+干员,藤曼战士,deprecatedNote,,string
 干员,近卫,operatorName,近卫,string
 干员,近卫,cost,9,int
 干员,近卫,maxHealth,1200.00,float
@@ -664,6 +590,8 @@
 干员,近卫,starPassiveDesc,专注强化，攻击力 +30%,string
 干员,近卫,selectQuote,,string
 干员,近卫,isInitialAvailable,true,bool
+干员,近卫,isDeprecated,true,bool
+干员,近卫,deprecatedNote,可能废弃（非正式干员）,string
 干员,连弩,operatorName,连弩,string
 干员,连弩,cost,14,int
 干员,连弩,maxHealth,20.00,float
@@ -682,6 +610,8 @@
 干员,连弩,starPassiveDesc,暴击率 +25%,string
 干员,连弩,selectQuote,,string
 干员,连弩,isInitialAvailable,true,bool
+干员,连弩,isDeprecated,true,bool
+干员,连弩,deprecatedNote,可能废弃（非正式干员）,string
 干员,醒,operatorName,醒,string
 干员,醒,cost,0,int
 干员,醒,maxHealth,20000.00,float
@@ -700,6 +630,8 @@
 干员,醒,starPassiveDesc,部署即返还部署费用，技力回复 +30%,string
 干员,醒,selectQuote,……（它似乎并不想说话）,string
 干员,醒,isInitialAvailable,true,bool
+干员,醒,isDeprecated,true,bool
+干员,醒,deprecatedNote,可能废弃（非正式干员）,string
 干员,钩爪,operatorName,钩爪,string
 干员,钩爪,cost,15,int
 干员,钩爪,maxHealth,150.00,float
@@ -718,6 +650,8 @@
 干员,钩爪,starPassiveDesc,再部署更划算（撤退返还 +50%）,string
 干员,钩爪,selectQuote,上钩吧。,string
 干员,钩爪,isInitialAvailable,true,bool
+干员,钩爪,isDeprecated,true,bool
+干员,钩爪,deprecatedNote,可能废弃（非正式干员）,string
 干员,铁壁,operatorName,铁壁,string
 干员,铁壁,cost,18,int
 干员,铁壁,maxHealth,2500.00,float
@@ -736,6 +670,8 @@
 干员,铁壁,starPassiveDesc,防御 +40%，且致命伤时保留 1 点生命（每场 1 次）,string
 干员,铁壁,selectQuote,想过去？先踏过我的身躯。,string
 干员,铁壁,isInitialAvailable,true,bool
+干员,铁壁,isDeprecated,true,bool
+干员,铁壁,deprecatedNote,可能废弃（非正式干员）,string
 干员,雪女,operatorName,雪女,string
 干员,雪女,cost,40,int
 干员,雪女,maxHealth,100.00,float
@@ -754,42 +690,8 @@
 干员,雪女,starPassiveDesc,法术穿透：无视 50% 防御，攻击力 +20%,string
 干员,雪女,selectQuote,,string
 干员,雪女,isInitialAvailable,true,bool
-干员,风暴先锋,operatorName,风暴先锋,string
-干员,风暴先锋,cost,7,int
-干员,风暴先锋,maxHealth,135.00,float
-干员,风暴先锋,defense,60,int
-干员,风暴先锋,attackDamage,18.00,float
-干员,风暴先锋,attackInterval,0.50,float
-干员,风暴先锋,attackRange,3.50,float
-干员,风暴先锋,opType,Vanguard,OperatorType
-干员,风暴先锋,deployRadius,6.00,float
-干员,风暴先锋,purchaseCooldown,15.00,float
-干员,风暴先锋,canStandOnGroundAndHighGround,false,bool
-干员,风暴先锋,isAoEAttacker,false,bool
-干员,风暴先锋,isHealer,false,bool
-干员,风暴先锋,baseCritChance,0,int
-干员,风暴先锋,maxStarRating,2,int
-干员,风暴先锋,starPassiveDesc,部署即返还部署费用，技力回复 +30%,string
-干员,风暴先锋,selectQuote,风暴，因我而起。,string
-干员,风暴先锋,isInitialAvailable,true,bool
-干员,驻防先锋,operatorName,驻防先锋,string
-干员,驻防先锋,cost,8,int
-干员,驻防先锋,maxHealth,175.00,float
-干员,驻防先锋,defense,350,int
-干员,驻防先锋,attackDamage,15.00,float
-干员,驻防先锋,attackInterval,1.00,float
-干员,驻防先锋,attackRange,3.50,float
-干员,驻防先锋,opType,Vanguard,OperatorType
-干员,驻防先锋,deployRadius,6.00,float
-干员,驻防先锋,purchaseCooldown,15.00,float
-干员,驻防先锋,canStandOnGroundAndHighGround,false,bool
-干员,驻防先锋,isAoEAttacker,false,bool
-干员,驻防先锋,isHealer,false,bool
-干员,驻防先锋,baseCritChance,0,int
-干员,驻防先锋,maxStarRating,2,int
-干员,驻防先锋,starPassiveDesc,部署即返还部署费用，技力回复 +30%,string
-干员,驻防先锋,selectQuote,这里，我来守。,string
-干员,驻防先锋,isInitialAvailable,true,bool
+干员,雪女,isDeprecated,false,bool
+干员,雪女,deprecatedNote,,string
 干员,鹰眼,operatorName,鹰眼,string
 干员,鹰眼,cost,16,int
 干员,鹰眼,maxHealth,25.00,float
@@ -808,6 +710,8 @@
 干员,鹰眼,starPassiveDesc,暴击率 +25%,string
 干员,鹰眼,selectQuote,,string
 干员,鹰眼,isInitialAvailable,true,bool
+干员,鹰眼,isDeprecated,true,bool
+干员,鹰眼,deprecatedNote,可能废弃（非正式干员）,string
 敌人,big boss,lives,1700,int
 敌人,big boss,defense,0,int
 敌人,big boss,damage,20,int

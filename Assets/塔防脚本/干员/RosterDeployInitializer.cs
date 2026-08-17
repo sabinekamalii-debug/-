@@ -36,9 +36,12 @@ public static class RosterDeployInitializer
     }
 
     /// <summary>
-    /// 在战斗场景的「干员商店面板」底部自动注入一个「铲子」工具：
+    /// 在战斗场景的角色画布底部自动注入一个「铲子」工具：
     /// 拖拽铲子到已部署的干员身上可铲除该干员（不返还费用、触发购买冷却）。
     /// 通过运行时自动注入，96 个战斗场景都无需手动摆 UI。
+    /// ※ 2026-08-17 改造：不再挂在干员商店面板下（会压住 viewport 底部最后一张卡的"名字"，
+    ///   以及占满面板底部空间）。改为挂在角色画布底部中央作为独立悬浮按钮，
+    ///   与干员招募处完全分离、和谐共存。
     /// </summary>
     private static void EnsureShovelTool()
     {
@@ -46,35 +49,27 @@ public static class RosterDeployInitializer
         if (scroll == null) return;
         // 非战斗场景（无部署系统）不需要铲子
         if (Object.FindFirstObjectByType<DeploymentManager>() == null) return;
-        // 已存在则不重复创建（场景重载兜底）
-        if (scroll.GetComponentInChildren<ShovelTool>(true) != null) return;
+        // 铲子现在挂在 root canvas 而非 scroll 下，所以在这里检测（场景重载兜底）
+        var rootCanvas = scroll.GetComponentInParent<Canvas>()?.rootCanvas;
+        if (rootCanvas == null) return;
+        if (rootCanvas.GetComponentInChildren<ShovelTool>(true) != null) return;
 
-        Transform panel = scroll.transform;
-
-        // 在 viewport 底部预留空间放铲子，避免与滚动的卡片重叠
-        var viewportRect = scroll.viewport != null ? scroll.viewport : scroll.GetComponentInChildren<RectMask2D>()?.rectTransform;
-        if (viewportRect != null)
-        {
-            Vector2 offsetMin = viewportRect.offsetMin;
-            // 仅当底部还没预留过（避免重复叠加）时预留
-            if (offsetMin.y < 1.0f)
-                viewportRect.offsetMin = new Vector2(offsetMin.x, 1.15f);
-        }
-
+        // 在 root 画布底部中央生成悬浮按钮（世界坐标 y=-4.5，确保落在主摄像机视野内 y∈[-5,5]）
         var go = new GameObject("ShovelTool");
-        go.transform.SetParent(panel, false);
+        go.transform.SetParent(rootCanvas.transform, false);
         var rect = go.AddComponent<RectTransform>();
-        rect.anchorMin = new Vector2(0.5f, 0f);
-        rect.anchorMax = new Vector2(0.5f, 0f);
-        rect.pivot = new Vector2(0.5f, 0f);
-        rect.sizeDelta = new Vector2(2.0f, 1.0f);
-        rect.anchoredPosition = new Vector2(0f, 0.08f);
+        rect.anchorMin = new Vector2(0.5f, 0.5f);
+        rect.anchorMax = new Vector2(0.5f, 0.5f);
+        rect.pivot = new Vector2(0.5f, 0.5f);
+        rect.sizeDelta = new Vector2(1.4f, 0.4f);
+        rect.position = new Vector3(0f, -4.5f, 90f);
 
         var bg = go.AddComponent<Image>();
         bg.color = new Color(0.18f, 0.16f, 0.12f, 0.95f);
         bg.raycastTarget = true; // 根 Image 接收拖拽射线
 
         // 铲子文字（与部署卡同名/费用文字一致：WorldSpace 世界单位字号、TMP）
+        // 字号 0.22：4 字 × 0.22 = 0.88 < 1.4 框宽，保证"铲除干员"不溢出
         var labelGo = new GameObject("文字");
         labelGo.transform.SetParent(go.transform, false);
         var labelRect = labelGo.AddComponent<RectTransform>();
@@ -84,15 +79,16 @@ public static class RosterDeployInitializer
         labelRect.offsetMax = Vector2.zero;
         var labelTmp = labelGo.AddComponent<TMPro.TextMeshProUGUI>();
         labelTmp.text = "铲除干员";
-        labelTmp.fontSize = 0.6f;
+        labelTmp.fontSize = 0.22f;
         labelTmp.alignment = TMPro.TextAlignmentOptions.Center;
         labelTmp.color = new Color(1f, 0.78f, 0.35f);
         labelTmp.enableWordWrapping = false;
+        labelTmp.overflowMode = TMPro.TextOverflowModes.Overflow;
         labelTmp.raycastTarget = false;
 
         var shovel = go.AddComponent<ShovelTool>();
         // operatorLayer 留空：ShovelTool 运行时会自动取 DeploymentManager.operatorLayer
-        // 不调用 DontDestroyOnLoad：铲子随商店面板按场景重建即可
+        // 不调用 DontDestroyOnLoad：铲子随场景销毁即可
     }
 
     /// <summary>

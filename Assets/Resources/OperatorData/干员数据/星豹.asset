@@ -18,7 +18,7 @@ MonoBehaviour:
   defense: 50
   attackDamage: 25
   attackInterval: 0.5
-  opType: 6
+  opType: 0
   attackRange: 0
   deployRadius: 6
   unitPrefab: {fileID: 637967464398255708, guid: dddfaee527711e3409662d76f0328380, type: 3}
@@ -28,7 +28,7 @@ MonoBehaviour:
   isAoEAttacker: 0
   isHealer: 0
   baseCritChance: 0
-  starPassiveDesc: "再部署更划算（撤退返还 +50%）"
+  starPassiveDesc: "部署即返还部署费用，技力回复 +30%"
   maxStarRating: 3
   selectQuote: "快，是你抓不住我的理由。"
   isInitialAvailable: 1

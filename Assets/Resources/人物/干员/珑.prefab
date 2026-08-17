@@ -1,15 +1,16 @@
 %YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
+%TAG !u! tag:yousandi.cn,2023:
 --- !u!1 &1700794958896917783
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 8571711320707247174}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,12 +43,13 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 4221547429946111993}
   - component: {fileID: 270998057129366025}
   - component: {fileID: 548461241591673058}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,11 +119,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 8238592321133097490}
   - component: {fileID: 6040069547778573453}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: HP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -206,12 +209,13 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 871975915197984160}
   - component: {fileID: 4314701764732102647}
   - component: {fileID: 5569437014097434128}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -281,7 +285,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 6087244204801205156}
   - component: {fileID: 1835854909866150310}
@@ -289,6 +293,7 @@ GameObject:
   - component: {fileID: 1009752044899210237}
   - component: {fileID: 6954916252537579287}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: HealtherCanvas (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -403,12 +408,13 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 4914932737230763567}
   - component: {fileID: 8584020792144523572}
   - component: {fileID: 4811694808777242134}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -478,12 +484,13 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 6966994314447087000}
   - component: {fileID: 2486950685545452336}
   - component: {fileID: 4902283151662621105}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -553,10 +560,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 2352688129057684149}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -589,11 +597,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 4472267336067071670}
   - component: {fileID: 8835640437301468784}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: "\u84DD\u6761"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -678,7 +687,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  serializedVersion: 7
   m_Component:
   - component: {fileID: 1141335223063814772}
   - component: {fileID: 7715507323869778170}
@@ -691,6 +700,7 @@ GameObject:
   - component: {fileID: 4490757775492678148}
   - component: {fileID: 836077656769069113}
   m_Layer: 6
+  m_HasEditorInfo: 1
   m_Name: "\u73D1"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -730,9 +740,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
+  m_virtualGeometry: 0
+  m_ShadingRate: 0
+  m_ForceDisableGRD: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -756,7 +766,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 60
   m_Sprite: {fileID: -6896451431577350739, guid: 9362396f2305ffa4ea9d5a11036479ec, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -801,7 +811,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
-  m_CompositeOrder: 0
+  m_CompositeLayer: 0
   m_Offset: {x: -0.009935141, y: -0.30815887}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -816,7 +826,7 @@ BoxCollider2D:
   m_EdgeRadius: 0
 --- !u!95 &7874365324237072856
 Animator:
-  serializedVersion: 7
+  serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -827,10 +837,11 @@ Animator:
   m_Controller: {fileID: 9100000, guid: c34bb76e71d2ecf4ab5bbaa2e5ed9c2c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
+  m_UpdateFrequencyMode: 0
+  m_UpdateFrequency: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -860,6 +871,7 @@ MonoBehaviour:
   runtimeAttackDamage: 0
   runtimeDefense: 0
   runtimeAttackInterval: 0
+  traitAttackSpeedMultiplier: 1
   currentSkill: {fileID: 0}
   maxSP: 10
   currentSP: 0
@@ -954,6 +966,7 @@ MonoBehaviour:
   skillName: "\u672A\u547D\u540D\u6280\u80FD"
   maxSP: 40
   duration: 60
+  autoActivate: 0
   skillBlockCount: 10
   damageMultiplier: 1.3333334
   skillColor: {r: 0.7, g: 0.4, b: 1, a: 1}

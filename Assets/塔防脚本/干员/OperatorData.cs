@@ -92,4 +92,11 @@ public class OperatorData : ScriptableObject
 
     [Tooltip("是否为初始可用干员（开局即可选）")]
     public bool isInitialAvailable = false;
+
+    [Header("废弃标注")]
+    [Tooltip("标记该干员可能废弃（非正式游戏干员）。正式干员清单以角色画布下的 13 张卡为准，其余干员请先确认后再删除。")]
+    public bool isDeprecated = false;
+
+    [Tooltip("废弃原因/备注，防止后续维护时误认")]
+    public string deprecatedNote = "";
 }

@@ -245,7 +245,7 @@ public class OperatorSelectionPanel : MonoBehaviour
         iconImg.preserveAspect = true;
         iconImg.raycastTarget = false;
 
-        // Info text
+        // Info text（名字 + 职业符号语言 + 星级，无底色不遮立绘）
         var infoGo = new GameObject("Info");
         infoGo.transform.SetParent(itemGo.transform, false);
         var infoRect = infoGo.AddComponent<RectTransform>();
@@ -258,7 +258,9 @@ public class OperatorSelectionPanel : MonoBehaviour
         infoTmp.color = unlocked ? Color.white : new Color(0.4f, 0.4f, 0.4f);
         infoTmp.alignment = TextAlignmentOptions.MidlineLeft;
         string starStr = new string('★', op.maxStarRating);
-        infoTmp.text = unlocked ? $"{op.operatorName} {starStr}" : "??? 未解锁";
+        // 已解锁：名字 + 「符号 职业名」+ 星级；未解锁：依旧问号，不泄露职业
+        string badgeStr = unlocked ? OperatorClassBadge.GetBadgeText(op.opType) : "";
+        infoTmp.text = unlocked ? $"{op.operatorName}  {badgeStr}  {starStr}" : "??? 未解锁";
         infoTmp.raycastTarget = false;
 
         // Checkmark
@@ -317,7 +319,7 @@ public class OperatorSelectionPanel : MonoBehaviour
                 float grow = StarGrowth[Mathf.Clamp(cur, 1, StarGrowth.Length - 1)];
                 float mult = baseMul * grow;
                 var sb = new System.Text.StringBuilder();
-                sb.Append($"HP:{Mathf.RoundToInt(op.maxHealth * mult)}  ATK:{Mathf.RoundToInt(op.attackDamage * mult)}  费用:{op.cost}");
+                sb.Append($"{OperatorClassBadge.GetBadgeText(op.opType)}  费用:{op.cost}  HP:{Mathf.RoundToInt(op.maxHealth * mult)}  ATK:{Mathf.RoundToInt(op.attackDamage * mult)}");
                 if (cur >= op.maxStarRating && !string.IsNullOrEmpty(op.starPassiveDesc))
                     sb.Append($"\n[满星被动] {op.starPassiveDesc}");
                 _statsText.text = sb.ToString();

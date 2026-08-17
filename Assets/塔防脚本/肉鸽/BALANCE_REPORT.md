@@ -424,33 +424,24 @@ _共 7 个字段_
 | 资产名 | operatorName | cost | maxHealth | defense | attackDamage | attackInterval | attackRange | deployRadius | purchaseCooldown | canStandOnGroundAndHighGround | isAoEAttacker | isHealer | baseCritChance |
 |--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|
 | 万录朵 | 万录朵 | 50 | 5.00f | 0 | 1300.00f | 15.00f | 10.00f | 1.00f | 60.00f | false | false | false | 0 |
-| 先锋测试 | 先锋测试 | 6 | 120.00f | 80 | 23.00f | 0.80f | 3.50f | 6.00f | 15.00f | false | false | false | 0 |
 | 光波 | 光波 | 26 | 1.00f | 0 | 13.00f | 1.00f | 4.10f | 2.00f | 30.00f | true | true | false | 0 |
 | 净化 | 净化 | 20 | 40.00f | 100 | 8.00f | 2.50f | 5.00f | 8.00f | 18.00f | false | false | true | 0 |
 | 圣光 | 圣光 | 18 | 50.00f | 200 | 12.00f | 1.50f | 4.00f | 8.00f | 25.00f | false | false | true | 0 |
 | 地面射手 | 地面射手 | 20 | 20.00f | 0 | 10.00f | 0.40f | 4.00f | 3.00f | 20.00f | false | false | false | 0 |
-| 坚守先锋 | 坚守先锋 | 9 | 210.00f | 500 | 13.00f | 1.10f | 3.50f | 6.00f | 15.00f | false | false | false | 0 |
 | 奥术 | 奥术 | 35 | 22.00f | 0 | 55.00f | 1.80f | 4.00f | 8.00f | 28.00f | false | false | false | 0 |
 | 女战士 | 女战士 | 21 | 250.00f | 6000 | 9.00f | 1.00f | 3.50f | 6.00f | 20.00f | false | false | false | 0 |
-| 战术先锋 | 战术先锋 | 7 | 130.00f | 100 | 21.00f | 0.90f | 3.50f | 6.00f | 15.00f | false | false | false | 0 |
 | 拳师 | 拳师 | 14 | 20.00f | 200 | 80.00f | 1.00f | 3.50f | 1.00f | 3.00f | false | false | false | 0 |
-| 斥候先锋 | 斥候先锋 | 4 | 85.00f | 0 | 19.00f | 0.55f | 3.50f | 6.00f | 15.00f | false | false | false | 0 |
 | 晶 | 晶 | 15 | 200.00f | 2000 | 35.00f | 1.00f | 3.50f | 6.00f | 5.00f | false | false | false | 0 |
 | 武士 | 武士 | 16 | 200.00f | 4000 | 35.00f | 1.00f | 3.50f | 4.00f | 15.00f | false | false | false | 0 |
 | 法师 | 法师 | 45 | 30.00f | 0 | 115.00f | 3.00f | 4.50f | 8.00f | 40.00f | false | false | false | 0 |
-| 游击先锋 | 游击先锋 | 5 | 95.00f | 20 | 22.00f | 0.65f | 3.50f | 6.00f | 15.00f | false | false | false | 0 |
 | 牧师 | 牧师 | 16 | 60.00f | 300 | 8.00f | 2.00f | 3.00f | 3.00f | 30.00f | true | false | true | 0 |
-| 猎手先锋 | 猎手先锋 | 6 | 110.00f | 40 | 27.00f | 0.85f | 3.50f | 6.00f | 15.00f | false | false | false | 0 |
 | 珑 | 珑 | 20 | 280.00f | 3500 | 15.00f | 1.00f | 3.50f | 2.00f | 20.00f | false | false | false | 0 |
-| 突击先锋 | 突击先锋 | 3 | 70.00f | 0 | 21.00f | 0.60f | 3.50f | 6.00f | 15.00f | false | false | false | 0 |
 | 荆棘 | 荆棘 | 22 | 1800.00f | 6000 | 25.00f | 1.20f | 1.00f | 6.00f | 30.00f | false | false | false | 0 |
 | 近卫 | 近卫 | 9 | 1200.00f | 12 | 130.00f | 1.00f | 3.50f | 6.00f | 15.00f | false | false | false | 0 |
 | 连弩 | 连弩 | 14 | 20.00f | 0 | 12.00f | 0.35f | 5.00f | 8.00f | 12.00f | false | false | false | 20 |
 | 醒 | 醒 | 0 | 20000.00f | 5000 | 400.00f | 2.00f | 3.50f | 5.00f | 600.00f | false | false | false | 0 |
 | 钩爪 | 钩爪 | 15 | 150.00f | 1000 | 22.00f | 1.50f | 2.50f | 5.00f | 20.00f | false | false | false | 0 |
 | 铁壁 | 铁壁 | 18 | 2500.00f | 8000 | 12.00f | 1.50f | 1.00f | 6.00f | 40.00f | false | false | false | 0 |
-| 风暴先锋 | 风暴先锋 | 7 | 135.00f | 60 | 18.00f | 0.50f | 3.50f | 6.00f | 15.00f | false | false | false | 0 |
-| 驻防先锋 | 驻防先锋 | 8 | 175.00f | 350 | 15.00f | 1.00f | 3.50f | 6.00f | 15.00f | false | false | false | 0 |
 | 鹰眼 | 鹰眼 | 16 | 25.00f | 0 | 28.00f | 0.70f | 6.00f | 8.00f | 18.00f | false | false | false | 25 |
 
 ### 天赋卡资产 (TalentCardData) (96 个资产)

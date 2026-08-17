@@ -83,6 +83,7 @@ public class OperatorUnit : MonoBehaviour
     private OperatorBrain brain;
     private Animator animator;
     private Sprite originalSprite;
+    private VanguardRecon _recon;
 
     void Awake()
     {
@@ -125,7 +126,23 @@ public class OperatorUnit : MonoBehaviour
         }
         else InitUI(1);
 
+        // 先锋职业自动挂载侦察组件（VanguardRecon）：高速穿插时持续扫描前方敌人并标记增伤。
+        // 新先锋干员只需设好 opType=Vanguard 即可自动获得，无需手动在 prefab 上接线。
+        TryAttachDefaultRecon();
+
         TryRegisterPrePlacedPosition();
+    }
+
+    /// <summary>
+    /// 先锋职业自动挂载 VanguardRecon（侦察标记）组件。
+    /// 已手动挂了 VanguardRecon 的干员不会被重复添加；非先锋职业不受影响。
+    /// </summary>
+    private void TryAttachDefaultRecon()
+    {
+        if (data == null) return;
+        if (data.opType != OperatorData.OperatorType.Vanguard) return;
+        if (GetComponent<VanguardRecon>() != null) return;
+        gameObject.AddComponent<VanguardRecon>();
     }
 
     /// <summary>
@@ -528,7 +545,11 @@ public class OperatorUnit : MonoBehaviour
             }
 
             Vector3 currentWaypoint = path[targetIndex];
-            float moveSpeed = ((brain != null) ? brain.moveSpeed : 1f) * TalentEffectApplier.GetMoveSpeedMultiplier(data);
+            // 先锋侦察减速：侦察范围内有敌人时移动速度减半（发现敌情后谨慎慢行）
+            float reconSlow = GetReconSlowMultiplier();
+            float moveSpeed = ((brain != null) ? brain.moveSpeed : 1f) * TalentEffectApplier.GetMoveSpeedMultiplier(data) * reconSlow;
+            // 走路动画播放速度与移动速度同步减半，避免「人走得慢但动画仍原速」的违和感
+            if (animator != null) animator.speed = reconSlow;
             transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, moveSpeed * Time.deltaTime);
 
             if (Vector3.Distance(transform.position, currentWaypoint) < 0.05f)
@@ -539,8 +560,19 @@ public class OperatorUnit : MonoBehaviour
         }
 
         isMoving = false;
+        if (animator != null) animator.speed = 1f;
         DisableAnimator();
         OnArriveDestination();
+    }
+
+    /// <summary>
+    /// 先锋侦察减速系数：侦察范围内有敌人时返回 0.5（移动速度减半），否则返回 1。
+    /// </summary>
+    private float GetReconSlowMultiplier()
+    {
+        if (_recon == null) _recon = GetComponent<VanguardRecon>();
+        if (_recon != null && _recon.HasEnemyInRecon) return 0.5f;
+        return 1f;
     }
 
     void OnArriveDestination()
