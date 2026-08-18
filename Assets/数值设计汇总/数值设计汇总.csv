@@ -23,7 +23,7 @@
 平衡配置,MaxStarLimit,MaxStarLimit,5,int
 平衡配置,RosterMinCount,RosterMinCount,3,int
 平衡配置,RosterMaxCount,RosterMaxCount,8,int
-平衡配置,StarBudget,StarBudget,7,int
+平衡配置,StarBudget,StarBudget,9,int
 平衡配置,CardShopPriceCommon,CardShopPriceCommon,15,int
 平衡配置,CardShopPriceAdvanced,CardShopPriceAdvanced,30,int
 平衡配置,CardShopPriceRare,CardShopPriceRare,60,int

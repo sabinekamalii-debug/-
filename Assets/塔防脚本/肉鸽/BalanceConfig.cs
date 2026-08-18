@@ -103,8 +103,11 @@ public static class BalanceConfig
     /// 开局自选干员的「星数预算」。每个进阵容的干员按其当前星级消耗预算：
     /// 带 7 个 ★1 炮灰 = 7 点，带 1 个 ★5 核心 + 2 个 ★1 辅助 = 7 点（刚好满），
     /// 带 1 个 ★5 + 3 个 ★1 = 8 点则超预算。选人阶段升星也会占用预算。
+    /// 
+    /// <b>⚠️ 临时修改（测试阶段）：</b> 原为 7，现改为 9 以支持更多干员组合测试。
+    /// 正式上线前必须改回 7。详见 `Docs/TempChanges-StarBudget-9.md`
     /// </summary>
-    public const int StarBudget = 7;
+    public const int StarBudget = 9;
 
     /// <summary>
     /// 升到"目标星级"所需的局内金币（目标星级需 ∈ [2, maxStar]）。
