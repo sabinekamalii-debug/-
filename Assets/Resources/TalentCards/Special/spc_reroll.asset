@@ -13,18 +13,18 @@ MonoBehaviour:
   m_Name: spc_reroll
   m_EditorClassIdentifier: 
   cardId: spc_reroll
-  displayName: "\u91CD\u65B0\u6D17\u724C"
-  description: "\u653B\u51FB\u901F\u5EA6+8%\uFF0C\u6700\u5927\u751F\u547D+8%"
+  displayName: "免费重抽"
+  description: "本局免费重抽2次"
   cardType: 0
   rarity: 0
-  icon: {fileID: -9058169057758494445, guid: 7e9e6b141e4e3884fbb4c70dcabc2be7, type: 3}
-  cardBack: {fileID: 1658410374634452892, guid: 90f1a66adc4c2a24b8e8b31ef882f7f4, type: 3}
-  cardFront: {fileID: -1283221160309942314, guid: 1bdbbb45f40af434b8c22eddd447b85f, type: 3}
-  effectType: 8
-  effectValue: 8
+  icon: {fileID: 0}
+  cardBack: {fileID: 0}
+  cardFront: {fileID: 0}
+  effectType: 0
+  effectValue: 2
   effectValue2: 0
-  secondaryEffectType: 15
-  secondaryEffectValue: 8
+  secondaryEffectType: 0
+  secondaryEffectValue: 0
   secondaryEffectValue2: 0
   effectTarget: 0
   targetOperatorType: 0
@@ -34,3 +34,9 @@ MonoBehaviour:
   isGuardianRewindCard: 0
   triggerType: 0
   triggerValue: 0
+  isCurse: 0
+  curseEffectType: 0
+  curseEffectValue: 0
+  curseSecondaryEffectType: 0
+  curseSecondaryEffectValue: 0
+  curseRemovable: 1

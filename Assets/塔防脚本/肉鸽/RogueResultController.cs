@@ -69,6 +69,14 @@ public class RogueResultController : MonoBehaviour
     /// <summary> 是否为守护点时光回溯救场抽卡 </summary>
     public static bool IsGuardianRewindDrop = false;
 
+    /// <summary>
+    /// 是否为盲抽模式（只显示卡片背面，点击后才翻开）。
+    /// 默认 false：玩家可以看到卡片正面详细描述进行选择。
+    /// 特殊场景设计者设置为 true 时启用盲抽（如：神秘事件、诅咒关卡等）。
+    /// 详见开发文档：Assets/docs/卡片盲抽特殊场景设计.md
+    /// </summary>
+    public static bool IsBlindPickMode = false;
+
     /// <summary> 抽卡完成事件（第一关抽卡完成后触发，用于自动进入战斗） </summary>
     public static event System.Action OnMidGameDropCompleted;
 
@@ -860,7 +868,7 @@ public class RogueResultController : MonoBehaviour
             for (int i = 0; i < RogueRuntimeState.CardPickSlotCount; i++)
             {
                 _currentOffers[i] = null;
-                _slotRevealed[i] = false;
+                _slotRevealed[i] = !IsBlindPickMode;
             }
             for (int i = 0; i < guardianCards.Count && i < RogueRuntimeState.CardPickSlotCount; i++)
             {
@@ -888,7 +896,7 @@ public class RogueResultController : MonoBehaviour
         for (int i = 0; i < RogueRuntimeState.CardPickSlotCount; i++)
         {
             _currentOffers[i] = null;
-            _slotRevealed[i] = false;
+            _slotRevealed[i] = !IsBlindPickMode;
         }
 
         if (available.Count == 0)
@@ -1204,8 +1212,9 @@ public class RogueResultController : MonoBehaviour
         Transform slotRoot = btn != null ? btn.transform : null;
 
         var card = slotIndex < _currentOffers.Length ? _currentOffers[slotIndex] : null;
-        var clip = GetRevealVideoForType(card != null ? card.cardType : TalentCardType.Special);
-        var player = cardRevealVideoPlayer != null ? cardRevealVideoPlayer : EnsureFallbackRevealVideoPlayer();
+        // 卡片已翻开（非盲抽模式）时跳过翻卡视频/动画
+        var clip = _slotRevealed[slotIndex] ? null : GetRevealVideoForType(card != null ? card.cardType : TalentCardType.Special);
+        var player = _slotRevealed[slotIndex] ? null : (cardRevealVideoPlayer != null ? cardRevealVideoPlayer : EnsureFallbackRevealVideoPlayer());
         if (clip != null && player != null)
         {
             var panel = cardRevealVideoPanel != null ? cardRevealVideoPanel : (player.gameObject);
@@ -1242,7 +1251,7 @@ public class RogueResultController : MonoBehaviour
             player.Stop();
             panel.SetActive(false);
         }
-        else if (slotRoot != null)
+        else if (!_slotRevealed[slotIndex] && slotRoot != null)
         {
             var anim = slotRoot.GetComponent<Animator>();
             if (anim != null && !string.IsNullOrEmpty(revealAnimatorStateName))
@@ -1261,7 +1270,7 @@ public class RogueResultController : MonoBehaviour
                 yield return new WaitForSecondsRealtime(revealAnimDuration);
             }
         }
-        else
+        else if (!_slotRevealed[slotIndex])
         {
             yield return new WaitForSecondsRealtime(revealAnimDuration);
         }
@@ -1343,6 +1352,7 @@ public class RogueResultController : MonoBehaviour
             bool isGuardianRewind = IsGuardianRewindDrop;
             IsGuardianRewindDrop = false;
             IsMidGameDrop = false;
+            IsBlindPickMode = false;
             if (GameManager.Instance != null)
             {
                 GameManager.Instance.ResetMidGameDropFlag();
@@ -1375,6 +1385,7 @@ public class RogueResultController : MonoBehaviour
         SetResultPanelVisible(true);
         yield return PlaySettlementRevealEffectIfNeeded();
         RefreshTotalText();
+        IsBlindPickMode = false;
         _revealingInProgress = false;
     }
 
@@ -1822,6 +1833,7 @@ public class RogueResultController : MonoBehaviour
             bool isGuardianRewind = IsGuardianRewindDrop;
             IsGuardianRewindDrop = false;
             IsMidGameDrop = false;
+            IsBlindPickMode = false;
             if (GameManager.Instance != null)
             {
                 GameManager.Instance.ResetMidGameDropFlag();
@@ -1850,6 +1862,7 @@ public class RogueResultController : MonoBehaviour
             }
             return;
         }
+        IsBlindPickMode = false;
         StartCoroutine(ShowResultPanelWithEffects());
     }
 

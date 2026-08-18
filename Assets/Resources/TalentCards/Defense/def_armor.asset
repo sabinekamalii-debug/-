@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25b5543c5e7422745b6fe739aad8016e, type: 3}
+  m_Name: def_armor
+  m_EditorClassIdentifier: 
+  cardId: def_armor
+  displayName: "铁壁防御"
+  description: "全体干员防御力+30%"
+  cardType: 2
+  rarity: 0
+  icon: {fileID: 0}
+  cardBack: {fileID: 0}
+  cardFront: {fileID: 0}
+  effectType: 5
+  effectValue: 30
+  effectValue2: 0
+  secondaryEffectType: 0
+  secondaryEffectValue: 0
+  secondaryEffectValue2: 0
+  effectTarget: 0
+  targetOperatorType: 0
+  targetOperatorDataId: -1
+  purchaseCooldownPenalty: 0
+  cardScope: 0
+  isGuardianRewindCard: 0
+  triggerType: 0
+  triggerValue: 0
+  isCurse: 0
+  curseEffectType: 0
+  curseEffectValue: 0
+  curseSecondaryEffectType: 0
+  curseSecondaryEffectValue: 0
+  curseRemovable: 1

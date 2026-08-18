@@ -13,18 +13,18 @@ MonoBehaviour:
   m_Name: spc_draw
   m_EditorClassIdentifier: 
   cardId: spc_draw
-  displayName: "\u547D\u8FD0\u6289\u62E9"
-  description: "\u653B\u51FB\u529B+8%\uFF0C\u9632\u5FA1\u529B+8%"
+  displayName: "命运抉择"
+  description: "每场战斗后额外抽取1张卡片"
   cardType: 0
   rarity: 0
-  icon: {fileID: -9058169057758494445, guid: 7e9e6b141e4e3884fbb4c70dcabc2be7, type: 3}
-  cardBack: {fileID: 1658410374634452892, guid: 90f1a66adc4c2a24b8e8b31ef882f7f4, type: 3}
-  cardFront: {fileID: -1283221160309942314, guid: 1bdbbb45f40af434b8c22eddd447b85f, type: 3}
-  effectType: 4
-  effectValue: 8
+  icon: {fileID: 0}
+  cardBack: {fileID: 0}
+  cardFront: {fileID: 0}
+  effectType: 0
+  effectValue: 1
   effectValue2: 0
-  secondaryEffectType: 5
-  secondaryEffectValue: 8
+  secondaryEffectType: 0
+  secondaryEffectValue: 0
   secondaryEffectValue2: 0
   effectTarget: 0
   targetOperatorType: 0
@@ -34,3 +34,9 @@ MonoBehaviour:
   isGuardianRewindCard: 0
   triggerType: 0
   triggerValue: 0
+  isCurse: 0
+  curseEffectType: 0
+  curseEffectValue: 0
+  curseSecondaryEffectType: 0
+  curseSecondaryEffectValue: 0
+  curseRemovable: 1

@@ -13,18 +13,18 @@ MonoBehaviour:
   m_Name: skl_auto
   m_EditorClassIdentifier: 
   cardId: skl_auto
-  displayName: "\u81EA\u52A8\u65BD\u653E"
-  description: "\u66B4\u51FB\u7387+10%\uFF0C\u653B\u51FB\u529B+8%"
+  displayName: "自动技能"
+  description: "所有持续3秒及以下的技能冷却完毕后自动释放"
   cardType: 5
-  rarity: 0
-  icon: {fileID: -23240371071387434, guid: 7f6a38fa6d94d3548b194a94647e39dd, type: 3}
-  cardBack: {fileID: 1658410374634452892, guid: 90f1a66adc4c2a24b8e8b31ef882f7f4, type: 3}
-  cardFront: {fileID: -1283221160309942314, guid: 1bdbbb45f40af434b8c22eddd447b85f, type: 3}
-  effectType: 11
-  effectValue: 10
+  rarity: 1
+  icon: {fileID: 0}
+  cardBack: {fileID: 0}
+  cardFront: {fileID: 0}
+  effectType: 0
+  effectValue: 1
   effectValue2: 0
-  secondaryEffectType: 4
-  secondaryEffectValue: 8
+  secondaryEffectType: 0
+  secondaryEffectValue: 0
   secondaryEffectValue2: 0
   effectTarget: 0
   targetOperatorType: 0
@@ -34,3 +34,9 @@ MonoBehaviour:
   isGuardianRewindCard: 0
   triggerType: 0
   triggerValue: 0
+  isCurse: 0
+  curseEffectType: 0
+  curseEffectValue: 0
+  curseSecondaryEffectType: 0
+  curseSecondaryEffectValue: 0
+  curseRemovable: 1

@@ -13,20 +13,20 @@ MonoBehaviour:
   m_Name: rar_vanguard_speed
   m_EditorClassIdentifier: 
   cardId: rar_vanguard_speed
-  displayName: 先锋疾行
-  description: "先锋干员移动速度 +100%（加倍）"
+  displayName: "先锋共鸣"
+  description: "每有1个先锋干员，所有干员移速+5%"
   cardType: 4
   rarity: 2
   icon: {fileID: 0}
   cardBack: {fileID: 0}
   cardFront: {fileID: 0}
-  effectType: 35
-  effectValue: 100
+  effectType: 0
+  effectValue: 5
   effectValue2: 0
   secondaryEffectType: 0
   secondaryEffectValue: 0
   secondaryEffectValue2: 0
-  effectTarget: 1
+  effectTarget: 0
   targetOperatorType: 0
   targetOperatorDataId: -1
   purchaseCooldownPenalty: 0
@@ -34,3 +34,9 @@ MonoBehaviour:
   isGuardianRewindCard: 0
   triggerType: 0
   triggerValue: 0
+  isCurse: 0
+  curseEffectType: 0
+  curseEffectValue: 0
+  curseSecondaryEffectType: 0
+  curseSecondaryEffectValue: 0
+  curseRemovable: 1
