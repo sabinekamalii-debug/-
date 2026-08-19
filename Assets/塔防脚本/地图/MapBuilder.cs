@@ -27,6 +27,9 @@ public class MapBuilder : MonoBehaviour
     [Tooltip("运行时 WayPoint 用的 Sprite（不填则 WayPoint 不显示图标）")]
     [SerializeField] private Sprite _runtimeWaypointSprite;
 
+    [Tooltip("刷怪点装饰 Sprite（不填则运行时从场景 Spawner 的 SpriteRenderer 获取）")]
+    [SerializeField] private Sprite _spawnPointSprite;
+
     [Tooltip("Path 父物体预制体/模板（挂有 Path 组件）。若不填则自动创建空物体加 Path 组件。")]
     public GameObject pathTemplatePrefab;
 
@@ -268,11 +271,53 @@ public class MapBuilder : MonoBehaviour
             // 赋值给 Path 组件
             pathComp.wayPoint = wayPointGOs;
 
+            // 在路径起点创建刷怪点装饰物
+            CreateSpawnPointDecoration(pathGo.transform, waypoints[0], i);
+
             // 只保留实际使用的路线数
             while (BuiltPaths.Count <= i)
                 BuiltPaths.Add(null);
             BuiltPaths[i] = pathComp;
         }
+    }
+
+    /// <summary>
+    /// 在路径起点（刷怪点）创建装饰物：复用 Spawner 的精灵与缩放，
+    /// 纯视觉、无逻辑组件。
+    /// </summary>
+    private void CreateSpawnPointDecoration(Transform parent, Vector3 position, int pathIndex)
+    {
+        Sprite sprite = _spawnPointSprite;
+        Vector3 decorationScale = new Vector3(0.1f, 0.1f, 0.1f);
+        Color decorationColor = Color.white;
+
+        // 未指定 sprite 时从场景中 Spawner 的 SpriteRenderer 获取
+        if (sprite == null)
+        {
+            var spawner = FindFirstObjectByType<Spawner>();
+            if (spawner != null)
+            {
+                var spawnerSR = spawner.GetComponent<SpriteRenderer>();
+                if (spawnerSR != null && spawnerSR.sprite != null)
+                {
+                    sprite = spawnerSR.sprite;
+                    decorationScale = spawnerSR.transform.localScale;
+                    decorationColor = spawnerSR.color;
+                }
+            }
+        }
+
+        if (sprite == null) return;
+
+        var go = new GameObject($"SpawnPoint_{pathIndex}");
+        go.transform.SetParent(parent);
+        go.transform.position = position;
+        go.transform.localScale = decorationScale;
+
+        var sr = go.AddComponent<SpriteRenderer>();
+        sr.sprite = sprite;
+        sr.color = decorationColor;
+        sr.sortingOrder = 4;
     }
 
     /// <summary>

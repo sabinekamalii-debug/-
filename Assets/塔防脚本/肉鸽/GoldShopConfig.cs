@@ -44,19 +44,32 @@ public static class GoldShopConfig
     /// <summary>
     /// S1：从全部未拥有卡中按稀有度加权随机抽取货位卡。
     /// 货位数量随机 4~6 张。spc_fortune 提升稀有度权重。
-    /// 每张卡有概率获得货位折扣（S2）。
+    /// 梦卡：仅当玩家拥有对应干员时才会加入货位候选池。
     /// </summary>
     public static List<TalentCardData> RollRandomShopSlots()
     {
         EnsureLoaded();
         RogueRuntimeState.InitIfNeeded();
 
-        // 候选池：未拥有 + 非诅咒
+        // 候选池：未拥有 + 非诅咒 + 非梦卡（普通星卡池）
         var pool = new List<TalentCardData>();
         foreach (var card in _allCards)
         {
             if (card.isCurse) continue;
             if (RogueRuntimeState.IsCardOwned(card.cardId)) continue;
+            pool.Add(card);
+        }
+
+        // 梦卡注入：单独从 Resources 加载全部卡（_allCards 已过滤梦卡），挑选符合条件的
+        var allCardsWithDream = Resources.LoadAll<TalentCardData>("TalentCards");
+        foreach (var card in allCardsWithDream)
+        {
+            if (card == null || string.IsNullOrEmpty(card.cardId)) continue;
+            if (card.cardTier != CardTier.Dream) continue;
+            if (card.isCurse) continue;
+            if (RogueRuntimeState.IsCardOwned(card.cardId)) continue;
+            if (string.IsNullOrEmpty(card.dreamCardOperatorKey)) continue;
+            if (!OperatorStarRegistry.IsInRoster(card.dreamCardOperatorKey)) continue;
             pool.Add(card);
         }
 
@@ -182,6 +195,8 @@ public static class GoldShopConfig
         foreach (var card in cards)
         {
             if (card == null || string.IsNullOrEmpty(card.cardId)) continue;
+            // 梦卡不进入普通商店池（仅通过拥有特定干员解锁）
+            if (card.cardTier == CardTier.Dream) continue;
             _allCards.Add(card);
         }
     }

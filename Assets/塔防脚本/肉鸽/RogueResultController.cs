@@ -889,6 +889,20 @@ public class RogueResultController : MonoBehaviour
                 if (selected.Contains(c.cardId)) continue;
                 // 赌博卡（spc_gamble）仅通过随机事件/商店获得，不进常规节点选卡池
                 if (c.cardId == "spc_gamble") continue;
+                // 梦卡不进常规抽卡池（仅通过拥有特定干员解锁）
+                if (c.cardTier == CardTier.Dream) continue;
+                available.Add(c);
+            }
+
+            // 梦卡注入：玩家拥有对应干员时，将该干员的梦卡加入可选池
+            foreach (var c in cardPool)
+            {
+                if (c == null || string.IsNullOrEmpty(c.cardId)) continue;
+                if (c.cardTier != CardTier.Dream) continue;
+                if (selected.Contains(c.cardId)) continue;
+                if (string.IsNullOrEmpty(c.dreamCardOperatorKey)) continue;
+                // 检查玩家是否拥有对应干员
+                if (!OperatorStarRegistry.IsInRoster(c.dreamCardOperatorKey)) continue;
                 available.Add(c);
             }
         }

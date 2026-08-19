@@ -45,7 +45,9 @@ public static class TalentEffectApplier
     /// 判断一张卡对指定干员是否生效。
     /// - Global：总是生效
     /// - ByClass：需要匹配职业
-    /// - ByOperator：需要匹配干员名称哈希
+    /// - ByOperator：需要匹配干员
+    ///   · 旧方式：targetOperatorDataId 与 operatorName.GetHashCode() 比较
+    ///   · 新方式（梦卡优先）：若 cardTier 为 Dream，则 dreamCardOperatorKey 与 opData.RegistryKey 比较
     /// 如果 opData 为 null，则只算全局卡。
     /// </summary>
     private static bool IsCardEffectiveFor(TalentCardData card, OperatorData opData)
@@ -58,7 +60,15 @@ public static class TalentEffectApplier
             case CardEffectTarget.ByClass:
                 return opData != null && opData.opType == card.targetOperatorType;
             case CardEffectTarget.ByOperator:
-                return opData != null && !string.IsNullOrEmpty(opData.operatorName)
+                if (opData == null) return false;
+                // 梦卡：优先用 dreamCardOperatorKey 与 RegistryKey 直接字符串匹配
+                if (card.cardTier == CardTier.Dream && !string.IsNullOrEmpty(card.dreamCardOperatorKey))
+                {
+                    return !string.IsNullOrEmpty(opData.RegistryKey)
+                        && opData.RegistryKey == card.dreamCardOperatorKey;
+                }
+                // 兼容旧方式：targetOperatorDataId hashcode 比较
+                return !string.IsNullOrEmpty(opData.operatorName)
                     && card.targetOperatorDataId >= 0
                     && opData.operatorName.GetHashCode() == card.targetOperatorDataId;
             default:
@@ -75,6 +85,8 @@ public static class TalentEffectApplier
         int total = 0;
         foreach (var id in RogueRuntimeState.SelectedTalentCardIds)
         {
+            // 只有活跃的卡牌才在战斗中生效
+            if (!RogueRuntimeState.IsActiveCard(id)) continue;
             var card = GetCard(id);
             if (card == null || !IsCardEffectiveFor(card, opData)) continue;
             float mult = RogueRuntimeState.GetCardMultiplier(id);
@@ -139,6 +151,7 @@ public static class TalentEffectApplier
         int bonus = 0;
         foreach (var id in RogueRuntimeState.SelectedTalentCardIds)
         {
+            if (!RogueRuntimeState.IsActiveCard(id)) continue;
             var card = GetCard(id);
             if (card == null) continue;
             float mult = RogueRuntimeState.GetCardMultiplier(id);
@@ -193,6 +206,7 @@ public static class TalentEffectApplier
         float bonus = 0f;
         foreach (var id in RogueRuntimeState.SelectedTalentCardIds)
         {
+            if (!RogueRuntimeState.IsActiveCard(id)) continue;
             var card = GetCard(id);
             if (card == null || !IsCardEffectiveFor(card, opData)) continue;
             float mult = RogueRuntimeState.GetCardMultiplier(id);
@@ -318,6 +332,7 @@ public static class TalentEffectApplier
         int cap = 0;
         foreach (var id in RogueRuntimeState.SelectedTalentCardIds)
         {
+            if (!RogueRuntimeState.IsActiveCard(id)) continue;
             var card = GetCard(id);
             if (card == null || !IsCardEffectiveFor(card, opData)) continue;
             if (card.effectType == TalentEffectType.KillStackAttack)
@@ -347,6 +362,7 @@ public static class TalentEffectApplier
         int duration = 0;
         foreach (var id in RogueRuntimeState.SelectedTalentCardIds)
         {
+            if (!RogueRuntimeState.IsActiveCard(id)) continue;
             var card = GetCard(id);
             if (card == null || !IsCardEffectiveFor(card, opData)) continue;
             float mult = RogueRuntimeState.GetCardMultiplier(id);

@@ -105,14 +105,18 @@ public class Spawner : MonoBehaviour
 
         if (spawnedObject == null) return;
 
-        spawnedObject.transform.position = transform.position;
+        // 敌人从当前波次所走路线的第一个航点出生，而非 Spawner 自身位置
+        int pathIdx = currentWave.pathIndex;
+        Vector3 spawnPos = transform.position;
+        if (paths != null && pathIdx >= 0 && pathIdx < paths.Length && paths[pathIdx] != null)
+            spawnPos = paths[pathIdx].GetPosition(0);
+        spawnedObject.transform.position = spawnPos;
 
         Enemy2 enemyScript = spawnedObject.GetComponent<Enemy2>();
         if (enemyScript != null && paths != null && paths.Length > 0)
         {
-            int idx = currentWave.pathIndex;
-            if (idx >= 0 && idx < paths.Length && paths[idx] != null)
-                enemyScript.SetPath(paths[idx]);
+            if (pathIdx >= 0 && pathIdx < paths.Length && paths[pathIdx] != null)
+                enemyScript.SetPath(paths[pathIdx]);
         }
 
         spawnedObject.SetActive(true);

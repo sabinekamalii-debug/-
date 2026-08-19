@@ -24,6 +24,8 @@ public static class RogueRuntimeState
     private const string KeyGameMode = "Rogue.GameMode";
     private const string KeyRunSeed = "Rogue.RunSeed";
     private const string KeyCurrentActId = "Rogue.CurrentActId";
+    private const string KeyStarCardCapacity = "Rogue.StarCardCapacity";
+    private const string KeyActiveStarCardIds = "Rogue.ActiveStarCardIds";
     private const char KeyTalentIdSep = '|';
 
     private static bool _initialized;
@@ -78,11 +80,68 @@ public static class RogueRuntimeState
 
     /// <summary>
     /// 标记当前大局已通关。击败 Boss 后调用。
+    /// 触发「催化」：强制摧毁若干张星卡（梦卡不可摧毁）。
     /// </summary>
     public static void CompleteCurrentAct()
     {
         if (CurrentActId <= 0) return;
         ActRegistry.MarkActCompleted(CurrentActId);
+        // 通关大局 → 催化摧毁
+        CatalyzeStarCardsOnActClear();
+    }
+
+    /// <summary>
+    /// 通关大局「催化」：从当前持有星卡中摧毁若干张。
+    /// - 优先摧毁非活跃星卡，活跃星卡其次
+    /// - 梦卡不受影响（始终保留）
+    /// - 保证至少保留 ActClearCatalysisMinKeep 张星卡
+    /// 返回被摧毁的卡 ID 列表（可用于 UI 展示）。
+    /// </summary>
+    public static List<string> CatalyzeStarCardsOnActClear()
+    {
+        InitIfNeeded();
+        var destroyed = new List<string>();
+
+        int starCount = GetOwnedStarCardCount();
+        int toRemove = Mathf.Min(
+            BalanceConfig.ActClearCatalysisRemoveCount,
+            Mathf.Max(0, starCount - BalanceConfig.ActClearCatalysisMinKeep));
+
+        if (toRemove <= 0) return destroyed;
+
+        // 候选列表：先放非活跃星卡，再放活跃星卡（优先摧毁非活跃）
+        var candidates = new List<string>();
+        foreach (var id in _selectedTalentIds)
+        {
+            var card = TalentEffectApplier.GetCardById(id);
+            if (card == null || card.cardTier != CardTier.Star) continue;
+            if (!_activeStarCardIds.Contains(id))
+                candidates.Add(id);
+        }
+        foreach (var id in _selectedTalentIds)
+        {
+            var card = TalentEffectApplier.GetCardById(id);
+            if (card == null || card.cardTier != CardTier.Star) continue;
+            if (_activeStarCardIds.Contains(id))
+                candidates.Add(id);
+        }
+
+        // 按序摧毁（非活跃先摧毁）
+        int removed = 0;
+        foreach (var id in candidates)
+        {
+            if (removed >= toRemove) break;
+            _selectedTalentIds.Remove(id);
+            _activeStarCardIds.Remove(id);
+            _cardEffectMultiplier.Remove(id);
+            destroyed.Add(id);
+            removed++;
+        }
+
+        if (destroyed.Count > 0)
+            SavePersistent();
+
+        return destroyed;
     }
 
     public static void SetRunModifierConfig(RunModifierConfig config)
@@ -285,12 +344,122 @@ public static class RogueRuntimeState
     private static List<string> _selectedTalentIds = new List<string>();
     public static IReadOnlyList<string> SelectedTalentCardIds => _selectedTalentIds;
 
+    // ─────────────────────────────────────────────
+    //  星卡容量系统
+    // ─────────────────────────────────────────────
+    /// <summary> 当前星卡活跃容量（可同时活跃的星卡数量）。 </summary>
+    private static int _starCardCapacity = BalanceConfig.StarCardInitialCapacity;
+    public static int StarCardCapacity => _starCardCapacity;
+
+    /// <summary> 当前活跃的星卡 ID 集合。梦卡不在其中（梦卡始终活跃）。 </summary>
+    private static HashSet<string> _activeStarCardIds = new HashSet<string>();
+    public static IReadOnlyCollection<string> ActiveStarCardIds => _activeStarCardIds;
+
     /// <summary> 清空已选天赋卡（内存 + 存档），用于开新局 / 结束本局，避免存档串台。 </summary>
     private static void ClearSelectedTalentIds()
     {
         _selectedTalentIds.Clear();
+        _activeStarCardIds.Clear();
+        _starCardCapacity = BalanceConfig.StarCardInitialCapacity;
         PlayerPrefs.DeleteKey(KeySelectedTalentIds);
+        PlayerPrefs.DeleteKey(KeyActiveStarCardIds);
+        PlayerPrefs.DeleteKey(KeyStarCardCapacity);
     }
+
+    // ─────────────────────────────────────────────
+    //  星卡容量系统核心方法
+    // ─────────────────────────────────────────────
+
+    /// <summary> 判断一张卡是否活跃（战斗中是否生效）。梦卡始终活跃，星卡需在活跃列表中。 </summary>
+    public static bool IsActiveCard(string cardId)
+    {
+        if (string.IsNullOrEmpty(cardId)) return false;
+        var card = TalentEffectApplier.GetCardById(cardId);
+        if (card == null) return true; // 未知卡默认活跃（向后兼容）
+        if (card.cardTier == CardTier.Dream) return true;
+        return _activeStarCardIds.Contains(cardId);
+    }
+
+    /// <summary> 判断一张卡是否活跃（重载，直接传 TalentCardData）。 </summary>
+    public static bool IsActiveCard(TalentCardData card)
+    {
+        if (card == null) return true;
+        if (card.cardTier == CardTier.Dream) return true;
+        return _activeStarCardIds.Contains(card.cardId);
+    }
+
+    /// <summary> 设置一张星卡的活跃状态。返回是否成功。 </summary>
+    public static bool SetCardActive(string cardId, bool active)
+    {
+        if (string.IsNullOrEmpty(cardId)) return false;
+        var card = TalentEffectApplier.GetCardById(cardId);
+        if (card == null || card.cardTier != CardTier.Star) return false;
+        if (!_selectedTalentIds.Contains(cardId)) return false;
+
+        if (active)
+        {
+            if (_activeStarCardIds.Contains(cardId)) return true;
+            if (_activeStarCardIds.Count >= _starCardCapacity) return false; // 容量已满
+            _activeStarCardIds.Add(cardId);
+        }
+        else
+        {
+            _activeStarCardIds.Remove(cardId);
+        }
+        SavePersistent();
+        return true;
+    }
+
+    /// <summary> 修改星卡活跃容量上限（特殊卡/事件调用）。不会超过 StarCardMaxCapacity。 </summary>
+    public static void ModifyStarCardCapacity(int delta)
+    {
+        _starCardCapacity = Mathf.Clamp(_starCardCapacity + delta,
+            1, BalanceConfig.StarCardMaxCapacity);
+        // 容量缩小时，淘汰后加入的活跃卡
+        if (_activeStarCardIds.Count > _starCardCapacity)
+        {
+            var toRemove = new List<string>();
+            int count = 0;
+            foreach (var id in _selectedTalentIds)
+            {
+                if (_activeStarCardIds.Contains(id))
+                {
+                    count++;
+                    if (count > _starCardCapacity) toRemove.Add(id);
+                }
+            }
+            foreach (var id in toRemove)
+                _activeStarCardIds.Remove(id);
+        }
+        SavePersistent();
+    }
+
+    /// <summary> 已拥有的星卡数量（不含梦卡）。 </summary>
+    public static int GetOwnedStarCardCount()
+    {
+        int count = 0;
+        foreach (var id in _selectedTalentIds)
+        {
+            var card = TalentEffectApplier.GetCardById(id);
+            if (card != null && card.cardTier == CardTier.Star) count++;
+        }
+        return count;
+    }
+
+    /// <summary> 已拥有的梦卡数量。 </summary>
+    public static int GetOwnedDreamCardCount()
+    {
+        int count = 0;
+        foreach (var id in _selectedTalentIds)
+        {
+            var card = TalentEffectApplier.GetCardById(id);
+            if (card != null && card.cardTier == CardTier.Dream) count++;
+        }
+        return count;
+    }
+
+    /// <summary> 当前活跃星卡数（不含梦卡）。 </summary>
+    public static int ActiveStarCardCount => _activeStarCardIds.Count;
 
     /// <summary> 仅本次战斗生效的卡 ID 列表，战斗结束后清空。 </summary>
     private static List<string> _battleOnlyCardIds = new List<string>();
@@ -394,6 +563,13 @@ public static class RogueRuntimeState
         if (!string.IsNullOrEmpty(savedIds))
             _selectedTalentIds = new List<string>(savedIds.Split(KeyTalentIdSep, System.StringSplitOptions.RemoveEmptyEntries));
 
+        // 加载星卡容量与活跃列表
+        _starCardCapacity = PlayerPrefs.GetInt(KeyStarCardCapacity, BalanceConfig.StarCardInitialCapacity);
+        if (_starCardCapacity < 1) _starCardCapacity = BalanceConfig.StarCardInitialCapacity;
+        string savedActiveIds = PlayerPrefs.GetString(KeyActiveStarCardIds, "");
+        if (!string.IsNullOrEmpty(savedActiveIds))
+            _activeStarCardIds = new HashSet<string>(savedActiveIds.Split(KeyTalentIdSep, System.StringSplitOptions.RemoveEmptyEntries));
+
         // 恢复本局选人阵容（升星养成与阵容部署都依赖它跨场景存在）
         string savedRoster = PlayerPrefs.GetString(KeySelectedRoster, "");
         _selectedRoster = string.IsNullOrEmpty(savedRoster)
@@ -443,17 +619,21 @@ public static class RogueRuntimeState
     {
         InitIfNeeded();
         if (card == null || string.IsNullOrEmpty(card.cardId)) return false;
-        if (_selectedTalentIds.Contains(card.cardId)) return false; // 本局已拥有
-        if (!CanAcquireCard(card)) return false; // 该类型已达持有上限
+        if (_selectedTalentIds.Contains(card.cardId)) return false;
+        if (!CanAcquireCard(card)) return false;
 
         int price = GetCardShopPrice(card);
         if (RunGold < price) return false;
 
-        int goldBefore = RunGold;
         RunGold -= price;
-        
+
         _selectedTalentIds.Add(card.cardId);
         _shopSlotCardIds.Remove(card.cardId); // 从货位移除已购卡
+
+        // 星卡：如果活跃容量有空位，自动激活
+        if (card.cardTier == CardTier.Star && _activeStarCardIds.Count < _starCardCapacity)
+            _activeStarCardIds.Add(card.cardId);
+
         SavePersistent();
         return true;
     }
@@ -594,11 +774,17 @@ public static class RogueRuntimeState
         return count;
     }
 
-    /// <summary> 是否还能获取该类型的卡（每种最多 BalanceConfig.CardTypeLimit 张）。 </summary>
+    /// <summary> 是否还能获取该卡（星卡检查总量上限和类型上限，梦卡不受限）。 </summary>
     public static bool CanAcquireCard(TalentCardData card)
     {
         if (card == null) return false;
         if (_selectedTalentIds.Contains(card.cardId)) return false;
+
+        // 梦卡不受容量限制
+        if (card.cardTier == CardTier.Dream) return true;
+
+        // 星卡：检查总量上限 + 类型上限
+        if (GetOwnedStarCardCount() >= BalanceConfig.StarCardMaxOwned) return false;
         return GetOwnedCardCountByType(card.cardType) < BalanceConfig.CardTypeLimit;
     }
 
@@ -635,11 +821,15 @@ public static class RogueRuntimeState
         if (!CanRemoveCard) return false;
         if (!_selectedTalentIds.Contains(card.cardId)) return false;
 
+        // 梦卡不可被摧毁
+        if (card.cardTier == CardTier.Dream) return false;
+
         int cost = CardRemovalCost;
         if (RunGold < cost) return false;
 
         RunGold -= cost;
         _selectedTalentIds.Remove(card.cardId);
+        _activeStarCardIds.Remove(card.cardId);
         _cardEffectMultiplier.Remove(card.cardId);
         _cardRemovalCount++;
         _cardRemovalsThisVisit++;
@@ -655,14 +845,15 @@ public static class RogueRuntimeState
     // 先锋阵亡自动回费（skl_vanguard_laststand）
     public static bool HasVanguardDeathDPRefund => IsCardOwned("skl_vanguard_laststand");
 
-    /// <summary> 把一张已拥有天赋卡转化为金币（spc_convert）。</summary>
+    /// <summary> 把一张已拥有天赋卡转化为金币（spc_convert）。梦卡不可转化。 </summary>
     public static bool ConvertOwnedCardToGold(TalentCardData card)
     {
         if (card == null || !CanConvertCard) return false;
         if (!_selectedTalentIds.Contains(card.cardId)) return false;
+        if (card.cardTier == CardTier.Dream) return false; // 梦卡不可转化
         _selectedTalentIds.Remove(card.cardId);
+        _activeStarCardIds.Remove(card.cardId);
         _cardEffectMultiplier.Remove(card.cardId);
-        int goldBefore = RunGold;
         RunGold += Mathf.Max(1, GetCardShopPrice(card));
         SavePersistent();
         return true;
@@ -933,14 +1124,19 @@ public static class RogueRuntimeState
     //  天赋卡
     // ─────────────────────────────────────────────
 
-    /// <summary> 选卡时调用：免费选卡，仅记录本局已选。 </summary>
+    /// <summary> 选卡时调用：免费选卡，仅记录本局已选。星卡自动激活（如果活跃容量有空位）。 </summary>
     public static bool TryPickTalentCard(TalentCardData card)
     {
         if (card == null || !HasActiveRun) return false;
         if (_selectedTalentIds.Contains(card.cardId)) return false;
-        if (!CanAcquireCard(card)) return false; // 该类型已达持有上限
+        if (!CanAcquireCard(card)) return false;
 
         _selectedTalentIds.Add(card.cardId);
+
+        // 星卡：如果活跃容量有空位，自动激活
+        if (card.cardTier == CardTier.Star && _activeStarCardIds.Count < _starCardCapacity)
+            _activeStarCardIds.Add(card.cardId);
+
         SavePersistent();
         return true;
     }
@@ -950,6 +1146,8 @@ public static class RogueRuntimeState
         if (card != null && !_selectedTalentIds.Contains(card.cardId) && CanAcquireCard(card))
         {
             _selectedTalentIds.Add(card.cardId);
+            if (card.cardTier == CardTier.Star && _activeStarCardIds.Count < _starCardCapacity)
+                _activeStarCardIds.Add(card.cardId);
             SavePersistent();
         }
     }
@@ -1151,6 +1349,9 @@ public static class RogueRuntimeState
         PlayerPrefs.SetInt(KeyGameMode, (int)CurrentGameMode);
         PlayerPrefs.SetInt(KeyRunSeed, RunSeed);
         PlayerPrefs.SetInt(KeyCurrentActId, CurrentActId);
+        // 星卡容量系统持久化
+        PlayerPrefs.SetInt(KeyStarCardCapacity, _starCardCapacity);
+        PlayerPrefs.SetString(KeyActiveStarCardIds, string.Join(KeyTalentIdSep.ToString(), _activeStarCardIds));
         PrefsSaver.Save();
     }
 
@@ -1235,15 +1436,24 @@ public static class RogueRuntimeState
     //  卡牌操作（事件用）
     // ─────────────────────────────────────────────
 
-    /// <summary> 随机将一张已有卡转化为金币，返回获得的金币数。0表示无可出售。 </summary>
+    /// <summary> 随机将一张已有卡转化为金币，返回获得的金币数。0表示无可出售。梦卡不会被随机选中。 </summary>
     public static int ConvertRandomOwnedCardToGold()
     {
-        if (_selectedTalentIds.Count == 0) return 0;
-        int idx = Random.Range(0, _selectedTalentIds.Count);
-        string cardId = _selectedTalentIds[idx];
-        var card = TalentEffectApplier.GetCardById(cardId);
-        int gold = card != null ? Mathf.Max(1, GetCardShopPrice(card)) : 10;
-        _selectedTalentIds.RemoveAt(idx);
+        // 只从星卡中随机选
+        var starIds = new List<string>();
+        foreach (var id in _selectedTalentIds)
+        {
+            var card = TalentEffectApplier.GetCardById(id);
+            if (card != null && card.cardTier == CardTier.Star) starIds.Add(id);
+        }
+        if (starIds.Count == 0) return 0;
+
+        int idx = Random.Range(0, starIds.Count);
+        string cardId = starIds[idx];
+        var cardData = TalentEffectApplier.GetCardById(cardId);
+        int gold = cardData != null ? Mathf.Max(1, GetCardShopPrice(cardData)) : 10;
+        _selectedTalentIds.Remove(cardId);
+        _activeStarCardIds.Remove(cardId);
         _cardEffectMultiplier.Remove(cardId);
         RunGold += gold;
         SavePersistent();

@@ -175,6 +175,20 @@ public static class BalanceConfig
     /// 每种类型天赋卡的最大持有数量。
     public const int CardTypeLimit = 3;
 
+    // — 星卡容量系统 —
+    /// 星卡最大持有上限（硬上限，无论容量升级到多少都不能超过）。
+    public const int StarCardMaxOwned = 10;
+    /// 星卡初始活跃容量（开局可同时活跃的星卡数量）。
+    public const int StarCardInitialCapacity = 5;
+    /// 星卡容量上限（通过特殊卡/事件升级能达到的最大活跃数）。
+    public const int StarCardMaxCapacity = 10;
+
+    // — 通关大局催化摧毁 —
+    /// 每通关一个大局（Act）需摧毁的星卡数量（梦卡不可摧毁且不计入）。
+    public const int ActClearCatalysisRemoveCount = 2;
+    /// 催化时优先保留的星卡最少数量（避免全毁光）。
+    public const int ActClearCatalysisMinKeep = 2;
+
     // — 删卡服务（S4）—
     /// 删卡服务基础费用（第一次删卡）。
     public const int CardRemovalBaseCost = 25;

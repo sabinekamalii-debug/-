@@ -306,8 +306,14 @@ public class GoldShopController : MonoBehaviour
             yPos -= CardHeight + CardSpacingY;
         }
 
-        // S4：删卡服务按钮（点击打开独立面板）
-        if (RogueRuntimeState.SelectedTalentCardIds.Count > 0)
+        // S4：删卡服务按钮（点击打开独立面板）—— 仅当拥有可删除的星卡时显示
+        bool hasRemovableCards = false;
+        foreach (var id in RogueRuntimeState.SelectedTalentCardIds)
+        {
+            var c = TalentEffectApplier.GetCardById(id);
+            if (c != null && c.cardTier != CardTier.Dream) { hasRemovableCards = true; break; }
+        }
+        if (hasRemovableCards)
         {
             int removalCost = RogueRuntimeState.CardRemovalCost;
             bool canRemove = RogueRuntimeState.CanRemoveCard;
@@ -350,6 +356,8 @@ public class GoldShopController : MonoBehaviour
                 col = 0;
                 foreach (var card in owned)
                 {
+                    // 梦卡不可转化
+                    if (card.cardTier == CardTier.Dream) continue;
                     int value = RogueRuntimeState.GetCardShopPrice(card);
                     float xPos = (col == 0)
                         ? -CardWidth / 2f - CardSpacingX / 2f
@@ -432,7 +440,8 @@ public class GoldShopController : MonoBehaviour
         foreach (var id in RogueRuntimeState.SelectedTalentCardIds)
         {
             var c = TalentEffectApplier.GetCardById(id);
-            if (c != null) owned.Add(c);
+            // 梦卡不可删除，不显示在删卡面板
+            if (c != null && c.cardTier != CardTier.Dream) owned.Add(c);
         }
 
         float yPos = 0f;

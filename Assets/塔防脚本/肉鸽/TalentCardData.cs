@@ -71,6 +71,12 @@ public class TalentCardData : ScriptableObject
     [Tooltip("一次性战斗卡：触发效果的数值参数")]
     public int triggerValue = 0;
 
+    [Header("星卡/梦卡")]
+    [Tooltip("卡牌层级：星卡（受容量限制）或梦卡（干员专属，不受容量限制，始终活跃）")]
+    public CardTier cardTier = CardTier.Star;
+    [Tooltip("梦卡：触发条件干员的 RegistryKey（拥有该干员时此梦卡才会出现在抽卡池中）。星卡留空。")]
+    public string dreamCardOperatorKey = "";
+
     [Header("诅咒系统")]
     [Tooltip("是否为诅咒卡（负面效果）。诅咒卡不在选卡池中出现，只能通过随机事件获得。")]
     public bool isCurse = false;
@@ -130,6 +136,13 @@ public enum TalentEffectType
     TeleportAttackSpeedBuff,   // 传送后攻速buff（value1=百分比，value2=持续秒）
     RewindAttackSpeedBuff,     // 回溯后攻速buff（value1=百分比，value2=持续秒）
     MoveSpeedPercent,        // 移动速度百分比加成（每1 = +1%，先锋职业卡专用）
+}
+
+/// <summary> 卡牌层级：星卡受容量限制，梦卡不受限且始终活跃。 </summary>
+public enum CardTier
+{
+    Star = 0,    // 星卡：受容量限制，只有活跃的星卡在战斗中生效
+    Dream = 1,   // 梦卡：干员专属，不受容量限制，始终活跃，不可被摧毁
 }
 
 /// <summary> 卡牌作用域。 </summary>

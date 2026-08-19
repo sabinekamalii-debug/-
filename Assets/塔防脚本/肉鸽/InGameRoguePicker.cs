@@ -181,12 +181,27 @@ public class InGameRoguePicker : MonoBehaviour
 
     private void PickRandomOffers()
     {
+        var selected = new HashSet<string>(RogueRuntimeState.SelectedTalentCardIds);
         var available = new List<TalentCardData>();
         if (_cardPool != null)
         {
             foreach (var c in _cardPool)
             {
-                if (c == null) continue;
+                if (c == null || string.IsNullOrEmpty(c.cardId)) continue;
+                if (selected.Contains(c.cardId)) continue;
+                // 梦卡不进常规抽卡池（仅通过拥有特定干员解锁）
+                if (c.cardTier == CardTier.Dream) continue;
+                available.Add(c);
+            }
+
+            // 梦卡注入：玩家拥有对应干员时，将该干员的梦卡加入可选池
+            foreach (var c in _cardPool)
+            {
+                if (c == null || string.IsNullOrEmpty(c.cardId)) continue;
+                if (c.cardTier != CardTier.Dream) continue;
+                if (selected.Contains(c.cardId)) continue;
+                if (string.IsNullOrEmpty(c.dreamCardOperatorKey)) continue;
+                if (!OperatorStarRegistry.IsInRoster(c.dreamCardOperatorKey)) continue;
                 available.Add(c);
             }
         }

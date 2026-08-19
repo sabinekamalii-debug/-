@@ -37,6 +37,11 @@
 平衡配置,ShopRefreshBaseCost,ShopRefreshBaseCost,10,int
 平衡配置,ShopRefreshCostIncrement,ShopRefreshCostIncrement,5,int
 平衡配置,CardTypeLimit,CardTypeLimit,3,int
+平衡配置,StarCardMaxOwned,StarCardMaxOwned,10,int
+平衡配置,StarCardInitialCapacity,StarCardInitialCapacity,5,int
+平衡配置,StarCardMaxCapacity,StarCardMaxCapacity,10,int
+平衡配置,ActClearCatalysisRemoveCount,ActClearCatalysisRemoveCount,2,int
+平衡配置,ActClearCatalysisMinKeep,ActClearCatalysisMinKeep,2,int
 平衡配置,CardRemovalBaseCost,CardRemovalBaseCost,25,int
 平衡配置,CardRemovalCostIncrement,CardRemovalCostIncrement,15,int
 平衡配置,CardRemovalLimitPerVisit,CardRemovalLimitPerVisit,1,int
@@ -979,6 +984,8 @@
 天赋卡,atk_caster,isGuardianRewindCard,false,bool
 天赋卡,atk_caster,triggerType,None,GuardianRewindTriggerType
 天赋卡,atk_caster,triggerValue,0,int
+天赋卡,atk_caster,cardTier,Star,CardTier
+天赋卡,atk_caster,dreamCardOperatorKey,,string
 天赋卡,atk_caster,isCurse,false,bool
 天赋卡,atk_caster,curseEffectType,None,TalentEffectType
 天赋卡,atk_caster,curseEffectValue,0,int
@@ -1005,6 +1012,8 @@
 天赋卡,atk_crit,isGuardianRewindCard,false,bool
 天赋卡,atk_crit,triggerType,None,GuardianRewindTriggerType
 天赋卡,atk_crit,triggerValue,0,int
+天赋卡,atk_crit,cardTier,Star,CardTier
+天赋卡,atk_crit,dreamCardOperatorKey,,string
 天赋卡,atk_crit,isCurse,false,bool
 天赋卡,atk_crit,curseEffectType,None,TalentEffectType
 天赋卡,atk_crit,curseEffectValue,0,int
@@ -1031,6 +1040,8 @@
 天赋卡,atk_guard,isGuardianRewindCard,false,bool
 天赋卡,atk_guard,triggerType,None,GuardianRewindTriggerType
 天赋卡,atk_guard,triggerValue,0,int
+天赋卡,atk_guard,cardTier,Star,CardTier
+天赋卡,atk_guard,dreamCardOperatorKey,,string
 天赋卡,atk_guard,isCurse,false,bool
 天赋卡,atk_guard,curseEffectType,None,TalentEffectType
 天赋卡,atk_guard,curseEffectValue,0,int
@@ -1057,6 +1068,8 @@
 天赋卡,atk_pierce,isGuardianRewindCard,false,bool
 天赋卡,atk_pierce,triggerType,None,GuardianRewindTriggerType
 天赋卡,atk_pierce,triggerValue,0,int
+天赋卡,atk_pierce,cardTier,Star,CardTier
+天赋卡,atk_pierce,dreamCardOperatorKey,,string
 天赋卡,atk_pierce,isCurse,false,bool
 天赋卡,atk_pierce,curseEffectType,None,TalentEffectType
 天赋卡,atk_pierce,curseEffectValue,0,int
@@ -1083,6 +1096,8 @@
 天赋卡,atk_power,isGuardianRewindCard,false,bool
 天赋卡,atk_power,triggerType,None,GuardianRewindTriggerType
 天赋卡,atk_power,triggerValue,0,int
+天赋卡,atk_power,cardTier,Star,CardTier
+天赋卡,atk_power,dreamCardOperatorKey,,string
 天赋卡,atk_power,isCurse,false,bool
 天赋卡,atk_power,curseEffectType,None,TalentEffectType
 天赋卡,atk_power,curseEffectValue,0,int
@@ -1109,6 +1124,8 @@
 天赋卡,atk_ramp,isGuardianRewindCard,false,bool
 天赋卡,atk_ramp,triggerType,None,GuardianRewindTriggerType
 天赋卡,atk_ramp,triggerValue,0,int
+天赋卡,atk_ramp,cardTier,Star,CardTier
+天赋卡,atk_ramp,dreamCardOperatorKey,,string
 天赋卡,atk_ramp,isCurse,false,bool
 天赋卡,atk_ramp,curseEffectType,None,TalentEffectType
 天赋卡,atk_ramp,curseEffectValue,0,int
@@ -1135,6 +1152,8 @@
 天赋卡,atk_range,isGuardianRewindCard,false,bool
 天赋卡,atk_range,triggerType,None,GuardianRewindTriggerType
 天赋卡,atk_range,triggerValue,0,int
+天赋卡,atk_range,cardTier,Star,CardTier
+天赋卡,atk_range,dreamCardOperatorKey,,string
 天赋卡,atk_range,isCurse,false,bool
 天赋卡,atk_range,curseEffectType,None,TalentEffectType
 天赋卡,atk_range,curseEffectValue,0,int
@@ -1161,6 +1180,8 @@
 天赋卡,atk_sniper,isGuardianRewindCard,false,bool
 天赋卡,atk_sniper,triggerType,None,GuardianRewindTriggerType
 天赋卡,atk_sniper,triggerValue,0,int
+天赋卡,atk_sniper,cardTier,Star,CardTier
+天赋卡,atk_sniper,dreamCardOperatorKey,,string
 天赋卡,atk_sniper,isCurse,false,bool
 天赋卡,atk_sniper,curseEffectType,None,TalentEffectType
 天赋卡,atk_sniper,curseEffectValue,0,int
@@ -1187,6 +1208,8 @@
 天赋卡,atk_speed,isGuardianRewindCard,false,bool
 天赋卡,atk_speed,triggerType,None,GuardianRewindTriggerType
 天赋卡,atk_speed,triggerValue,0,int
+天赋卡,atk_speed,cardTier,Star,CardTier
+天赋卡,atk_speed,dreamCardOperatorKey,,string
 天赋卡,atk_speed,isCurse,false,bool
 天赋卡,atk_speed,curseEffectType,None,TalentEffectType
 天赋卡,atk_speed,curseEffectValue,0,int
@@ -1213,6 +1236,8 @@
 天赋卡,atk_vanguard,isGuardianRewindCard,false,bool
 天赋卡,atk_vanguard,triggerType,None,GuardianRewindTriggerType
 天赋卡,atk_vanguard,triggerValue,0,int
+天赋卡,atk_vanguard,cardTier,Star,CardTier
+天赋卡,atk_vanguard,dreamCardOperatorKey,,string
 天赋卡,atk_vanguard,isCurse,false,bool
 天赋卡,atk_vanguard,curseEffectType,None,TalentEffectType
 天赋卡,atk_vanguard,curseEffectValue,0,int
@@ -1239,6 +1264,8 @@
 天赋卡,def_armor,isGuardianRewindCard,false,bool
 天赋卡,def_armor,triggerType,None,GuardianRewindTriggerType
 天赋卡,def_armor,triggerValue,0,int
+天赋卡,def_armor,cardTier,Star,CardTier
+天赋卡,def_armor,dreamCardOperatorKey,,string
 天赋卡,def_armor,isCurse,false,bool
 天赋卡,def_armor,curseEffectType,None,TalentEffectType
 天赋卡,def_armor,curseEffectValue,0,int
@@ -1265,6 +1292,8 @@
 天赋卡,def_armor_regen,isGuardianRewindCard,false,bool
 天赋卡,def_armor_regen,triggerType,None,GuardianRewindTriggerType
 天赋卡,def_armor_regen,triggerValue,0,int
+天赋卡,def_armor_regen,cardTier,Star,CardTier
+天赋卡,def_armor_regen,dreamCardOperatorKey,,string
 天赋卡,def_armor_regen,isCurse,false,bool
 天赋卡,def_armor_regen,curseEffectType,None,TalentEffectType
 天赋卡,def_armor_regen,curseEffectValue,0,int
@@ -1291,6 +1320,8 @@
 天赋卡,def_defender_block,isGuardianRewindCard,false,bool
 天赋卡,def_defender_block,triggerType,None,GuardianRewindTriggerType
 天赋卡,def_defender_block,triggerValue,0,int
+天赋卡,def_defender_block,cardTier,Star,CardTier
+天赋卡,def_defender_block,dreamCardOperatorKey,,string
 天赋卡,def_defender_block,isCurse,false,bool
 天赋卡,def_defender_block,curseEffectType,None,TalentEffectType
 天赋卡,def_defender_block,curseEffectValue,0,int
@@ -1317,6 +1348,8 @@
 天赋卡,def_dodge,isGuardianRewindCard,false,bool
 天赋卡,def_dodge,triggerType,None,GuardianRewindTriggerType
 天赋卡,def_dodge,triggerValue,0,int
+天赋卡,def_dodge,cardTier,Star,CardTier
+天赋卡,def_dodge,dreamCardOperatorKey,,string
 天赋卡,def_dodge,isCurse,false,bool
 天赋卡,def_dodge,curseEffectType,None,TalentEffectType
 天赋卡,def_dodge,curseEffectValue,0,int
@@ -1343,6 +1376,8 @@
 天赋卡,def_guard,isGuardianRewindCard,false,bool
 天赋卡,def_guard,triggerType,None,GuardianRewindTriggerType
 天赋卡,def_guard,triggerValue,0,int
+天赋卡,def_guard,cardTier,Star,CardTier
+天赋卡,def_guard,dreamCardOperatorKey,,string
 天赋卡,def_guard,isCurse,false,bool
 天赋卡,def_guard,curseEffectType,None,TalentEffectType
 天赋卡,def_guard,curseEffectValue,0,int
@@ -1369,6 +1404,8 @@
 天赋卡,def_hp,isGuardianRewindCard,false,bool
 天赋卡,def_hp,triggerType,None,GuardianRewindTriggerType
 天赋卡,def_hp,triggerValue,0,int
+天赋卡,def_hp,cardTier,Star,CardTier
+天赋卡,def_hp,dreamCardOperatorKey,,string
 天赋卡,def_hp,isCurse,false,bool
 天赋卡,def_hp,curseEffectType,None,TalentEffectType
 天赋卡,def_hp,curseEffectValue,0,int
@@ -1395,6 +1432,8 @@
 天赋卡,def_medic,isGuardianRewindCard,false,bool
 天赋卡,def_medic,triggerType,None,GuardianRewindTriggerType
 天赋卡,def_medic,triggerValue,0,int
+天赋卡,def_medic,cardTier,Star,CardTier
+天赋卡,def_medic,dreamCardOperatorKey,,string
 天赋卡,def_medic,isCurse,false,bool
 天赋卡,def_medic,curseEffectType,None,TalentEffectType
 天赋卡,def_medic,curseEffectValue,0,int
@@ -1421,6 +1460,8 @@
 天赋卡,def_ranged_hp,isGuardianRewindCard,false,bool
 天赋卡,def_ranged_hp,triggerType,None,GuardianRewindTriggerType
 天赋卡,def_ranged_hp,triggerValue,0,int
+天赋卡,def_ranged_hp,cardTier,Star,CardTier
+天赋卡,def_ranged_hp,dreamCardOperatorKey,,string
 天赋卡,def_ranged_hp,isCurse,false,bool
 天赋卡,def_ranged_hp,curseEffectType,None,TalentEffectType
 天赋卡,def_ranged_hp,curseEffectValue,0,int
@@ -1447,6 +1488,8 @@
 天赋卡,def_specialist,isGuardianRewindCard,false,bool
 天赋卡,def_specialist,triggerType,None,GuardianRewindTriggerType
 天赋卡,def_specialist,triggerValue,0,int
+天赋卡,def_specialist,cardTier,Star,CardTier
+天赋卡,def_specialist,dreamCardOperatorKey,,string
 天赋卡,def_specialist,isCurse,false,bool
 天赋卡,def_specialist,curseEffectType,None,TalentEffectType
 天赋卡,def_specialist,curseEffectValue,0,int
@@ -1473,6 +1516,8 @@
 天赋卡,def_vanguard_block,isGuardianRewindCard,false,bool
 天赋卡,def_vanguard_block,triggerType,None,GuardianRewindTriggerType
 天赋卡,def_vanguard_block,triggerValue,0,int
+天赋卡,def_vanguard_block,cardTier,Star,CardTier
+天赋卡,def_vanguard_block,dreamCardOperatorKey,,string
 天赋卡,def_vanguard_block,isCurse,false,bool
 天赋卡,def_vanguard_block,curseEffectType,None,TalentEffectType
 天赋卡,def_vanguard_block,curseEffectValue,0,int
@@ -1499,6 +1544,8 @@
 天赋卡,grd_damage,isGuardianRewindCard,false,bool
 天赋卡,grd_damage,triggerType,None,GuardianRewindTriggerType
 天赋卡,grd_damage,triggerValue,0,int
+天赋卡,grd_damage,cardTier,Star,CardTier
+天赋卡,grd_damage,dreamCardOperatorKey,,string
 天赋卡,grd_damage,isCurse,false,bool
 天赋卡,grd_damage,curseEffectType,None,TalentEffectType
 天赋卡,grd_damage,curseEffectValue,0,int
@@ -1525,6 +1572,8 @@
 天赋卡,grd_hp,isGuardianRewindCard,false,bool
 天赋卡,grd_hp,triggerType,None,GuardianRewindTriggerType
 天赋卡,grd_hp,triggerValue,0,int
+天赋卡,grd_hp,cardTier,Star,CardTier
+天赋卡,grd_hp,dreamCardOperatorKey,,string
 天赋卡,grd_hp,isCurse,false,bool
 天赋卡,grd_hp,curseEffectType,None,TalentEffectType
 天赋卡,grd_hp,curseEffectValue,0,int
@@ -1551,6 +1600,8 @@
 天赋卡,grd_multi,isGuardianRewindCard,false,bool
 天赋卡,grd_multi,triggerType,None,GuardianRewindTriggerType
 天赋卡,grd_multi,triggerValue,0,int
+天赋卡,grd_multi,cardTier,Star,CardTier
+天赋卡,grd_multi,dreamCardOperatorKey,,string
 天赋卡,grd_multi,isCurse,false,bool
 天赋卡,grd_multi,curseEffectType,None,TalentEffectType
 天赋卡,grd_multi,curseEffectValue,0,int
@@ -1577,6 +1628,8 @@
 天赋卡,grd_pierce,isGuardianRewindCard,false,bool
 天赋卡,grd_pierce,triggerType,None,GuardianRewindTriggerType
 天赋卡,grd_pierce,triggerValue,0,int
+天赋卡,grd_pierce,cardTier,Star,CardTier
+天赋卡,grd_pierce,dreamCardOperatorKey,,string
 天赋卡,grd_pierce,isCurse,false,bool
 天赋卡,grd_pierce,curseEffectType,None,TalentEffectType
 天赋卡,grd_pierce,curseEffectValue,0,int
@@ -1603,6 +1656,8 @@
 天赋卡,grd_range,isGuardianRewindCard,false,bool
 天赋卡,grd_range,triggerType,None,GuardianRewindTriggerType
 天赋卡,grd_range,triggerValue,0,int
+天赋卡,grd_range,cardTier,Star,CardTier
+天赋卡,grd_range,dreamCardOperatorKey,,string
 天赋卡,grd_range,isCurse,false,bool
 天赋卡,grd_range,curseEffectType,None,TalentEffectType
 天赋卡,grd_range,curseEffectValue,0,int
@@ -1629,6 +1684,8 @@
 天赋卡,grd_regen,isGuardianRewindCard,false,bool
 天赋卡,grd_regen,triggerType,None,GuardianRewindTriggerType
 天赋卡,grd_regen,triggerValue,0,int
+天赋卡,grd_regen,cardTier,Star,CardTier
+天赋卡,grd_regen,dreamCardOperatorKey,,string
 天赋卡,grd_regen,isCurse,false,bool
 天赋卡,grd_regen,curseEffectType,None,TalentEffectType
 天赋卡,grd_regen,curseEffectValue,0,int
@@ -1655,6 +1712,8 @@
 天赋卡,grd_rewind,isGuardianRewindCard,false,bool
 天赋卡,grd_rewind,triggerType,None,GuardianRewindTriggerType
 天赋卡,grd_rewind,triggerValue,0,int
+天赋卡,grd_rewind,cardTier,Star,CardTier
+天赋卡,grd_rewind,dreamCardOperatorKey,,string
 天赋卡,grd_rewind,isCurse,false,bool
 天赋卡,grd_rewind,curseEffectType,None,TalentEffectType
 天赋卡,grd_rewind,curseEffectValue,0,int
@@ -1681,6 +1740,8 @@
 天赋卡,grd_shield,isGuardianRewindCard,false,bool
 天赋卡,grd_shield,triggerType,None,GuardianRewindTriggerType
 天赋卡,grd_shield,triggerValue,0,int
+天赋卡,grd_shield,cardTier,Star,CardTier
+天赋卡,grd_shield,dreamCardOperatorKey,,string
 天赋卡,grd_shield,isCurse,false,bool
 天赋卡,grd_shield,curseEffectType,None,TalentEffectType
 天赋卡,grd_shield,curseEffectValue,0,int
@@ -1707,6 +1768,8 @@
 天赋卡,grd_speed,isGuardianRewindCard,false,bool
 天赋卡,grd_speed,triggerType,None,GuardianRewindTriggerType
 天赋卡,grd_speed,triggerValue,0,int
+天赋卡,grd_speed,cardTier,Star,CardTier
+天赋卡,grd_speed,dreamCardOperatorKey,,string
 天赋卡,grd_speed,isCurse,false,bool
 天赋卡,grd_speed,curseEffectType,None,TalentEffectType
 天赋卡,grd_speed,curseEffectValue,0,int
@@ -1733,6 +1796,8 @@
 天赋卡,grd_teleport,isGuardianRewindCard,false,bool
 天赋卡,grd_teleport,triggerType,None,GuardianRewindTriggerType
 天赋卡,grd_teleport,triggerValue,0,int
+天赋卡,grd_teleport,cardTier,Star,CardTier
+天赋卡,grd_teleport,dreamCardOperatorKey,,string
 天赋卡,grd_teleport,isCurse,false,bool
 天赋卡,grd_teleport,curseEffectType,None,TalentEffectType
 天赋卡,grd_teleport,curseEffectValue,0,int
@@ -1759,6 +1824,8 @@
 天赋卡,rar_attack_all,isGuardianRewindCard,false,bool
 天赋卡,rar_attack_all,triggerType,None,GuardianRewindTriggerType
 天赋卡,rar_attack_all,triggerValue,0,int
+天赋卡,rar_attack_all,cardTier,Star,CardTier
+天赋卡,rar_attack_all,dreamCardOperatorKey,,string
 天赋卡,rar_attack_all,isCurse,false,bool
 天赋卡,rar_attack_all,curseEffectType,None,TalentEffectType
 天赋卡,rar_attack_all,curseEffectValue,0,int
@@ -1785,6 +1852,8 @@
 天赋卡,rar_boss_slayer,isGuardianRewindCard,false,bool
 天赋卡,rar_boss_slayer,triggerType,None,GuardianRewindTriggerType
 天赋卡,rar_boss_slayer,triggerValue,0,int
+天赋卡,rar_boss_slayer,cardTier,Star,CardTier
+天赋卡,rar_boss_slayer,dreamCardOperatorKey,,string
 天赋卡,rar_boss_slayer,isCurse,false,bool
 天赋卡,rar_boss_slayer,curseEffectType,None,TalentEffectType
 天赋卡,rar_boss_slayer,curseEffectValue,0,int
@@ -1811,6 +1880,8 @@
 天赋卡,rar_defense_all,isGuardianRewindCard,false,bool
 天赋卡,rar_defense_all,triggerType,None,GuardianRewindTriggerType
 天赋卡,rar_defense_all,triggerValue,0,int
+天赋卡,rar_defense_all,cardTier,Star,CardTier
+天赋卡,rar_defense_all,dreamCardOperatorKey,,string
 天赋卡,rar_defense_all,isCurse,false,bool
 天赋卡,rar_defense_all,curseEffectType,None,TalentEffectType
 天赋卡,rar_defense_all,curseEffectValue,0,int
@@ -1837,6 +1908,8 @@
 天赋卡,rar_dp_burst,isGuardianRewindCard,false,bool
 天赋卡,rar_dp_burst,triggerType,None,GuardianRewindTriggerType
 天赋卡,rar_dp_burst,triggerValue,0,int
+天赋卡,rar_dp_burst,cardTier,Star,CardTier
+天赋卡,rar_dp_burst,dreamCardOperatorKey,,string
 天赋卡,rar_dp_burst,isCurse,false,bool
 天赋卡,rar_dp_burst,curseEffectType,None,TalentEffectType
 天赋卡,rar_dp_burst,curseEffectValue,0,int
@@ -1863,6 +1936,8 @@
 天赋卡,rar_dp_cap,isGuardianRewindCard,false,bool
 天赋卡,rar_dp_cap,triggerType,None,GuardianRewindTriggerType
 天赋卡,rar_dp_cap,triggerValue,0,int
+天赋卡,rar_dp_cap,cardTier,Star,CardTier
+天赋卡,rar_dp_cap,dreamCardOperatorKey,,string
 天赋卡,rar_dp_cap,isCurse,false,bool
 天赋卡,rar_dp_cap,curseEffectType,None,TalentEffectType
 天赋卡,rar_dp_cap,curseEffectValue,0,int
@@ -1889,6 +1964,8 @@
 天赋卡,rar_first_strike,isGuardianRewindCard,false,bool
 天赋卡,rar_first_strike,triggerType,None,GuardianRewindTriggerType
 天赋卡,rar_first_strike,triggerValue,0,int
+天赋卡,rar_first_strike,cardTier,Star,CardTier
+天赋卡,rar_first_strike,dreamCardOperatorKey,,string
 天赋卡,rar_first_strike,isCurse,false,bool
 天赋卡,rar_first_strike,curseEffectType,None,TalentEffectType
 天赋卡,rar_first_strike,curseEffectValue,0,int
@@ -1915,6 +1992,8 @@
 天赋卡,rar_guard_passive,isGuardianRewindCard,false,bool
 天赋卡,rar_guard_passive,triggerType,None,GuardianRewindTriggerType
 天赋卡,rar_guard_passive,triggerValue,0,int
+天赋卡,rar_guard_passive,cardTier,Star,CardTier
+天赋卡,rar_guard_passive,dreamCardOperatorKey,,string
 天赋卡,rar_guard_passive,isCurse,false,bool
 天赋卡,rar_guard_passive,curseEffectType,None,TalentEffectType
 天赋卡,rar_guard_passive,curseEffectValue,0,int
@@ -1941,6 +2020,8 @@
 天赋卡,rar_kill_reinforce,isGuardianRewindCard,false,bool
 天赋卡,rar_kill_reinforce,triggerType,None,GuardianRewindTriggerType
 天赋卡,rar_kill_reinforce,triggerValue,0,int
+天赋卡,rar_kill_reinforce,cardTier,Star,CardTier
+天赋卡,rar_kill_reinforce,dreamCardOperatorKey,,string
 天赋卡,rar_kill_reinforce,isCurse,false,bool
 天赋卡,rar_kill_reinforce,curseEffectType,None,TalentEffectType
 天赋卡,rar_kill_reinforce,curseEffectValue,0,int
@@ -1967,6 +2048,8 @@
 天赋卡,rar_starting_gold,isGuardianRewindCard,false,bool
 天赋卡,rar_starting_gold,triggerType,None,GuardianRewindTriggerType
 天赋卡,rar_starting_gold,triggerValue,0,int
+天赋卡,rar_starting_gold,cardTier,Star,CardTier
+天赋卡,rar_starting_gold,dreamCardOperatorKey,,string
 天赋卡,rar_starting_gold,isCurse,false,bool
 天赋卡,rar_starting_gold,curseEffectType,None,TalentEffectType
 天赋卡,rar_starting_gold,curseEffectValue,0,int
@@ -1993,6 +2076,8 @@
 天赋卡,rar_vanguard_speed,isGuardianRewindCard,false,bool
 天赋卡,rar_vanguard_speed,triggerType,None,GuardianRewindTriggerType
 天赋卡,rar_vanguard_speed,triggerValue,0,int
+天赋卡,rar_vanguard_speed,cardTier,Star,CardTier
+天赋卡,rar_vanguard_speed,dreamCardOperatorKey,,string
 天赋卡,rar_vanguard_speed,isCurse,false,bool
 天赋卡,rar_vanguard_speed,curseEffectType,None,TalentEffectType
 天赋卡,rar_vanguard_speed,curseEffectValue,0,int
@@ -2019,6 +2104,8 @@
 天赋卡,skl_auto,isGuardianRewindCard,false,bool
 天赋卡,skl_auto,triggerType,None,GuardianRewindTriggerType
 天赋卡,skl_auto,triggerValue,0,int
+天赋卡,skl_auto,cardTier,Star,CardTier
+天赋卡,skl_auto,dreamCardOperatorKey,,string
 天赋卡,skl_auto,isCurse,false,bool
 天赋卡,skl_auto,curseEffectType,None,TalentEffectType
 天赋卡,skl_auto,curseEffectValue,0,int
@@ -2045,6 +2132,8 @@
 天赋卡,skl_caster_invincible,isGuardianRewindCard,false,bool
 天赋卡,skl_caster_invincible,triggerType,None,GuardianRewindTriggerType
 天赋卡,skl_caster_invincible,triggerValue,0,int
+天赋卡,skl_caster_invincible,cardTier,Star,CardTier
+天赋卡,skl_caster_invincible,dreamCardOperatorKey,,string
 天赋卡,skl_caster_invincible,isCurse,false,bool
 天赋卡,skl_caster_invincible,curseEffectType,None,TalentEffectType
 天赋卡,skl_caster_invincible,curseEffectValue,0,int
@@ -2071,6 +2160,8 @@
 天赋卡,skl_charge,isGuardianRewindCard,false,bool
 天赋卡,skl_charge,triggerType,None,GuardianRewindTriggerType
 天赋卡,skl_charge,triggerValue,0,int
+天赋卡,skl_charge,cardTier,Star,CardTier
+天赋卡,skl_charge,dreamCardOperatorKey,,string
 天赋卡,skl_charge,isCurse,false,bool
 天赋卡,skl_charge,curseEffectType,None,TalentEffectType
 天赋卡,skl_charge,curseEffectValue,0,int
@@ -2097,6 +2188,8 @@
 天赋卡,skl_defender_heal,isGuardianRewindCard,false,bool
 天赋卡,skl_defender_heal,triggerType,None,GuardianRewindTriggerType
 天赋卡,skl_defender_heal,triggerValue,0,int
+天赋卡,skl_defender_heal,cardTier,Star,CardTier
+天赋卡,skl_defender_heal,dreamCardOperatorKey,,string
 天赋卡,skl_defender_heal,isCurse,false,bool
 天赋卡,skl_defender_heal,curseEffectType,None,TalentEffectType
 天赋卡,skl_defender_heal,curseEffectValue,0,int
@@ -2123,6 +2216,8 @@
 天赋卡,skl_duration,isGuardianRewindCard,false,bool
 天赋卡,skl_duration,triggerType,None,GuardianRewindTriggerType
 天赋卡,skl_duration,triggerValue,0,int
+天赋卡,skl_duration,cardTier,Star,CardTier
+天赋卡,skl_duration,dreamCardOperatorKey,,string
 天赋卡,skl_duration,isCurse,false,bool
 天赋卡,skl_duration,curseEffectType,None,TalentEffectType
 天赋卡,skl_duration,curseEffectValue,0,int
@@ -2149,6 +2244,8 @@
 天赋卡,skl_guard,isGuardianRewindCard,false,bool
 天赋卡,skl_guard,triggerType,None,GuardianRewindTriggerType
 天赋卡,skl_guard,triggerValue,0,int
+天赋卡,skl_guard,cardTier,Star,CardTier
+天赋卡,skl_guard,dreamCardOperatorKey,,string
 天赋卡,skl_guard,isCurse,false,bool
 天赋卡,skl_guard,curseEffectType,None,TalentEffectType
 天赋卡,skl_guard,curseEffectValue,0,int
@@ -2175,6 +2272,8 @@
 天赋卡,skl_medic_attack,isGuardianRewindCard,false,bool
 天赋卡,skl_medic_attack,triggerType,None,GuardianRewindTriggerType
 天赋卡,skl_medic_attack,triggerValue,0,int
+天赋卡,skl_medic_attack,cardTier,Star,CardTier
+天赋卡,skl_medic_attack,dreamCardOperatorKey,,string
 天赋卡,skl_medic_attack,isCurse,false,bool
 天赋卡,skl_medic_attack,curseEffectType,None,TalentEffectType
 天赋卡,skl_medic_attack,curseEffectValue,0,int
@@ -2201,6 +2300,8 @@
 天赋卡,skl_sniper_chain,isGuardianRewindCard,false,bool
 天赋卡,skl_sniper_chain,triggerType,None,GuardianRewindTriggerType
 天赋卡,skl_sniper_chain,triggerValue,0,int
+天赋卡,skl_sniper_chain,cardTier,Star,CardTier
+天赋卡,skl_sniper_chain,dreamCardOperatorKey,,string
 天赋卡,skl_sniper_chain,isCurse,false,bool
 天赋卡,skl_sniper_chain,curseEffectType,None,TalentEffectType
 天赋卡,skl_sniper_chain,curseEffectValue,0,int
@@ -2227,6 +2328,8 @@
 天赋卡,skl_specialist_tp,isGuardianRewindCard,false,bool
 天赋卡,skl_specialist_tp,triggerType,None,GuardianRewindTriggerType
 天赋卡,skl_specialist_tp,triggerValue,0,int
+天赋卡,skl_specialist_tp,cardTier,Star,CardTier
+天赋卡,skl_specialist_tp,dreamCardOperatorKey,,string
 天赋卡,skl_specialist_tp,isCurse,false,bool
 天赋卡,skl_specialist_tp,curseEffectType,None,TalentEffectType
 天赋卡,skl_specialist_tp,curseEffectValue,0,int
@@ -2253,6 +2356,8 @@
 天赋卡,skl_vanguard_dp,isGuardianRewindCard,false,bool
 天赋卡,skl_vanguard_dp,triggerType,None,GuardianRewindTriggerType
 天赋卡,skl_vanguard_dp,triggerValue,0,int
+天赋卡,skl_vanguard_dp,cardTier,Star,CardTier
+天赋卡,skl_vanguard_dp,dreamCardOperatorKey,,string
 天赋卡,skl_vanguard_dp,isCurse,false,bool
 天赋卡,skl_vanguard_dp,curseEffectType,None,TalentEffectType
 天赋卡,skl_vanguard_dp,curseEffectValue,0,int
@@ -2279,6 +2384,8 @@
 天赋卡,spc_card_capacity,isGuardianRewindCard,false,bool
 天赋卡,spc_card_capacity,triggerType,None,GuardianRewindTriggerType
 天赋卡,spc_card_capacity,triggerValue,0,int
+天赋卡,spc_card_capacity,cardTier,Star,CardTier
+天赋卡,spc_card_capacity,dreamCardOperatorKey,,string
 天赋卡,spc_card_capacity,isCurse,false,bool
 天赋卡,spc_card_capacity,curseEffectType,None,TalentEffectType
 天赋卡,spc_card_capacity,curseEffectValue,0,int
@@ -2305,6 +2412,8 @@
 天赋卡,spc_draw,isGuardianRewindCard,false,bool
 天赋卡,spc_draw,triggerType,None,GuardianRewindTriggerType
 天赋卡,spc_draw,triggerValue,0,int
+天赋卡,spc_draw,cardTier,Star,CardTier
+天赋卡,spc_draw,dreamCardOperatorKey,,string
 天赋卡,spc_draw,isCurse,false,bool
 天赋卡,spc_draw,curseEffectType,None,TalentEffectType
 天赋卡,spc_draw,curseEffectValue,0,int
@@ -2331,6 +2440,8 @@
 天赋卡,spc_extra_shop,isGuardianRewindCard,false,bool
 天赋卡,spc_extra_shop,triggerType,None,GuardianRewindTriggerType
 天赋卡,spc_extra_shop,triggerValue,0,int
+天赋卡,spc_extra_shop,cardTier,Star,CardTier
+天赋卡,spc_extra_shop,dreamCardOperatorKey,,string
 天赋卡,spc_extra_shop,isCurse,false,bool
 天赋卡,spc_extra_shop,curseEffectType,None,TalentEffectType
 天赋卡,spc_extra_shop,curseEffectValue,0,int
@@ -2357,6 +2468,8 @@
 天赋卡,spc_gold,isGuardianRewindCard,false,bool
 天赋卡,spc_gold,triggerType,None,GuardianRewindTriggerType
 天赋卡,spc_gold,triggerValue,0,int
+天赋卡,spc_gold,cardTier,Star,CardTier
+天赋卡,spc_gold,dreamCardOperatorKey,,string
 天赋卡,spc_gold,isCurse,false,bool
 天赋卡,spc_gold,curseEffectType,None,TalentEffectType
 天赋卡,spc_gold,curseEffectValue,0,int
@@ -2383,6 +2496,8 @@
 天赋卡,spc_guard_attack,isGuardianRewindCard,false,bool
 天赋卡,spc_guard_attack,triggerType,None,GuardianRewindTriggerType
 天赋卡,spc_guard_attack,triggerValue,0,int
+天赋卡,spc_guard_attack,cardTier,Star,CardTier
+天赋卡,spc_guard_attack,dreamCardOperatorKey,,string
 天赋卡,spc_guard_attack,isCurse,false,bool
 天赋卡,spc_guard_attack,curseEffectType,None,TalentEffectType
 天赋卡,spc_guard_attack,curseEffectValue,0,int
@@ -2409,6 +2524,8 @@
 天赋卡,spc_guard_range,isGuardianRewindCard,false,bool
 天赋卡,spc_guard_range,triggerType,None,GuardianRewindTriggerType
 天赋卡,spc_guard_range,triggerValue,0,int
+天赋卡,spc_guard_range,cardTier,Star,CardTier
+天赋卡,spc_guard_range,dreamCardOperatorKey,,string
 天赋卡,spc_guard_range,isCurse,false,bool
 天赋卡,spc_guard_range,curseEffectType,None,TalentEffectType
 天赋卡,spc_guard_range,curseEffectValue,0,int
@@ -2435,6 +2552,8 @@
 天赋卡,spc_repair,isGuardianRewindCard,false,bool
 天赋卡,spc_repair,triggerType,None,GuardianRewindTriggerType
 天赋卡,spc_repair,triggerValue,0,int
+天赋卡,spc_repair,cardTier,Star,CardTier
+天赋卡,spc_repair,dreamCardOperatorKey,,string
 天赋卡,spc_repair,isCurse,false,bool
 天赋卡,spc_repair,curseEffectType,None,TalentEffectType
 天赋卡,spc_repair,curseEffectValue,0,int
@@ -2461,6 +2580,8 @@
 天赋卡,spc_reroll,isGuardianRewindCard,false,bool
 天赋卡,spc_reroll,triggerType,None,GuardianRewindTriggerType
 天赋卡,spc_reroll,triggerValue,0,int
+天赋卡,spc_reroll,cardTier,Star,CardTier
+天赋卡,spc_reroll,dreamCardOperatorKey,,string
 天赋卡,spc_reroll,isCurse,false,bool
 天赋卡,spc_reroll,curseEffectType,None,TalentEffectType
 天赋卡,spc_reroll,curseEffectValue,0,int
@@ -2487,6 +2608,8 @@
 天赋卡,spc_revive,isGuardianRewindCard,false,bool
 天赋卡,spc_revive,triggerType,None,GuardianRewindTriggerType
 天赋卡,spc_revive,triggerValue,0,int
+天赋卡,spc_revive,cardTier,Star,CardTier
+天赋卡,spc_revive,dreamCardOperatorKey,,string
 天赋卡,spc_revive,isCurse,false,bool
 天赋卡,spc_revive,curseEffectType,None,TalentEffectType
 天赋卡,spc_revive,curseEffectValue,0,int
@@ -2513,6 +2636,8 @@
 天赋卡,spc_sniper_range,isGuardianRewindCard,false,bool
 天赋卡,spc_sniper_range,triggerType,None,GuardianRewindTriggerType
 天赋卡,spc_sniper_range,triggerValue,0,int
+天赋卡,spc_sniper_range,cardTier,Star,CardTier
+天赋卡,spc_sniper_range,dreamCardOperatorKey,,string
 天赋卡,spc_sniper_range,isCurse,false,bool
 天赋卡,spc_sniper_range,curseEffectType,None,TalentEffectType
 天赋卡,spc_sniper_range,curseEffectValue,0,int
